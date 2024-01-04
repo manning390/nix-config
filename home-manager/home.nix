@@ -84,19 +84,19 @@
   programs.home-manager.enable = true;
   programs.git.enable = true;
 
-  # wayland.windowManager.hyprland.enable = true;
-  # wayland.windowManager.hyprland.settings = {
-  #   "$mod" = "SUPER";
-  #   bind = [
-  #     "$mod, RETURN, exec, kitty"
-  #     "$mod, C, killactive"
-  #     "$mod, M, exit"
-  #   ];
-  # };
+  wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
+    bind = [
+      "$mod, RETURN, exec, kitty"
+      "$mod, C, killactive"
+      "$mod, M, exit"
+    ];
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.05";
+  home.stateVersion = "23.11";
 }
