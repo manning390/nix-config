@@ -8,7 +8,7 @@
     kitty # Terminal
     (pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ]; })) # Bar
     mako # System messages
-    libnotify # required by mako
+    # libnotify # required by mako
     rofi-wayland # Application launcher
     hyprpaper # Wallpaper
   ];

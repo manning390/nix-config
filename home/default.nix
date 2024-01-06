@@ -55,8 +55,8 @@
     brave
     firefox
     zsh
-    discord
-    steam
+    # discord
+    vesktop # discord alternative client w/ better linux support
   ];
 
   # Enable home-manager and git

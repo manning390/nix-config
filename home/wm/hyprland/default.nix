@@ -91,13 +91,21 @@
         pseudotile = "yes";
         preserve_split = "yes";
     };
+
   };
 
   # programs.hyprpaper = {
   #   preload = [
-  #
+  #     "~/pictures/wallpapers/transistor1.jpg"
+  #     "~/pictures/wallpapers/transistor2.jpg"
+  #     "~/pictures/wallpapers/transistor3.jpg"
   #   ];
-  #
+  #   wallpaper = [
+  #     "DP-1,~/pictures/wallpapers/transistor1.jpg"
+  #     "HDMI-A-1,~/pictures/wallpapers/transistor2.jpg"
+  #     "HDMI-A-2,~/pictures/wallpapers/transistor3.jpg"
+  #   ];
+  #   splash = true;
   # };
 
 }
