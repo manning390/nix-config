@@ -1,30 +1,13 @@
 {
   description = "NixOs Configuration of Manning390";
 
-  # The nixConfig here only affects the flake, not system config.
-  nixConfig = { };
-
-  inputs = {
-    # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Color themes
-    nix-colors.url = "github:misterio77/nix-colors";
-  };
-
   outputs = {
     self,
     nixpkgs,
-    home-manager,
-    nix-colors,
+    pre-commit-hooks,
     ...
   } @ inputs: let
-    inherit (self) outputs;
+    constants = import ./constants.nix;
 
     systems = [
       "aarch64-linux"
@@ -34,52 +17,110 @@
       "x86_64-darwin"
     ];
 
-    forAllSystems = nixpkgs.lib.genAttrs systems;
+    forEachSystem = func: (nixpkgs.lib.genAttrs constants.allSystems func);
+
+    allSystemConfigurations = import ./systems {inherit self inputs constants;};
   in {
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-    # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-    # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
-    # Reusable nixos modules you might want to export
-    # These are usually stuff you would upstream into nixpkgs
-    # nixosModules = import ./modules/nixos;
-    # Reusable home-manager modules you might want to export
-    # These are usually stuff you would upstream into home-manager
-    # homeManagerModules = import ./modules/home-manager;
-
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      sentry = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/sentry
-
-          home-manager.nixosModules.home-manager
-          {
-            # home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs outputs nix-colors;};
-            home-manager.users.rail = import ./home;
-          }
-        ];
+    allSystemConfigurations {
+      # format the nix code in this flake
+      # alejandra is a nix formatter with a beautiful output
+      formatter = forEachSystem {
+        system: nixpkgs.legacyPackages.${system}.alejandra
       };
+
+      # pre-commit hooks for nix code
+      checks = forEachSystem (
+        system: {
+          pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              alejandra.enable = true; # formatter
+              statix.enable = true; # lints and suggestions for nix code(auto suggestions)
+              prettier = {
+                enable = true;
+                excludes = [".js" ".md" ".ts"];
+              };
+            };
+          };
+        }
+      );
+
+      devShells = forEachSystem (
+        system: {
+          default = nixpkgs.legacyPackages.${system}.mkShell {
+            packages = [
+              # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
+              nixpkgs.legacyPackages.${system}.bashInteractive
+            ];
+            name = "dots";
+            shellHook = ''
+              ${self.checks.${system}.pre-commit-check.shellHook}
+            '';
+          };
+        }
+      );
+    };
+  };
+
+  # the nixConfig here only affects the flake itself, not the system configuration!
+  # for more information, see:
+  #     https://nixos-and-flakes.thiscute.world/nixos-with-flakes/add-custom-cache-servers
+  nixConfig = {
+    extra-substituters = [
+      "https://anyrun.cachix.org"
+      # "https://hyprland.cachix.org"
+      # "https://nixpkgs-wayland.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
+      # "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+    ];
+  };
+
+  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
+  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
+  inputs = {
+    # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
+    # which represents the GitHub repository URL + branch/commit-id/tag.
+
+    # Official NixOS package source, using nixos's stable branch by default
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # for macos
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Home-manager, used for managing user configuration
+    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland/v0.33.1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # community wayland nixpkgs
+    # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    # anyrun - a wayland launcher
+    anyrun = {
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # homeConfigurations = {
-    #   "rail@sentry" = home-manager.lib.homeManagerConfiguration {
-    #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-    #     extraSpecialArgs = {inherit inputs outputs nix-colors;};
-    #     modules = [
-    #       # > Our main home-manager configuration file <
-    #       ./home/default.nix
-    #     ];
-    #   };
-    # };
+    # add git hooks to format nix code before commit
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Color themes
+    # nix-colors.url = "github:misterio77/nix-colors";
   };
 }
