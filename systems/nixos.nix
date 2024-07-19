@@ -3,7 +3,7 @@ with args;
 with mylib;
 with allSystemAttrs; let
   base_args = {
-    inherit home-manager nixos-generators;
+    inherit home-manager; #nixos-generators;
     inherit nixpkgs;
     system = x64_system;
     specialArgs = allSystemSpecialArgs.x64_system;

@@ -3,7 +3,7 @@ rec {
   userfullname = "Michael Manning";
   useremail = "michael@manning390.com";
 
-  allSystemAttr = {
+  allSystemAttrs = {
     # linux systems
     x64_system = "x86_64-linux";
     riscv64_system = "riscv64-linux";
@@ -12,5 +12,5 @@ rec {
     x64_darwin = "x86_64-darwin";
     aarch64_darwin = "aarch64-darwin";
   };
-  allSystems = builtins.attrValues allSystemAttr;
+  allSystems = builtins.attrValues allSystemAttrs;
 }

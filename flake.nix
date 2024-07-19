@@ -25,9 +25,9 @@
     // {
       # format the nix code in this flake
       # alejandra is a nix formatter with a beautiful output
-      formatter = forEachSystem {
+      formatter = forEachSystem (
         system: nixpkgs.legacyPackages.${system}.alejandra
-      };
+      );
 
       # pre-commit hooks for nix code
       checks = forEachSystem (
@@ -114,11 +114,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # nixos-generators = {
+    #   url = "github:nix-community/nixos-generators";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
     # add git hooks to format nix code before commit
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
 
     # Color themes
     # nix-colors.url = "github:misterio77/nix-colors";

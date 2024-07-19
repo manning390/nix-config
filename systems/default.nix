@@ -35,4 +35,4 @@
 in 
   mylib.attrs.mergeAttrsList [
     (import ./nixos.nix args)
-  ];
+  ]
