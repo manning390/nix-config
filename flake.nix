@@ -20,8 +20,9 @@
     forEachSystem = func: (nixpkgs.lib.genAttrs constants.allSystems func);
 
     allSystemConfigurations = import ./systems {inherit self inputs constants;};
-  in {
-    allSystemConfigurations {
+  in 
+    allSystemConfigurations
+    // {
       # format the nix code in this flake
       # alejandra is a nix formatter with a beautiful output
       formatter = forEachSystem {
@@ -60,7 +61,6 @@
         }
       );
     };
-  };
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   # for more information, see:
