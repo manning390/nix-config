@@ -52,6 +52,7 @@
     aria2
     git
     git-lfs
+    just
   ];
 
   environment.variables.EDITOR = "nvim";
