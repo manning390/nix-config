@@ -39,5 +39,5 @@
 
     # macOS specific settings
     darwinLaunchOptions = ["--start-as=maximized"];
-  }
+  };
 }

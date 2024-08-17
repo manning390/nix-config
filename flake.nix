@@ -1,5 +1,5 @@
 {
-  description = "NixOs Configuration of Manning390";
+  description = "Nix Configuration of Manning390 for NixOs";
 
   outputs = {
     self,
@@ -8,14 +8,6 @@
     ...
   } @ inputs: let
     constants = import ./constants.nix;
-
-    systems = [
-      "aarch64-linux"
-      "i686-linux"
-      "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
 
     forEachSystem = func: (nixpkgs.lib.genAttrs constants.allSystems func);
 
@@ -36,22 +28,25 @@
             src = ./.;
             hooks = {
               alejandra.enable = true; # formatter
-              statix.enable = true; # lints and suggestions for nix code(auto suggestions)
-              prettier = {
-                enable = true;
-                excludes = [".js" ".md" ".ts"];
-              };
+              # statix.enable = true; # lints and suggestions for nix code(auto suggestions)
+              # prettier = {
+              #   enable = true;
+              #   excludes = [".js" ".md" ".ts"];
+              # };
             };
           };
         }
       );
 
       devShells = forEachSystem (
-        system: {
-          default = nixpkgs.legacyPackages.${system}.mkShell {
-            packages = [
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
               # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
-              nixpkgs.legacyPackages.${system}.bashInteractive
+              bashInteractive
+              gcc
             ];
             name = "dots";
             shellHook = ''
@@ -68,12 +63,12 @@
   nixConfig = {
     extra-substituters = [
       "https://anyrun.cachix.org"
-      # "https://hyprland.cachix.org"
+      "https://hyprland.cachix.org"
       # "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
       "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
-      # "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
   };
@@ -88,6 +83,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
@@ -95,6 +91,7 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Home-manager, used for managing user configuration
@@ -111,6 +108,12 @@
     # anyrun - a wayland launcher
     anyrun = {
       url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # secrets management
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

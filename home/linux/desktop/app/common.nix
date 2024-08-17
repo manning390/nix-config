@@ -8,7 +8,6 @@
     # utils
     ripgrep
     fzf
-    htop
     _1password
     
     # networking

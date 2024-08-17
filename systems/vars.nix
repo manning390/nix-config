@@ -1,9 +1,10 @@
+# This file links the various system configs and home configs to the appropriate hosts
 let
   desktop_base_modules = {
     nixos-modules = [
       ../modules/nixos/desktop.nix
     ];
-    home-modules.imports = [
+    home-modules = [
       ../home/linux/desktop.nix
     ];
   };
@@ -12,10 +13,14 @@ in {
   sentry_modules_hyprland = {
     nixos-modules = [
       ../hosts/sentry
+      {
+        modules.desktop.wayland.enable = true;
+      }
     ] ++ desktop_base_modules.nixos-modules;
-    home-module.imports = [
+    home-modules = [
       ../hosts/sentry/home.nix
-    ] ++ desktop_base_modules.home-module.imports;
+      {modules.desktop.hyprland.enable = true;}
+    ] ++ desktop_base_modules.home-modules;
   };
   # Darwin System
   # none atm, lol

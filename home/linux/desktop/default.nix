@@ -13,7 +13,7 @@
     ./app/common.nix
     ./app/git
     #./app/rofi
-    ./wm/hyprland
+    ./hyprland
   ];
 
   nixpkgs = {
@@ -41,11 +41,6 @@
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
-  };
-
-  home = {
-    username = "rail";
-    homeDirectory = "/home/rail";
   };
 
   # Add stuff for your user as you see fit:

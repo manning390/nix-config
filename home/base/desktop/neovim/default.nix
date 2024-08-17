@@ -16,11 +16,11 @@
 
   home.shellAliases = {
     "bi" = "echo \"🏳️‍🌈\";sleep 1;nvim";
-    ":w" = "clear; echo \"You're not in vim but ok\""
-    ":q" = "exit"
+    ":w" = "clear; echo \"You're not in vim but ok\"";
+    ":q" = "exit";
     # Not in this house
-    "nano" = "nvim"
-    "emacs" = "echo \"Bless you\";sleep 1;nvim"
+    "nano" = "nvim";
+    "emacs" = "echo \"Bless you\";sleep 1;nvim";
   };
 
   programs.neovim = {
@@ -32,5 +32,5 @@
     plugins = with pkgs.vimPlugins; [
 
     ];
-  }
+  };
 }
