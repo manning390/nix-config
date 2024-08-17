@@ -27,11 +27,6 @@
     };
   };
 
-  home.sessionVariables = {
-    PATH = "$HOME/.local/bin:$PATH";
-    DOTFILES = "$HOME/.dotfiles";
-  };
-
   programs.starship.enable = true;
 
   programs.zoxide.enable = true;
@@ -39,4 +34,9 @@
 
   programs.fzf.enable = true;
   home.packages = with pkgs; [zinit];
+
+  home.sessionVariables = {
+    PATH = "$HOME/.local/bin:$PATH";
+    DOTFILES = "$HOME/.dotfiles";
+  };
 }

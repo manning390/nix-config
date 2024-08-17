@@ -17,7 +17,7 @@
       enable = true;
       # configs wip
     };
-    # fd.enable = true; # says doesn't exist?
+    fd.enable = true; # says doesn't exist?
     btop.enable = true;
     jq.enable = true;
     aria2.enable = true;

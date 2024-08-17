@@ -10,10 +10,7 @@
 }: {
   # You can import other home-manager modules here
   imports = [
-    ../core/packages.nix
-    ../core/git
-    ../core/zsh
-    #./app/rofi
+    ../core
     ./wm/hyprland
   ];
 
@@ -44,11 +41,6 @@
     };
   };
 
-  home = {
-    username = "rail";
-    homeDirectory = "/home/rail";
-  };
-
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
@@ -56,13 +48,4 @@
     # discord
     vesktop # discord alternative client w/ better linux support
   ];
-
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
 }

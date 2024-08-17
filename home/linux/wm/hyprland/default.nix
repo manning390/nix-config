@@ -19,7 +19,7 @@
     "$mod" = "SUPER";
     bind =
       [
-        "$mod, RETURN, exec, kitty"
+        "$mod, RETURN, exec, $TERM"
         "$mod, C, killactive"
         "$mod SHIFT, Q, exit"
         "$mod, V, togglefloating"
@@ -96,7 +96,7 @@
     };
   };
 
-  # programs.hyprpaper = {
+  # home.services.hyprpaper = {
   #   preload = [
   #     "~/pictures/wallpapers/transistor1.jpg"
   #     "~/pictures/wallpapers/transistor2.jpg"
