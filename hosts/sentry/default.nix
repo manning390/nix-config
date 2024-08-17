@@ -6,8 +6,12 @@
   lib,
   config,
   pkgs,
+  myvars,
   ...
-}: {
+}:
+with myvars; let
+  hostName = "sentry";
+in {
   imports = [
     ../../modules/system.nix
     ../../modules/hyprland.nix
@@ -35,21 +39,16 @@
     ];
   };
 
-  # Bootloader 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   # Shell
-  environment.shells= with pkgs; [ zsh ];
+  environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
-  # Hostname
-  networking.hostName = "sentry";
-
   # Networking
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = hostName;
+    networkmanager.enable = true;
+  };
   hardware.bluetooth.enable = true; 
 
   # Open ports in the firewall.
@@ -59,20 +58,18 @@
   # networking.firewall.enable = false;
 
   # Users
-  users.users = {
-    rail = {
+  users.users."${username}" = {
       isNormalUser = true;
-      description = "Michael Manning";
+      description = userfullname;
       extraGroups = ["networkmanager" "wheel" "audio"];
       openssh.authorizedKeys.keys = [ ];
       shell = pkgs.zsh;
-    };
   };
 
   # Given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = ["rail"];
+  nix.settings.trusted-users = [username];
 
   # System packages
   # environment.systemPackages = with pkgs; [

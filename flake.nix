@@ -25,6 +25,8 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    inherit (inputs.nixpkgs) lib;
+    myvars = import ./vars {inherit lib;};
 
     systems = [
       "aarch64-linux"
@@ -56,7 +58,7 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       sentry = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs myvars;};
         modules = [
           ./hosts/sentry
 
@@ -64,8 +66,8 @@
           {
             # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs outputs nix-colors;};
-            home-manager.users.rail = import ./home;
+            home-manager.extraSpecialArgs = {inherit inputs outputs nix-colors myvars;};
+            home-manager.users.${myvars.username} = import ./home;
           }
         ];
       };
