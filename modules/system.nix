@@ -77,5 +77,6 @@
     stow
     usbutils
     wl-clipboard
+    just
   ];
 }

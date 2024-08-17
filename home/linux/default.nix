@@ -10,8 +10,8 @@
 }: {
   # You can import other home-manager modules here
   imports = [
-    ./app/common.nix
-    ./app/git
+    ../core/packages.nix
+    ../core/git
     #./app/rofi
     ./wm/hyprland
   ];

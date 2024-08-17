@@ -67,7 +67,7 @@
             # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs nix-colors myvars;};
-            home-manager.users.${myvars.username} = import ./home;
+            home-manager.users.${myvars.username} = import ./home/linux;
           }
         ];
       };
