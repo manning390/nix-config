@@ -12,6 +12,7 @@
   imports = [
     ../core/packages.nix
     ../core/git
+    ../core/zsh
     #./app/rofi
     ./wm/hyprland
   ];
@@ -51,10 +52,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    neovim
     brave
-    firefox
-    zsh
     # discord
     vesktop # discord alternative client w/ better linux support
   ];

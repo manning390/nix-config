@@ -1,4 +1,6 @@
 alias fmt := format
+alias c := check
+alias b := rebuild
 
 # Format nix files
 format:

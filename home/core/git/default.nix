@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  myvars,
   ...
 }: {
   home.packages = [pkgs.gh];
@@ -8,7 +9,7 @@
   programs.git = {
     enable = true;
 
-    userName = "Michael Manning";
-    userEmail = lib.mkDefault "michael@manning390.com";
+    userName = myvars.userfullname;
+    userEmail = lib.mkDefault myvars.useremail;
   };
 }

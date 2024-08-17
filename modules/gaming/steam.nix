@@ -24,6 +24,7 @@ with myvars; {
   ];
   environment.sessionVariables = {
     STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
+    DXVK_FRAME_RATE = "60";
   };
 
   services.xserver.videoDrivers = ["amdgpu"]; # Also for wayland

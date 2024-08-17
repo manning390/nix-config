@@ -4,22 +4,11 @@
   ...
 }: {
   home.packages = with pkgs; [
-    # archives
-    zip
-    unzip
-    p7zip
-
-    # utils
-    ripgrep
-    fzf
-    htop
     _1password
-
-    # networking
-    nmap
   ];
 
   programs = {
+    man.enable = true;
     tmux = {
       enable = true;
       # configs wip
@@ -28,6 +17,7 @@
       enable = true;
       # configs wip
     };
+    # fd.enable = true; # says doesn't exist?
     btop.enable = true;
     jq.enable = true;
     aria2.enable = true;

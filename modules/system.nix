@@ -70,13 +70,31 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
+    neovim
+    firefox
+    zsh
+
     vim # Do not remove, need an editor to edit configuration.nix
     wget
     curl
     git
     stow
-    usbutils
     wl-clipboard
     just
+
+    # archives
+    zip
+    unzip
+    p7zip
+
+    # utils
+    ripgrep
+    fzf
+    htop
+    pciutils
+    usbutils
+
+    # networking
+    nmap
   ];
 }

@@ -57,7 +57,7 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      sentry = nixpkgs.lib.nixosSystem rec {
+      sentry = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs myvars;};
         modules = [
           ./hosts/sentry
