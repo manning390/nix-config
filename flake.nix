@@ -2,7 +2,7 @@
   description = "NixOs Configuration of Manning390";
 
   # The nixConfig here only affects the flake, not system config.
-  nixConfig = { };
+  nixConfig = {};
 
   inputs = {
     # Nixpkgs
@@ -57,7 +57,7 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      sentry = nixpkgs.lib.nixosSystem {
+      sentry = nixpkgs.lib.nixosSystem rec {
         specialArgs = {inherit inputs outputs myvars;};
         modules = [
           ./hosts/sentry

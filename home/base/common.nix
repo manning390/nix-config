@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     # archives
     zip
@@ -10,7 +14,7 @@
     fzf
     htop
     _1password
-    
+
     # networking
     nmap
   ];

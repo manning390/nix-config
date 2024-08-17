@@ -51,7 +51,7 @@
   fonts = {
     packages = with pkgs; [
       # Nerdfonts is too big, only grab what we want
-      (nerdfonts.override { fonts = ["FiraCode" "DroidSansMono" "Noto"]; })
+      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Noto"];})
     ];
   };
 

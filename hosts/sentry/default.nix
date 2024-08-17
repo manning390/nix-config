@@ -15,6 +15,7 @@ in {
   imports = [
     ../../modules/system.nix
     ../../modules/hyprland.nix
+    ../../modules/gaming/steam.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -40,7 +41,7 @@ in {
   };
 
   # Shell
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
@@ -49,7 +50,7 @@ in {
     hostName = hostName;
     networkmanager.enable = true;
   };
-  hardware.bluetooth.enable = true; 
+  hardware.bluetooth.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -59,11 +60,11 @@ in {
 
   # Users
   users.users."${username}" = {
-      isNormalUser = true;
-      description = userfullname;
-      extraGroups = ["networkmanager" "wheel" "audio"];
-      openssh.authorizedKeys.keys = [ ];
-      shell = pkgs.zsh;
+    isNormalUser = true;
+    description = userfullname;
+    extraGroups = ["networkmanager" "wheel" "audio"];
+    openssh.authorizedKeys.keys = [];
+    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:
