@@ -12,3 +12,6 @@ check:
 
 rebuild:
   sudo nixos-rebuild switch --flake .#sentry
+
+update:
+  sudo nixos-rebuild switch --recreate-lock-file --flake .#sentry

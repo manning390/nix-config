@@ -14,14 +14,13 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Color themes
-    nix-colors.url = "github:misterio77/nix-colors";
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nix-colors,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -62,12 +61,12 @@
         specialArgs = {inherit inputs outputs myvars mylib;};
         modules = [
           ./hosts/sentry
-
+          inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs outputs nix-colors myvars mylib;};
+            home-manager.extraSpecialArgs = {inherit inputs outputs myvars mylib;};
             home-manager.users.${myvars.username} = import ./home/linux/desktop.nix;
           }
         ];

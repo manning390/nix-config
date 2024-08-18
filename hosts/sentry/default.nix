@@ -16,6 +16,7 @@ in {
     ../../modules/system.nix
     ../../modules/hyprland.nix
     ../../modules/gaming/steam.nix
+    ../../modules/stylix.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];

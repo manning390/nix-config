@@ -10,6 +10,9 @@
     # libnotify # required by mako
     rofi-wayland # Application launcher
     hyprpaper # Wallpaper
+    hyprlock
+    hyprcursor
+    hypridle
   ];
 
   xdg.portal.enable = true;

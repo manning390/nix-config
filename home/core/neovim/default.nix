@@ -9,4 +9,7 @@
     viAlias = true;
     vimAlias = true;
   };
+  home.sessionVariables = {
+    COLEMAK = "1";
+  };
 }
