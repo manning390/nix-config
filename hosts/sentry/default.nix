@@ -92,6 +92,7 @@ in {
   # Feel free to remove if you don't need it.
   services.openssh = {
     enable = false;
+    ports = [22];
     settings = {
       # Forbid root login through SSH.
       PermitRootLogin = "no";

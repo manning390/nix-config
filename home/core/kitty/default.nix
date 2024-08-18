@@ -1,11 +1,15 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.kitty = {
     enable = true;
     theme = "Nord";
     font = {
-      name = "Fira Code";
-      package = pkgs.fira-code;
-      size = 14;
+      name = lib.mkDefault "Fira Code";
+      package = lib.mkDefault pkgs.fira-code-nerdfont;
+      size = lib.mkDefault 14;
     };
 
     settings = {

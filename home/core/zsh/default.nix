@@ -1,7 +1,15 @@
-{pkgs, ...}: {
+{pkgs, ...}:
+let
+  zinitSrc = builtins.fetchGit {
+    url = "https://github.com/zdharma-continuum/zinit";
+    rev = "30514edc4a3e67229ce11306061ee92db9558cec";
+  };
+in {
   programs.zsh = {
     enable = true;
-    initExtra = builtins.readFile ./zshrc;
+    initExtra = ''
+      source "${zinitSrc}/zinit.zsh"
+    '' + builtins.readFile ./zshrc;
 
     shellAliases = {
       ln = "ln -v";
@@ -33,10 +41,12 @@
   programs.zoxide.options = ["--cmd cd"];
 
   programs.fzf.enable = true;
-  home.packages = with pkgs; [zinit];
+  home.packages = with pkgs; [zinitSrc];
 
   home.sessionVariables = {
     PATH = "$HOME/.local/bin:$PATH";
     DOTFILES = "$HOME/.dotfiles";
+    MEOW = "nya?";
+    COLEMAK = "1";
   };
 }
