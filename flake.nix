@@ -12,6 +12,9 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  
+    zinit.url = "github:zdharma-continuum/zinit";
+    zinit.flake = false;
 
     # Color themes
     stylix.url = "github:danth/stylix";
@@ -72,16 +75,5 @@
         ];
       };
     };
-
-    # homeConfigurations = {
-    #   "rail@sentry" = home-manager.lib.homeManagerConfiguration {
-    #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-    #     extraSpecialArgs = {inherit inputs outputs nix-colors;};
-    #     modules = [
-    #       # > Our main home-manager configuration file <
-    #       ./home/default.nix
-    #     ];
-    #   };
-    # };
   };
 }
