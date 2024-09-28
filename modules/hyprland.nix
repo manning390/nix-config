@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, inputs, ...}: {
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -13,6 +13,8 @@
     hyprlock
     hyprcursor
     hypridle
+  ] ++ [
+    inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package
   ];
 
   xdg.portal.enable = true;

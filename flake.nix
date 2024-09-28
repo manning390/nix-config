@@ -19,6 +19,10 @@
 
     # Color themes
     stylix.url = "github:danth/stylix";
+
+    # hyprland community scripts
+    hyprland-contrib.url = "github:hyprwm/contrib";
+    hyprland-contrib.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
