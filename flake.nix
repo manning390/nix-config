@@ -12,7 +12,8 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  
+
+    # Zsh plugin manager
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;
 

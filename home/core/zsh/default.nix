@@ -45,6 +45,11 @@
 
   programs.fzf.enable = true;
 
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   home.sessionVariables = {
     PATH = "$HOME/.local/bin:$PATH";
     DOTFILES = "$HOME/.dotfiles";
