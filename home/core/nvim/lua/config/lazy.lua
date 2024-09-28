@@ -19,6 +19,11 @@ local plugins = {
 		},
 	},
 	{
+		"creativenull/efmls-configs-nvim", -- configurations for efm lang
+		version = "v1.x.x",          -- tag is optional, but recommended
+		dependencies = { "neovim/nvim-lspconfig" },
+	},
+	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {},

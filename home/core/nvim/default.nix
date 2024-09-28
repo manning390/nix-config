@@ -24,19 +24,24 @@ in {
     ];
   };
 
-  home.packages= with pkgs; [
+  home.packages = with pkgs; [
     gcc
     gnumake
     nodejs_22
 
     nodePackages.typescript
     nodePackages.typescript-language-server
+    efm-langserver
   ];
 
   xdg.configFile."nvim/init.lua".source = ./init.lua;
   xdg.configFile."nvim/lua" = {
     recursive = true;
     source = ./lua;
+  };
+  xdg.configFile."nvim/after" = {
+    recursive = true;
+    source = ./after;
   };
 
   home.sessionVariables = {
