@@ -35,6 +35,7 @@
         "$mod, E, movefocus, u"
         "$mod, N, movefocus, d"
         "$mod, F, fullscreen"
+        ", Print, exec, grimblast copy area"
       ]
       ++ (
         # workspaces

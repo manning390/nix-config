@@ -1,4 +1,5 @@
 -- Utility functions shared between progress reports for LSP and DAP
+vim.o.termguicolors = true
 
 local client_notifs = {}
 

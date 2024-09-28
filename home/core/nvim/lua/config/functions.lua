@@ -44,4 +44,20 @@ M.customCaseToggle = function()
     })[char]
     vim.cmd('normal! '..(seq or '~'))
 end
+
+M.bufOnly = function()
+  vim.cmd('%bd|e#|bd#')
+end
+
+M.toggleQuickfix = function()
+  local windows = vim.fn.getwininfo()
+  for _, win in pairs(windows) do
+    if win["quickfix"] == 1 then
+      vim.cmd.cclose()
+      return
+    end
+  end
+  vim.cmd.copen()
+end
+
 return M
