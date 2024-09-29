@@ -90,6 +90,7 @@ local servers = {
         --     client.server_capabilities
         -- end
     },
+    nixd = {},
 }
 
 vim.diagnostic.config({

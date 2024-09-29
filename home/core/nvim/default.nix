@@ -25,6 +25,8 @@ in {
   };
 
   home.packages = with pkgs; [
+    devenv
+
     gcc
     gnumake
     nodejs_22
@@ -32,7 +34,10 @@ in {
     nodePackages.typescript
     nodePackages.typescript-language-server
     efm-langserver
+    nixd
   ];
+
+  programs.direnv.enable = true;
 
   xdg.configFile."nvim/init.lua".source = ./init.lua;
   xdg.configFile."nvim/lua" = {

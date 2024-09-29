@@ -18,7 +18,7 @@
     zinit.flake = false;
 
     # Color themes
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:danth/stylix/release-24.05";
 
     # hyprland community scripts
     hyprland-contrib.url = "github:hyprwm/contrib";
@@ -44,14 +44,14 @@
       "x86_64-darwin"
     ];
 
-    forAllSystems = nixpkgs.lib.genAttrs systems;
+    forEachSystem = nixpkgs.lib.genAttrs systems;
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forEachSystem (system: import ./pkgs nixpkgs.legacyPackages.${system});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};

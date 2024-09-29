@@ -16,6 +16,7 @@ in {
     ../../modules/system.nix
     ../../modules/hyprland.nix
     ../../modules/gaming/steam.nix
+    ../../modules/gaming/ffxiv.nix
     ../../modules/stylix.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -42,7 +43,7 @@ in {
   };
 
   # Shell
-  environment.shells = with pkgs; [zsh];
+  environment.shells = [pkgs.zsh];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
