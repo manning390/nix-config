@@ -10,11 +10,6 @@
       "waybar"
       "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
     ];
-    monitor = [
-      "HDMI-A-1,2560x1440@144,0x0,1"
-      "DP-1,2560x1440@144,2560x0,1"
-      "HDMI-A-2,2560x1440@144,5120x0,1"
-    ];
     env = "XCURSOR_SIZE,24";
     "$mod" = "SUPER";
     bind =
@@ -36,6 +31,7 @@
         "$mod, N, movefocus, d"
         "$mod, F, fullscreen"
         ", Print, exec, grimblast copy area"
+        "SHIFT, Print, exec, grimblast copysave area"
       ]
       ++ (
         # workspaces
@@ -60,7 +56,7 @@
     ];
     general = {
       gaps_in = 5;
-      gaps_out = 20;
+      gaps_out = 10;
       border_size = 2;
       "col.active_border" = lib.mkDefault "rgba(33ccffee) rgba(00ff99ee) 45deg";
       "col.inactive_border" = lib.mkDefault "rgba(595959aa)";

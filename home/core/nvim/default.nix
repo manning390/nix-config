@@ -33,6 +33,7 @@ in {
 
     nodePackages.typescript
     nodePackages.typescript-language-server
+    nodePackages.neovim
     efm-langserver
     nixd
   ];
@@ -54,5 +55,6 @@ in {
     EDITOR = "nvim";
     VISUAL = "nvim";
     SUDO_EDITOR = "nvim";
+    DIRENV_LOG_FORMAT = "";
   };
 }

@@ -29,7 +29,6 @@ local plugins = {
 		opts = {},
 	},
 	{ -- PHP Actions
-		enabled = false,
 		"gbprod/phpactor.nvim",
 		tag = "v1.0.1",
 		lazy = true,
