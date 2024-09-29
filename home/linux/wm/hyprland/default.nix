@@ -10,6 +10,11 @@
       "waybar"
       "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
     ];
+    wayland.windowManager.hyprland.settings.monitor = [
+      "HDMI-A-1,2560x1440@144,0x0,1"
+      "DP-1,2560x1440@144,2560x0,1"
+      "HDMI-A-2,2560x1440@144,5120x0,1"
+    ];
     env = "XCURSOR_SIZE,24";
     "$mod" = "SUPER";
     bind =
@@ -92,6 +97,11 @@
       pseudotile = "yes";
       preserve_split = "yes";
     };
+  };
+
+  xdg.configFile."waybar" = {
+    recursive = true;
+    source = ./waybar;
   };
 
   # home.services.hyprpaper = {
