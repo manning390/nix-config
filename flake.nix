@@ -17,6 +17,10 @@
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;
 
+    # Cursors theme
+    nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-hyprcursors/a7b161bb260e34d81b71687bdb0351dffd5c8df4";
+    nordzy-hyprcursors.flake = false;
+
     # Color themes
     stylix.url = "github:danth/stylix/release-24.05";
 

@@ -8,7 +8,7 @@
 
     plugins = with pkgs; [
       tmuxPlugins.sensible
-      tmuxPlugins.vim-tmux-navigator
+      # tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.yank
       tmuxPlugins.nord
     ];
