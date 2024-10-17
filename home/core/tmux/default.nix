@@ -2,13 +2,13 @@
   programs.tmux = {
     enable = true;
 
-    shortcut = " ";
+    shortcut = "Space";
     baseIndex = 1;
     escapeTime = 0;
 
     plugins = with pkgs; [
       tmuxPlugins.sensible
-      tmuxPlugins.vim-tmux-navigator
+      # tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.yank
       tmuxPlugins.nord
     ];

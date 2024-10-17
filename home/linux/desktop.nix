@@ -47,5 +47,13 @@
     brave
     # discord
     vesktop # discord alternative client w/ better linux support
+
+    nh
+    nix-output-monitor
+    nvd
+
+    # Peripheral utilities
+    headsetcontrol # minor support for G733 Logi headset
+    ncpamixer # Audio levels cli
   ];
 }

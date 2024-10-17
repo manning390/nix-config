@@ -1,6 +1,6 @@
 alias fmt := format
 alias c := check
-alias b := rebuild
+alias b := build
 
 # Format nix files
 format:
@@ -8,10 +8,10 @@ format:
 
 # Check if flake compiles
 check:
-  nix flake check
+  nom flake check
 
-rebuild:
-  sudo nixos-rebuild switch --flake .#sentry
+build:
+  nh os switch ~/nix-config/
 
 update:
-  sudo nixos-rebuild switch --recreate-lock-file --flake .#sentry
+  nh os switch ~/nix-config/ --update
