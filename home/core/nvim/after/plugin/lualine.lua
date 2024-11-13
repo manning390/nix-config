@@ -20,9 +20,9 @@ local harpoon = {
         -- ⇁ ﯠ ﯡ
         local harpoon_number = get_harpoon(vim.fn.bufname())
         if harpoon_number then
-            return "ﯠ " .. harpoon_number
+            return "󰛢 " .. harpoon_number
         else
-            return "ﯡ "
+            return "󰛣 "
         end
     end,
     color = function()

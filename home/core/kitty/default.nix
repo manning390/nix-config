@@ -7,7 +7,7 @@
     enable = true;
     theme = "Nord";
     font = {
-      name = lib.mkDefault "Fira Code Nerd Font";
+      name = lib.mkDefault "FiraCode Nerd Font";
       package = lib.mkDefault pkgs.fira-code-nerdfont;
       size = lib.mkDefault 14;
     };
