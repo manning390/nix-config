@@ -54,6 +54,7 @@
   home.sessionVariables = {
     PATH = "$HOME/.local/bin:$PATH";
     DOTFILES = "$HOME/.dotfiles";
+    NIXCONFIG = "$HOME/nix-config";
     MEOW = "nya?";
     COLEMAK = "1";
   };

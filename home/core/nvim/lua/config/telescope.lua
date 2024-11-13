@@ -5,7 +5,7 @@ require("telescope").setup({
         prompt_prefix = " >",
         color_devicons = true,
 
-        file_previewer = require("telescope.previewers").cat.new,
+        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
         grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
         qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
@@ -41,6 +41,13 @@ M.search_dotfiles = function()
         find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
         prompt_title = "< DOTFILES >",
         cwd = vim.env.DOTFILES,
+    })
+end
+M.search_nixconfig = function()
+    require("telescope.builtin").find_files({
+        find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
+        prompt_title = "< Nix Config >",
+        cwd = vim.env.NIXCONFIG,
     })
 end
 M.project_files = function()
