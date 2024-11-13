@@ -13,20 +13,21 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Cursor theme
+    nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-cursors";
+    nordzy-hyprcursors.flake = false;
+
     # Zsh plugin manager
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;
 
-    # Cursors theme
-    nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-hyprcursors/a7b161bb260e34d81b71687bdb0351dffd5c8df4";
-    nordzy-hyprcursors.flake = false;
-
     # Color themes
     stylix.url = "github:danth/stylix/release-24.05";
 
-    # hyprland community scripts
+    # Utility scripts, like screen shots
     hyprland-contrib.url = "github:hyprwm/contrib";
     hyprland-contrib.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = {
@@ -48,14 +49,14 @@
       "x86_64-darwin"
     ];
 
-    forEachSystem = nixpkgs.lib.genAttrs systems;
+    forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};

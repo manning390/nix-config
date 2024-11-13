@@ -86,6 +86,7 @@ local plugins = {
 				lua = { "stylua" },
 				typescript = { { "prettierd", "prettier" } },
 				javascript = { { "prettierd", "prettier" } },
+				svelte = { { "prettier" } },
 				php = { "pint" },
 			},
 		},

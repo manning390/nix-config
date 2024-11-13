@@ -16,6 +16,16 @@ local servers = {
     },
     cmake = {},
     -- phpactor = {},
+    -- intelephense = {
+    --     init_options = {
+    --         licenceKey = (function()
+    --             local f = assert(io.opin(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+    --             local content = f:read("*a")
+    --             f:close()
+    --             return string.gsub(content, "%s+", "")
+    --         end)()
+    --     }
+    -- },
     tailwindcss = {},
     vimls = {},
     cssls = {

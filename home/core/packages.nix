@@ -1,11 +1,8 @@
 {
-  lib,
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
-    _1password
-  ];
+  # home.packages = with pkgs; [];
 
   programs = {
     man.enable = true;

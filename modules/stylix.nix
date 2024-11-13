@@ -29,11 +29,11 @@
     fonts = {
       serif = {
         package = pkgs.fira-code-nerdfont;
-        name = "Fira Code";
+        name = "Fira Code Nerd Font";
       };
       monospace = {
         package = pkgs.fira-code-nerdfont;
-        name = "Fira Code Mono";
+        name = "Fira Code Mono Nerd Font";
       };
       sizes.terminal = 14;
     };

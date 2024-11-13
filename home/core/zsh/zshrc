@@ -6,7 +6,7 @@ zinit light Aloxaf/fzf-tab
 # Add in snippets
 zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
-zinit snippet OMZP::last-working-dir
+#zinit snippet OMZP::last-working-dir
 zinit snippet OMZP::colored-man-pages
 
 # Load completions

@@ -30,6 +30,7 @@ in {
     gcc
     gnumake
     nodejs_22
+    pnpm
 
     nodePackages.typescript
     nodePackages.typescript-language-server
