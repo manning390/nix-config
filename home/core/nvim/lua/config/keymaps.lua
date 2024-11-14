@@ -80,7 +80,7 @@ nnoremap('<leader>p/', require 'telescope.builtin'.grep_string, { desc = 'Search
 -- nnoremap('<leader>pw', function()
 -- 	tel.grep_string{ search = vim.fn.expand("<cword>")} end)
 nnoremap('<leader>pt', require 'telescope'.extensions.git_worktree.git_worktrees, { desc = 'Search Work[T]rees' })
-nnoremap('<leader>pv', mtel.search_dotfiles, { desc = 'Search [V]im Configs' })
+--nnoremap('<leader>pv', mtel.search_dotfiles, { desc = 'Search [V]im Configs' })
 nnoremap('<leader>px', mtel.search_nixconfig, { desc = 'Search Ni[X] Configs' })
 nnoremap('<leader>p<space>', mtel.related_files, { desc = '[p ] Search related files' })
 nnoremap('<leader>/', mtel.fuzzy_buffer, { desc = '[/] Fuzzily search in current buffer' })

@@ -13,6 +13,9 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Nix User Repository
+    nur.url = "github:nix-community/NUR";
+
     # Cursor theme
     nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-cursors";
     nordzy-hyprcursors.flake = false;
@@ -28,6 +31,8 @@
     hyprland-contrib.url = "github:hyprwm/contrib";
     hyprland-contrib.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Neovim nightly
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = {
@@ -75,6 +80,7 @@
         modules = [
           ./hosts/sentry
           inputs.stylix.nixosModules.stylix
+          inputs.nur.nixosModules.nur
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;

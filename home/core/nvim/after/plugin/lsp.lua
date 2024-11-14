@@ -38,6 +38,7 @@ local servers = {
         filetypes = {'javascriptreact', 'typescriptreact', 'javascript', 'svelte'},
         on_attach = function(_, bufnr)
             vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+                print('hi')
                 vim.lsp.buf.format()
                 vim.cmd('EslintFixAll')
             end, { desc = 'Format current buffer with LSP' })
@@ -77,19 +78,19 @@ local servers = {
             return true
         end,
     },
-    efm = {
-        filetypes = vim.tbl_keys(efm_languages),
-        settings = {
-            rootMarkers = { ".git/" },
-            languages = vim.tbl_extend('force',
-                require 'efmls-configs.defaults'.languages(), efm_languages
-            )
-        },
-        init_options = {
-            documentFormatting = true,
-            documentRangeFormatting = true,
-        },
-    },
+    --efm = {
+    --    filetypes = vim.tbl_keys(efm_languages),
+    --    settings = {
+    --        rootMarkers = { ".git/" },
+    --        languages = vim.tbl_extend('force',
+    --            require 'efmls-configs.defaults'.languages(), efm_languages
+    --        )
+    --   },
+    --    init_options = {
+    --        -- documentFormatting = true,
+    --        -- documentRangeFormatting = true,
+    --    },
+    --},
     jsonls = {},
     ltex = {
         filetypes = { 'markdown' },
@@ -101,6 +102,7 @@ local servers = {
         -- end
     },
     nixd = {},
+    -- svelte = {},
 }
 
 vim.diagnostic.config({
