@@ -35,7 +35,8 @@ local plugins = {
 			return {
 				sources = {
 					nls.builtins.formatting.prettier,
-					require("none-ls.diagnostics.eslint"),
+					nls.builtins.completion.spell,
+					-- require("none-ls.diagnostics.eslint"),
 					-- require("none-ls.diagnostics.php")
 				}
 			}
@@ -237,6 +238,8 @@ local plugins = {
 			require("leap").add_default_mappings()
 		end,
 	},
+	{"norcalli/nvim-colorizer.lua", opts = {}},
+	"NTBBloodbath/color-converter.nvim",
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
 		"windwp/nvim-autopairs",

@@ -1,4 +1,6 @@
-local efm_languages = { }
+-- local efm_languages = { 
+--     lua = { require('efml-configs.formatters.stylua') }
+-- }
 local servers = {
     -- tsserver = {
     --     on_attach = function(client)
@@ -38,7 +40,6 @@ local servers = {
         filetypes = {'javascriptreact', 'typescriptreact', 'javascript', 'svelte'},
         on_attach = function(_, bufnr)
             vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-                print('hi')
                 vim.lsp.buf.format()
                 vim.cmd('EslintFixAll')
             end, { desc = 'Format current buffer with LSP' })
@@ -78,7 +79,7 @@ local servers = {
             return true
         end,
     },
-    --efm = {
+    -- efm = {
     --    filetypes = vim.tbl_keys(efm_languages),
     --    settings = {
     --        rootMarkers = { ".git/" },
@@ -86,11 +87,11 @@ local servers = {
     --            require 'efmls-configs.defaults'.languages(), efm_languages
     --        )
     --   },
-    --    init_options = {
-    --        -- documentFormatting = true,
-    --        -- documentRangeFormatting = true,
-    --    },
-    --},
+    --   init_options = {
+    --     documentFormatting = true,
+    --     documentRangeFormatting = true,
+    --   },
+    -- },
     jsonls = {},
     ltex = {
         filetypes = { 'markdown' },

@@ -96,6 +96,8 @@ nnoremap('gt', vim.lsp.buf.type_definition, { desc = 'LSP: [G]oto [T]ype Definit
 nnoremap('g?', vim.diagnostic.open_float, { silent = true })
 nnoremap('<leader>cn', vim.lsp.buf.rename, { desc = 'LSP: [R]e[n]ame' })
 nnoremap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: [C]ode [A]ction' })
+nnoremap('<leader>cc', require 'color-converter'.cycle, { desc = '[C]olor [C]onverter' })
+nnoremap('<leader>ct', ':ClorizerToggle', { desc = '[C]olor Display [T]oggle' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic ' })
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic' })
 nnoremap(']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Next Error' })
