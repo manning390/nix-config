@@ -1,5 +1,5 @@
 {
-  description = "NixOs Configuration of Manning390";
+  description = "NixOs Configurations of Manning390";
 
   # The nixConfig here only affects the flake, not system config.
   nixConfig = {};
@@ -79,6 +79,26 @@
         specialArgs = {inherit inputs outputs myvars mylib;};
         modules = [
           ./hosts/sentry
+          inputs.stylix.nixosModules.stylix
+          inputs.nur.nixosModules.nur
+          home-manager.nixosModules.home-manager
+          {
+            # home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit inputs outputs myvars mylib;};
+            home-manager.users.${myvars.username} = import ./home/linux/desktop.nix;
+          }
+        ];
+      };
+
+      ruby = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs myvars mylib;} // {
+          myvars = {
+            username = "ruby";
+          };
+        };
+        modules = [
+          ./hosts/ruby
           inputs.stylix.nixosModules.stylix
           inputs.nur.nixosModules.nur
           home-manager.nixosModules.home-manager
