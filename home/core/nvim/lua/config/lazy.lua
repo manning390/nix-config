@@ -28,6 +28,24 @@ local plugins = {
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {},
 	},
+	{
+		"nvimtools/none-ls.nvim",
+		opts = function()
+			local nls = require("null-ls")
+			return {
+				sources = {
+					nls.builtins.formatting.prettier,
+					nls.builtins.completion.spell,
+					-- require("none-ls.diagnostics.eslint"),
+					-- require("none-ls.diagnostics.php")
+				}
+			}
+		end,
+		dependencies = {
+			"gbprod/none-ls-php.nvim",
+			"nvimtools/none-ls-extras.nvim",
+		}
+	},
 	{ -- PHP Actions
 		"gbprod/phpactor.nvim",
 		tag = "v1.0.1",
@@ -86,6 +104,7 @@ local plugins = {
 				lua = { "stylua" },
 				typescript = { { "prettierd", "prettier" } },
 				javascript = { { "prettierd", "prettier" } },
+				svelte = { { "prettier", lsp_format = "fallback" } },
 				php = { "pint" },
 			},
 		},
@@ -130,8 +149,8 @@ local plugins = {
 			},
 			"saadparwaiz1/cmp_luasnip",
 			-- 'hrsh7th/cmp-cmdline',
-			-- 'hrsh7th/cmp-nvim-lsp-signature-help',
-			-- 'onsails/lspkind.nvim',
+			'hrsh7th/cmp-nvim-lsp-signature-help',
+			'onsails/lspkind.nvim',
 		},
 	},
 	-- Highlight, edit, navigate code
@@ -219,6 +238,8 @@ local plugins = {
 			require("leap").add_default_mappings()
 		end,
 	},
+	{"norcalli/nvim-colorizer.lua", opts = {}},
+	"NTBBloodbath/color-converter.nvim",
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
 		"windwp/nvim-autopairs",
@@ -317,8 +338,13 @@ local plugins = {
 	-- 	end
 	-- },
 	{
+		enable = false,
 		"stevearc/overseer.nvim",
 		dependencies = "stevearc/dressing.nvim",
+		opts = {},
+	},
+	{
+		"stevearc/dressing.nvim",
 		opts = {},
 	},
 
@@ -372,16 +398,14 @@ local plugins = {
 	-- 		end,
 	-- 	},
 	-- },
-	-- {
-	-- 	"wrd.nvim",
-	-- 	dev = true,
-	-- 	dir = "~/Documents/wrd.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 		"nvim-lua/plenary.nvim",
-	-- 	},
-	-- 	opts = {},
-	-- },
+	{
+		"manning390/wrd.nvim",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {},
+	},
 }
 
 -- Run --

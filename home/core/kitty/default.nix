@@ -7,7 +7,7 @@
     enable = true;
     theme = "Nord";
     font = {
-      name = lib.mkDefault "Fira Code";
+      name = lib.mkDefault "FiraCode Nerd Font";
       package = lib.mkDefault pkgs.fira-code-nerdfont;
       size = lib.mkDefault 14;
     };
@@ -24,9 +24,9 @@
       # \x1b\x5b is 'CSI' escape seq
       # key & mod from show_key
       # u is termination
-      "ctrl+m" = "send_text all \x1b\x5b109;133u";
-      "ctrl+i" = "send_text all \x1b\x5b105;133u";
-      "ctrl+shift+h" = "send_text all \x1b\x5b104;134u";
+      "ctrl+m" = "send_text all \\x1b\\x5b109;133u";
+      "ctrl+i" = "send_text all \\x1b\\x5b105;133u";
+      "ctrl+shift+h" = "send_text all \\x1b\\x5b104;134u";
     };
   };
 

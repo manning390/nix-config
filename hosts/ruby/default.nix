@@ -10,13 +10,13 @@
   ...
 }:
 with myvars; let
-  hostName = "sentry";
+  hostName = "ruby";
 in {
   imports = [
     ../../modules/system.nix
     ../../modules/hyprland.nix
-    ../../modules/gaming/steam.nix
-    ../../modules/gaming/ffxiv.nix
+    # ../../modules/gaming/steam.nix
+    # ../../modules/gaming/ffxiv.nix
     ../../modules/stylix.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix

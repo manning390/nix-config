@@ -17,12 +17,12 @@
         "DP-1,2560x1440@144,2560x0,1"
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
-      env = [
-        "XCURSOR_SIZE,24"
-        "XCURSOR_THEME,Nordzy-cursors"
-        "HYPRCURSOR_THEME,Nordzy-cursors"
-        "HYPRCURSOR_SIZE,24"
-      ];
+      # env = [
+      #   "XCURSOR_SIZE,24"
+      #   "XCURSOR_THEME,Nordzy-cursors"
+      #   "HYPRCURSOR_THEME,Nordzy-cursors"
+      #   "HYPRCURSOR_SIZE,24"
+      # ];
 
       "$mod" = "SUPER";
       bind =

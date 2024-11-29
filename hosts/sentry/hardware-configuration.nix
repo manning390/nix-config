@@ -20,6 +20,10 @@
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = "1048576";
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/29bb37f4-682c-4323-90b0-d4fc5abaa4ea";
     fsType = "ext4";

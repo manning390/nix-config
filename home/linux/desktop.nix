@@ -5,6 +5,7 @@
   outputs,
   lib,
   config,
+  myvars,
   pkgs,
   ...
 }: {
@@ -38,6 +39,13 @@
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
+
+      programs.nh = {
+        enable = true;
+        clean.enable = true;
+        clean.extraArgs = "--keep-since 5d --keep 3";
+        flake = "/home/${myvars.username}/nix-config";
+      };
     };
   };
 

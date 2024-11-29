@@ -1,13 +1,12 @@
 {
-  config,
+  inputs,
   pkgs,
-  lib,
   ...
 }: let
 in {
   programs.neovim = {
     enable = true;
-    # package = pkgs.neovim-nightly;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 
     defaultEditor = true;
 
@@ -30,10 +29,13 @@ in {
     gcc
     gnumake
     nodejs_22
+    pnpm
 
     nodePackages.typescript
     nodePackages.typescript-language-server
     nodePackages.neovim
+    nodePackages.eslint
+    eslint_d
     efm-langserver
     nixd
   ];

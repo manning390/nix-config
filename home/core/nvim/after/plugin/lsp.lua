@@ -1,4 +1,6 @@
-local efm_languages = { }
+-- local efm_languages = { 
+--     lua = { require('efml-configs.formatters.stylua') }
+-- }
 local servers = {
     -- tsserver = {
     --     on_attach = function(client)
@@ -16,6 +18,16 @@ local servers = {
     },
     cmake = {},
     -- phpactor = {},
+    -- intelephense = {
+    --     init_options = {
+    --         licenceKey = (function()
+    --             local f = assert(io.opin(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+    --             local content = f:read("*a")
+    --             f:close()
+    --             return string.gsub(content, "%s+", "")
+    --         end)()
+    --     }
+    -- },
     tailwindcss = {},
     vimls = {},
     cssls = {
@@ -67,19 +79,19 @@ local servers = {
             return true
         end,
     },
-    efm = {
-        filetypes = vim.tbl_keys(efm_languages),
-        settings = {
-            rootMarkers = { ".git/" },
-            languages = vim.tbl_extend('force',
-                require 'efmls-configs.defaults'.languages(), efm_languages
-            )
-        },
-        init_options = {
-            documentFormatting = true,
-            documentRangeFormatting = true,
-        },
-    },
+    -- efm = {
+    --    filetypes = vim.tbl_keys(efm_languages),
+    --    settings = {
+    --        rootMarkers = { ".git/" },
+    --        languages = vim.tbl_extend('force',
+    --            require 'efmls-configs.defaults'.languages(), efm_languages
+    --        )
+    --   },
+    --   init_options = {
+    --     documentFormatting = true,
+    --     documentRangeFormatting = true,
+    --   },
+    -- },
     jsonls = {},
     ltex = {
         filetypes = { 'markdown' },
@@ -91,6 +103,7 @@ local servers = {
         -- end
     },
     nixd = {},
+    -- svelte = {},
 }
 
 vim.diagnostic.config({

@@ -26,6 +26,13 @@
       clear = "!clear; echo \"Good job.\"";
       yeet = "!git add . && git commit";
       yolo = "!git add . && git commit -m \"$(curl -s https://whatthecommit.com/index.txt) -yolo\"  && git push origin HEAD -f";
+      vi = "!nvim -c 'G'";
+    };
+
+    extraConfig = {
+      core = {
+        defaultBranch = "dev";
+      };
     };
   };
 }
