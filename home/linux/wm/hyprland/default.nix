@@ -11,6 +11,7 @@
       exec-once = lib.strings.concatStringsSep "& " [
         "waybar"
         "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
@@ -34,19 +35,28 @@
           "$mod, D, exec, rofi -show drun -show-icons"
           "$mod, P, pseudo"
           "$mod, J, togglesplit"
-          "$mod, left,  movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up,    movefocus, u"
-          "$mod, down,  movefocus, d"
-          "$mod, M, movefocus, l"
-          "$mod, I, movefocus, r"
-          "$mod, E, movefocus, u"
-          "$mod, N, movefocus, d"
           "$mod, F, fullscreen"
+          "$mod, TAB, focuscurrentorlast"
           # Screen shots
           ", Print, exec, grimblast --notify copy area"
           "SHIFT, Print, exec, grimblast --notify copysave area"
         ]
+        ++ (builtins.concatLists (
+          builtins.attrValues (
+            builtins.mapAttrs (direction: keys: [
+              "$mod, ${keys.arrow}, movefocus, ${direction}"
+              "$mod, ${keys.vi}, movefocus, ${direction}"
+              "$mod SHIFT, ${keys.arrow}, movewindow, ${direction}"
+              "$mod SHIFT, ${keys.vi}, movewindow, ${direction}"
+            ])
+            {
+              l = { arrow = "left"; vi = "M"; };
+              r = { arrow = "right"; vi = "I"; };
+              u = { arrow = "up"; vi = "E"; };
+              d = { arrow = "down"; vi = "N"; };
+            }
+          )
+        ))
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
@@ -65,8 +75,8 @@
         );
       bindm = [
         "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-        "$mod ALT, mouse:272, resizewindow"
+        "$mod, mouse:273, resizewindow" # right click with mod to resize
+        "$mod ALT, mouse:272, resizewindow" # left click with mod + alt to resize
       ];
       general = {
         gaps_in = 5;
@@ -106,24 +116,33 @@
         pseudotile = "yes";
         preserve_split = "yes";
       };
-      # windowrulev2 = [
-      #   "float,class:^(kvantummanager)$"
-      #   "float,class:^(qt5ct)$"
-      #   "float,class:^(qt6ct)$"
-      #   "float,class:^(nwg-look)$"
-      #   "float,class:^(org.kde.ark)$"
-      #   "float,class:^(pavucontrol)$"
-      #   "float,class:^(blueman-manager)$"
-      #   "float,class:^(nm-applet)$"
-      #   "float,class:^(nm-connection-editor)$"
-      #   "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
-      # ];
+      windowrulev2 = [
+        #   "float,class:^(kvantummanager)$"
+        #   "float,class:^(qt5ct)$"
+        #   "float,class:^(qt6ct)$"
+        #   "float,class:^(nwg-look)$"
+        #   "float,class:^(org.kde.ark)$"
+        #   "float,class:^(pavucontrol)$"
+        #   "float,class:^(blueman-manager)$"
+        #   "float,class:^(nm-applet)$"
+        #   "float,class:^(nm-connection-editor)$"
+        #   "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
+        "opacity 0.0 override, class:^(xwaylandvideobridge)$"
+        "noanim, class:^(xwaylandvideobridge)$"
+        "noinitialfocus, class:^(xwaylandvideobridge)$"
+        "maxsize 1 1, class:^(xwaylandvideobridge)$"
+        "noblur, class:^(xwaylandvideobridge)$"
+        "nofocus, class:^(xwaylandvideobridge)$"
+      ];
     };
   };
   # Hint electron to use wayland
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     KITTY_ENABLE_WAYLAND = "1";
+    XDG_SESSION_TYPE = "wayland discord-canary";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
   };
 
   gtk = {

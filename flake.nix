@@ -80,7 +80,7 @@
         modules = [
           ./hosts/sentry
           inputs.stylix.nixosModules.stylix
-          inputs.nur.nixosModules.nur
+          inputs.nur.modules.nixos.default
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;
@@ -100,7 +100,7 @@
         modules = [
           ./hosts/ruby
           inputs.stylix.nixosModules.stylix
-          inputs.nur.nixosModules.nur
+          inputs.nur.modules.nixos.default
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;

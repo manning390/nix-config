@@ -70,8 +70,8 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    neovim
     firefox
+    brave
     zsh
 
     vim # Do not remove, need an editor to edit configuration.nix

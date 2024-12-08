@@ -52,8 +52,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    brave
-    # discord
+    discord-canary
     vesktop # discord alternative client w/ better linux support
 
     nh
