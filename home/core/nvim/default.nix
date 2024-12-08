@@ -31,9 +31,9 @@ in {
     nodejs_22
     pnpm
 
+    neovim-node-client
     nodePackages.typescript
     nodePackages.typescript-language-server
-    nodePackages.neovim
     nodePackages.eslint
     eslint_d
     efm-langserver
