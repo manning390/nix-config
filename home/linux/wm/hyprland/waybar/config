@@ -1,35 +1,14 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    // "height": 36, // Waybar height (to be removed for auto height)
-    // Archived modules
-    // "custom/gpu", "bluetooth",  "custom/weather", "temperature", "sway/window"
+    "height": 30, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
-    "modules-left": [ "sway/language", "custom/scratchpad-indicator", "custom/pacman", "sway/mode", "idle_inhibitor", "custom/media"],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": [ "custom/cpugovernor", "cpu", "temperature", "custom/gpu", "pulseaudio", "bluetooth", "network", "tray", "clock"],
+    "modules-left": ["idle_inhibitor", "custom/nixos-updates", "tray", "hyprland/workspaces" ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [ "cpu", "temperature", "custom/gpu", "pulseaudio", "bluetooth", "network", "clock"],
     // Modules configuration
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "<span color=\"#D8DEE9\"></span>",
-            "2": "<span color=\"#88C0D0\"></span>",
-            "3": "<span color=\"#A3BE8C\"></span>",
-            "4": "<span color=\"#D8DEE9\"></span>",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
-    },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "sway/window": {
-        "format": "{}",
-        "max-length": 50, 
-        "tooltip": false
+    "hyprland/window": {
+      "separate-outputs": true,
     },
     "bluetooth": {
         "interval": 30,
@@ -37,22 +16,18 @@
         // "format-alt": "{status}",
         "format-icons": {
             "enabled": "",
-            "disabled": ""
+            "disabled": "󰂲"
         },
         "on-click": "blueberry"
     },    
-    "sway/language": {
-        "format": "<big></big> {}",
-        "max-length": 5,
-        "min-length": 5,        
-    },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
             "activated": "",
             "deactivated": ""
         },
-        "tooltip": "true"
+     //   "tooltip": true
+     //   "tooltip-format": "System can idle"
     },
     "tray": {
         //"icon-size": 11,
@@ -84,15 +59,14 @@
         "min-length": 7
     },
     "network": {
-        // "interface": "wlan0", // (Optional) To force the use of this interface,
         "format-wifi": "  {essid}",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "",
+        "format-ethernet": " {ifname}",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "󰌙",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "family": "ipv4",
-        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
-        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}"
+        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
+        "tooltip-format-ethernet": "  {ifname}\nIP: {ipaddr}\n  {bandwidthUpBits}   {bandwidthDownBits}"
     },
     "pulseaudio": {
         "scroll-step": 3, // %, can be a float
@@ -106,8 +80,8 @@
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            //"hands-free": "󰥰",
+            //"headset": "󰥰",
             "phone": "",
             "portable": "",
             "car": "",
@@ -116,15 +90,17 @@
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
     },
-    "custom/pacman": {
-        "format": "<big>􏆲</big>  {}",
-        "interval": 3600,                     // every hour
-        "exec": "checkupdates | wc -l",       // # of updates
-        "exec-if": "exit 0",                  // always run; consider advanced run conditions
-        "on-click": "kitty -e 'yay'; pkill -SIGRTMIN+8 waybar", // update system
-        "signal": 8,
-        "max-length": 5,
-        "min-length": 3
+    "custom/nixos-updates": {
+        "exec": "~/.config/waybar/scripts/nixos-updates.sh",
+        "interval": 3600,
+        "return-type": "json",
+        "format": "{icon} {}",
+        "format-icons": {
+            "has-updates": "󱄅",
+            "up-to-date": ""
+        },
+        "tooltip": true,
+        "on-click": "kitty -e sudo nixos-rebuild switch --upgrade && pkill -SIGRTMIN+8 waybar"
     },
     "custom/weather": {
         "exec": "curl 'https://wttr.in/?format=1'",
@@ -148,29 +124,9 @@
       "exec": "$HOME/.config/waybar/custom_modules/cpugovernor.sh",
       "min-length": 2,
       "max-length": 2,
-        "format-icons": {
-            "perf": "",
-            "sched": ""
-        },
+      "format-icons": {
+       "perf": "",
+          "sched": ""
+      },
     },    
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    },
-    "custom/scratchpad-indicator": {
-        "interval": 3,
-        "return-type": "json",
-        "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '( select(.name == \"root\") | .nodes[] | select(.name == \"__i3\") | .nodes[] | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") }'",
-        "format": "{} 􏠜",
-        "on-click": "exec swaymsg 'scratchpad show'",
-        "on-click-right": "exec swaymsg 'move scratchpad'"
-    }    
 }

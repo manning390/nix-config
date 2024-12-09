@@ -269,6 +269,7 @@ local plugins = {
 			},
 		},
 	},
+	"xiyaowong/telescope-emoji.nvim",
 	"danielvolchek/tailiscope.nvim",   -- Tailwind
 	"crispgm/telescope-heading.nvim",  -- Markdown headers etc.
 	"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks

@@ -9,7 +9,7 @@
     systemd.enable = false;
     settings = {
       exec-once = lib.strings.concatStringsSep "& " [
-        "waybar"
+        "hyprctl setcursor Bibata-Modern-Classic 20"
         "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       ];
@@ -18,12 +18,12 @@
         "DP-1,2560x1440@144,2560x0,1"
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
-      # env = [
-      #   "XCURSOR_SIZE,24"
-      #   "XCURSOR_THEME,Nordzy-cursors"
-      #   "HYPRCURSOR_THEME,Nordzy-cursors"
-      #   "HYPRCURSOR_SIZE,24"
-      # ];
+      env = [
+        "XCURSOR_THEME,Bibata-Modern-Classic"
+        "XCURSOR_SIZE,20"
+        # "HYPRCURSOR_THEME,Bibata-Modern-Classic"
+        # "HYPRCURSOR_SIZE,24"
+      ];
 
       "$mod" = "SUPER";
       bind =
@@ -34,7 +34,7 @@
           "$mod, V, togglefloating"
           "$mod, D, exec, rofi -show drun -show-icons"
           "$mod, P, pseudo"
-          "$mod, J, togglesplit"
+          "$mod, T, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
           # Screen shots
@@ -94,10 +94,10 @@
           size = 3;
           passes = 1;
         };
-        drop_shadow = "yes";
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = lib.mkDefault "rgba(1a1a1aee)";
+        shadow = {
+          enabled = true;
+          color = lib.mkDefault "rgba(1a1a1aee)";
+        };
       };
       animations = {
         enabled = "yes";
@@ -145,23 +145,34 @@
     XDG_SESSION_DESKTOP = "Hyprland";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 20;
+  };
   gtk = {
     enable = true;
     theme = {
       package = pkgs.nordic;
       name = "Nordic";
     };
+    cursorTheme = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 20;
+    };
   };
 
   # Install cursor theme
-  home.file.".local/share/icons/nordzy-cursors" = {
-    recursive = true;
-    source = "${inputs.nordzy-hyprcursors}/themes/Nordzy-cursors";
-  };
-  home.file.".local/share/icons/nordzy-hyprcursors" = {
-    recursive = true;
-    source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
-  };
+  # home.file.".local/share/icons/nordzy-cursors" = {
+  #   recursive = true;
+  #   source = "${inputs.nordzy-hyprcursors}/themes/Nordzy-cursors";
+  # };
+  # home.file.".local/share/icons/nordzy-hyprcursors" = {
+  #   recursive = true;
+  #   source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
+  # };
 
   xdg.configFile."waybar" = {
     recursive = true;
@@ -184,4 +195,13 @@
       splash = true;
     };
   };
+
+  # programs.zsh = {
+  #   enable = true;
+  #   initExtra = ''
+  #     if uwsm check may-start; then
+  #       exec uwsm start hyprland.desktop
+  #     fi
+  #   '';
+  # };
 }
