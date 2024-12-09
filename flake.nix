@@ -33,6 +33,9 @@
 
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    # Hardward specific configs
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = {
@@ -86,27 +89,37 @@
             # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs myvars mylib;};
-            home-manager.users.${myvars.username} = import ./home/linux/desktop.nix;
+            home-manager.users.${myvars.username} = import ./hosts/sentry/home.nix;
           }
         ];
       };
 
       ruby = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs myvars mylib;} // {
-          myvars = {
-            username = "ruby";
+        specialArgs =
+          {inherit inputs outputs myvars mylib;}
+          // {
+            myvars = {
+              username = "ruby";
+              userfullname = "Michael Manning";
+            };
           };
-        };
         modules = [
           ./hosts/ruby
-          inputs.stylix.nixosModules.stylix
           inputs.nur.nixosModules.nur
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs outputs myvars mylib;};
-            home-manager.users.${myvars.username} = import ./home/linux/desktop.nix;
+            home-manager.extraSpecialArgs =
+              {inherit inputs outputs myvars mylib;}
+              // {
+                myvars = {
+                  username = "ruby";
+                  useremail = "michael@manning390.com";
+                  userfullname = "Michael Manning";
+                };
+              };
+            home-manager.users."ruby" = import ./hosts/ruby/home.nix;
           }
         ];
       };

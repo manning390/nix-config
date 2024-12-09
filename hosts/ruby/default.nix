@@ -13,11 +13,12 @@ with myvars; let
   hostName = "ruby";
 in {
   imports = [
+    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ../../modules/system.nix
     ../../modules/hyprland.nix
     # ../../modules/gaming/steam.nix
-    # ../../modules/gaming/ffxiv.nix
-    ../../modules/stylix.nix
+    ../../modules/gaming/ffxiv.nix
+    # ../../modules/stylix.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -63,7 +64,7 @@ in {
   # Users
   users.users."${username}" = {
     isNormalUser = true;
-    description = userfullname;
+    description = myvars.userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "docker"];
     openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
@@ -102,8 +103,17 @@ in {
     };
   };
 
-  virtualisation.docker.enable = true;
+  #virtualisation.docker.enable = true;
+  services.fwupd.enable = true;
 
+  # services.xserver = {
+  #   xkb = {
+  #     layout = "us";
+  #     variant = "colemak_dh";
+  #     options = "caps:escape";
+  #   };
+  # };
+  # console.useXkbConfig = true;
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 }
