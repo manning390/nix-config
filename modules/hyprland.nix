@@ -16,14 +16,14 @@
       mako # System messages
       rofi-wayland # Application launcher
       hyprpaper # Wallpaper
-      hyprlock
-      hyprcursor
-      hypridle
-      hyprpicker
+      hyprlock # lock screen
+      hyprcursor # Better cursors
+      hypridle # System idle
+      hyprpicker # Color picker
+      hyprpolkitagent # Escalate priviledges
       nwg-look # GTK3 settings editor
-      # Wanted by waybar config, GPU info
-      glxinfo
-      bc
+      glxinfo # Wanted by waybar config, GPU info
+      bc # Wanted by waybar, calculator cmd
     ]
     ++ [
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package

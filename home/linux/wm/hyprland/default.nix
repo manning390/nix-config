@@ -2,6 +2,7 @@
   lib,
   pkgs,
   inputs,
+  config,
   ...
 }: {
   wayland.windowManager.hyprland = {
@@ -10,8 +11,7 @@
     settings = {
       exec-once = lib.strings.concatStringsSep "& " [
         "hyprctl setcursor Bibata-Modern-Classic 20"
-        "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
@@ -19,8 +19,6 @@
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
       env = [
-        "XCURSOR_THEME,Bibata-Modern-Classic"
-        "XCURSOR_SIZE,20"
         # "HYPRCURSOR_THEME,Bibata-Modern-Classic"
         # "HYPRCURSOR_SIZE,24"
       ];
@@ -28,18 +26,18 @@
       "$mod" = "SUPER";
       bind =
         [
-          "$mod, RETURN, exec, $TERM"
+          "$mod, RETURN, exec, uwsm app -- kitty"
           "$mod, C, killactive"
           "$mod SHIFT, Q, exit"
           "$mod, V, togglefloating"
-          "$mod, D, exec, rofi -show drun -show-icons"
+          "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
           "$mod, P, pseudo"
           "$mod, T, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
           # Screen shots
-          ", Print, exec, grimblast --notify copy area"
-          "SHIFT, Print, exec, grimblast --notify copysave area"
+          ", Print, exec, uwsm app -- grimblast --notify copy area"
+          "SHIFT, Print, exec, uwsm app -- grimblast --notify copysave area"
         ]
         ++ (builtins.concatLists (
           builtins.attrValues (
@@ -120,9 +118,9 @@
         #   "float,class:^(kvantummanager)$"
         #   "float,class:^(qt5ct)$"
         #   "float,class:^(qt6ct)$"
-        #   "float,class:^(nwg-look)$"
+          "float,class:^(nwg-look)$"
         #   "float,class:^(org.kde.ark)$"
-        #   "float,class:^(pavucontrol)$"
+          "float,class:^(pavucontrol)$"
         #   "float,class:^(blueman-manager)$"
         #   "float,class:^(nm-applet)$"
         #   "float,class:^(nm-connection-editor)$"
@@ -139,10 +137,8 @@
   # Hint electron to use wayland
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    KITTY_ENABLE_WAYLAND = "1";
     XDG_SESSION_TYPE = "wayland discord-canary";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
+    WAYLAND_DISPLAY = "1";
   };
 
   home.pointerCursor = {
@@ -196,12 +192,20 @@
     };
   };
 
-  # programs.zsh = {
-  #   enable = true;
-  #   initExtra = ''
-  #     if uwsm check may-start; then
-  #       exec uwsm start hyprland.desktop
-  #     fi
-  #   '';
-  # };
+  home.file.".config/uwsm/env".text = ''
+    export GTK_BACKEND=wayland,x11,*
+    export QT_QPA_PLATFORM=wayland;xcb
+    export SDL_VIDEODRIVER=wayland
+    export CLUTTER_BACKEND=wayland
+    export XCURSOR_THEME=Bibata-Modern-Classic
+    export XCURSOR_SIZE=20
+    export WAYLAND_DISPLAY=1
+  '';
+
+  # Add after our configs way for uwsm to start desktop
+  programs.zsh.initExtra = lib.mkAfter ''
+    if uwsm check may-start; then
+      exec uwsm start hyprland-uwsm.desktop
+    fi
+  '';
 }

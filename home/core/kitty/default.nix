@@ -32,5 +32,6 @@
 
   home.sessionVariables = {
     TERM = "kitty";
+    KITTY_ENABLE_WAYLAND = "1";
   };
 }
