@@ -104,6 +104,7 @@ local servers = {
     },
     nixd = {},
     -- svelte = {},
+    gdscript = {}
 }
 
 vim.diagnostic.config({

@@ -56,7 +56,6 @@
   };
 
   # Sound
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.polkit.enable = true;
@@ -70,8 +69,9 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    neovim
-    firefox
+    # firefox
+    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+    brave
     zsh
 
     vim # Do not remove, need an editor to edit configuration.nix
@@ -92,9 +92,18 @@
     fzf
     htop
     pciutils
-    usbutils
 
     # networking
     nmap
+
+    # Drives
+    usbutils
+    udiskie
+    udisks
   ];
+
+  # USB Services
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  boot.supportedFilesystems = ["exfat"];
 }

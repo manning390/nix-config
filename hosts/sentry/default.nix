@@ -13,10 +13,10 @@ with myvars; let
   hostName = "sentry";
 in {
   imports = [
+    ../../modules/gaming/godot.nix
     ../../modules/system.nix
     ../../modules/hyprland.nix
-    ../../modules/gaming/steam.nix
-    ../../modules/gaming/ffxiv.nix
+    ../../modules/gaming
     ../../modules/stylix.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix

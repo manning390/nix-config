@@ -2,51 +2,60 @@
   lib,
   pkgs,
   inputs,
+  config,
   ...
 }: {
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd.enable = true;
+    systemd.enable = false;
     settings = {
       exec-once = lib.strings.concatStringsSep "& " [
-        "waybar"
-        "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "hyprctl setcursor Bibata-Modern-Classic 20"
+        "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "uwsm app -- udiskie --smart-stray"
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
         "DP-1,2560x1440@144,2560x0,1"
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
-      # env = [
-      #   "XCURSOR_SIZE,24"
-      #   "XCURSOR_THEME,Nordzy-cursors"
-      #   "HYPRCURSOR_THEME,Nordzy-cursors"
-      #   "HYPRCURSOR_SIZE,24"
-      # ];
+      env = [
+        # "HYPRCURSOR_THEME,Bibata-Modern-Classic"
+        # "HYPRCURSOR_SIZE,24"
+      ];
 
       "$mod" = "SUPER";
       bind =
         [
-          "$mod, RETURN, exec, $TERM"
+          "$mod, RETURN, exec, uwsm app -- kitty"
           "$mod, C, killactive"
           "$mod SHIFT, Q, exit"
           "$mod, V, togglefloating"
-          "$mod, D, exec, rofi -show drun -show-icons"
+          "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
           "$mod, P, pseudo"
-          "$mod, J, togglesplit"
-          "$mod, left,  movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up,    movefocus, u"
-          "$mod, down,  movefocus, d"
-          "$mod, M, movefocus, l"
-          "$mod, I, movefocus, r"
-          "$mod, E, movefocus, u"
-          "$mod, N, movefocus, d"
+          "$mod, T, togglesplit"
           "$mod, F, fullscreen"
+          "$mod, TAB, focuscurrentorlast"
           # Screen shots
-          ", Print, exec, grimblast --notify copy area"
-          "SHIFT, Print, exec, grimblast --notify copysave area"
+          ", Print, exec, uwsm app -- grimblast --notify copy area"
+          "SHIFT, Print, exec, uwsm app -- grimblast --notify copysave area"
         ]
+        ++ (builtins.concatLists (
+          builtins.attrValues (
+            builtins.mapAttrs (direction: keys: [
+              "$mod, ${keys.arrow}, movefocus, ${direction}"
+              "$mod, ${keys.vi}, movefocus, ${direction}"
+              "$mod SHIFT, ${keys.arrow}, movewindow, ${direction}"
+              "$mod SHIFT, ${keys.vi}, movewindow, ${direction}"
+            ])
+            {
+              l = { arrow = "left"; vi = "M"; };
+              r = { arrow = "right"; vi = "I"; };
+              u = { arrow = "up"; vi = "E"; };
+              d = { arrow = "down"; vi = "N"; };
+            }
+          )
+        ))
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
@@ -65,8 +74,8 @@
         );
       bindm = [
         "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-        "$mod ALT, mouse:272, resizewindow"
+        "$mod, mouse:273, resizewindow" # right click with mod to resize
+        "$mod ALT, mouse:272, resizewindow" # left click with mod + alt to resize
       ];
       general = {
         gaps_in = 5;
@@ -84,10 +93,10 @@
           size = 3;
           passes = 1;
         };
-        drop_shadow = "yes";
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = lib.mkDefault "rgba(1a1a1aee)";
+        shadow = {
+          enabled = true;
+          color = lib.mkDefault "rgba(1a1a1aee)";
+        };
       };
       animations = {
         enabled = "yes";
@@ -106,43 +115,61 @@
         pseudotile = "yes";
         preserve_split = "yes";
       };
-      # windowrulev2 = [
-      #   "float,class:^(kvantummanager)$"
-      #   "float,class:^(qt5ct)$"
-      #   "float,class:^(qt6ct)$"
-      #   "float,class:^(nwg-look)$"
-      #   "float,class:^(org.kde.ark)$"
-      #   "float,class:^(pavucontrol)$"
-      #   "float,class:^(blueman-manager)$"
-      #   "float,class:^(nm-applet)$"
-      #   "float,class:^(nm-connection-editor)$"
-      #   "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
-      # ];
+      windowrulev2 = [
+        #   "float,class:^(kvantummanager)$"
+        #   "float,class:^(qt5ct)$"
+        #   "float,class:^(qt6ct)$"
+          "float,class:^(nwg-look)$"
+        #   "float,class:^(org.kde.ark)$"
+          "float,class:^(pavucontrol)$"
+        #   "float,class:^(blueman-manager)$"
+        #   "float,class:^(nm-applet)$"
+        #   "float,class:^(nm-connection-editor)$"
+        #   "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
+        "opacity 0.0 override, class:^(xwaylandvideobridge)$"
+        "noanim, class:^(xwaylandvideobridge)$"
+        "noinitialfocus, class:^(xwaylandvideobridge)$"
+        "maxsize 1 1, class:^(xwaylandvideobridge)$"
+        "noblur, class:^(xwaylandvideobridge)$"
+        "nofocus, class:^(xwaylandvideobridge)$"
+      ];
     };
   };
   # Hint electron to use wayland
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    KITTY_ENABLE_WAYLAND = "1";
+    XDG_SESSION_TYPE = "wayland discord-canary";
+    WAYLAND_DISPLAY = "1";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 20;
+  };
   gtk = {
     enable = true;
     theme = {
       package = pkgs.nordic;
       name = "Nordic";
     };
+    cursorTheme = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 20;
+    };
   };
 
   # Install cursor theme
-  home.file.".local/share/icons/nordzy-cursors" = {
-    recursive = true;
-    source = "${inputs.nordzy-hyprcursors}/themes/Nordzy-cursors";
-  };
-  home.file.".local/share/icons/nordzy-hyprcursors" = {
-    recursive = true;
-    source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
-  };
+  # home.file.".local/share/icons/nordzy-cursors" = {
+  #   recursive = true;
+  #   source = "${inputs.nordzy-hyprcursors}/themes/Nordzy-cursors";
+  # };
+  # home.file.".local/share/icons/nordzy-hyprcursors" = {
+  #   recursive = true;
+  #   source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
+  # };
 
   xdg.configFile."waybar" = {
     recursive = true;
@@ -165,4 +192,21 @@
       splash = true;
     };
   };
+
+  home.file.".config/uwsm/env".text = ''
+    export GTK_BACKEND=wayland,x11,*
+    export QT_QPA_PLATFORM=wayland;xcb
+    export SDL_VIDEODRIVER=wayland
+    export CLUTTER_BACKEND=wayland
+    export XCURSOR_THEME=Bibata-Modern-Classic
+    export XCURSOR_SIZE=20
+    export WAYLAND_DISPLAY=1
+  '';
+
+  # Add after our configs way for uwsm to start desktop
+  programs.zsh.initExtra = lib.mkAfter ''
+    if uwsm check may-start; then
+      exec uwsm start hyprland-uwsm.desktop
+    fi
+  '';
 }

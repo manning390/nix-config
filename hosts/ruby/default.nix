@@ -14,13 +14,13 @@ with myvars; let
 in {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    # Import your generated (nixos-generate-config) hardware configuration
+    ./hardware-configuration.nix
     ../../modules/system.nix
     ../../modules/hyprland.nix
     # ../../modules/gaming/steam.nix
     ../../modules/gaming/ffxiv.nix
     # ../../modules/stylix.nix
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
   ];
 
   nixpkgs = {

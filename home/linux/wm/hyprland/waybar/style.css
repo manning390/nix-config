@@ -85,7 +85,7 @@
 #pulseaudio,
 #temperature,
 #custom-alsa,
-#custom-pacman,
+#custom-nixos-updates,
 #custom-weather,
 #custom-gpu,
 #tray,
@@ -196,11 +196,17 @@
     font-weight: bold;
     padding: 0 0.6em;
 }
-#custom-pacman {
+#custom-nixos-updates {
     background: @nord_light;
     color: @nord_dark_font;
     font-weight: bold;
     padding: 0 0.6em;
+}
+#custom-nixos-updates.has-updates {
+    background-color: #A3BE8C;
+}
+#custom-nixos-updates.has-updates {
+    background-color: #BF616A;
 }
 #custom-scratchpad-indicator {
     background: @nord_light;

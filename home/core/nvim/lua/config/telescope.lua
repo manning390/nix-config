@@ -34,6 +34,7 @@ require("telescope").setup({
 
 pcall(require("telescope").load_extension, "fzy")
 pcall(require("telescope").load_extension, "git_worktree")
+pcall(require("telescope").load_extension, "emoji")
 
 local M = {}
 M.search_dotfiles = function()

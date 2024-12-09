@@ -5,7 +5,7 @@
 }: {
   programs.kitty = {
     enable = true;
-    theme = "Nord";
+    themeFile = "Nord";
     font = {
       name = lib.mkDefault "FiraCode Nerd Font";
       package = lib.mkDefault pkgs.fira-code-nerdfont;
@@ -32,5 +32,6 @@
 
   home.sessionVariables = {
     TERM = "kitty";
+    KITTY_ENABLE_WAYLAND = "1";
   };
 }
