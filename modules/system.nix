@@ -69,7 +69,8 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    firefox
+    # firefox
+    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
     brave
     zsh
 
@@ -91,9 +92,18 @@
     fzf
     htop
     pciutils
-    usbutils
 
     # networking
     nmap
+
+    # Drives
+    usbutils
+    udiskie
+    udisks
   ];
+
+  # USB Services
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  boot.supportedFilesystems = ["exfat"];
 }

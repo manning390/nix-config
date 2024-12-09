@@ -12,6 +12,7 @@
       exec-once = lib.strings.concatStringsSep "& " [
         "hyprctl setcursor Bibata-Modern-Classic 20"
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "uwsm app -- udiskie --smart-stray"
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
