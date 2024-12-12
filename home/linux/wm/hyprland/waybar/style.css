@@ -91,6 +91,7 @@
 #tray,
 #backlight,
 #language,
+#idle_inhibitor,
 #custom-cpugovernor {
     padding-left: 0.6em;
     padding-right: 0.6em;
@@ -218,7 +219,6 @@
     background: @mode;
     /*font-size: 1.6em;*/
     font-weight: bold;
-    padding: 0 0.6em;
 }
 #custom-alsa {
     background: @sound;

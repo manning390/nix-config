@@ -27,6 +27,9 @@
     # Color themes
     stylix.url = "github:danth/stylix/release-24.11";
 
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+    hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
+
     # Utility scripts, like screen shots
     hyprland-contrib.url = "github:hyprwm/contrib";
     hyprland-contrib.inputs.nixpkgs.follows = "nixpkgs";

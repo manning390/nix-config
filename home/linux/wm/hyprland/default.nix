@@ -1,16 +1,23 @@
 {
   lib,
   pkgs,
-  inputs,
-  config,
   ...
 }: {
+  imports = [
+    ./waybar
+    ./hyprpanel
+  ];
+
+  waybar.enable = lib.mkDefault false;
+  hyprpanel.enable = lib.mkDefault true;
+
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;
     settings = {
-      exec-once = lib.strings.concatStringsSep "& " [
+      exec-once = [
         "hyprctl setcursor Bibata-Modern-Classic 20"
+        "uwsm app -- hyprpaper"
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "uwsm app -- udiskie --smart-stray"
       ];
@@ -36,6 +43,7 @@
           "$mod, T, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
+          "$mod, L, exec, hyprlock"
           # Screen shots
           ", Print, exec, uwsm app -- grimblast --notify copy area"
           "SHIFT, Print, exec, uwsm app -- grimblast --notify copysave area"
@@ -125,7 +133,6 @@
         #   "float,class:^(blueman-manager)$"
         #   "float,class:^(nm-applet)$"
         #   "float,class:^(nm-connection-editor)$"
-        #   "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
         "opacity 0.0 override, class:^(xwaylandvideobridge)$"
         "noanim, class:^(xwaylandvideobridge)$"
         "noinitialfocus, class:^(xwaylandvideobridge)$"
@@ -135,11 +142,13 @@
       ];
     };
   };
+
+  home.file.".config/hypr/hypridle.conf".text = builtins.readFile ./hypridle.conf;
+  home.file.".config/hypr/hyprlock.conf".text = builtins.readFile ./hyprlock.conf;
+
   # Hint electron to use wayland
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    XDG_SESSION_TYPE = "wayland discord-canary";
-    WAYLAND_DISPLAY = "1";
   };
 
   home.pointerCursor = {
@@ -148,6 +157,7 @@
     name = "Bibata-Modern-Classic";
     size = 20;
   };
+
   gtk = {
     enable = true;
     theme = {
@@ -170,11 +180,6 @@
   #   recursive = true;
   #   source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
   # };
-
-  xdg.configFile."waybar" = {
-    recursive = true;
-    source = ./waybar;
-  };
 
   services.hyprpaper = {
     enable = true;
@@ -200,7 +205,7 @@
     export CLUTTER_BACKEND=wayland
     export XCURSOR_THEME=Bibata-Modern-Classic
     export XCURSOR_SIZE=20
-    export WAYLAND_DISPLAY=1
+    export WAYLAND_DISPLAY=wayland-1
   '';
 
   # Add after our configs way for uwsm to start desktop
