@@ -6,17 +6,18 @@
   imports = [
     ./waybar
     ./hyprpanel
+    ./hyprpaper
   ];
 
   waybar.enable = lib.mkDefault false;
   hyprpanel.enable = lib.mkDefault true;
+  hyprpaper.enable = lib.mkDefault true;
 
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;
     settings = {
       exec-once = [
-        "hyprctl setcursor Bibata-Modern-Classic 20"
         "uwsm app -- hyprpaper"
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "uwsm app -- udiskie --smart-stray"
@@ -27,7 +28,7 @@
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
       env = [
-        # "HYPRCURSOR_THEME,Bibata-Modern-Classic"
+        # "HYPRCURSOR_THEME,rose-pine-hyprcursor"
         # "HYPRCURSOR_SIZE,24"
       ];
 
@@ -153,8 +154,8 @@
 
   home.pointerCursor = {
     gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
+    package = pkgs.catppuccin-cursors.mochaDark;
+    name = "catppuccin-mocha-dark-cursors";
     size = 20;
   };
 
@@ -165,8 +166,8 @@
       name = "Nordic";
     };
     cursorTheme = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Classic";
+      package = pkgs.catppuccin-cursors.mochaDark;
+      name = "catppuccin-mocha-dark-cursors";
       size = 20;
     };
   };
@@ -181,22 +182,6 @@
   #   source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
   # };
 
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = [
-        "~/pictures/wallpapers/windows-panic.png"
-        "~/pictures/wallpapers/nixos.png"
-        "~/pictures/wallpapers/pixelmoon.png"
-      ];
-      wallpaper = [
-        "HDMI-A-1,~/pictures/wallpapers/windows-panic.png"
-        "DP-1,~/pictures/wallpapers/nixos.png"
-        "HDMI-A-2,~/pictures/wallpapers/pixelmoon.png"
-      ];
-      splash = true;
-    };
-  };
 
   home.file.".config/uwsm/env".text = ''
     export GTK_BACKEND=wayland,x11,*
