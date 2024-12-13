@@ -24,6 +24,8 @@
       nwg-look # GTK3 settings editor
       glxinfo # Wanted by waybar config, GPU info
       bc # Wanted by waybar, calculator cmd
+      playerctl
+      brightnessctl
     ]
     ++ [
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package

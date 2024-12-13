@@ -21,6 +21,7 @@ in {
     # ../../modules/gaming/steam.nix
     ../../modules/gaming/ffxiv.nix
     # ../../modules/stylix.nix
+    #../../modules/keyboard.nix
   ];
 
   nixpkgs = {
@@ -65,7 +66,7 @@ in {
   users.users."${username}" = {
     isNormalUser = true;
     description = myvars.userfullname;
-    extraGroups = ["networkmanager" "wheel" "audio" "docker"];
+    extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
     openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
   };
@@ -76,7 +77,7 @@ in {
   nix.settings.trusted-users = [username];
 
   # System packages
-  # environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
   #   # Utils
   #   vim # Do not remove, need an editor to edit configuration.nix
   #   zsh
@@ -88,7 +89,8 @@ in {
   #   tree
   #   stow
   #   usbutils
-  # ];
+    brightnessctl
+  ];
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -105,6 +107,7 @@ in {
 
   #virtualisation.docker.enable = true;
   services.fwupd.enable = true;
+  services.power-profiles-daemon.enable = true;
 
   # services.xserver = {
   #   xkb = {

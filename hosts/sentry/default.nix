@@ -64,7 +64,7 @@ in {
   users.users."${username}" = {
     isNormalUser = true;
     description = userfullname;
-    extraGroups = ["networkmanager" "wheel" "audio" "docker"];
+    extraGroups = ["networkmanager" "wheel" "audio" "video" "docker"];
     openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
   };
