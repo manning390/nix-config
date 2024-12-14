@@ -12,8 +12,6 @@
 
   environment.systemPackages = with pkgs;
     [
-      (pkgs.waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];})) # Bar
-      mako # System messages
       rofi-wayland # Application launcher
       hyprpaper # Wallpaper
       hyprlock # lock screen
@@ -26,6 +24,7 @@
       bc # Wanted by waybar, calculator cmd
       playerctl
       brightnessctl
+      mako
     ]
     ++ [
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package
