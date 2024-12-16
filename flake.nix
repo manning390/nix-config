@@ -16,10 +16,6 @@
     # Nix User Repository
     nur.url = "github:nix-community/NUR";
 
-    # Cursor theme
-    nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-cursors";
-    nordzy-hyprcursors.flake = false;
-
     # Zsh plugin manager
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;

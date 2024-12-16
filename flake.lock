@@ -112,11 +112,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1734182684,
-        "narHash": "sha256-ujHtKNkmGe0X8bwQNdhmzH/S1dmyc9uIzmgMC+RtBz8=",
+        "lastModified": 1734312000,
+        "narHash": "sha256-cBvZ26RH0rFT6i2Vtv//nUrWqjJ9+0JstMiVE3KJFbQ=",
         "owner": "nix-community",
         "repo": "flake-firefox-nightly",
-        "rev": "f9ab32dc4d7be7a6d17ab7985ac8f27dc39b654f",
+        "rev": "af7b83dc9687ca992bcad8c9b74485964e25c5a9",
         "type": "github"
       },
       "original": {
@@ -484,11 +484,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1733660018,
-        "narHash": "sha256-DHW2Hzyo8W6wVPGFaYLM9mKMH/qAtHJSUZ4ti7LHMCY=",
+        "lastModified": 1734264809,
+        "narHash": "sha256-94fu5E0gM8aMY0bX/ix7BWGf/e/OfGjoCtNrJfwL0dM=",
         "owner": "nix-community",
         "repo": "lib-aggregate",
-        "rev": "f710791be27b31ea1ee9c40a94d08bcbba99b3c0",
+        "rev": "46bedda9e45f2735f41ec3c01cba2b8ce7ba9808",
         "type": "github"
       },
       "original": {
@@ -587,11 +587,11 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1733620091,
-        "narHash": "sha256-5WoMeCkaXqTZwwCNLRzyLxEJn8ISwjx4cNqLgqKwg9s=",
+        "lastModified": 1734224914,
+        "narHash": "sha256-hKWALzQ/RxxXdKWsLKXULru6XTag9Cc5exgVyS4a/AE=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "f4dc9a6c02e5e14d91d158522f69f6ab4194eb5b",
+        "rev": "538697b664a64fade8ce628d01f35d1f1fd82d77",
         "type": "github"
       },
       "original": {
@@ -602,11 +602,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1733940404,
-        "narHash": "sha256-Pj39hSoUA86ZePPF/UXiYHHM7hMIkios8TYG29kQT4g=",
+        "lastModified": 1734119587,
+        "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5d67ea6b4b63378b9c13be21e2ec9d1afc921713",
+        "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
         "type": "github"
       },
       "original": {
@@ -650,11 +650,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1733940404,
-        "narHash": "sha256-Pj39hSoUA86ZePPF/UXiYHHM7hMIkios8TYG29kQT4g=",
+        "lastModified": 1734119587,
+        "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5d67ea6b4b63378b9c13be21e2ec9d1afc921713",
+        "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
         "type": "github"
       },
       "original": {
@@ -680,22 +680,6 @@
         "type": "github"
       }
     },
-    "nordzy-hyprcursors": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1729485752,
-        "narHash": "sha256-pPcdlMa3H5RtbqIxvgxDkP4tw76H2UQujXbrINc3MxE=",
-        "owner": "guillaumeboehm",
-        "repo": "Nordzy-cursors",
-        "rev": "0cbed93b2030c05ab0dbe3f53e7c67b8c7967f95",
-        "type": "github"
-      },
-      "original": {
-        "owner": "guillaumeboehm",
-        "repo": "Nordzy-cursors",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -703,11 +687,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1734196117,
-        "narHash": "sha256-sCNL2O3vVkstnJiaf4v7GyGi7ynxkuNe707IkL0rNwc=",
+        "lastModified": 1734322310,
+        "narHash": "sha256-kEfM+it1OysucR1JFVhr+z28LUcyYMe0tlTdY/X8XHg=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "f2d6c9fd0abce648bf52cfb0348bf6afbf7fe733",
+        "rev": "748a6f77abb0a1eb070d22b8e4ccf1e036d135a9",
         "type": "github"
       },
       "original": {
@@ -726,7 +710,6 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nordzy-hyprcursors": "nordzy-hyprcursors",
         "nur": "nur",
         "stylix": "stylix",
         "zinit": "zinit"
