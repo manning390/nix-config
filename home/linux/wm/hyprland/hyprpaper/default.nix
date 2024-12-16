@@ -6,8 +6,7 @@
 }: let
   wallpapers = [
     "ign_circuit"
-    # "ign_access_control"
-    "ign_city"
+    "ign_access_control"
     "ign_wave"
   ];
   monitors = [
@@ -15,28 +14,22 @@
     "DP-1"
     "HDMI-A-2"
   ];
+  getWallpaper = name: pkgs.nordic-wallpapers.${name};
+  wallpaperPath = name: "${getWallpaper name}/${name}.png";
 in {
-  options = {
-    hyprpaper.enable = lib.mkEnableOption "enables hyprpaper";
-  };
+  options.hyprpaper.enable = lib.mkEnableOption "enables hyprpaper";
 
   config = lib.mkIf config.hyprpaper.enable {
-    home.packages =
-      (builtins.map (name: pkgs.nordic-wallpapers.wallpapers.${name}) wallpapers)
-      ++ [
-        pkgs.hyprpaper
-      ];
+    home.packages = map getWallpaper wallpapers ++ [ pkgs.hyprpaper ];
 
     services.hyprpaper = {
       enable = true;
       settings = {
-        preload = lib.map (name:
-          "${config.home.homeDirectory}/share/wallpapers/${name}.png")
-          wallpapers;
+        preload = map wallpaperPath wallpapers;
         wallpaper = lib.zipListsWith (monitor: wallpaper:
-          "${monitor},${config.home.homeDirectory}/share/wallpapers/${wallpaper}.png")
-          monitors wallpapers;
-        splash = true;
+          "${monitor},${wallpaperPath wallpaper}"
+        ) monitors wallpapers;
+        splash = false;
       };
     };
 
