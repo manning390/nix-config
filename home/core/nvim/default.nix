@@ -53,7 +53,6 @@ in {
   };
 
   home.sessionVariables = {
-    COLEMAK = "1";
     EDITOR = "nvim";
     VISUAL = "nvim";
     SUDO_EDITOR = "nvim";

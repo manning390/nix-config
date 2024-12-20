@@ -20,8 +20,6 @@
       hyprpicker # Color picker
       hyprpolkitagent # Escalate priviledges
       nwg-look # GTK3 settings editor
-      glxinfo # Wanted by waybar config, GPU info
-      bc # Wanted by waybar, calculator cmd
       playerctl
       brightnessctl
       mako

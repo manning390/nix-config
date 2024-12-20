@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   programs.zsh = {
     enable = true;
     initExtra =
@@ -55,6 +52,5 @@
     DOTFILES = "$HOME/.dotfiles";
     NIXCONFIG = "$HOME/nix-config";
     MEOW = "nya?";
-    COLEMAK = "1";
   };
 }

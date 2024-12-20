@@ -21,8 +21,13 @@ in {
     # ../../modules/gaming/steam.nix
     ../../modules/gaming/ffxiv.nix
     # ../../modules/stylix.nix
-    #../../modules/keyboard.nix
+    # ../../modules/keyd.nix
+    ../../modules/keyboard.nix
   ];
+
+  custom = {
+    ffxiv.enable = true;
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -78,18 +83,19 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
-  #   # Utils
-  #   vim # Do not remove, need an editor to edit configuration.nix
-  #   zsh
-  #   git
-  #   btop
-  #   bat
-  #   wget
-  #   curl
-  #   tree
-  #   stow
-  #   usbutils
+    #   # Utils
+    #   vim # Do not remove, need an editor to edit configuration.nix
+    #   zsh
+    #   git
+    #   btop
+    #   bat
+    #   wget
+    #   curl
+    #   tree
+    #   stow
+    #   usbutils
     brightnessctl
+    zoom-us
   ];
 
   # This setups a SSH server. Very important if you're setting up a headless system.
@@ -107,16 +113,7 @@ in {
 
   #virtualisation.docker.enable = true;
   services.fwupd.enable = true;
-  services.power-profiles-daemon.enable = true;
 
-  # services.xserver = {
-  #   xkb = {
-  #     layout = "us";
-  #     variant = "colemak_dh";
-  #     options = "caps:escape";
-  #   };
-  # };
-  # console.useXkbConfig = true;
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "24.05";
 }

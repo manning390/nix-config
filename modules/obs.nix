@@ -1,4 +1,9 @@
-{pkgs, lib, config, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   options = {
     obs.enable = lib.mkEnableOption "enables obs studio";
   };

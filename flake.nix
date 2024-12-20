@@ -86,7 +86,11 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       sentry = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs myvars mylib;};
+        specialArgs =
+          {inherit inputs outputs myvars mylib;}
+          // {
+            isLaptop = false;
+          };
         modules = [
           ./hosts/sentry
           inputs.stylix.nixosModules.stylix
@@ -105,6 +109,7 @@
         specialArgs =
           {inherit inputs outputs myvars mylib;}
           // {
+            isLaptop = true;
             myvars = {
               username = "ruby";
               userfullname = "Michael Manning";

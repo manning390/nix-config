@@ -1,6 +1,8 @@
 {
+  config,
   lib,
   pkgs,
+  osConfig,
   ...
 }: {
   imports = [
@@ -8,8 +10,8 @@
     ./hyprpanel
   ];
 
-  waybar.enable = lib.mkDefault false;
-  hyprpanel.enable = lib.mkDefault true;
+  custom.wm.waybar.enable = lib.mkDefault false;
+  custom.wm.hyprpanel.enable = lib.mkDefault true;
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -20,6 +22,15 @@
         "uwsm app -- hyprpaper"
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "uwsm app -- udiskie --smart-stray"
+      ];
+      input = lib.mkMerge [
+        (lib.mkIf osConfig.custom.colemak_dhm.enable {
+          kb_layout = "colemak_dhm,us";
+          kb_options = "caps:escape,grp:alt_shift_toggle";
+        })
+        (lib.mkIf (!osConfig.custom.colemak_dhm.enable) {
+          kb_options = "caps:escape";
+        })
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
@@ -62,10 +73,22 @@
               "$mod SHIFT, ${keys.vi}, movewindow, ${direction}"
             ])
             {
-              l = { arrow = "left"; vi = "M"; };
-              r = { arrow = "right"; vi = "I"; };
-              u = { arrow = "up"; vi = "E"; };
-              d = { arrow = "down"; vi = "N"; };
+              l = {
+                arrow = "left";
+                vi = "M";
+              };
+              r = {
+                arrow = "right";
+                vi = "I";
+              };
+              u = {
+                arrow = "up";
+                vi = "E";
+              };
+              d = {
+                arrow = "down";
+                vi = "N";
+              };
             }
           )
         ))
@@ -143,9 +166,9 @@
         #   "float,class:^(kvantummanager)$"
         #   "float,class:^(qt5ct)$"
         #   "float,class:^(qt6ct)$"
-          "float,class:^(nwg-look)$"
+        "float,class:^(nwg-look)$"
         #   "float,class:^(org.kde.ark)$"
-          "float,class:^(pavucontrol)$"
+        "float,class:^(pavucontrol)$"
         #   "float,class:^(blueman-manager)$"
         #   "float,class:^(nm-applet)$"
         #   "float,class:^(nm-connection-editor)$"

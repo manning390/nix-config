@@ -3,7 +3,7 @@
   "theme.bar.menus.monochrome": false,
   "scalingPriority": "both",
   "tear": false,
-  "theme.font.name": "Ubuntu Nerd Font",
+  "theme.font.name": "Fira Code Nerd Font",
   "theme.bar.buttons.enableBorders": false,
   "theme.bar.floating": false,
   "bar.launcher.icon": "󱄅  ",
