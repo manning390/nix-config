@@ -28,7 +28,7 @@ in {
 
     gcc
     gnumake
-    nodejs_22
+    nodejs
     pnpm
 
     neovim-node-client

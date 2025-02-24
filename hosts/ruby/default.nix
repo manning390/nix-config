@@ -23,10 +23,12 @@ in {
     # ../../modules/stylix.nix
     # ../../modules/keyd.nix
     ../../modules/keyboard.nix
+    ../../modules/laptop.nix
   ];
 
   custom = {
     ffxiv.enable = true;
+    colemak_dhm.enable = false;
   };
 
   nixpkgs = {
