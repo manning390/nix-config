@@ -7,7 +7,7 @@
     owner = "linuxdotexe";
     repo = "nordic-wallpapers";
     rev = "master";
-    sha256 = "sha256-rDlhp5bkFoHcIRq+SASk34nzcS9MJ63yR46/RBYL7AQ=";
+    sha256 = "sha256-KDkTnEBdL/DQ7ZJ62t3vTAO3OwE69KDsQ5gSTWh84GM=";
   };
   mkWallpaper = name:
     stdenv.mkDerivation {

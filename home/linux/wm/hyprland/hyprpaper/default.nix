@@ -6,7 +6,7 @@
 }: let
   wallpapers = [
     "ign_circuit"
-    "ign_access_control"
+    "nixos"
     "ign_wave"
   ];
   monitors = [

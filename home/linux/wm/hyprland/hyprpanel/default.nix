@@ -17,7 +17,7 @@
     home.packages = with pkgs; [
       hyprpanel
     ];
-    home.file.".config/ags/config.js".source = ./config.json;
+    home.file.".config/hyprpanel/config.js".source = ./config.json;
 
     wayland.windowManager.hyprland.settings.exec-once = lib.mkAfter [
       "uwsm app -- hyprpanel"

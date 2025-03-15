@@ -37,6 +37,7 @@
         [
           "$mod, RETURN, exec, uwsm app -- kitty"
           "$mod, C, killactive"
+          "ALT, F4, exec, hyprctl kill"
           "$mod SHIFT, Q, exit"
           "$mod, V, togglefloating"
           "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
