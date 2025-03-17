@@ -1,14 +1,12 @@
 {
-  pkgs,
-  lib,
   config,
+  lib,
+  pkgs,
   ...
 }: {
-  options = {
-    ffxiv.enable = lib.mkEnableOption "enables ffxiv";
-  };
+  options.custom.ffxiv.enable = lib.mkEnableOption "enables ffxiv";
 
-  config = lib.mkIf config.ffxiv.enable {
+  config = lib.mkIf config.custom.ffxiv.enable {
     environment.systemPackages = with pkgs; [
       xivlauncher
     ];

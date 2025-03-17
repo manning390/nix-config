@@ -4,13 +4,10 @@
   config,
   myvars,
   ...
-}:
-with myvars; {
-  options = {
-    steam.enable = lib.mkEnableOption "enables steam";
-  };
+}: {
+  options.custom.steam.enable = lib.mkEnableOption "enables steam";
 
-  config = lib.mkIf config.steam.enable {
+  config = lib.mkIf config.custom.steam.enable {
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
         "steam"
@@ -44,7 +41,7 @@ with myvars; {
       protonup
     ];
     environment.sessionVariables = {
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${myvars.username}/.steam/root/compatibilitytools.d";
       DXVK_FRAME_RATE = "60";
     };
 

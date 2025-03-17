@@ -1,6 +1,8 @@
 {
+  config,
   lib,
   pkgs,
+  osConfig,
   ...
 }: {
   imports = [
@@ -9,9 +11,8 @@
     ./hyprpaper
   ];
 
-  waybar.enable = lib.mkDefault false;
-  hyprpanel.enable = lib.mkDefault true;
-  hyprpaper.enable = lib.mkDefault true;
+  custom.wm.waybar.enable = lib.mkDefault false;
+  custom.wm.hyprpanel.enable = lib.mkDefault true;
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -21,6 +22,15 @@
         "uwsm app -- hyprpaper"
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "uwsm app -- udiskie --smart-stray"
+      ];
+      input = lib.mkMerge [
+        (lib.mkIf osConfig.custom.colemak_dhm.enable {
+          kb_layout = "colemak_dhm,us";
+          kb_options = "caps:escape,grp:alt_shift_toggle";
+        })
+        (lib.mkIf (!osConfig.custom.colemak_dhm.enable) {
+          kb_options = "caps:escape";
+        })
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
