@@ -13,7 +13,7 @@ in {
 
   systemd.user.services.${serviceName} = {
     enable = true;
-    after = [ "network.target" ];
+    after = ["network.target"];
     description = "MySql Backup Service for Abidan Archive";
     serviceConfig = {
       Type = "oneshot";
@@ -39,7 +39,7 @@ in {
 
   systemd.user.timers.${serviceName} = {
     wantedBy = ["timers.target"];
-    after = [ "network.target" ];
+    after = ["network.target"];
     timerConfig = {
       OnCalendar = "*-*-* 01:00:00";
       Persistent = true;

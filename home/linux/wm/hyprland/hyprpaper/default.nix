@@ -20,15 +20,18 @@ in {
   options.hyprpaper.enable = lib.mkEnableOption "enables hyprpaper";
 
   config = lib.mkIf config.hyprpaper.enable {
-    home.packages = map getWallpaper wallpapers ++ [ pkgs.hyprpaper ];
+    home.packages = map getWallpaper wallpapers ++ [pkgs.hyprpaper];
 
     services.hyprpaper = {
       enable = true;
       settings = {
         preload = map wallpaperPath wallpapers;
-        wallpaper = lib.zipListsWith (monitor: wallpaper:
-          "${monitor},${wallpaperPath wallpaper}"
-        ) monitors wallpapers;
+        wallpaper =
+          lib.zipListsWith (
+            monitor: wallpaper: "${monitor},${wallpaperPath wallpaper}"
+          )
+          monitors
+          wallpapers;
         splash = false;
       };
     };

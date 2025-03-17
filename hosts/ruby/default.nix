@@ -78,17 +78,17 @@ in {
 
   # System packages
   environment.systemPackages = with pkgs; [
-  #   # Utils
-  #   vim # Do not remove, need an editor to edit configuration.nix
-  #   zsh
-  #   git
-  #   btop
-  #   bat
-  #   wget
-  #   curl
-  #   tree
-  #   stow
-  #   usbutils
+    #   # Utils
+    #   vim # Do not remove, need an editor to edit configuration.nix
+    #   zsh
+    #   git
+    #   btop
+    #   bat
+    #   wget
+    #   curl
+    #   tree
+    #   stow
+    #   usbutils
     brightnessctl
   ];
 

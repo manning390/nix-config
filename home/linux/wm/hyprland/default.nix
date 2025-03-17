@@ -64,10 +64,22 @@
               "$mod SHIFT, ${keys.vi}, movewindow, ${direction}"
             ])
             {
-              l = { arrow = "left"; vi = "M"; };
-              r = { arrow = "right"; vi = "I"; };
-              u = { arrow = "up"; vi = "E"; };
-              d = { arrow = "down"; vi = "N"; };
+              l = {
+                arrow = "left";
+                vi = "M";
+              };
+              r = {
+                arrow = "right";
+                vi = "I";
+              };
+              u = {
+                arrow = "up";
+                vi = "E";
+              };
+              d = {
+                arrow = "down";
+                vi = "N";
+              };
             }
           )
         ))
@@ -145,9 +157,9 @@
         #   "float,class:^(kvantummanager)$"
         #   "float,class:^(qt5ct)$"
         #   "float,class:^(qt6ct)$"
-          "float,class:^(nwg-look)$"
+        "float,class:^(nwg-look)$"
         #   "float,class:^(org.kde.ark)$"
-          "float,class:^(pavucontrol)$"
+        "float,class:^(pavucontrol)$"
         #   "float,class:^(blueman-manager)$"
         #   "float,class:^(nm-applet)$"
         #   "float,class:^(nm-connection-editor)$"
@@ -198,7 +210,6 @@
   #   recursive = true;
   #   source = "${inputs.nordzy-hyprcursors}/hyprcursors/themes/Nordzy-hyprcursors";
   # };
-
 
   home.file.".config/uwsm/env".text = ''
     export GTK_BACKEND=wayland,x11,*
