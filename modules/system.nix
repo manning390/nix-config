@@ -102,13 +102,14 @@
     udisks
 
     # Security
+    sops
     gnupg
     pinentry-curses
   ];
 
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
   };
 
   # USB Services

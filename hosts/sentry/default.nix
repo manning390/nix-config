@@ -18,6 +18,8 @@ in {
     ../../modules/hyprland.nix
     ../../modules/gaming
     ../../modules/stylix.nix
+    ../../modules/sops.nix
+    ../../modules/abidan-archive-backup.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
