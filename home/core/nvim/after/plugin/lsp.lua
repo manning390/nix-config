@@ -94,15 +94,16 @@ local servers = {
     --   },
     -- },
     jsonls = {},
-    ltex = {
-        filetypes = { 'markdown' },
-        filter_notifications = {
-            'checking document'
-        },
-        -- on_init = function(client)
-        --     client.server_capabilities
-        -- end
-    },
+    marksman = {},
+    -- ltex = {
+    --     filetypes = { 'markdown' },
+    --     filter_notifications = {
+    --         'checking document'
+    --     },
+    --     -- on_init = function(client)
+    --     --     client.server_capabilities
+    --     -- end
+    -- },
     nixd = {},
     -- svelte = {},
     gdscript = {}
