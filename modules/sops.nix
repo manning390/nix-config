@@ -4,4 +4,5 @@
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${myvars.username}/.config/sops/age/keys.txt";
   };
+  fileSystems."/home".neededForBoot = true;
 }
