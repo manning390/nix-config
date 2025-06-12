@@ -28,7 +28,7 @@ in {
 
   custom = {
     ffxiv.enable = true;
-    colemak_dhm.enable = false;
+    colemak_dhm.enable = true;
   };
 
   nixpkgs = {

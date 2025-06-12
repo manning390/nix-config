@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   isLaptop,
@@ -10,20 +11,35 @@
       default = isLaptop;
     };
   config = lib.mkIf config.custom.laptop.enable {
-    services.tlp = {
-      enable = true;
-      setting = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      # Enable upower service
+      services.upower.enable = true;
 
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
-      };
-    };
+      # # Create a script to fetch battery percentage
+      # environment.systemPackages = with pkgs; [
+      #   (writeShellScriptBin "get-battery-percentage" ''
+      #     upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | awk '{print $2}' | tr -d '%'
+      #   '')
+      # ];
+      #
+      # # Set up a user service to update the environment variable
+      # systemd.user.services.update-battery-percentage = {
+      #   description = "Update battery percentage for HyprPanel";
+      #   script = ''
+      #     export POWER_LEVEL=$(get-battery-percentage)
+      #     systemctl --user import-environment POWER_LEVEL
+      #   '';
+      #   serviceConfig = {
+      #     Type = "oneshot";
+      #   };
+      # };
+      #
+      # systemd.user.timers.update-battery-percentage = {
+      #   wantedBy = [ "timers.target" ];
+      #   timerConfig = {
+      #     OnBootSec = "1m";
+      #     OnUnitActiveSec = "1m";
+      #   };
+      # };
   };
 }
