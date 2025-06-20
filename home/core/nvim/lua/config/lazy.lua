@@ -37,7 +37,7 @@ local plugins = {
 					nls.builtins.formatting.prettier,
 					nls.builtins.completion.spell,
 					-- require("none-ls.diagnostics.eslint"),
-					-- require("none-ls.diagnostics.php")
+					--require("none-ls.diagnostics.php")
 				}
 			}
 		end,

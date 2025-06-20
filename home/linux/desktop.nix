@@ -53,7 +53,6 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     discord-canary
-    vesktop # discord alternative client w/ better linux support
 
     nh
     nix-output-monitor

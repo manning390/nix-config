@@ -13,7 +13,6 @@
   environment.systemPackages = with pkgs;
     [
       rofi-wayland # Application launcher
-      hyprpaper # Wallpaper
       hyprlock # lock screen
       hyprcursor # Better cursors
       hypridle # System idle

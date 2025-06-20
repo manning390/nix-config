@@ -87,7 +87,17 @@
     usbutils
     udiskie
     udisks
+
+    # Security
+    sops
+    gnupg
+    pinentry-curses
   ];
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
 
   # USB Services
   services.udisks2.enable = true;

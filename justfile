@@ -11,7 +11,7 @@ check:
   nom flake check
 
 build:
-  nh os switch ~/Code/nix/nix-config/
+  nh os switch .
 
 update:
-  nh os switch ~/Code/nix/nix-config/ --update
+  nh os switch . --update
