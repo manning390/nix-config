@@ -27,7 +27,7 @@
     zinit.flake = false;
 
     # Color themes
- #   stylix.url = "github:danth/stylix/release-25.05";
+    stylix.url = "github:danth/stylix/release-25.05";
 
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
@@ -76,13 +76,13 @@
         }
       ))
       (mkNixos "sentry" inputs.nixpkgs [
- #       inputs.stylix.nixosModules.stylix
+        inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
 	inputs.sops-nix.nixosModules.sops
 	inputs.home-manager.nixosModules.home-manager
       ])
       (mkNixos "ruby" inputs.nixpkgs [
- #       inputs.stylix.nixosModules.stylix
+        inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
 	inputs.sops-nix.nixosModules.sops
 	inputs.home-manager.nixosModules.home-manager

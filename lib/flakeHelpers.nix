@@ -40,7 +40,10 @@ in
         ../hosts/nixos/${machineHostname}
         (homeManagerCfg false [
 	  ../hosts/nixos/${machineHostname}/home.nix
-	] specialArgs)
+	] {
+		inherit inputs;
+		vars = specialArgs.vars;
+	})
       ] ++ extraModules;
     };
   };
@@ -54,7 +57,10 @@ in
         ../hosts/wsl/${machineHostname}
 	(homeManagerCfg false ([
 	  ../hosts/wsl/${machineHostname}/home.nix
-	] ++ hmExtraModules) specialArgs)
+	] ++ hmExtraModules) {
+	  inherit inputs;
+	  vars = specialArgs.vars;
+	})
       ] ++ extraModules;
     };
   };
