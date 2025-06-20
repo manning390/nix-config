@@ -1,7 +1,7 @@
-inputs: let
+{inputs, outputs}: let
   username = (import ../vars).username;
   mkSpecialArgs = nixpkgsVersion: machineHostname: rec {
-    inherit inputs;
+    inherit inputs outputs;
     lib = nixpkgsVersion.lib.extend (self: super: {custom = import ../lib {inherit (nixpkgsVersion) lib;};});
     vars = (import ../vars) // {hostname = machineHostname;};
   };
@@ -26,7 +26,7 @@ in {
         ../hosts/darwin/${machineHostname}
         inputs.home-manager-darwin.darwinModules.home-manager
         (nixpkgsVersion.lib.attrsets.recursiveUpdate (homeManagerCfg true hmExtraModules {
-            inherit inputs;
+            inherit inputs outputs;
             vars = specialArgs.vars;
           }) {
             home-manager.users.${username}.home.homeDirectory = inputs.nixpkgs-darwin.lib.mkForce "/Users/${username}";
@@ -44,7 +44,7 @@ in {
           (homeManagerCfg false [
               ../hosts/nixos/${machineHostname}/home.nix
             ] {
-              inherit inputs;
+              inherit inputs outputs;
               vars = specialArgs.vars;
             })
         ]
@@ -64,7 +64,7 @@ in {
               ../hosts/wsl/${machineHostname}/home.nix
             ]
             ++ hmExtraModules) {
-            inherit inputs;
+            inherit inputs outputs;
             vars = specialArgs.vars;
           })
         ]

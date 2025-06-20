@@ -51,11 +51,13 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
     ...
   } @ inputs: let
-    flakehelpers = import ./lib/flakeHelpers.nix inputs;
+    inherit (self) outputs;
+    flakehelpers = import ./lib/flakeHelpers.nix {inherit inputs outputs;};
     inherit (flakehelpers) mkMerge mkNixos mkWsl;
   in
     mkMerge [
