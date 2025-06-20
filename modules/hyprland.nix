@@ -22,7 +22,7 @@
       nwg-look # GTK3 settings editor
       playerctl
       brightnessctl
-      mako
+      #mako # 6/19/2025 bugged
     ]
     ++ [
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package

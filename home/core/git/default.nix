@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  myvars,
+  vars,
   ...
 }: {
   home.packages = [pkgs.gh];
@@ -9,8 +9,8 @@
   programs.git = {
     enable = true;
 
-    userName = myvars.userfullname;
-    userEmail = lib.mkDefault myvars.useremail;
+    userName = vars.userfullname;
+    userEmail = lib.mkDefault vars.useremail;
 
     aliases = {
       st = "status";

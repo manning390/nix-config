@@ -37,5 +37,6 @@
       };
       sizes.terminal = 14;
     };
+    targets.mako.enable = false; # 6/19/2025 bugged
   };
 }

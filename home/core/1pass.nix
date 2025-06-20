@@ -1,5 +1,5 @@
 {
-  myvars,
+  vars,
   lib,
   pkgs,
   ...
@@ -19,7 +19,7 @@
     # _1password.enable = true;
     # _1password-gui = {
     #   enable = true;
-    #   polkitPolicyOwners = [ myvars.username ];
+    #   polkitPolicyOwners = [ vars.username ];
     # };
   };
 
