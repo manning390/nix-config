@@ -28,11 +28,11 @@
     image = config.lib.stylix.pixel "base0A";
     fonts = {
       serif = {
-        package = pkgs.fira-code-nerdfont;
+        package = pkgs.nerd-fonts.fira-code;
         name = "FiraCode Nerd Font";
       };
       monospace = {
-        package = pkgs.fira-code-nerdfont;
+        package = pkgs.nerd-fonts.fira-code-mono;
         name = "FiraCode Nerd Font Mono";
       };
       sizes.terminal = 14;
