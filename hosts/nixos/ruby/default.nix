@@ -6,10 +6,10 @@
   lib,
   config,
   pkgs,
-  myvars,
+  vars,
   ...
 }:
-with myvars; let
+with vars; let
   hostName = "ruby";
 in {
   imports = [
@@ -72,7 +72,7 @@ in {
   # Users
   users.users."${username}" = {
     isNormalUser = true;
-    description = myvars.userfullname;
+    description = vars.userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
     openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
