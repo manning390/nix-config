@@ -86,6 +86,9 @@
         inputs.home-manager.nixosModules.home-manager
       ])
       (mkWsl "mado" inputs.nixpkgs [
+        inputs.stylix.nixosModules.stylix
+        inputs.nur.modules.nixos.default
+        inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
       ] [])
     ];

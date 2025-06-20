@@ -4,10 +4,9 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 {
-  config,
   lib,
-  pkgs,
   vars,
+  pkgs,
   ...
 }: let
   rel = lib.custom.relativeToRoot;
@@ -20,6 +19,14 @@ in {
   wsl.enable = true;
   wsl.defaultUser = vars.username;
   networking.hostName = vars.hostname;
+
+  # Shell
+  environment.shells = [pkgs.zsh];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+  users.users."${vars.username}" = {
+    shell = pkgs.zsh;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
