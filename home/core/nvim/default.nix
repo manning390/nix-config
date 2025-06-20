@@ -28,8 +28,10 @@ in {
 
     gcc
     gnumake
-    nodejs_23
+    nodejs
     pnpm
+    intelephense
+    python3
 
     neovim-node-client
     nodePackages.typescript

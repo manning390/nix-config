@@ -21,12 +21,12 @@ local servers = {
     -- phpactor = {},
     intelephense = {
         init_options = {
-            licenceKey = (function()
-                local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
-                local content = f:read("*line")
-                f:close()
-                return content
-            end)()
+            -- licenceKey = (function()
+            --     local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+            --     local content = f:read("*line")
+            --     f:close()
+            --     return content
+            -- end)()
         }
     },
     tailwindcss = {},
