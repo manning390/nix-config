@@ -1,5 +1,31 @@
-{...}:
 {
-  imports = [ ];
+  lib,
+  pkgs,
+  ...
+}: let
+  rel = lib.custom.relativeToRoot;
+in {
+  imports = [
+    (rel "home/core")
+  ];
+
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = _: true;
+
+      programs.nh = {
+        enable = true;
+        clean.enable = true;
+        clean.extraArgs = "--keep-since 5d --keep 3";
+      };
+    };
+  };
+  home.packages = with pkgs; [
+    nh
+    nix-output-monitor
+    nvd
+  ];
+
   home.stateVersion = "25.05";
 }

@@ -17,6 +17,8 @@ in {
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
     ../../modules/system.nix
+    ../../modules/sound.nix
+    ../../modules/browsers.nix
     ../../modules/hyprland.nix
     # ../../modules/gaming/steam.nix
     ../../modules/gaming/ffxiv.nix

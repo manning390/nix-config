@@ -50,31 +50,18 @@
   # Fonts fonts fonts
   fonts = {
     packages = with pkgs; [
-      # Nerdfonts is too big, only grab what we want
-      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Noto"];})
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+      nerd-fonts.noto
     ];
-  };
-
-  # Sound
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  security.polkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
   };
 
   # Packages
   environment.systemPackages = with pkgs; [
-    # firefox
-    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-    brave
+    vim # Do not remove, need an editor to edit configuration.nix
+
     zsh
 
-    vim # Do not remove, need an editor to edit configuration.nix
     wget
     curl
     git

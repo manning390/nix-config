@@ -15,6 +15,8 @@ in {
   imports = [
     ../../modules/gaming/godot.nix
     ../../modules/system.nix
+    ../../modules/sound.nix
+    ../../modules/browsers.nix
     ../../modules/hyprland.nix
     ../../modules/gaming
     ../../modules/stylix.nix

@@ -50,45 +50,43 @@
     # Hardward specific configs
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
-  outputs =
-    { self, nixpkgs, flake-utils, ...}@inputs:
-      let
-      inherit (self) outputs;
-      inherit (inputs.nixpkgs) lib;
-      flakehelpers = import ./lib/flakeHelpers.nix inputs;
-      inherit (flakehelpers) mkMerge mkNixos mkWsl;
-    in
+  outputs = {
+    nixpkgs,
+    flake-utils,
+    ...
+  } @ inputs: let
+    flakehelpers = import ./lib/flakeHelpers.nix inputs;
+    inherit (flakehelpers) mkMerge mkNixos mkWsl;
+  in
     mkMerge [
       (flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-	  pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in {
           packages.default = pkgs.mkShell {
-	    packages = [
-	      pkgs.just
-	      pkgs.nixos-rebuild
-	    ];
-	  };
-	  formatter.default = pkgs.alejandra;
-	  # overlays.default = import ./overlays { inherit inputs; };
+            packages = [
+              pkgs.just
+              pkgs.nixos-rebuild
+            ];
+          };
+          formatter = pkgs.alejandra;
+          # overlays.default = import ./overlays { inherit inputs; };
         }
       ))
       (mkNixos "sentry" inputs.nixpkgs [
         inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
-	inputs.sops-nix.nixosModules.sops
-	inputs.home-manager.nixosModules.home-manager
+        inputs.sops-nix.nixosModules.sops
+        inputs.home-manager.nixosModules.home-manager
       ])
       (mkNixos "ruby" inputs.nixpkgs [
         inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
-	inputs.sops-nix.nixosModules.sops
-	inputs.home-manager.nixosModules.home-manager
+        inputs.sops-nix.nixosModules.sops
+        inputs.home-manager.nixosModules.home-manager
       ])
       (mkWsl "mado" inputs.nixpkgs [
-	inputs.home-manager.nixosModules.home-manager
-      ] []) 
+        inputs.home-manager.nixosModules.home-manager
+      ] [])
     ];
 }
