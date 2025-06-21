@@ -1,14 +1,15 @@
 {...}: {
   # Manually mount the zfs filesystems to the datasets
   fileSystems = {
+    "/boot" = {
+      device = "/dev/disk/by-uuid/EEE1-BAF0";
+      fsType = "vfat";
+    };
+
     "/" = {
       device = "system-pool/root";
       fsType = "zfs";
       options = ["zfsutil"];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/EEE1-BAF0";
-      fsType = "vfat";
     };
     "/persist" = {
       device = "system-pool/persist";

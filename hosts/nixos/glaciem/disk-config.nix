@@ -10,8 +10,10 @@
           partitions = {
             efi = {
               size = "1G";
+              type = "EF00"; # EFI System Partition GUID
               content = {
-                type = "efi";
+                type = "filesystem";
+                format = "vfat";
                 mountpoint = "/boot";
               };
             };

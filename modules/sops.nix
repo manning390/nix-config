@@ -10,6 +10,9 @@ pkgs,
   host_key_file = "/etc/ssh/host_${vars.hostname}_ed25519_key";
   user_key_file = "${home}/.ssh/user_${vars.username}_${vars.hostname}_ed25519_key";
 in {
+  # Get sops from flake input
+  imports = [ inputs.sops-nix.nixosModules.sops ];
+
   options.custom.sops = {
     enable = lib.mkEnableOption "enables sops";
     homeOnSeparatePartition = lib.mkOption {
@@ -22,8 +25,6 @@ in {
   };
 
   config = lib.mkIf config.custom.sops.enable {
-    # Get sops from flake input
-    imports = [ inputs.sops-nix.nixosModules.sops ];
     # Include required packages to run scripts and work with secrets
     environment.systemPackages = with pkgs; [openssh sops ssh-to-age];
 
