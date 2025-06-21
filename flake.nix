@@ -75,22 +75,22 @@
           # overlays.default = import ./overlays { inherit inputs; };
         }
       ))
+      # Desktop
       (mkNixos "sentry" inputs.nixpkgs [
-        inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
-        inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
       ])
+      # Framework laptop
       (mkNixos "ruby" inputs.nixpkgs [
-        inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
-        inputs.sops-nix.nixosModules.sops
+      ])
+      # Homelab
+      (mkNixos "glaciem" inputs.nixpkgs [
         inputs.home-manager.nixosModules.home-manager
       ])
+      # Windows WSL environment
       (mkWsl "mado" inputs.nixpkgs [
-        inputs.stylix.nixosModules.stylix
         inputs.nur.modules.nixos.default
-        inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
       ] [])
     ];

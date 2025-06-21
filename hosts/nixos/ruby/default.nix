@@ -4,31 +4,34 @@
   inputs,
   outputs,
   lib,
-  config,
   pkgs,
   vars,
   ...
-}:
-with vars; let
-  hostName = "ruby";
-in {
-  imports = [
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-    ../../modules/system.nix
-    ../../modules/sound.nix
-    ../../modules/browsers.nix
-    ../../modules/hyprland.nix
-    # ../../modules/gaming/steam.nix
-    ../../modules/gaming/ffxiv.nix
-    # ../../modules/stylix.nix
-    # ../../modules/keyd.nix
-    ../../modules/keyboard.nix
-  ];
+}: {
+  imports =
+    [
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+      ./hardware-configuration.nix
+    ]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/system.nix"
+      "modules/nix.nix"
+      "modules/zsh.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      # "modules/gaming/steam.nix"
+      "modules/gaming/ffxiv.nix"
+      # "modules/stylix.nix"
+      # "modules/keyd.nix"
+      "modules/keyboard.nix"
+    ];
 
   custom = {
     ffxiv.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = true;
   };
 
   nixpkgs = {
@@ -51,14 +54,9 @@ in {
     ];
   };
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
   # Networking
   networking = {
-    hostName = hostName;
+    hostName = vars.hostname;
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
@@ -70,18 +68,17 @@ in {
   # networking.firewall.enable = false;
 
   # Users
-  users.users."${username}" = {
+  users.users."${vars.username}" = {
     isNormalUser = true;
     description = vars.userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
     openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [username];
+  nix.settings.trusted-users = [vars.username];
 
   # System packages
   environment.systemPackages = with pkgs; [

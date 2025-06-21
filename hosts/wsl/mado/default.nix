@@ -8,12 +8,11 @@
   vars,
   pkgs,
   ...
-}: let
-  rel = lib.custom.relativeToRoot;
-in {
-  imports = [
+}: {
+  imports = builtins.map lib.custom.relativeToRoot [
     # WSL included from flake helper
-    (rel "modules/system.nix")
+    "modules/system.nix"
+    "modules/sops.nix"
   ];
 
   wsl.enable = true;
@@ -25,7 +24,12 @@ in {
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   users.users."${vars.username}" = {
+    isNormalUser = true;
     shell = pkgs.zsh;
+  };
+
+  custom = {
+    sops.enable = true;
   };
 
   # This value determines the NixOS release from which the default

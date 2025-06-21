@@ -9,23 +9,28 @@
 with vars; let
   hostName = "sentry";
 in {
-  imports = [
-    ../../modules/gaming/godot.nix
-    ../../modules/system.nix
-    ../../modules/sound.nix
-    ../../modules/browsers.nix
-    ../../modules/hyprland.nix
-    ../../modules/gaming
-    ../../modules/stylix.nix
-    ../../modules/keyboard.nix
-    ../../modules/sops.nix
-    ../../modules/abidan-archive-backup.nix
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-  ];
+  imports =
+    [./hardware-configuration.nix]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/nix.nix"
+      "modules/system.nix"
+      "modules/sops.nix"
+      "modules/zsh.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      "modules/gaming"
+      "modules/gaming/godot.nix"
+      "modules/stylix.nix"
+      "modules/keyboard.nix"
+      "modules/abidan-archive-backup.nix"
+    ];
 
   custom = {
     abidan-archive-backup.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = true;
   };
 
   nixpkgs = {
@@ -47,11 +52,6 @@ in {
       # })
     ];
   };
-
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
 
   # Networking
   networking = {

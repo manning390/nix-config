@@ -2,11 +2,9 @@
   lib,
   pkgs,
   ...
-}: let
-  rel = lib.custom.relativeToRoot;
-in {
-  imports = [
-    (rel "home/core")
+}: {
+  imports = builtins.map lib.custom.relativeToRoot [
+    "home/core"
   ];
 
   nixpkgs = {
