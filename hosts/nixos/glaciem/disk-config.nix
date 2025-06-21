@@ -128,11 +128,11 @@
         datasets = {
           "data" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            mountpoint = "/bulk";
           };
           "backups" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            mountpoint = "/backups";
           };
         };
       };
@@ -154,7 +154,7 @@
         datasets = {
           "data" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            mountpoint = "/fast";
           };
         };
       };

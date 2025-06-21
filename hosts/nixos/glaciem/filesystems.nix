@@ -1,12 +1,6 @@
 {...}: {
   # Manually mount the zfs filesystems to the datasets
   fileSystems = {
-    "/boot" = {
-      device = "/dev/disk/by-uuid/3D16-756E";
-      fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
-    };
-
     "/" = {
       device = "system-pool/root";
       fsType = "zfs";
@@ -29,17 +23,7 @@
       device = "system-pool/home";
       fsType = "zfs";
     };
-    "/mnt/ssd" = {
-      device = "ssd-pool/data";
-      fsType = "zfs";
-    };
-    "/mnt/hdd" = {
-      device = "hdd-pool/data";
-      fsType = "zfs";
-    };
-    "/mnt/backups" = {
-      device = "hdd-pool/backups";
-      fsType = "zfs";
-    };
   };
+
+  boot.zfs.extraPools = ["ssd-pool" "hdd-pool"];
 }
