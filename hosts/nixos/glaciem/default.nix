@@ -38,6 +38,7 @@
 
   networking = {
     hostName = vars.hostname;
+    hostId = "9dea9b66";
     networkmanager.enable = true;
   };
 

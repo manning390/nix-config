@@ -20,12 +20,12 @@
       device = "system-pool/nix";
       fsType = "zfs";
     };
-    "/home" = {
-      device = "system-pool/home";
-      fsType = "zfs";
-    };
     "/var" = {
       device = "system-pool/var";
+      fsType = "zfs";
+    };
+    "/home" = {
+      device = "system-pool/home";
       fsType = "zfs";
     };
     "/mnt/ssd" = {
