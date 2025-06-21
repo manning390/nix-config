@@ -1,152 +1,157 @@
 {
   disko.devices = {
     disk = {
-      # NVMe for ZFS root pool ("system")
-      nvme = {
-        device = "/dev/nvme0n1";
+      # NVMe for ZFS root pool 
+      nvme0 = {
         type = "disk";
+        device = "/dev/disk/by-id/nvme-Vi3000_Internal_PCIe_NVMe_M.2_SSD_256GB_493734394832852";
         content = {
           type = "gpt";
           partitions = {
             efi = {
               size = "1G";
-              type = "EF00";
               content = {
-                type = "filesystem";
-                format = "vfat";
+                type = "efi";
                 mountpoint = "/boot";
               };
             };
-            zfs_system = {
+            zfs-system = {
               size = "100%";
               content = {
                 type = "zfs";
-                pool = "system";
+                pool = "system-pool";
               };
             };
           };
         };
       };
 
-      # HDD for persistent data pool ("vault")
-      hdd1 = {
-        device = "/dev/sda";
+      # SSD
+      ssd0 = {
         type = "disk";
+        device = "/dev/disk/by-id/ata-WD_Red_SA500_2.5_2TB_24114M4A1K11";
         content = {
           type = "gpt";
           partitions = {
-            zfs_vault = {
+            zfs-ssd = {
               size = "100%";
               content = {
                 type = "zfs";
-                pool = "vault";
+                pool = "ssd-pool";
               };
             };
           };
         };
       };
 
-      # SSD for fast data pool ("fast")
-      ssd1 = {
-        device = "/dev/sdb";
+      # HDD
+      hdd0 = {
+        device = "/dev/disk/by-id/ata-ST12000NM0127_ZJV1TD7E";
         type = "disk";
         content = {
           type = "gpt";
           partitions = {
-            zfs_fast = {
+            zfs-hdd = {
               size = "100%";
               content = {
                 type = "zfs";
-                pool = "fast";
+                pool = "hdd-pool";
               };
             };
           };
         };
       };
+
     };
 
     zpool = {
       # System/root pool
-      system = {
+      system-pool = {
         type = "zpool";
         options = {
           ashift = "12";
           autotrim = "on";
         };
         rootFsOptions = {
+          mountpoint = "none";
           compression = "zstd";
           acltype = "posixacl";
           relatime = "on";
           xattr = "sa";
         };
         datasets = {
-          "local/root" = {
+          "root" = {
             type = "zfs_fs";
-            mountpoint = "/";
+            options = {
+              mountpoint = "legacy";
+              canmount = "noauto";
+            };
+          };
+          "nix" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "legacy";
+              atime = "off";
+            };
+          };
+          "persist" = {
+            type = "zfs_fs";
             options.mountpoint = "legacy";
           };
-          "local/nix" = {
+          "home" = {
             type = "zfs_fs";
-            mountpoint = "/nix";
+            options.mountpoint = "legacy";
+          };
+          "var" = {
+            type = "zfs_fs";
             options.mountpoint = "legacy";
           };
         };
       };
 
-      # Bulk data pool (now called "vault")
-      vault = {
+      # Bulk data pool
+      hdd-pool = {
         type = "zpool";
         options = {
           ashift = "12";
-          autotrim = "on";
+          autotrim = "off";
         };
         rootFsOptions = {
+          mountpoint = "none";
           compression = "zstd";
           acltype = "posixacl";
           relatime = "on";
           xattr = "sa";
         };
         datasets = {
-          "safe/persist" = {
+          "data" = {
             type = "zfs_fs";
-            mountpoint = "/persist";
             options.mountpoint = "legacy";
           };
-          "safe/backups" = {
+          "backups" = {
             type = "zfs_fs";
-            mountpoint = "/backups";
-            options.mountpoint = "legacy";
-          };
-          "safe/data" = {
-            type = "zfs_fs";
-            mountpoint = "/data";
             options.mountpoint = "legacy";
           };
         };
       };
 
       # Fast SSD pool
-      fast = {
+      ssd-pool = {
         type = "zpool";
         options = {
           ashift = "12";
           autotrim = "on";
         };
         rootFsOptions = {
+          mountpoint = "none";
           compression = "zstd";
           acltype = "posixacl";
           relatime = "on";
           xattr = "sa";
         };
         datasets = {
-          "safe/home" = {
+          "data" = {
             type = "zfs_fs";
-            mountpoint = "/home";
-            options.mountpoint = "legacy";
-          };
-          "safe/vms" = {
-            type = "zfs_fs";
-            mountpoint = "/vms";
             options.mountpoint = "legacy";
           };
         };

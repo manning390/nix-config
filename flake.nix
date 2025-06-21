@@ -6,15 +6,22 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Home manager
+    # Home Manager
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Flake utils
+    flake-utils.url = "github:numtide/flake-utils";
 
     # Nix User Repository
     nur.url = "github:nix-community/NUR";
 
-    # Flake utils
-    flake-utils.url = "github:numtide/flake-utils";
+    # Disk Management
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Ephemeral Root 
+    impermanence.url = "github:nix-community/impermanence";
 
     # Windows WSL
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
@@ -22,13 +29,21 @@
     # MacOS Nix
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    # Secrets Managment
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Hardward specific configs
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     # Zsh plugin manager
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;
 
-    # Color themes
+    # Automagic/breaking Color Themes
     stylix.url = "github:danth/stylix/release-25.05";
 
+    # Currated Taskbar
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -42,13 +57,6 @@
     # Firefox nightly
     firefox.url = "github:nix-community/flake-firefox-nightly";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Sops
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Hardward specific configs
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
   outputs = {
     self,
@@ -86,6 +94,8 @@
       ])
       # Homelab
       (mkNixos "glaciem" inputs.nixpkgs [
+        inputs.disko.nixosModules.disko
+        inputs.impermanence.nixosModules.impermanence
         inputs.home-manager.nixosModules.home-manager
       ])
       # Windows WSL environment

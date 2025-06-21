@@ -1,6 +1,6 @@
 {inputs, outputs}: let
   username = (import ../vars).username;
-  mkSpecialArgs = nixpkgsVersion: machineHostname: rec {
+  mkSpecialArgs = nixpkgsVersion: machineHostname: {
     inherit inputs outputs;
     lib = nixpkgsVersion.lib.extend (self: super: {custom = import ../lib {inherit (nixpkgsVersion) lib;};});
     vars = (import ../vars) // {hostname = machineHostname;};
