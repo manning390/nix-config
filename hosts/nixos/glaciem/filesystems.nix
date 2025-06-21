@@ -2,7 +2,7 @@
   # Manually mount the zfs filesystems to the datasets
   fileSystems = {
     "/boot" = {
-      device = "/dev/disk/by-uuid/EEE1-BAF0";
+      device = "/dev/disk/by-uuid/3D16-756E";
       fsType = "vfat";
     };
 
