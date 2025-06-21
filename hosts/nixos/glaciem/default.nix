@@ -17,12 +17,6 @@
       "modules/zsh.nix"
     ];
 
-  # Ensure EFI support
-  boot.loader = {
-    efi.canTouchFsiVariables = true;
-    systemd-boot.enable = true;
-  };
-
   # Custom module options
   custom = {
     sops.enable = true;

@@ -6,6 +6,10 @@
       fsType = "zfs";
       options = ["zfsutil"];
     };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/EEE1-BAF0";
+      fsType = "vfat";
+    };
     "/persist" = {
       device = "system-pool/persist";
       fsType = "zfs";
