@@ -9,7 +9,6 @@
       "/var/lib"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
-      "/home"
     ];
 
     files = [
