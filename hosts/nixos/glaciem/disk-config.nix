@@ -85,28 +85,29 @@
           "root" = {
             type = "zfs_fs";
             options = {
-              mountpoint = "legacy";
-              canmount = "noauto";
+              mountpoint = "/";
+              # mountpoint = "legacy";
+              # canmount = "noauto";
             };
           };
           "nix" = {
             type = "zfs_fs";
             options = {
-              mountpoint = "legacy";
+              mountpoint = "/nix";
               atime = "off";
             };
           };
           "persist" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            options.mountpoint = "/persist";
           };
           "home" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            options.mountpoint = "/home";
           };
           "var" = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
+            options.mountpoint = "/var";
           };
         };
       };
