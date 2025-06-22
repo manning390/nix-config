@@ -25,5 +25,6 @@
     };
   };
 
+  boot.supportedFilesystems = ["zfs"];
   boot.zfs.extraPools = ["ssd-pool" "hdd-pool"];
 }

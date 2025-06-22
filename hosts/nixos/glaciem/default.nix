@@ -24,10 +24,10 @@
 
   # Descrypt password so it can be used to create the user
   sops.secrets."user_passwords/glaciem".neededForUsers = true;
-  users.mutableUsers = false; # Required for password to be set via sops during system activations!
+  # users.mutableUsers = false; # Required for password to be set via sops during system activations!
   users.users.${vars.username} = {
     isNormalUser = true;
-    hashedPasswordFile = config.sops.secrets."user_passwords/glaciem".path;
+    # hashedPasswordFile = config.sops.secrets."user_passwords/glaciem".path;
     description = vars.userfullname;
     extraGroups = ["wheel"];
 
