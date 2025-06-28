@@ -70,7 +70,6 @@
       # System/root pool
       system-pool = {
         type = "zpool";
-        mountpoint = "/";
         options = {
           ashift = "12";
           autotrim = "on";
@@ -85,30 +84,29 @@
         datasets = {
           "root" = {
             type = "zfs_fs";
-            options = {
-              # mountpoint = "/";
-              # mountpoint = "legacy";
-              # canmount = "noauto";
-            };
+            mountpoint = "/";
+            options.mountpoint = "legacy";
           };
           "nix" = {
             type = "zfs_fs";
-            options = {
-              mountpoint = "/nix";
-              atime = "off";
-            };
+            mountpoint = "/nix";
+            options.mountpoint = "legacy";
+            options. atime = "off";
           };
           "persist" = {
             type = "zfs_fs";
-            options.mountpoint = "/persist";
+            mountpoint = "/persist";
+            options.mountpoint = "legacy";
           };
           "home" = {
             type = "zfs_fs";
-            options.mountpoint = "/home";
+            mountpoint = "/home";
+            options.mountpoint = "legacy";
           };
           "var" = {
             type = "zfs_fs";
-            options.mountpoint = "/var";
+            mountpoint = "/var";
+            options.mountpoint = "legacy";
           };
         };
       };
@@ -161,5 +159,10 @@
         };
       };
     };
+  };
+  fileSystems = {
+    "/persist".neededForBoot = true;
+    "/home".neededForBoot = true;
+    "/".neededForBoot = true;
   };
 }
