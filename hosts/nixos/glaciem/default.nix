@@ -8,7 +8,7 @@
     [
       ./hardware-configuration.nix
       ./disk-config.nix
-      ./filesystems.nix
+      # ./filesystems.nix
       ./impermanence.nix
     ]
     ++ builtins.map lib.custom.relativeToRoot [

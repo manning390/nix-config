@@ -160,6 +160,8 @@
       };
     };
   };
+  boot.supportedFilesystems = ["zfs"]; # Actually support the filesystem
+  boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # Other non-root pools that auto mount
   fileSystems = {
     "/persist".neededForBoot = true;
     "/home".neededForBoot = true;
