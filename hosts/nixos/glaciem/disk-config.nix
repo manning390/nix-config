@@ -70,6 +70,7 @@
       # System/root pool
       system-pool = {
         type = "zpool";
+        mountpoint = "/";
         options = {
           ashift = "12";
           autotrim = "on";
@@ -85,7 +86,7 @@
           "root" = {
             type = "zfs_fs";
             options = {
-              mountpoint = "/";
+              # mountpoint = "/";
               # mountpoint = "legacy";
               # canmount = "noauto";
             };

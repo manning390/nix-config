@@ -26,6 +26,6 @@
   # };
 
   boot.supportedFilesystems = ["zfs"]; # Actually support the filesystem
-  boot.zfs.devNodes = "/dev/disk/by-partuuid"; # Where to look to boot from
+  # boot.zfs.devNodes = "/dev/disk/by-partuuid"; # Where to look to boot from
   boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # Other non-root pools that auto mount
 }
