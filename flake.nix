@@ -1,6 +1,5 @@
 {
   description = "Nix Configurations of Manning390";
-  nixConfig = {};
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";

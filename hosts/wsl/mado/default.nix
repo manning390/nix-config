@@ -10,9 +10,10 @@
   ...
 }: {
   imports = builtins.map lib.custom.relativeToRoot [
-    # WSL included from flake helper
+    "modules/nix.nix"
     "modules/system.nix"
     "modules/sops.nix"
+    # WSL included from flake helper
   ];
 
   wsl.enable = true;
