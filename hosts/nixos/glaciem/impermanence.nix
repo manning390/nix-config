@@ -16,5 +16,10 @@
       "/etc/ssh/host_${vars.hostname}_ed25519_key"
       "/etc/ssh/host_${vars.hostname}_ed25519_key.pub"
     ];
+    users.${vars.username} = {
+      directories = [
+        "nix-config"
+      ];
+    };
   };
 }
