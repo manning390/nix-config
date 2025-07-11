@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  vars,
   ...
 }: let
   hl = config.homelab;
@@ -86,9 +87,10 @@ in {
 
     systemd.tmpfiles.rules = map (x: "d ${x.path} 0775 ${hl.user} ${hl.group} - -") (lib.attrValues cfg.shares);
 
+    sops.secrets."samba_password" = {};
     system.activationScripts.samba_user_create = ''
-      smb_password=$(cat "${config.sops.secrets.samba_password.path}")
-      echo -e "$smb_password\n$smb_password\n" | ${lib.getExe' pkgs.smba "smbpasswd"} -a -s ${hl.user}
+      smb_password=$(cat "${config.sops.secrets."samba_password".path}")
+      echo -e "$smb_password\n$smb_password\n" | ${lib.getExe' pkgs.samba "smbpasswd"} -a -s ${hl.user}
     '';
 
     networking.firewall = {
@@ -107,7 +109,7 @@ in {
             "netbios name" = lib.mkDefault config.networking.hostName;
             "security" = lib.mkDefault "user";
             "invalid users" = ["root"];
-            "hosts allow" = lib.mkDefault (lib.strings.concatStringSep " " smb_networks);
+            "hosts allow" = lib.mkDefault (lib.strings.concatStringsSep " " smb_networks);
             "guest account" = lib.mkDefault "nobody";
             "map to guest" = lib.mkDefault "bad user";
             "passdb backend" = lib.mkDefault "tdbsam";
