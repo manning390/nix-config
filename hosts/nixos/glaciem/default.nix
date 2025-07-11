@@ -21,6 +21,7 @@
   # Custom module options
   custom = {
     sops.enable = true;
+    sops.generateKeys = false;
     nix = {
       flakePath = "/home/${vars.username}/nix-config";
     };

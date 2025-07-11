@@ -1,9 +1,9 @@
 {
-inputs,
+  inputs,
   config,
   lib,
   vars,
-pkgs,
+  pkgs,
   ...
 }: let
   home = "/home/${vars.username}";
@@ -11,7 +11,7 @@ pkgs,
   user_key_file = "${home}/.ssh/user_${vars.username}_${vars.hostname}_ed25519_key";
 in {
   # Get sops from flake input
-  imports = [ inputs.sops-nix.nixosModules.sops ];
+  imports = [inputs.sops-nix.nixosModules.sops];
 
   options.custom.sops = {
     enable = lib.mkEnableOption "enables sops";
@@ -20,6 +20,13 @@ in {
       default = false;
       description = ''
         Set to true if /home is a separate partition and needs to be enabled on boot for sops to access.
+      '';
+    };
+    generateKeys = {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Will create ssh keys if they do not exist, may conflict with impermanence.
       '';
     };
   };
@@ -47,24 +54,26 @@ in {
       "/home".neededForBoot = true;
     };
 
-    system.activationScripts.generateSSHKeys.text = let
-      sshKeygen = "${pkgs.openssh}/bin/ssh-keygen";
-    in ''
-      # Generate host ssh key if missing
-      if [ ! -f "${host_key_file}" ]; then
-        ${sshKeygen} -t ed25519 -N "" -C "host key ${vars.hostname} $(date +%s)" -f "${host_key_file}"
-        chmod 600 ${host_key_file}
-        chmod 644 ${host_key_file}.pub
-      fi
-    '';
-    # # Generate user key if missing
-    # if [ ! -f "${user_key_file}" ]; then
-    #   mkdir -p "${home}/.ssh"
-    #   ${sshKeygen} -t ed25519 -N "" -C "user key ${vars.username}@${vars.hostname} $(date +%s)" -f "${user_key_file}"
-    #   chown -R ${vars.username}:${vars.username} "${home}/.ssh"
-    #   chmod 700 "${home}/.ssh"
-    #   chmod 600 "${user_key_file}"
-    #   chmod 644 "${user_key_file}.pub"
-    # fi
+    system.activationScripts = lib.mkIf config.custom.sops.generateKeys {
+      generateSSHKeys.text = let
+        sshKeygen = "${pkgs.openssh}/bin/ssh-keygen";
+      in ''
+        # Generate host ssh key if missing
+        if [ ! -f "${host_key_file}" ]; then
+          ${sshKeygen} -t ed25519 -N "" -C "host key ${vars.hostname} $(date +%s)" -f "${host_key_file}"
+          chmod 600 ${host_key_file}
+          chmod 644 ${host_key_file}.pub
+        fi
+      '';
+      # # Generate user key if missing
+      # if [ ! -f "${user_key_file}" ]; then
+      #   mkdir -p "${home}/.ssh"
+      #   ${sshKeygen} -t ed25519 -N "" -C "user key ${vars.username}@${vars.hostname} $(date +%s)" -f "${user_key_file}"
+      #   chown -R ${vars.username}:${vars.username} "${home}/.ssh"
+      #   chmod 700 "${home}/.ssh"
+      #   chmod 600 "${user_key_file}"
+      #   chmod 644 "${user_key_file}.pub"
+      # fi
+    };
   };
 }
