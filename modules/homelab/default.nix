@@ -40,11 +40,11 @@ in {
       groups.${cfg.group} = {
         gid = 993;
       };
-    };
-    users.${cfg.user} = {
-      uid = 994;
-      isSystemUser = true;
-      group = cfg.group;
+      users.${cfg.user} = {
+        uid = 994;
+        isSystemUser = true;
+        group = cfg.group;
+      };
     };
   };
 }
