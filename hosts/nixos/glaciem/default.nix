@@ -15,6 +15,7 @@
       "modules/system.nix"
       "modules/sops.nix"
       "modules/zsh.nix"
+      "modules/homelab"
     ];
 
   # Custom module options
@@ -23,6 +24,12 @@
     nix = {
       flakePath = "/home/${vars.username}/nix-config";
     };
+  };
+
+  # Homelab module options
+  homelab = {
+    enable = true;
+    baseDomain = "glaciem.home";
   };
 
   # Descrypt password so it can be used to create the user
