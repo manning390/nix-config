@@ -86,6 +86,11 @@ in {
 
     systemd.tmpfiles.rules = map (x: "d ${x.path} 0775 ${hl.user} ${hl.group} - -") (lib.attrValues cfg.shares);
 
+    system.activationScripts.samba_user_create = ''
+      smb_password=$(cat "${config.sops.secrets.samba_password.path}")
+      echo -e "$smb_password\n$smb_password\n" | ${lib.getExe' pkgs.smba "smbpasswd"} -a -s ${hl.user}
+    '';
+
     networking.firewall = {
       allowedTCPPorts = [ 5357 ];
       allowedUDPPorts = [ 3702 ];
