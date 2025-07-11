@@ -352,21 +352,27 @@ local plugins = {
 	-- Writing related plugins
 	{
 		"okuuva/auto-save.nvim",
-		enabled = false,
-		lazy = true,
+		version = "^1.0.0",
 		cmd = "ASToggle",
+		opts = {},
 	},
-	{
-		"folke/twilight.nvim",
-		enabled = false,
-		cmd = "Twilight",
-		lazy = true,
-	},
+	-- Zen Mode
 	{
 		"folke/zen-mode.nvim",
-		enabled = false,
-		cmd = "ZenMode",
+		cmd = {"ZenMode", "Write"},
+		dependencies = {{
+			-- Dims paragraphs not working on
+			"folke/twilight.nvim",
+			enabled = false,
+			cmd = "Twilight",
+			lazy = true,
+		}},
 		lazy = true,
+		opts = {
+			gitsigns = { enabled = true },
+			tmux = { enabled = true },
+			kitty = { enabled = true },
+		}
 	},
 	{
 		"ron89/thesaurus_query.vim",
@@ -401,6 +407,8 @@ local plugins = {
 	-- },
 	{
 		"manning390/wrd.nvim",
+		-- dir = "~/Code/lua/wrd.nvm",
+		branch = "dev",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 			"nvim-lua/plenary.nvim",

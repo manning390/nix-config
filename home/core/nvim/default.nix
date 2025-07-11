@@ -30,9 +30,10 @@ in {
     gnumake
     nodejs
     pnpm
-    intelephense
+    # intelephense
     python3
 
+    # LSP
     neovim-node-client
     nodePackages.typescript
     nodePackages.typescript-language-server
@@ -40,6 +41,7 @@ in {
     eslint_d
     efm-langserver
     nixd
+    vale-ls
   ];
 
   programs.direnv.enable = true;

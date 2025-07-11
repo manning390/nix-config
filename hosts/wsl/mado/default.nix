@@ -31,6 +31,7 @@
 
   custom = {
     sops.enable = true;
+    nix.allowUnfree = true;
   };
 
   # This value determines the NixOS release from which the default

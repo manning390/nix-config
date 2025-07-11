@@ -4,15 +4,15 @@
   pkgs,
   ...
 }: {
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "1password-gui"
-      "1password-cli"
-    ];
-  home.packages = with pkgs; [
-    _1password-cli
-    _1password-gui
-  ];
+  # nixpkgs.config.allowUnfreePredicate = pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "1password-gui"
+  #     "1password-cli"
+  #   ];
+  # home.packages = with pkgs; [
+  #   _1password-cli
+  #   _1password-gui
+  # ];
 
   programs = {
     jq.enable = true;

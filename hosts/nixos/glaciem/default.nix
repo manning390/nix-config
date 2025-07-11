@@ -11,6 +11,7 @@
       ./impermanence.nix
     ]
     ++ builtins.map lib.custom.relativeToRoot [
+      "modules/nix.nix"
       "modules/system.nix"
       "modules/sops.nix"
       "modules/zsh.nix"
@@ -19,6 +20,9 @@
   # Custom module options
   custom = {
     sops.enable = true;
+    nix = {
+      flakePath = "/home/${vars.username}/nix-config";
+    };
   };
 
   # Descrypt password so it can be used to create the user
