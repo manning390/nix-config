@@ -20,6 +20,7 @@
     users.${vars.username} = {
       directories = [
         "nix-config"
+        ".ssh"
       ];
     };
   };
