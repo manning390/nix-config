@@ -22,7 +22,7 @@ in {
         Set to true if /home is a separate partition and needs to be enabled on boot for sops to access.
       '';
     };
-    generateKeys = {
+    generateKeys = lib.mkOption {
       type = lib.types.bool;
       default = true;
       description = ''
