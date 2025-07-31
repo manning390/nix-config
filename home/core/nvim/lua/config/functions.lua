@@ -60,4 +60,15 @@ M.toggleQuickfix = function()
   vim.cmd.copen()
 end
 
+M.getDefaultBranch = function()
+  local ref = vim.fn.systemlist("git symbolic-ref refs/remotes/origin/HEAD 2> /dev/null")[1]
+  if ref then
+    local branch = ref:match("refs/remotes/origin/(.+)")
+    if branch then
+      return branch
+    end
+  end
+  return "master" -- or main depending on our own config pref
+end
+
 return M

@@ -42,8 +42,8 @@ if vim.env.COLEMAK == '1' then
 	nmap('N', 'J')  -- join
 	nmap('I', '<nop>') -- Shift I
 end
-nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 nnoremap(sf('<C-%s>', h), ':TmuxNavigateLeft<cr>', { silent = true }) -- change window left
 nnoremap(sf('<C-%s>', j), ':TmuxNavigateDown<cr>', { silent = true }) -- change window down
@@ -162,10 +162,16 @@ nnoremap('<leader>gc', ':G ci<cr>')
 nnoremap('<leader>gp', ':G push<cr>')
 nnoremap('<leader>g' .. j, ':diffget //3<cr>')
 nnoremap('<leader>g' .. f, ':diffget //2<cr>')
-nnoremap('<leader>gb', ':GBrowse<cr>')
+nnoremap('<leader>gb', ':GBrowse<cr>', { desc = "Fugitive GBrowse to default"})
 vnoremap('<leader>gb', ":'<,'>GBrowse<cr>")
-nnoremap('<leader>gm', ':GBrowse origin/master:%<cr>')
-vnoremap('<leader>gm', ":'<,'>GBrowse origin/master:%<cr>")
+nnoremap('<leader>gm', function()
+	local branch = fn.getDefaultBranch()
+	vim.cmd(string.format('GBrowse origin/%s:%%', branch))
+end, { desc = "Fugitive GBrowse to default branch"})
+vnoremap('<leader>gm', function()
+	local branch = fn.getDefaultBranch()
+	vim.cmd(string.format("'<,'>GBrowse origin/%s:%%", branch))
+end, { desc = "Fugitive GBrowse to default branch"})
 
 nnoremap('<leader>gw', require 'telescope'.extensions.git_worktree.create_git_worktree)
 
