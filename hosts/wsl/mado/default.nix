@@ -11,7 +11,7 @@
 }: {
   imports = builtins.map lib.custom.relativeToRoot [
     "modules/nix.nix"
-    "modules/system.nix"
+    "modules/common.nix"
     "modules/sops.nix"
     # WSL included from flake helper
   ];

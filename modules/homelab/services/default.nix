@@ -13,12 +13,31 @@
       80
       443
     ];
-
     services.caddy = {
       enable = true;
-      virtualHosts."localhost".extraConfig = ''
-        respond "OK"
+      globalConfig = ''
+        auto_https off
       '';
+      virtualHosts = {
+        "localhost" = {
+          extraConfig = ''
+            respond "OK"
+          '';
+        };
+        "http://${config.homelab.baseDomain}" = {
+          extraConfig = ''
+            redir https://{host}{uri}
+          '';
+        };
+        "http://*.${config.homelab.baseDomain}" = {
+          extraConfig = ''
+            redir https://{host}{uri}
+          '';
+        };
+      };
     };
   };
+  imports = [
+    ./homepage.nix
+  ];
 }

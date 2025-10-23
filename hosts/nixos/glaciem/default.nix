@@ -1,18 +1,22 @@
 {
   config,
   lib,
+  pkgs,
   vars,
   ...
-}: {
+}: let
+  hardDrives = [ ];
+in {
   imports =
     [
       ./hardware-configuration.nix
       ./disk-config.nix
       ./impermanence.nix
+      ./homelab.nix
     ]
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/nix.nix"
-      "modules/system.nix"
+      "modules/common.nix"
       "modules/sops.nix"
       "modules/zsh.nix"
       "modules/homelab"
@@ -26,20 +30,6 @@
       flakePath = "/home/${vars.username}/nix-config";
     };
   };
-
-  # Homelab module options
-  homelab = {
-    enable = true;
-    baseDomain = "glaciem.home";
-
-    samba = {
-      enable = true;
-      passwordFile = config.sops.secrets."samba_password".path;
-      shares = {
-      };
-    };
-  };
-  
 
   # Descrypt password so it can be used to create the user
   sops.secrets."user_passwords/glaciem".neededForUsers = true;
@@ -58,7 +48,8 @@
   networking = {
     hostName = vars.hostname;
     hostId = "9dea9b66";
-    networkmanager.enable = true;
+    networkmanager.enable = false;
+    useDHCP = true;
   };
 
   services.openssh = {
@@ -69,6 +60,28 @@
       PermitRootLogin = "no";
     };
   };
+
+  # systemd.services.hd-idle = {
+  #   description = "External HD spin down daemon";
+  #   wantedBy = ["multi-user.target"];
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     ExecStart = let
+  #       idleTime = toString 900;
+  #       hardDriveParameter = lib.strings.concatMapStringSep " " (x: "-a ${x} ie ${idleTime}") hardDrives;
+  #     in "${pkgs.hd-idle}/bin/hd-idle -i 0 ${hardDriveParameter}";
+  #   };
+  # };
+
+  environment.systemPackages = with pkgs; [
+    pciutils
+    glances
+    hdparm
+    hd-idle
+    hddtemp
+    cpufrequtils
+    powertop
+  ];
 
   system.stateVersion = "25.05";
 }

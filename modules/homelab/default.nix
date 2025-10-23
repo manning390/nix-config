@@ -31,8 +31,9 @@ in {
   };
 
   imports = [
-    ./services
+    ./networks.nix
     ./samba.nix
+    ./services
   ];
 
   config = lib.mkIf cfg.enable {

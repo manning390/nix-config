@@ -13,7 +13,7 @@ in {
     [./hardware-configuration.nix]
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/nix.nix"
-      "modules/system.nix"
+      "modules/common.nix"
       "modules/sops.nix"
       "modules/zsh.nix"
       "modules/audio.nix"
