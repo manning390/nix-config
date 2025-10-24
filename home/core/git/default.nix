@@ -46,6 +46,7 @@
       core = {
         defaultBranch = "dev";
       };
+      init.defaultBranch = "main";
     };
   };
 }
