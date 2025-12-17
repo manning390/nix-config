@@ -2,11 +2,11 @@
   description = "Nix Configurations of Manning390";
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home Manager
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Flake utils
@@ -40,7 +40,7 @@
     zinit.flake = false;
 
     # Automagic/breaking Color Themes
-    stylix.url = "github:danth/stylix/release-25.05";
+    stylix.url = "github:danth/stylix/release-25.11";
 
     # Currated Taskbar
     # hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
