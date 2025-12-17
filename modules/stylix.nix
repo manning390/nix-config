@@ -4,14 +4,15 @@
   pkgs,
   config,
   ...
-}: {
+}: let
+  cfg = config.custom.stylix;
+in {
   options.custom.stylix.enable = lib.mkEnableOption "enables stylix";
-  config = lib.mkIf config.custom.stylix.enable {
-    imports = [inputs.stylix.nixosModules.stylix];
-
+  imports = [inputs.stylix.nixosModules.stylix];
+  config = lib.mkIf cfg.enable {
     # Nord from https://github.com/ada-lovecraft/base16-nord-scheme/tree/master
     stylix = {
-      enable = false;
+      enable = true;
       polarity = "dark";
       base16Scheme = {
         base00 = "2E3440";

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # Set timezone
   time.timeZone = "America/Los_Angeles";
 

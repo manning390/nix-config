@@ -34,6 +34,7 @@ in {
     python3
 
     # LSP
+    lua-language-server
     neovim-node-client
     nodePackages.typescript
     nodePackages.typescript-language-server

@@ -1,6 +1,7 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
+  lib,
   outputs,
   pkgs,
   vars,
@@ -30,7 +31,7 @@ in {
     abidan-archive-backup.enable = true;
     sops.enable = true;
     sops.homeOnSeparatePartition = true;
-    stylix.enable = true;
+    stylix.enable = false;
   };
 
   nixpkgs = {
@@ -68,11 +69,11 @@ in {
 
   # Users
   users.users."${username}" = {
+    initialHashedPassword = "";
     isNormalUser = true;
     description = userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "video" "docker"];
     openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:

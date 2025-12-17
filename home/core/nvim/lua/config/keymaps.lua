@@ -175,6 +175,10 @@ end, { desc = "Fugitive GBrowse to default branch"})
 
 nnoremap('<leader>gw', require 'telescope'.extensions.git_worktree.create_git_worktree)
 
+-- Leap see :help leap-mappings
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set('n',             'S', '<Plug>(leap-from-window)')
+
 -- Quick fix lists
 nnoremap('g' .. n, ':cnext<cr>', { silent = true })
 nnoremap('g' .. N, ':cprevious<cr>', { silent = true })

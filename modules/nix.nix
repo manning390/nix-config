@@ -30,12 +30,12 @@
         '';
       };
       flag = lib.mkOption {
-          type = lib.types.str;
-          default = "--delete-older-than 7d --keep 3";
-          description = ''
-            Setting of gc.options and nh.clean.extraArgs for how many versions to keep.
-          '';
-        };
+        type = lib.types.str;
+        default = "--delete-older-than 7d --keep 3";
+        description = ''
+          Setting of gc.options and nh.clean.extraArgs for how many versions to keep.
+        '';
+      };
     };
   };
 

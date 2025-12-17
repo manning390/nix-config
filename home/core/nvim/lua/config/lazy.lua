@@ -238,10 +238,12 @@ local plugins = {
 		"folke/todo-comments.nvim",    -- Highlight todo comments
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	 -- Jump to keypairs via labels
-	"ggandor/leap.nvim",
-	-- {"norcalli/nvim-colorizer.lua", opts = {}},
-	-- "NTBBloodbath/color-converter.nvim",
+	{ -- Jump to keypairs via labels
+		"ggandor/leap.nvim",
+		ops = {}
+	},
+	{"catgoose/nvim-colorizer.lua", opts = {}},
+	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
 		"windwp/nvim-autopairs",

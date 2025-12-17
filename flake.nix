@@ -2,11 +2,11 @@
   description = "Nix Configurations of Manning390";
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home Manager
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Flake utils
@@ -19,7 +19,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Ephemeral Root 
+    # Ephemeral Root
     impermanence.url = "github:nix-community/impermanence";
 
     # Windows WSL
@@ -40,11 +40,11 @@
     zinit.flake = false;
 
     # Automagic/breaking Color Themes
-    stylix.url = "github:danth/stylix/release-25.05";
+    stylix.url = "github:danth/stylix/release-25.11";
 
     # Currated Taskbar
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
-    hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
+    # hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+    # hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
 
     # Utility scripts, like screen shots
     hyprland-contrib.url = "github:hyprwm/contrib";
@@ -52,10 +52,6 @@
 
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
-    # Firefox nightly
-    firefox.url = "github:nix-community/flake-firefox-nightly";
-    firefox.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = {
     self,
@@ -68,6 +64,7 @@
     inherit (flakehelpers) mkMerge mkNixos mkWsl;
   in
     mkMerge [
+      { overlays = import ./overlays { inherit inputs; }; }
       (flake-utils.lib.eachDefaultSystem (
         system: let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -79,7 +76,6 @@
             ];
           };
           formatter = pkgs.alejandra;
-          # overlays.default = import ./overlays { inherit inputs; };
         }
       ))
       # Desktop

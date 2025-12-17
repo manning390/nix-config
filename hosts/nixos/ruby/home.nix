@@ -1,6 +1,6 @@
-{config, ...}: {
-  imports = [
-    ../../home/linux/desktop.nix
+{lib, config, ...}: {
+  imports = [ ] ++ builtins.map lib.custom.relativeToRoot [
+    "home/linux/desktop.nix"
   ];
 
   # wayland.windowManager.hyprland.settings.input = {
