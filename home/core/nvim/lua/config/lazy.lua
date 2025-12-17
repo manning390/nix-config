@@ -223,7 +223,7 @@ local plugins = {
 	-- -- Our lord and savior
 	"tpope/vim-abolish",    -- Better substitutions and iabbrev
 	"tpope/vim-eunuch",     -- :Rename and :SudoWrite
-	"tpope/vim-repeat",     -- bracket mappings
+	"tpope/vim-repeat",     -- bracket mappings and dot-repeats
 	"tpope/vim-sleuth",     -- Detect tabstop and shiftwidth auto
 	{
 		"kylechui/nvim-surround", -- Surround operator
@@ -238,12 +238,8 @@ local plugins = {
 		"folke/todo-comments.nvim",    -- Highlight todo comments
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	{ -- Jump to keypairs via labels
-		"ggandor/leap.nvim",
-		config = function()
-			require("leap").add_default_mappings()
-		end,
-	},
+	 -- Jump to keypairs via labels
+	"ggandor/leap.nvim",
 	-- {"norcalli/nvim-colorizer.lua", opts = {}},
 	-- "NTBBloodbath/color-converter.nvim",
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.

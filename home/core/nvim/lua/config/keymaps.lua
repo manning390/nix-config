@@ -204,6 +204,9 @@ nnoremap('Y', 'y$')                                -- Add missing yank
 nnoremap('0', function() fn.toggleMovement('^', '0') end)
 nnoremap('~', fn.customCaseToggle)
 
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
+
 nnoremap('<leader>pm', ':PhpactorContextMenu<cr>')
 
 -- nnoremap('z/', ':ThesaurusQueryReplaceCurrentWord<cr>')
