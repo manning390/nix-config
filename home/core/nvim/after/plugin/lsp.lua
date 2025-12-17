@@ -48,6 +48,9 @@ local servers = {
     },
     lua_ls = {
         on_init = function(client)
+            if not client.workspace_folders or not client.workspace_folders[1] then
+                return true
+            end
             local path = client.workspace_folders[1].name
             if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
                 client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
@@ -130,9 +133,12 @@ local on_attach = function(client, bufnr)
     end, { desc = 'Format current buffer with LSP' })
 end
 
-for server_name, _ in pairs(servers) do
-      require('lspconfig')[server_name].setup(vim.tbl_extend('force', {
+local server_names = {}
+for server_name, server_ops in pairs(servers) do
+      vim.lsp.config(server_name, vim.tbl_extend('force', {
           capabilities = capabilities,
           on_attach = on_attach,
-      }, servers[server_name] or {}))
+      }, server_ops or {}))
+    table.insert(server_names, server_name)
 end
+vim.lsp.enable(server_names)

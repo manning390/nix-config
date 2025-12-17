@@ -51,14 +51,16 @@
   fonts = {
     packages = with pkgs; [
       # Nerdfonts is too big, only grab what we want
-      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Noto"];})
+      nerd-fonts.fira-code
+      nerd-fonts.noto
+      nerd-fonts.droid-sans-mono
     ];
   };
 
   # Sound
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.polkit.enable = true;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -69,8 +71,8 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    # firefox
-    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+    firefox
+    # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
     brave
     zsh
 

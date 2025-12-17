@@ -1,7 +1,7 @@
 {inputs, ...}: {
   programs.zsh = {
     enable = true;
-    initExtra =
+    initContent =
       ''
         source "${inputs.zinit}/zinit.zsh"
       ''

@@ -234,11 +234,9 @@ local plugins = {
 	},
 	{ -- Jump to keypairs via labels
 		"ggandor/leap.nvim",
-		config = function()
-			require("leap").add_default_mappings()
-		end,
+		ops = {}
 	},
-	{"norcalli/nvim-colorizer.lua", opts = {}},
+	{"catgoose/nvim-colorizer.lua", opts = {}},
 	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
