@@ -16,7 +16,7 @@ in {
       "modules/nix.nix"
       "modules/system.nix"
       "modules/sops.nix"
-      "modules/zsh.nix"
+      "modules/shells.nix"
       "modules/audio.nix"
       "modules/browsers.nix"
       "modules/hyprland.nix"
@@ -28,6 +28,10 @@ in {
     ];
 
   custom = {
+    shells = {
+      systemShell = "bash";
+      userShell = "fish";
+    };
     abidan-archive-backup.enable = true;
     sops.enable = true;
     sops.homeOnSeparatePartition = true;

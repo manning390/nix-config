@@ -1,0 +1,48 @@
+{
+  lib,
+  config,
+  pkgs,
+  vars,
+  ...
+}: let
+  cfg = config.custom.shells;
+in {
+  options.custom.shells = {
+    systemShell = lib.mkOption {
+      type = lib.types.nullOr (lib.types.enum ["bash" "zsh" "fish"]);
+      default = null;
+      description = ''
+        Default login shell for all users.
+        null = do not override users.defaultUserShell.
+      '';
+    };
+
+    userShell = lib.mkOption {
+      type = lib.types.nullOr (lib.types.enum ["bash" "zsh" "fish"]);
+      default = null;
+      description = ''
+        Login shell for the main user.
+      '';
+    };
+  };
+
+  config = let
+    shellPkg = shellName:
+      if shellName == "bash"
+      then pkgs.bashInteractive
+      else if shellName == "zsh"
+      then pkgs.zsh
+      else if shellName == "fish"
+      then pkgs.fish
+      else null;
+  in {
+    users.defaultUserShell = lib.mkIf (cfg.systemShell != null) (shellPkg cfg.systemShell);
+    users.users.${vars.username}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
+
+    environment.systemPackages = with pkgs; [
+      bashInteractive
+      zsh
+      fish
+    ];
+  };
+}

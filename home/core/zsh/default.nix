@@ -36,21 +36,4 @@
   };
 
   programs.starship.enable = true;
-
-  programs.zoxide.enable = true;
-  programs.zoxide.options = ["--cmd cd"];
-
-  programs.fzf.enable = true;
-
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  home.sessionVariables = {
-    PATH = "$HOME/.local/bin:$PATH";
-    DOTFILES = "$HOME/.dotfiles";
-    NIXCONFIG = "$HOME/Code/nix/nix-config";
-    MEOW = "nya?";
-  };
 }

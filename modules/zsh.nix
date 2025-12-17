@@ -1,11 +1,14 @@
-{
-  pkgs,
-  vars,
-  ...
-}: {
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
-  users.users."${vars.username}".shell = pkgs.zsh;
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    fzf
+  ];
+  programs.fish = {
+    enable = true;
+    plugins = [
+      {
+        name = "done";
+        src = pkgs.fishPlugins.done.src;
+      }
+    ];
+  };
 }

@@ -12,7 +12,7 @@
 
   environment.systemPackages = with pkgs;
     [
-      rofi-wayland # Application launcher
+      rofi # Application launcher
       hyprlock # lock screen
       hyprcursor # Better cursors
       hypridle # System idle
@@ -24,7 +24,7 @@
       mako
     ]
     ++ [
-      inputs.hyprland-contrib.packages.${pkgs.system}.grimblast # or any other package
+      inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast # or any other package
     ];
 
   xdg.portal.enable = true;
