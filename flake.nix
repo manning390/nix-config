@@ -64,6 +64,7 @@
     inherit (flakehelpers) mkMerge mkNixos mkWsl;
   in
     mkMerge [
+      { overlays = import ./overlays { inherit inputs; }; }
       (flake-utils.lib.eachDefaultSystem (
         system: let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -75,7 +76,6 @@
             ];
           };
           formatter = pkgs.alejandra;
-          # overlays.default = import ./overlays { inherit inputs; };
         }
       ))
       # Desktop
