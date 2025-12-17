@@ -1,16 +1,10 @@
 {
   config,
-  isLaptop,
   lib,
   pkgs,
   ...
 }: {
-  options.custom.colemak_dhm.enable =
-    lib.mkEnableOption "enables colemak_dhm remaps"
-    // {
-      default = isLaptop;
-    };
-
+  options.custom.colemak_dhm.enable = lib.mkEnableOption "enables colemak_dhm remaps";
   config = lib.mkMerge [
     (lib.mkIf config.custom.colemak_dhm.enable {
       services.xserver.xkb = {
