@@ -9,4 +9,5 @@
   };
 
   programs.starship.enable = true;
+  programs.nix-index.enableZshIntegration = true;
 }

@@ -1,6 +1,7 @@
 {lib, ...}: {
   imports = [ ] ++ builtins.map lib.custom.relativeToRoot [
     "home/linux/desktop.nix"
+    "home/core/default.nix"
   ];
 
   custom.wm.caelestia.enable = true;
@@ -8,11 +9,7 @@
   programs.zoxide.enable = true;
   programs.zoxide.options = ["--cmd cd"];
   programs.fzf.enable = true;
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
-  };
+  programs.nix-index.enable = true;
 
   home.sessionVariables = {
     PATH = "$HOME/.local/bin:$PATH";

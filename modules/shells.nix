@@ -6,6 +6,14 @@
   ...
 }: let
   cfg = config.custom.shells;
+  shellPkg = shellName:
+    if shellName == "bash"
+    then pkgs.bashInteractive
+    else if shellName == "zsh"
+    then pkgs.zsh
+    else if shellName == "fish"
+    then pkgs.fish
+    else null;
 in {
   options.custom.shells = {
     systemShell = lib.mkOption {
@@ -27,14 +35,9 @@ in {
   };
 
   config = let
-    shellPkg = shellName:
-      if shellName == "bash"
-      then pkgs.bashInteractive
-      else if shellName == "zsh"
-      then pkgs.zsh
-      else if shellName == "fish"
-      then pkgs.fish
-      else null;
+    usesBash = cfg.systemShell == "bash" || cfg.userShell == "bash";
+    usesZsh = cfg.systemShell == "zsh" || cfg.userShell == "zsh";
+    usesFish = cfg.systemShell == "fish" || cfg.userShell == "fish";
   in {
     users.defaultUserShell = lib.mkIf (cfg.systemShell != null) (shellPkg cfg.systemShell);
     users.users.${vars.username}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
@@ -44,6 +47,10 @@ in {
       zsh
       fish
     ];
+
+    programs.bash.enable = lib.mkIf usesBash true;
+    programs.zsh.enable = lib.mkIf usesZsh true;
+    programs.fish.enable = lib.mkIf usesFish true;
 
     environment.shellAliases = {
       ln = "ln -v";
