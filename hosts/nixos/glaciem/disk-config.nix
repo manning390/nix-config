@@ -1,7 +1,7 @@
 {
   disko.devices = {
     disk = {
-      # NVMe for ZFS root pool 
+      # NVMe for ZFS root pool
       nvme0 = {
         type = "disk";
         device = "/dev/disk/by-id/nvme-Vi3000_Internal_PCIe_NVMe_M.2_SSD_256GB_493734394832852";
@@ -63,7 +63,6 @@
           };
         };
       };
-
     };
 
     zpool = {

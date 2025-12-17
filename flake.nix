@@ -19,7 +19,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Ephemeral Root 
+    # Ephemeral Root
     impermanence.url = "github:nix-community/impermanence";
 
     # Windows WSL

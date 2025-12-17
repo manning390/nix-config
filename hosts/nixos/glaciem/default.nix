@@ -39,7 +39,6 @@
       };
     };
   };
-  
 
   # Descrypt password so it can be used to create the user
   sops.secrets."user_passwords/glaciem".neededForUsers = true;

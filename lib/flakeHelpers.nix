@@ -1,4 +1,7 @@
-{inputs, outputs}: let
+{
+  inputs,
+  outputs,
+}: let
   username = (import ../vars).username;
   mkSpecialArgs = nixpkgsVersion: machineHostname: {
     inherit inputs outputs;
