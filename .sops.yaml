@@ -1,11 +1,16 @@
 keys:
-  - &primary age1zpsu56zn0xncqrunf0y62fupd3cjrr9qp0nazjram39pwpezr5mstnyx60
+  - &standalone age1ydrn9l0sun0wa7nq4lymfg96vx472ca0pwqr8vx9jhlq4t2u9qlqwxvdc7
+  - &hosts:
+    - &sentry age1zpsu56zn0xncqrunf0y62fupd3cjrr9qp0nazjram39pwpezr5mstnyx60
+    - &glaciem age1zkcgjt69zxcy25hepsym6ecykg40vua0fuxtqm9mxxytj92ph5vsav8huh
   - &telariel age1czf562frvwgus6xmhj4x6vth3v47r93dzxlfh4td6yfaz9vagc8qhcg633
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
       - age:
-        - *primary
+        - *standalone
+        - *sentry
+        - *glaciem
   - path_regex: iteration110/secrets.yaml$
     key_groups:
       - age:

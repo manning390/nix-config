@@ -4,29 +4,34 @@
   inputs,
   outputs,
   lib,
-  config,
   pkgs,
-  myvars,
+  vars,
   ...
-}:
-with myvars; let
-  hostName = "sentry";
-in {
-  imports = [
-    ../../modules/gaming/godot.nix
-    ../../modules/system.nix
-    ../../modules/hyprland.nix
-    ../../modules/gaming
-    ../../modules/stylix.nix
-    ../../modules/keyboard.nix
-    ../../modules/sops.nix
-    ../../modules/abidan-archive-backup.nix
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-  ];
+}: {
+  imports =
+    [
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+      ./hardware-configuration.nix
+    ]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/system.nix"
+      "modules/nix.nix"
+      "modules/zsh.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      # "modules/gaming/steam.nix"
+      "modules/gaming/ffxiv.nix"
+      # "modules/stylix.nix"
+      # "modules/keyd.nix"
+      "modules/keyboard.nix"
+    ];
 
   custom = {
-    abidan-archive-backup.enable = true;
+    ffxiv.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = true;
   };
 
   nixpkgs = {
@@ -49,14 +54,9 @@ in {
     ];
   };
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
   # Networking
   networking = {
-    hostName = hostName;
+    hostName = vars.hostname;
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
@@ -68,33 +68,34 @@ in {
   # networking.firewall.enable = false;
 
   # Users
-  users.users."${username}" = {
+  users.users."${vars.username}" = {
     isNormalUser = true;
-    description = userfullname;
-    extraGroups = ["networkmanager" "wheel" "audio" "video" "docker"];
+    description = vars.userfullname;
+    extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
     openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [username];
+  nix.settings.trusted-users = [vars.username];
 
   # System packages
-  # environment.systemPackages = with pkgs; [
-  #   # Utils
-  #   vim # Do not remove, need an editor to edit configuration.nix
-  #   zsh
-  #   git
-  #   btop
-  #   bat
-  #   wget
-  #   curl
-  #   tree
-  #   stow
-  #   usbutils
-  # ];
+  environment.systemPackages = with pkgs; [
+    #   # Utils
+    #   vim # Do not remove, need an editor to edit configuration.nix
+    #   zsh
+    #   git
+    #   btop
+    #   bat
+    #   wget
+    #   curl
+    #   tree
+    #   stow
+    #   usbutils
+    brightnessctl
+    zoom-us
+  ];
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -109,8 +110,9 @@ in {
     };
   };
 
-  virtualisation.docker.enable = true;
+  #virtualisation.docker.enable = true;
+  services.fwupd.enable = true;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 }

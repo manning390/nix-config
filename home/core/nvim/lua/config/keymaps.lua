@@ -42,8 +42,8 @@ if vim.env.COLEMAK == '1' then
 	nmap('N', 'J')  -- join
 	nmap('I', '<nop>') -- Shift I
 end
-nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 nnoremap(sf('<C-%s>', h), ':TmuxNavigateLeft<cr>', { silent = true }) -- change window left
 nnoremap(sf('<C-%s>', j), ':TmuxNavigateDown<cr>', { silent = true }) -- change window down
@@ -97,7 +97,7 @@ nnoremap('g?', vim.diagnostic.open_float, { silent = true })
 nnoremap('<leader>cn', vim.lsp.buf.rename, { desc = 'LSP: [R]e[n]ame' })
 nnoremap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: [C]ode [A]ction' })
 -- nnoremap('<leader>cc', require 'color-converter'.cycle, { desc = '[C]olor [C]onverter' })
-nnoremap('<leader>ct', ':ClorizerToggle', { desc = '[C]olor Display [T]oggle' })
+-- nnoremap('<leader>ct', ':ClorizerToggle', { desc = '[C]olor Display [T]oggle' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic ' })
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic' })
 nnoremap(']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Next Error' })
@@ -162,10 +162,16 @@ nnoremap('<leader>gc', ':G ci<cr>')
 nnoremap('<leader>gp', ':G push<cr>')
 nnoremap('<leader>g' .. j, ':diffget //3<cr>')
 nnoremap('<leader>g' .. f, ':diffget //2<cr>')
-nnoremap('<leader>gb', ':GBrowse<cr>')
+nnoremap('<leader>gb', ':GBrowse<cr>', { desc = "Fugitive GBrowse to default"})
 vnoremap('<leader>gb', ":'<,'>GBrowse<cr>")
-nnoremap('<leader>gm', ':GBrowse origin/master:%<cr>')
-vnoremap('<leader>gm', ":'<,'>GBrowse origin/master:%<cr>")
+nnoremap('<leader>gm', function()
+	local branch = fn.getDefaultBranch()
+	vim.cmd(string.format('GBrowse origin/%s:%%', branch))
+end, { desc = "Fugitive GBrowse to default branch"})
+vnoremap('<leader>gm', function()
+	local branch = fn.getDefaultBranch()
+	vim.cmd(string.format("'<,'>GBrowse origin/%s:%%", branch))
+end, { desc = "Fugitive GBrowse to default branch"})
 
 nnoremap('<leader>gw', require 'telescope'.extensions.git_worktree.create_git_worktree)
 

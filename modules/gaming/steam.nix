@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  myvars,
+  vars,
   ...
 }: {
   options.custom.steam.enable = lib.mkEnableOption "enables steam";
@@ -41,7 +41,7 @@
       protonup
     ];
     environment.sessionVariables = {
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${myvars.username}/.steam/root/compatibilitytools.d";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${vars.username}/.steam/root/compatibilitytools.d";
       DXVK_FRAME_RATE = "60";
     };
 

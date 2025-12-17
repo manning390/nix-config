@@ -1,32 +1,36 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
-  inputs,
   outputs,
-  lib,
-  config,
   pkgs,
-  myvars,
+  vars,
   ...
 }:
-with myvars; let
-  hostName = "ruby";
+with vars; let
+  hostName = "sentry";
 in {
-  imports = [
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-    ../../modules/system.nix
-    ../../modules/hyprland.nix
-    # ../../modules/gaming/steam.nix
-    ../../modules/gaming/ffxiv.nix
-    # ../../modules/stylix.nix
-    # ../../modules/keyd.nix
-    ../../modules/keyboard.nix
-  ];
+  imports =
+    [./hardware-configuration.nix]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/nix.nix"
+      "modules/system.nix"
+      "modules/sops.nix"
+      "modules/zsh.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      "modules/gaming"
+      "modules/gaming/godot.nix"
+      "modules/stylix.nix"
+      "modules/keyboard.nix"
+      "modules/abidan-archive-backup.nix"
+    ];
 
   custom = {
-    ffxiv.enable = true;
+    abidan-archive-backup.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = true;
   };
 
   nixpkgs = {
@@ -49,11 +53,6 @@ in {
     ];
   };
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
   # Networking
   networking = {
     hostName = hostName;
@@ -70,8 +69,8 @@ in {
   # Users
   users.users."${username}" = {
     isNormalUser = true;
-    description = myvars.userfullname;
-    extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
+    description = userfullname;
+    extraGroups = ["networkmanager" "wheel" "audio" "video" "docker"];
     openssh.authorizedKeys.keys = [];
     shell = pkgs.zsh;
   };
@@ -82,21 +81,19 @@ in {
   nix.settings.trusted-users = [username];
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    #   # Utils
-    #   vim # Do not remove, need an editor to edit configuration.nix
-    #   zsh
-    #   git
-    #   btop
-    #   bat
-    #   wget
-    #   curl
-    #   tree
-    #   stow
-    #   usbutils
-    brightnessctl
-    zoom-us
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   # Utils
+  #   vim # Do not remove, need an editor to edit configuration.nix
+  #   zsh
+  #   git
+  #   btop
+  #   bat
+  #   wget
+  #   curl
+  #   tree
+  #   stow
+  #   usbutils
+  # ];
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -111,9 +108,8 @@ in {
     };
   };
 
-  #virtualisation.docker.enable = true;
-  services.fwupd.enable = true;
+  virtualisation.docker.enable = true;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "24.05";
+  system.stateVersion = "23.11";
 }

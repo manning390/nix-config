@@ -28,9 +28,13 @@ in {
 
     gcc
     gnumake
-    nodejs_24
+    nodejs
     pnpm
+    # intelephense
+    python3
 
+    # LSP
+    lua-language-server
     neovim-node-client
     nodePackages.typescript
     nodePackages.typescript-language-server
@@ -38,6 +42,7 @@ in {
     eslint_d
     efm-langserver
     nixd
+    vale-ls
   ];
 
   programs.direnv.enable = true;
