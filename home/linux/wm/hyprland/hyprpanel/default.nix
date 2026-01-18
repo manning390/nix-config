@@ -3,6 +3,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }: {
   options.custom.wm.hyprpanel.enable = lib.mkEnableOption "enables hyprpanel" // {default = true;};
@@ -15,7 +16,8 @@
     home.packages = with pkgs; [
       hyprpanel
     ];
-    home.file.".config/ags/config.js".source = ./config.json;
+
+    home.file.".config/hyprpanel/config.js".source = ./${osConfig.networking.hostName}.config.json;
 
     wayland.windowManager.hyprland.settings.exec-once = lib.mkAfter [
       "uwsm app -- hyprpanel"

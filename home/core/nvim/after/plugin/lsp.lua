@@ -1,3 +1,4 @@
+-- vim.lsp.set_log_level('debug')
 -- local efm_languages = { 
 --     lua = { require('efml-configs.formatters.stylua') }
 -- }
@@ -18,16 +19,16 @@ local servers = {
     },
     cmake = {},
     -- phpactor = {},
-    -- intelephense = {
-    --     init_options = {
-    --         licenceKey = (function()
-    --             local f = assert(io.opin(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
-    --             local content = f:read("*a")
-    --             f:close()
-    --             return string.gsub(content, "%s+", "")
-    --         end)()
-    --     }
-    -- },
+    intelephense = {
+        init_options = {
+            licenceKey = (function()
+                local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+                local content = f:read("*line")
+                f:close()
+                return content
+            end)()
+        }
+    },
     tailwindcss = {},
     vimls = {},
     cssls = {
@@ -93,18 +94,19 @@ local servers = {
     --   },
     -- },
     jsonls = {},
-    ltex = {
-        filetypes = { 'markdown' },
-        filter_notifications = {
-            'checking document'
-        },
-        -- on_init = function(client)
-        --     client.server_capabilities
-        -- end
-    },
+    marksman = {},
+    -- ltex = {
+    --     filetypes = { 'markdown' },
+    --     filter_notifications = {
+    --         'checking document'
+    --     },
+    --     -- on_init = function(client)
+    --     --     client.server_capabilities
+    --     -- end
+    -- },
     nixd = {},
     -- svelte = {},
-    gdscript = {}
+    godot = (os.getenv("GODOT") and {} or nil)
 }
 
 vim.diagnostic.config({

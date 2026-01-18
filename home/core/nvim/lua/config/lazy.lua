@@ -37,7 +37,7 @@ local plugins = {
 					nls.builtins.formatting.prettier,
 					nls.builtins.completion.spell,
 					-- require("none-ls.diagnostics.eslint"),
-					-- require("none-ls.diagnostics.php")
+					--require("none-ls.diagnostics.php")
 				}
 			}
 		end,
@@ -239,7 +239,7 @@ local plugins = {
 		end,
 	},
 	{"norcalli/nvim-colorizer.lua", opts = {}},
-	"NTBBloodbath/color-converter.nvim",
+	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
 		"windwp/nvim-autopairs",

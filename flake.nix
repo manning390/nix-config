@@ -16,10 +16,6 @@
     # Nix User Repository
     nur.url = "github:nix-community/NUR";
 
-    # Cursor theme
-    nordzy-hyprcursors.url = "github:guillaumeboehm/Nordzy-cursors";
-    nordzy-hyprcursors.flake = false;
-
     # Zsh plugin manager
     zinit.url = "github:zdharma-continuum/zinit";
     zinit.flake = false;
@@ -40,6 +36,10 @@
     # Firefox nightly
     firefox.url = "github:nix-community/flake-firefox-nightly";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Sops
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Hardward specific configs
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -95,6 +95,7 @@
           ./hosts/sentry
           inputs.stylix.nixosModules.stylix
           inputs.nur.modules.nixos.default
+          inputs.sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;
@@ -119,6 +120,7 @@
           ./hosts/ruby
           inputs.stylix.nixosModules.stylix
           inputs.nur.modules.nixos.default
+          inputs.sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
           {
             # home-manager.useGlobalPkgs = true;
