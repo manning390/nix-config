@@ -15,15 +15,10 @@
     ];
     services.caddy = {
       enable = true;
-      globalConfig = ''
-        auto_https off
-      '';
+      # globalConfig = ''
+      #   auto_https off
+      # '';
       virtualHosts = {
-        "localhost" = {
-          extraConfig = ''
-            respond "OK"
-          '';
-        };
         "http://${config.homelab.baseDomain}" = {
           extraConfig = ''
             redir https://{host}{uri}

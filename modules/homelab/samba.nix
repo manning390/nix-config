@@ -43,7 +43,7 @@ in {
       };
     };
     commonSettings = lib.mkOption {
-      description = "Parameters appl}d to each share";
+      description = "Parameters applied to each share";
       type = lib.types.attrsOf lib.types.str;
       default = {};
       example = {
