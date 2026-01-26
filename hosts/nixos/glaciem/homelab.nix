@@ -35,10 +35,7 @@ in {
 
     services = {
       enable = true;
-
-      homepage = {
-        enable = false;
-      };
+      homepage.enable = true;
     };
   };
 }
