@@ -13,6 +13,7 @@ in {
   imports =
     [./hardware-configuration.nix]
     ++ builtins.map lib.custom.relativeToRoot [
+      "modules/plymouth.nix"
       "modules/nix.nix"
       "modules/system.nix"
       "modules/sops.nix"
