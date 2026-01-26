@@ -28,17 +28,10 @@
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
-
-      extraPackages = [pkgs.amdvlk];
-      extraPackages32 = [pkgs.driversi686Linux.amdvlk];
-    };
-    hardware.amdgpu.amdvlk = {
-      enable = true;
-      support32Bit.enable = true;
     };
 
     environment.systemPackages = with pkgs; [
-      protonup
+      protonup-ng
     ];
     environment.sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${vars.username}/.steam/root/compatibilitytools.d";
