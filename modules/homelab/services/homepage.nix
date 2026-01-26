@@ -38,6 +38,7 @@ in {
     services.glances.enable = true;
     services.${service} = {
       enable = true;
+      environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain}";
       settings = {
         layout = [
           {
