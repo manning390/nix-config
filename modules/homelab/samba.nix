@@ -86,7 +86,8 @@ in {
 
     systemd.tmpfiles.rules = map (x: "d ${x.path} 0775 ${hl.user} ${hl.group} - -") (lib.attrValues cfg.shares);
 
-    sops.secrets."samba_password" = {};
+    sops.secrets."samba_password" = {}; # Make secret available
+    # Make user for samba
     system.activationScripts.samba_user_create = ''
       smb_password=$(cat "${config.sops.secrets."samba_password".path}")
       echo -e "$smb_password\n$smb_password\n" | ${lib.getExe' pkgs.samba "smbpasswd"} -a -s ${hl.user}

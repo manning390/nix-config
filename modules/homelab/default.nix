@@ -7,6 +7,25 @@
 in {
   options.homelab = {
     enable = lib.mkEnableOption "The homelab services and configuration variables";
+    mounts.fast = lib.mkOption {
+      default = "/fast";
+      description = ''
+        path to the 'fast' tier mount
+      '';
+    };
+    mounts.slow = lib.mkOption {
+      default = "/bulk";
+      description = ''
+        Path to the 'slow' tier mount
+      '';
+    };
+    mounts.backups = lib.mkOption {
+      default = "/backups";
+      description = ''
+        Path to the backups mount
+      '';
+    };
+
     user = lib.mkOption {
       default = "share";
       type = lib.types.str;
@@ -31,8 +50,9 @@ in {
   };
 
   imports = [
-    ./services
+    ./networks.nix
     ./samba.nix
+    ./services
   ];
 
   config = lib.mkIf cfg.enable {

@@ -15,7 +15,7 @@ in {
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/plymouth.nix"
       "modules/nix.nix"
-      "modules/system.nix"
+      "modules/common.nix"
       "modules/sops.nix"
       "modules/shells.nix"
       "modules/audio.nix"
