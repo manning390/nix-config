@@ -45,7 +45,6 @@
 
         clear = "!clear; echo \"Good job.\"";
       };
-      init.defaultBranch = "main";
     };
   };
 }
