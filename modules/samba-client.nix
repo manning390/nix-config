@@ -1,7 +1,7 @@
 { config, lib, pkgs, vars, ...}:
 let
   hl = config.homelab;
-  cfg = lb.sambaClient;
+  cfg = hl.sambaClient;
 in {
   options.homelab.sambaClient = {
     enable = lib.mkEnableOption "Enable Samba client mounts";
