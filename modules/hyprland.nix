@@ -22,8 +22,8 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      rofi # Application launcher
-      fuzzel # Another application launcher
+      # rofi # Application launcher
+      # fuzzel # Another application launcher
       app2unit # similar to UWSM, daemon launcher, faster
       hyprlock # lock screen
       hyprcursor # Better cursors
@@ -34,6 +34,7 @@ in {
       playerctl
       brightnessctl
       mako
+      libnotify
     ]
     ++ [
       inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast # or any other package

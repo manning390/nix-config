@@ -37,8 +37,8 @@
         })
       ];
       monitor = [
-        "HDMI-A-1,2560x1440@144,0x0,1"
         "DP-1,2560x1440@144,2560x0,1"
+        "HDMI-A-1,2560x1440@144,0x0,1"
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
       env = [
@@ -63,7 +63,7 @@
           "$mod, TAB, focuscurrentorlast"
           # "$mod, L, exec, hyprlock"
           "$mod, L, global, caelestia:lock"
-          "$mod, A, global, caelestia:picker"
+          "$mod, A, global, caelestia:picker open"
           # Screen shots
           ", Print, exec, app2unit -s a grimblast --notify copy area"
           "SHIFT, Print, exec, app2unit -s a grimblast --notify copysave area"
