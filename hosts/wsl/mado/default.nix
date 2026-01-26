@@ -28,6 +28,9 @@
     isNormalUser = true;
     shell = pkgs.zsh;
   };
+  environment.sessionVariables = {
+    COLEMAK = "1";
+  };
 
   custom = {
     sops.enable = true;

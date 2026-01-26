@@ -21,11 +21,13 @@
   environment.systemPackages = with pkgs; [
     vim # Do not remove, need an editor to edit configuration.nix
 
+    fastfetch
     zsh
 
     wget
     curl
     git
+    eza # ls replacement
     stow
     wl-clipboard
     just
