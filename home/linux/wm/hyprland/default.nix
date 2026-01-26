@@ -24,9 +24,8 @@
     systemd.enable = false;
     settings = {
       exec-once = [
-        "caelestia-shell -d"
-        "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-        "uwsm app -- udiskie --smart-stray"
+        "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "app2unit -s b udiskie --smart-stray"
       ];
       input = lib.mkMerge [
         (lib.mkIf osConfig.custom.colemak_dhm.enable {
@@ -50,20 +49,24 @@
       "$mod" = "SUPER";
       bind =
         [
-          "$mod, RETURN, exec, uwsm app -- kitty"
+          "$mod, RETURN, exec, app2unit -s a kitty"
           "$mod, C, killactive"
           "ALT, F4, exec, hyprctl kill"
           "$mod SHIFT, Q, exit"
           "$mod, V, togglefloating"
-          "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
+          # "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
+          "$mod, D, global, caelestia:launcher"
+          
           "$mod, P, pseudo"
           "$mod, T, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
-          "$mod, L, exec, hyprlock"
+          # "$mod, L, exec, hyprlock"
+          "$mod, L, global, caelestia:lock"
+          "$mod, A, global, caelestia:picker"
           # Screen shots
-          ", Print, exec, uwsm app -- grimblast --notify copy area"
-          "SHIFT, Print, exec, uwsm app -- grimblast --notify copysave area"
+          ", Print, exec, app2unit -s a grimblast --notify copy area"
+          "SHIFT, Print, exec, app2unit -s a grimblast --notify copysave area"
           # Volume keys
           # Media keys
           ", XF86AudioPlay, exec, playerctl play-pause"
@@ -141,11 +144,11 @@
       };
       decoration = {
         rounding = 10;
-        blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-        };
+        # blur = {
+        #   enabled = true;
+        #   size = 3;
+        #   passes = 1;
+        # };
         shadow = {
           enabled = true;
           color = lib.mkDefault "rgba(1a1a1aee)";
@@ -188,8 +191,8 @@
     };
   };
 
-  home.file.".config/hypr/hypridle.conf".text = builtins.readFile ./hypridle.conf;
-  home.file.".config/hypr/hyprlock.conf".text = builtins.readFile ./hyprlock.conf;
+  # home.file.".config/hypr/hypridle.conf".text = builtins.readFile ./hypridle.conf;
+  # home.file.".config/hypr/hyprlock.conf".text = builtins.readFile ./hyprlock.conf;
 
   # Hint electron to use wayland
   home.sessionVariables = {
@@ -234,12 +237,7 @@
     export XCURSOR_THEME=Bibata-Modern-Classic
     export XCURSOR_SIZE=20
     export WAYLAND_DISPLAY=wayland-1
-  '';
-
-  # Add after our configs way for uwsm to start desktop
-  programs.zsh.initContent = lib.mkAfter ''
-    if uwsm check may-start; then
-      exec uwsm start hyprland-uwsm.desktop
-    fi
+    export APP2UNIT_SLICES='a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice'
+    export APP2UNIT_TYPE=scope
   '';
 }

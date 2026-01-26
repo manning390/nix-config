@@ -25,6 +25,7 @@ in {
       "modules/stylix.nix"
       "modules/keyboard.nix"
       "modules/abidan-archive-backup.nix"
+      "modules/1pass.nix"
     ];
 
   custom = {

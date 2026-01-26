@@ -48,6 +48,7 @@ in {
       fish
     ];
 
+    programs.starship.enable = true;
     programs.bash.enable = lib.mkIf usesBash true;
     programs.zsh.enable = lib.mkIf usesZsh true;
     programs.fish.enable = lib.mkIf usesFish true;
