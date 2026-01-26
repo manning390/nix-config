@@ -18,12 +18,16 @@ in {
       "modules/nix.nix"
       "modules/common.nix"
       "modules/sops.nix"
-      "modules/zsh.nix"
+      "modules/shells.nix"
       "modules/homelab"
     ];
 
   # Custom module options
   custom = {
+    shells = {
+      systemShell = "bash";
+      userShell = "fish";
+    };
     sops.enable = true;
     sops.generateKeys = false;
     nix = {
