@@ -13,6 +13,7 @@
     "modules/nix.nix"
     "modules/common.nix"
     "modules/sops.nix"
+    "modules/shells.nix"
     # WSL included from flake helper
   ];
 
@@ -20,19 +21,18 @@
   wsl.defaultUser = vars.username;
   networking.hostName = vars.hostname;
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
   users.users."${vars.username}" = {
     isNormalUser = true;
-    shell = pkgs.zsh;
   };
   environment.sessionVariables = {
     COLEMAK = "1";
   };
 
   custom = {
+    shells = {
+      systemShell = "bash";
+      userShell = "fish";
+    };
     sops.enable = true;
     nix.allowUnfree = true;
   };

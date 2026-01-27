@@ -1,7 +1,10 @@
 {config, pkgs, ...}: {
   programs.fish = {
     enable = true;
-    plugins = [ ];
+    plugins = [{
+      name = "fzf-fish";
+      src = pkgs.fishPlugins.fzf-fish.src;
+    }];
 
     interactiveShellInit = ''
       # Colors
@@ -27,6 +30,6 @@
     "$HOME/.local/bin"
   ];
 
-  programs.fzf.enableFishIntegration = true;
-  programs.nix-index.enableFishIntegration = true;
+  programs.starship.enable = true; # Prompt
+  programs.fzf.enableFishIntegration = false; # fzf-fish plugin conflict
 }

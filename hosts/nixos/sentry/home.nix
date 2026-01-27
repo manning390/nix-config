@@ -9,7 +9,6 @@
   programs.zoxide.enable = true;
   programs.zoxide.options = ["--cmd cd"];
   programs.fzf.enable = true;
-  programs.nix-index.enable = true;
 
   home.sessionVariables = {
     PATH = "$HOME/.local/bin:$PATH";

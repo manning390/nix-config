@@ -22,7 +22,6 @@
     vim # Do not remove, need an editor to edit configuration.nix
 
     fastfetch
-    zsh
 
     wget
     curl
@@ -39,7 +38,6 @@
 
     # utils
     ripgrep
-    fzf
     htop
     pciutils
 

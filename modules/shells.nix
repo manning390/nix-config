@@ -43,12 +43,17 @@ in {
     users.users.${vars.username}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
 
     environment.systemPackages = with pkgs; [
+      # shells
       bashInteractive
       zsh
       fish
+
+      # Shell utils
+      fzf # Fzf search
+      fd # Better find
+      bat # Better cat
     ];
 
-    programs.starship.enable = true;
     programs.bash.enable = lib.mkIf usesBash true;
     programs.zsh.enable = lib.mkIf usesZsh true;
     programs.fish.enable = lib.mkIf usesFish true;
