@@ -36,6 +36,10 @@ in {
     services = {
       enable = true;
       homepage.enable = true;
+      microbin = {
+        enable = true;
+        role = "server";
+      };
     };
   };
 }

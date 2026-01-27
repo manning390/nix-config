@@ -39,6 +39,7 @@ in {
     services.${service} = {
       enable = true;
       environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain}";
+      customCSS = builtins.readFile ./custom.css;
       settings = {
         layout = [
           {

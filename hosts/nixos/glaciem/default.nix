@@ -35,19 +35,6 @@ in {
     };
   };
 
-  # Homelab module options
-  homelab = {
-    enable = true;
-    baseDomain = "glaciem.home";
-
-    samba = {
-      enable = true;
-      passwordFile = config.sops.secrets."samba_password".path;
-      shares = {
-      };
-    };
-  };
-
   # Descrypt password so it can be used to create the user
   sops.secrets."user_passwords/glaciem".neededForUsers = true;
   # users.mutableUsers = false; # Required for password to be set via sops during system activations!

@@ -15,9 +15,9 @@
     ];
     services.caddy = {
       enable = true;
-      # globalConfig = ''
-      #   auto_https off
-      # '';
+      globalConfig = ''
+        auto_https off
+      '';
       virtualHosts = {
         "http://${config.homelab.baseDomain}" = {
           extraConfig = ''
@@ -33,6 +33,7 @@
     };
   };
   imports = [
-    ./homepage.nix
+    ./homepage
+    ./microbin
   ];
 }

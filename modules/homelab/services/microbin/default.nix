@@ -4,7 +4,16 @@
   lib,
   ...
 }: let
-  # nordHighlight = builtins.toFile "nord.css"
+  nordHighlight = builtins.toFile "nord.css" (builtins.readFile ./nord.css);
+  nordUi = builtins.toFile "nord_ui.css" (buitlins.readFile ./nord_ui.css);
+  highlightJsNix = pkgs.fetchurl {
+    url = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/nix.min.js";
+    hash = "sha256-j4dmtrr8qUODoICuOsgnj1ojTAmxbKe00mE5sfElC/I=";
+  };
+  highlightJs = pkgs.fetchurl {
+    url = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js";
+    hash = "sha256-xKOZ3W9Ii8l6NUbjR2dHs+cUyZxXuUcxVMb7jSWbk4E=";
+  };
   service = "microbin";
   cfg = config.homelab.services.${service};
 in {
@@ -64,6 +73,23 @@ in {
   in
     mkIfElse (cfg.role == "client")
     (lib.mkIf cfg.enable {
+      nixpkgs.overlays = with pkgs; [
+        (_final: prev: {
+          microbin = prev.microbin.overrideAttrs (
+            _finalAttrs: _previousAttrs: {
+              postPatch = ''
+                cp ${nordHighlight} templates/assets/highlight/highlight.min.css
+                cp ${highlightJs} templates/assets/highlight/highlight.min.js
+                cp ${highlightJsNix} templates/assets/highlight/nix.min.js
+                echo "" >> templates/assets/water.css
+                cat ${nordUi} >> templates/assets/water.css
+                sed -i "s#<option value=\"auto\">#<option value=\"auto\" selected>#" templates/index.html
+                sed -i "s#highlight.min.js\"></script>#highlight.min.js\"></script><script type=\"text/javascript\" src=\"{{ args.public_path_as_str() }}/static/highlight/nix.min.js\"></script>#" templates/upload.html
+              '';
+            }
+          );
+        })
+      ];
       services = {
         ${service} =
           {
@@ -83,15 +109,15 @@ in {
           // lib.attrsets.optionalAttrs (cfg.passwordFile != "") {
             passwordFile = cfg.passwordFile;
           };
-        frp.settings.proxies = [
-          {
-            name = service;
-            type = "tcp";
-            localIP = addr;
-            localPort = port;
-            remotePort = port;
-          }
-        ];
+        # frp.settings.proxies = [
+        #   {
+        #     name = service;
+        #     type = "tcp";
+        #     localIP = addr;
+        #     localPort = port;
+        #     remotePort = port;
+        #   }
+        # ];
       };
     })
     {

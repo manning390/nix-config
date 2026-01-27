@@ -24,9 +24,6 @@
   users.users."${vars.username}" = {
     isNormalUser = true;
   };
-  environment.sessionVariables = {
-    COLEMAK = "1";
-  };
 
   custom = {
     shells = {
@@ -35,6 +32,10 @@
     };
     sops.enable = true;
     nix.allowUnfree = true;
+  };
+
+  environment.sessionVariables = {
+    COLEMAK = "1";
   };
 
   # This value determines the NixOS release from which the default
