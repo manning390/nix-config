@@ -117,7 +117,7 @@ in {
                   widget = {
                     type = "glances";
                     url = "http://localhost:${port}";
-                    metric = "sensor:Package id 0";
+                    metric = "sensor:Composite";
                     chart = false;
                     version = 4;
                   };
