@@ -1,32 +1,43 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
-  inputs,
-  outputs,
   lib,
-  config,
+  outputs,
   pkgs,
-  myvars,
+  vars,
   ...
 }:
-with myvars; let
+with vars; let
   hostName = "sentry";
 in {
-  imports = [
-    ../../modules/gaming/godot.nix
-    ../../modules/system.nix
-    ../../modules/hyprland.nix
-    ../../modules/gaming
-    ../../modules/stylix.nix
-    ../../modules/keyboard.nix
-    ../../modules/sops.nix
-    ../../modules/abidan-archive-backup.nix
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-  ];
+  imports =
+    [./hardware-configuration.nix]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/plymouth.nix"
+      "modules/nix.nix"
+      "modules/common.nix"
+      "modules/sops.nix"
+      "modules/shells.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      "modules/gaming"
+      "modules/gaming/godot.nix"
+      "modules/stylix.nix"
+      "modules/keyboard.nix"
+      "modules/abidan-archive-backup.nix"
+      "modules/1pass.nix"
+    ];
 
   custom = {
+    shells = {
+      systemShell = "bash";
+      userShell = "fish";
+    };
     abidan-archive-backup.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = false;
   };
 
   nixpkgs = {
@@ -49,11 +60,6 @@ in {
     ];
   };
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
   # Networking
   networking = {
     hostName = hostName;
@@ -69,11 +75,11 @@ in {
 
   # Users
   users.users."${username}" = {
+    initialHashedPassword = "";
     isNormalUser = true;
     description = userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "video" "docker"];
     openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:

@@ -1,5 +1,5 @@
 {
-  myvars,
+  vars,
   lib,
   pkgs,
   ...
@@ -9,18 +9,13 @@
       "1password-gui"
       "1password-cli"
     ];
-  home.packages = with pkgs; [
-    _1password-cli
-    _1password-gui
-  ];
 
   programs = {
-    jq.enable = true;
-    # _1password.enable = true;
-    # _1password-gui = {
-    #   enable = true;
-    #   polkitPolicyOwners = [ myvars.username ];
-    # };
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ vars.username ];
+    };
   };
 
   # (pkgs.writeShellScriptBin "1pass" ''

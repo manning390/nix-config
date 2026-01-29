@@ -9,19 +9,23 @@
     ./waybar
     ./hyprpanel
     ./hyprpaper
+    ./caelestia
   ];
 
-  custom.wm.waybar.enable = lib.mkDefault false;
-  custom.wm.hyprpanel.enable = lib.mkDefault true;
+  # Set defaults for our wm modules
+  custom.wm = {
+    waybar.enable = lib.mkDefault false;
+    hyprpanel.enable = lib.mkDefault false;
+    caelestia.enable = lib.mkDefault true;
+  };
 
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;
     settings = {
       exec-once = [
-        "uwsm app -- hyprpaper"
-        "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-        "uwsm app -- udiskie --smart-stray"
+        "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+        "app2unit -s b udiskie --smart-stray"
       ];
       input = lib.mkMerge [
         (lib.mkIf osConfig.custom.colemak_dhm.enable {
@@ -33,32 +37,36 @@
         })
       ];
       monitor = [
-        "HDMI-A-1,2560x1440@144,0x0,1"
         "DP-1,2560x1440@144,2560x0,1"
+        "HDMI-A-1,2560x1440@144,0x0,1"
         "HDMI-A-2,2560x1440@144,5120x0,1"
       ];
       env = [
-        # "HYPRCURSOR_THEME,rose-pine-hyprcursor"
-        # "HYPRCURSOR_SIZE,24"
+        "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+        "HYPRCURSOR_SIZE,24"
       ];
 
       "$mod" = "SUPER";
       bind =
         [
-          "$mod, RETURN, exec, uwsm app -- kitty"
+          "$mod, RETURN, exec, app2unit -s a kitty"
           "$mod, C, killactive"
           "ALT, F4, exec, hyprctl kill"
           "$mod SHIFT, Q, exit"
           "$mod, V, togglefloating"
-          "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
+          # "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
+          "$mod, D, global, caelestia:launcher"
+          
           "$mod, P, pseudo"
           "$mod, T, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
-          "$mod, L, exec, hyprlock"
+          # "$mod, L, exec, hyprlock"
+          "$mod, L, global, caelestia:lock"
+          "$mod, A, global, caelestia:picker open"
           # Screen shots
-          ", Print, exec, uwsm app -- grimblast --notify copy area"
-          "SHIFT, Print, exec, uwsm app -- grimblast --notify copysave area"
+          ", Print, exec, app2unit -s a grimblast --notify copy area"
+          "SHIFT, Print, exec, app2unit -s a grimblast --notify copysave area"
           # Volume keys
           # Media keys
           ", XF86AudioPlay, exec, playerctl play-pause"
@@ -136,28 +144,28 @@
       };
       decoration = {
         rounding = 10;
-        blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-        };
+        # blur = {
+        #   enabled = true;
+        #   size = 3;
+        #   passes = 1;
+        # };
         shadow = {
           enabled = true;
           color = lib.mkDefault "rgba(1a1a1aee)";
         };
       };
-      animations = {
-        enabled = "yes";
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-        animation = [
-          "windows, 1, 7, myBezier"
-          "windowsOut, 1, 7, default, popin 80%"
-          "border, 1, 10, default"
-          "borderangle, 1, 8, default"
-          "fade, 1, 7, default"
-          "workspaces, 1, 6, default"
-        ];
-      };
+      # animations = {
+      #   enabled = "yes";
+      #   bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+      #   animation = [
+      #     "windows, 1, 7, myBezier"
+      #     "windowsOut, 1, 7, default, popin 80%"
+      #     "border, 1, 10, default"
+      #     "borderangle, 1, 8, default"
+      #     "fade, 1, 7, default"
+      #     "workspaces, 1, 6, default"
+      #   ];
+      # };
       misc.force_default_wallpaper = 0;
       dwindle = {
         pseudotile = "yes";
@@ -183,8 +191,8 @@
     };
   };
 
-  home.file.".config/hypr/hypridle.conf".text = builtins.readFile ./hypridle.conf;
-  home.file.".config/hypr/hyprlock.conf".text = builtins.readFile ./hyprlock.conf;
+  # home.file.".config/hypr/hypridle.conf".text = builtins.readFile ./hypridle.conf;
+  # home.file.".config/hypr/hyprlock.conf".text = builtins.readFile ./hyprlock.conf;
 
   # Hint electron to use wayland
   home.sessionVariables = {
@@ -229,12 +237,7 @@
     export XCURSOR_THEME=Bibata-Modern-Classic
     export XCURSOR_SIZE=20
     export WAYLAND_DISPLAY=wayland-1
-  '';
-
-  # Add after our configs way for uwsm to start desktop
-  programs.zsh.initExtra = lib.mkAfter ''
-    if uwsm check may-start; then
-      exec uwsm start hyprland-uwsm.desktop
-    fi
+    export APP2UNIT_SLICES='a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice'
+    export APP2UNIT_TYPE=scope
   '';
 }

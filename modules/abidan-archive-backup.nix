@@ -1,17 +1,16 @@
 {
   config,
   lib,
-  myvars,
+  vars,
   pkgs,
   ...
 }: let
   serviceName = "abidan-archive-backup";
-  username = myvars.username;
+  username = vars.username;
 in {
   options.custom.${serviceName}.enable = lib.mkEnableOption "Enables a user service that backs up the mysql database on the abidan archive";
 
   config = lib.mkIf config.custom.${serviceName}.enable {
-
     sops.secrets.abidan_db = {
       owner = username;
     };

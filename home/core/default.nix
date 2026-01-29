@@ -1,13 +1,13 @@
 {
-  mylib,
-  myvars,
+  lib,
+  vars,
   ...
 }: {
-  imports = mylib.scanPaths ./.;
+  imports = lib.custom.scanPaths ./.;
 
   home = {
-    username = myvars.username;
-    homeDirectory = "/home/${myvars.username}";
+    username = vars.username;
+    homeDirectory = "/home/${vars.username}";
   };
 
   # Enable home-manager and git

@@ -4,30 +4,39 @@
   inputs,
   outputs,
   lib,
-  config,
   pkgs,
-  myvars,
+  vars,
   ...
 }:
 with myvars; let
+  username = "ruby";
   hostName = "ruby";
 in {
-  imports = [
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-    ../../modules/system.nix
-    ../../modules/hyprland.nix
-    # ../../modules/gaming/steam.nix
-    ../../modules/gaming/ffxiv.nix
-    # ../../modules/stylix.nix
-    # ../../modules/keyd.nix
-    ../../modules/keyboard.nix
-    ../../modules/laptop.nix
-  ];
+  imports =
+    [
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+      ./hardware-configuration.nix
+    ]
+    ++ builtins.map lib.custom.relativeToRoot [
+      "modules/common.nix"
+      "modules/nix.nix"
+      "modules/zsh.nix"
+      "modules/audio.nix"
+      "modules/browsers.nix"
+      "modules/hyprland.nix"
+      # "modules/gaming/steam.nix"
+      "modules/gaming/ffxiv.nix"
+      # "modules/stylix.nix"
+      # "modules/keyd.nix"
+      "modules/keyboard.nix"
+      "modules/laptop.nix"
+    ];
 
   custom = {
     ffxiv.enable = true;
+    sops.enable = true;
+    sops.homeOnSeparatePartition = true;
+    stylix.enable = true;
     colemak_dhm.enable = true;
   };
 
@@ -51,14 +60,9 @@ in {
     ];
   };
 
-  # Shell
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
   # Networking
   networking = {
-    hostName = hostName;
+    hostName = hostname;
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
@@ -72,10 +76,9 @@ in {
   # Users
   users.users."${username}" = {
     isNormalUser = true;
-    description = myvars.userfullname;
+    description = vars.userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
     openssh.authorizedKeys.keys = [];
-    shell = pkgs.zsh;
   };
 
   # Given the users in this list the right to specify additional substituters via:
