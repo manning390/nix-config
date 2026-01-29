@@ -1,8 +1,8 @@
 local wordCount = function()
     return tostring(vim.fn.wordcount().words) .. " words"
 end
-local is_markdown = function()
-    return vim.bo.filetype == "markdown" or vim.bo.filetype == "asciidoc"
+local is_writing = function()
+    return vim.bo.filetype == "markdown" or vim.bo.filetype == "asciidoc" or vim.bo.filetype == "text"
 end
 
 local function get_harpoon(val)
@@ -83,7 +83,7 @@ require("lualine").setup({
     sections = {
         lualine_b = { branch },
         lualine_c = { filename, harpoon, space },
-        lualine_y = { { wordCount, cond = is_markdown }, "progress" },
+        lualine_y = { { wordCount, cond = is_writing }, "progress" },
         lualine_z = { "location" },
     },
     -- tabline = {

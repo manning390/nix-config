@@ -46,6 +46,12 @@ local plugins = {
 			"nvimtools/none-ls-extras.nvim",
 		}
 	},
+	{
+		"Zeioth/compiler.nvim",
+		cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
+		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim"},
+		opts = {}
+	},
 	{ -- PHP Actions
 		"gbprod/phpactor.nvim",
 		tag = "v1.0.1",
@@ -217,7 +223,7 @@ local plugins = {
 	-- -- Our lord and savior
 	"tpope/vim-abolish",    -- Better substitutions and iabbrev
 	"tpope/vim-eunuch",     -- :Rename and :SudoWrite
-	"tpope/vim-repeat",     -- bracket mappings
+	"tpope/vim-repeat",     -- bracket mappings and dot-repeats
 	"tpope/vim-sleuth",     -- Detect tabstop and shiftwidth auto
 	{
 		"kylechui/nvim-surround", -- Surround operator
@@ -234,11 +240,9 @@ local plugins = {
 	},
 	{ -- Jump to keypairs via labels
 		"ggandor/leap.nvim",
-		config = function()
-			require("leap").add_default_mappings()
-		end,
+		ops = {}
 	},
-	{"norcalli/nvim-colorizer.lua", opts = {}},
+	{"catgoose/nvim-colorizer.lua", opts = {}},
 	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
@@ -342,7 +346,14 @@ local plugins = {
 		enable = false,
 		"stevearc/overseer.nvim",
 		dependencies = "stevearc/dressing.nvim",
-		opts = {},
+		opts = {
+			task_list = {
+				direction = "bottom",
+				min_height = 25,
+				max_height = 25,
+				default_detail = 1,
+			}
+		},
 	},
 	{
 		"stevearc/dressing.nvim",
@@ -352,21 +363,43 @@ local plugins = {
 	-- Writing related plugins
 	{
 		"okuuva/auto-save.nvim",
-		enabled = false,
-		lazy = true,
+		version = "^1.0.0",
 		cmd = "ASToggle",
+		opts = {},
 	},
-	{
-		"folke/twilight.nvim",
-		enabled = false,
-		cmd = "Twilight",
-		lazy = true,
-	},
+	-- Zen Mode
 	{
 		"folke/zen-mode.nvim",
-		enabled = false,
-		cmd = "ZenMode",
+		cmd = {"ZenMode", "Write"},
+		dependencies = {{
+			-- Dims paragraphs not working on
+			"folke/twilight.nvim",
+			enabled = false,
+			cmd = "Twilight",
+			lazy = true,
+		}},
 		lazy = true,
+		opts = {
+			window = {
+				width = 80,
+				options = {
+					wrap = true,
+					linebreak = true,
+					breakindent = false,
+					breakindentopt = "",
+					sidescroll = 0,
+					showbreak = "",
+					list = false,
+					number = false,
+					relativenumber = false,
+					colorcolumn = "",
+				}
+			},
+			gitsigns = { enabled = true },
+			tmux = { enabled = true },
+			kitty = { enabled = true },
+			wezterm = { enabled = true },
+		}
 	},
 	{
 		"ron89/thesaurus_query.vim",
@@ -401,6 +434,8 @@ local plugins = {
 	-- },
 	{
 		"manning390/wrd.nvim",
+		-- dir = "~/Code/lua/wrd.nvm",
+		branch = "dev",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 			"nvim-lua/plenary.nvim",

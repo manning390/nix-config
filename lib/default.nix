@@ -1,6 +1,6 @@
 {lib, ...}: {
   attrs = import ./attrs.nix {inherit lib;};
-  relativeToRoot = lib.path.append ../.A;
+  relativeToRoot = path: lib.path.append ../. path;
   scanPaths = path:
     builtins.map
     (f: (path + "/${f}"))
