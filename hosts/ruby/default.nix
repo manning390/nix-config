@@ -24,6 +24,7 @@ in {
     # ../../modules/keyd.nix
     ../../modules/keyboard.nix
     ../../modules/laptop.nix
+    ../../modules/zsa.nix
   ];
 
   custom = {
@@ -62,6 +63,8 @@ in {
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
+
+
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

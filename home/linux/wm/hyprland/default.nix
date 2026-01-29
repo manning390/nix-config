@@ -23,14 +23,16 @@
         "uwsm app -- wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "uwsm app -- udiskie --smart-stray"
       ];
-      input = lib.mkMerge [
-        (lib.mkIf osConfig.custom.colemak_dhm.enable {
+      device = [
+        {
+          name = "at-translated-set-2-keyboard";
           kb_layout = "colemak_dhm,us";
           kb_options = "caps:escape,grp:alt_shift_toggle";
-        })
-        (lib.mkIf (!osConfig.custom.colemak_dhm.enable) {
-          kb_options = "caps:escape";
-        })
+        }
+        {
+          name = "zsa-technology-labs-voyager-keyboard";
+          kb_layout = "us";
+        }
       ];
       monitor = [
         "HDMI-A-1,2560x1440@144,0x0,1"
