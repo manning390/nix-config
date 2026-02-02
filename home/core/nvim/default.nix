@@ -32,6 +32,8 @@ in {
     pnpm
     # intelephense
     python3
+    cmake
+    ninja
 
     # LSP
     lua-language-server
