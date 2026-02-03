@@ -36,6 +36,8 @@ in {
     ninja
 
     # LSP
+    tree-sitter
+    cmake-language-server
     lua-language-server
     neovim-node-client
     nodePackages.typescript
