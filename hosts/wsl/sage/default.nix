@@ -11,15 +11,13 @@
   ...
 }: {
   imports = builtins.map lib.custom.relativeToRoot [
+    "modules/wsl/default.nix" # Required for WSL hosts
     "modules/nix.nix"
     "modules/common.nix"
     "modules/sops.nix"
     "modules/shells.nix"
-    # WSL included from flake helper
   ];
 
-  wsl.enable = true;
-  wsl.defaultUser = vars.username;
   networking.hostName = vars.hostname;
 
   users.users."${vars.username}" = {
@@ -27,6 +25,7 @@
   };
 
   custom = {
+    wsl.enable = true; # Required for WSL to work
     shells = {
       systemShell = "bash";
       userShell = "fish";
