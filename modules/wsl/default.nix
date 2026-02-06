@@ -6,10 +6,6 @@
 }: let 
   cfg = config.custom.wsl;
 in {
-  imports = [
-    # ./git-wrapper.nix
-  ];
-
   options.custom.wsl = {
     enable = lib.mkEnableOption "enables WSL";
   };
