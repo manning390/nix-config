@@ -16,10 +16,10 @@
       then
         git.exe "$@"
       else
-        ${pkgs.git} "$@"
+        ${pkgs.git}/bin/git "$@"
       fi
     }
-    git-wsl
+    git-wsl $@
   '';
 in {
   config = lib.mkIf config.custom.wsl.enable {

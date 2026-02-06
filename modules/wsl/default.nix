@@ -6,8 +6,8 @@
 }: let 
   cfg = config.custom.wsl;
 in {
-  import = [
-    ./git-wrapper.nix
+  imports = [
+    # ./git-wrapper.nix
   ];
 
   options.custom.wsl = {

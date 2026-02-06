@@ -3,5 +3,6 @@
     "home/core"
   ];
 
+
   home.stateVersion = "25.05";
 }

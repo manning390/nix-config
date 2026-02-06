@@ -10,12 +10,14 @@
   vars,
   ...
 }: {
-  imports = builtins.map lib.custom.relativeToRoot [
+  imports = (builtins.map lib.custom.relativeToRoot [
     "modules/wsl/default.nix" # Required for WSL hosts
     "modules/nix.nix"
     "modules/common.nix"
     "modules/sops.nix"
     "modules/shells.nix"
+  ]) ++ [
+    ./daily-logging.nix
   ];
 
   networking.hostName = vars.hostname;
@@ -37,6 +39,10 @@
   environment.sessionVariables = {
     COLEMAK = "1";
     NIXCONFIG = "/home/${vars.username}/Code/nix/nix-config";
+  };
+
+  environment.shellAliases = {
+    whostname = "echo 'AP1H85254WLR' | clip.exe";
   };
 
   # This value determines the NixOS release from which the default
