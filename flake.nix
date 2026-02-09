@@ -68,7 +68,7 @@
     inherit (flakehelpers) mkMerge mkNixos mkWsl;
   in
     mkMerge [
-      { overlays = import ./overlays { inherit inputs; }; }
+      {overlays = import ./overlays {inherit inputs;};}
       (flake-utils.lib.eachDefaultSystem (
         system: let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -102,8 +102,8 @@
         inputs.nur.modules.nixos.default
         inputs.home-manager.nixosModules.home-manager
       ] [])
-(mkWsl "sage" inputs.nixpkgs [
-inputs.home-manager.nixosModules.home-manager
-    ] [])
-];
+      (mkWsl "sage" inputs.nixpkgs [
+        inputs.home-manager.nixosModules.home-manager
+      ] [])
+    ];
 }
