@@ -15,7 +15,7 @@
       [
       ]
       ++ extraImports;
-    home-manager.backupFileExtension = "bak";
+    home-manager.backupFileExtension = "hm.bak";
     home-manager.useUserPackages = userPackages;
   };
 in {
