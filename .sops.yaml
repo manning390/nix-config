@@ -6,6 +6,11 @@ keys:
     - &sage age1lmy65lwuh72cffk0te6fsj86wwmg9hl8cyqpaj9825r9jfy6wdasa27qn7
   - &telariel age1czf562frvwgus6xmhj4x6vth3v47r93dzxlfh4td6yfaz9vagc8qhcg633
 creation_rules:
+  - path_regex: secrets/sage.yaml$
+    key_groups:
+      - age:
+          - *standalone
+          - *sage
   - path_regex: secrets.yaml$
     key_groups:
       - age:

@@ -45,6 +45,14 @@
     whostname = "echo 'AP1H85254WLR' | clip.exe";
   };
 
+  sops.secrets."npm/npmrc" = {
+    sopsFile = lib.custom.relativeToRoot "secrets/sage.yaml";
+    path = "/home/${vars.username}/.npmrc";
+    owner = vars.username;
+    group = "users";
+    mode = "0600";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
