@@ -66,7 +66,6 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
       perSystem = {
-        system,
         pkgs,
         ...
       }: {
@@ -75,6 +74,7 @@
         };
         formatter = pkgs.alejandra;
       };
+      
       flake = let
         flakehelpers = import ./lib/flakeHelpers.nix {
           inherit inputs;
