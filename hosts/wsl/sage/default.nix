@@ -10,15 +10,17 @@
   vars,
   ...
 }: {
-  imports = (builtins.map lib.custom.relativeToRoot [
-    "modules/wsl/default.nix" # Required for WSL hosts
-    "modules/nix.nix"
-    "modules/common.nix"
-    "modules/sops.nix"
-    "modules/shells.nix"
-  ]) ++ [
-    ./daily-logging.nix
-  ];
+  imports =
+    (builtins.map lib.custom.relativeToRoot [
+      "modules/wsl/default.nix" # Required for WSL hosts
+      "modules/nix.nix"
+      "modules/common.nix"
+      "modules/sops.nix"
+      "modules/shells.nix"
+    ])
+    ++ [
+      ./daily-logging.nix
+    ];
 
   networking.hostName = vars.hostname;
 

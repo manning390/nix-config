@@ -57,51 +57,56 @@
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
-  outputs = inputs@{
+  outputs = inputs @ {
     self,
     nixpkgs,
     flake-parts,
     ...
-  }: flake-parts.lib.mkFlake {inherit inputs; } {
-    systems = [ "x86_64-linux" ];
-    perSystem = {system, pkgs, ...}: {
-      devShells.default = pkgs.mkShell {
-        packages = with pkgs; [ just nixos-rebuild ];
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+      perSystem = {
+        system,
+        pkgs,
+        ...
+      }: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [just nixos-rebuild];
+        };
+        formatter = pkgs.alejandra;
       };
-      formatter = pkgs.alejandra;
+      flake = let
+        flakehelpers = import ./lib/flakeHelpers.nix {
+          inherit inputs;
+          outputs = self.outputs or {};
+        };
+        inherit (flakehelpers) mkMerge mkNixos mkWsl;
+      in
+        mkMerge [
+          {overlays = import ./overlays {inherit inputs;};}
+          # Desktop
+          (mkNixos "sentry" inputs.nixpkgs [
+            inputs.nur.modules.nixos.default
+            inputs.home-manager.nixosModules.home-manager
+          ])
+          # Framework laptop
+          (mkNixos "ruby" inputs.nixpkgs [
+            inputs.nur.modules.nixos.default
+          ])
+          # Homelab
+          (mkNixos "glaciem" inputs.nixpkgs [
+            inputs.disko.nixosModules.disko
+            inputs.impermanence.nixosModules.impermanence
+            inputs.home-manager.nixosModules.home-manager
+          ])
+          # Windows WSL environment
+          (mkWsl "mado" inputs.nixpkgs [
+            inputs.nur.modules.nixos.default
+            inputs.home-manager.nixosModules.home-manager
+          ] [])
+          (mkWsl "sage" inputs.nixpkgs [
+            inputs.home-manager.nixosModules.home-manager
+          ] [])
+        ];
     };
-    flake = let
-      flakehelpers = import ./lib/flakeHelpers.nix {
-        inherit inputs;
-        outputs = self.outputs or {};
-      };
-      inherit (flakehelpers) mkMerge mkNixos mkWsl;
-    in
-      mkMerge [
-        {overlays = import ./overlays {inherit inputs;};}
-        # Desktop
-        (mkNixos "sentry" inputs.nixpkgs [
-          inputs.nur.modules.nixos.default
-          inputs.home-manager.nixosModules.home-manager
-        ])
-        # Framework laptop
-        (mkNixos "ruby" inputs.nixpkgs [
-          inputs.nur.modules.nixos.default
-        ])
-        # Homelab
-        (mkNixos "glaciem" inputs.nixpkgs [
-          inputs.disko.nixosModules.disko
-          inputs.impermanence.nixosModules.impermanence
-          inputs.home-manager.nixosModules.home-manager
-        ])
-        # Windows WSL environment
-        (mkWsl "mado" inputs.nixpkgs [
-          inputs.nur.modules.nixos.default
-          inputs.home-manager.nixosModules.home-manager
-        ] [])
-        (mkWsl "sage" inputs.nixpkgs [
-          inputs.home-manager.nixosModules.home-manager
-        ] [])
-      ];
-  };
 }
