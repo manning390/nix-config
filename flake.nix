@@ -59,54 +59,57 @@
   };
   outputs = inputs @ {
     self,
-    nixpkgs,
-    flake-parts,
     ...
   }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
-      perSystem = {
-        pkgs,
-        ...
-      }: {
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [just nixos-rebuild];
-        };
-        formatter = pkgs.alejandra;
-      };
-      
-      flake = let
-        flakehelpers = import ./lib/flakeHelpers.nix {
-          inherit inputs;
-          outputs = self.outputs or {};
-        };
-        inherit (flakehelpers) mkMerge mkNixos mkWsl;
-      in
-        mkMerge [
-          {overlays = import ./overlays {inherit inputs;};}
-          # Desktop
-          (mkNixos "sentry" inputs.nixpkgs [
-            inputs.nur.modules.nixos.default
-            inputs.home-manager.nixosModules.home-manager
-          ])
-          # Framework laptop
-          (mkNixos "ruby" inputs.nixpkgs [
-            inputs.nur.modules.nixos.default
-          ])
-          # Homelab
-          (mkNixos "glaciem" inputs.nixpkgs [
-            inputs.disko.nixosModules.disko
-            inputs.impermanence.nixosModules.impermanence
-            inputs.home-manager.nixosModules.home-manager
-          ])
-          # Windows WSL environment
-          (mkWsl "mado" inputs.nixpkgs [
-            inputs.nur.modules.nixos.default
-            inputs.home-manager.nixosModules.home-manager
-          ] [])
-          (mkWsl "sage" inputs.nixpkgs [
-            inputs.home-manager.nixosModules.home-manager
-          ] [])
-        ];
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (
+    inputs.nixpkgs.lib.foldl inputs.nixpkgs.lib.recursiveUpdate {} [
+{
+  systems = ["x86_64-linux"];
+  perSystem = {
+    pkgs,
+    ...
+  }: {
+    devShells.default = pkgs.mkShell {
+      packages = with pkgs; [just nixos-rebuild];
     };
+    formatter = pkgs.alejandra;
+  };
+  
+  flake = let
+    flakehelpers = import ./lib/flakeHelpers.nix {
+      inherit inputs;
+      outputs = self.outputs or {};
+    };
+    inherit (flakehelpers) mkMerge mkNixos mkWsl;
+  in
+    mkMerge [
+      {overlays = import ./overlays {inherit inputs;};}
+      # Desktop
+      (mkNixos "sentry" inputs.nixpkgs [
+        inputs.nur.modules.nixos.default
+        inputs.home-manager.nixosModules.home-manager
+      ])
+      # Framework laptop
+      (mkNixos "ruby" inputs.nixpkgs [
+        inputs.nur.modules.nixos.default
+      ])
+      # Homelab
+      (mkNixos "glaciem" inputs.nixpkgs [
+        inputs.disko.nixosModules.disko
+        inputs.impermanence.nixosModules.impermanence
+        inputs.home-manager.nixosModules.home-manager
+      ])
+      # Windows WSL environment
+      (mkWsl "mado" inputs.nixpkgs [
+        inputs.nur.modules.nixos.default
+        inputs.home-manager.nixosModules.home-manager
+      ] [])
+      (mkWsl "sage" inputs.nixpkgs [
+        inputs.home-manager.nixosModules.home-manager
+      ] [])
+    ];
+}
+(inputs.import-tree ./dendritic)
+    ]  
+    );
 }

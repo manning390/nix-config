@@ -239,7 +239,7 @@ local plugins = {
 		url = "https://codeberg.org/andyg/leap.nvim.git",
 		ops = {}
 	},
-	{"catgoose/nvim-colorizer.lua", opts = {}},
+	-- {"catgoose/nvim-colorizer.lua", opts = {}},
 	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
