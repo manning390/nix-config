@@ -1,4 +1,4 @@
-{config, inputs, lib, ...}: let
+{config, ...}: let
     machineName = "sage";
     user = config.local.identity.username;
 in {
@@ -6,7 +6,6 @@ in {
         type = "wsl";
         aspects = [];
         modules = [
-            inputs.determinate.nixosModules.default
             ../../../modules/wsl
             ../../../modules/nix.nix
             ../../../modules/common.nix
@@ -39,7 +38,7 @@ in {
                 };
 
                 sops.secrets."npm/npmrc" = {
-                    sopsFile = lib.custom.relativeToRoot "secrets/sage.yaml";
+                    sopsFile = ../../../secrets/sage.yaml;
                     path = "/home/${user}/.npmrc";
                     owner = user;
                     group = "users";

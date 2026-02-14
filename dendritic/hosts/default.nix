@@ -52,7 +52,6 @@
                 extraSpecialArgs = {
                     inherit inputs;
                     vars = import ../../vars;
-                    lib = extendedLib;
                 };
                 users.${username} = {
                     home.stateVersion = stateVersion;
