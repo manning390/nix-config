@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Determinate Systems
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+
     # Home Manager
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -12,6 +15,9 @@
     # Flake parts
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+
+    # Flake aspects
+    flake-aspects.url = "github:vic/flake-aspects";
 
     # Import util
     import-tree.url = "github:vic/import-tree";
@@ -88,6 +94,7 @@
       (mkNixos "sentry" inputs.nixpkgs [
         inputs.nur.modules.nixos.default
         inputs.home-manager.nixosModules.home-manager
+        inputs.determinate.nixosModules.default
       ])
       # Framework laptop
       (mkNixos "ruby" inputs.nixpkgs [
@@ -104,9 +111,9 @@
         inputs.nur.modules.nixos.default
         inputs.home-manager.nixosModules.home-manager
       ] [])
-      (mkWsl "sage" inputs.nixpkgs [
-        inputs.home-manager.nixosModules.home-manager
-      ] [])
+      # (mkWsl "sage" inputs.nixpkgs [
+      #   inputs.home-manager.nixosModules.home-manager
+      # ] [])
     ];
 }
 (inputs.import-tree ./dendritic)
