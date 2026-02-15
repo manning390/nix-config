@@ -13,7 +13,7 @@ in {
   # Get sops from flake input
   imports = [inputs.sops-nix.nixosModules.sops];
 
-  options.custom.sops = {
+  options.local.sops = {
     enable = lib.mkEnableOption "enables sops";
     homeOnSeparatePartition = lib.mkOption {
       type = lib.types.bool;
@@ -31,10 +31,9 @@ in {
     };
   };
 
-  config = lib.mkIf config.custom.sops.enable {
+  config = lib.mkIf config.local.sops.enable {
     # Include required packages to run scripts and work with secrets
     environment.systemPackages = with pkgs; [openssh sops ssh-to-age];
-
     sops = {
       defaultSopsFile = lib.custom.relativeToRoot "secrets/secrets.yaml";
       defaultSopsFormat = "yaml";
@@ -50,11 +49,19 @@ in {
       };
     };
 
-    fileSystems = lib.mkIf config.custom.sops.homeOnSeparatePartition {
+    fileSystems = lib.mkIf config.local.sops.homeOnSeparatePartition {
       "/home".neededForBoot = true;
     };
 
-    system.activationScripts = lib.mkIf config.custom.sops.generateKeys {
+    # Setup access tokens for nix
+    sops.secrets."github_nix_private_token" = {
+      # This token expires 1/1/2027
+      mode = "0440";
+      restartUnits = ["nix-daemon.service"];
+    };
+    nix.settings.access-tokens = "github.com@config.sops.secrets.\"github_nix_private_token.\".path";
+
+    system.activationScripts = lib.mkIf config.local.sops.generateKeys {
       generateSSHKeys.text = let
         sshKeygen = "${pkgs.openssh}/bin/ssh-keygen";
       in ''

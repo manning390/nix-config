@@ -6,7 +6,7 @@
   vars,
   ...
 }: {
-  options.custom.nix = {
+  options.local.nix = {
     allowUnfree = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -52,9 +52,9 @@
       # Garbage Collection
       gc = {
         dates = lib.mkDefault "daily";
-        options = config.custom.nix.gc.flag;
+        options = config.local.nix.gc.flag;
       };
-      gc.automatic = !config.custom.nix.gc.useNh;
+      gc.automatic = !config.local.nix.gc.useNh;
 
       # This will add each flake input as a registry
       # To make nix3 commands consistent with your flake
@@ -75,9 +75,9 @@
     # Nix cli command helper, better output etc.
     programs.nh = {
       enable = true;
-      flake = config.custom.nix.flakePath;
-      clean.enable = config.custom.nix.gc.useNh;
-      clean.extraArgs = config.custom.nix.gc.flag;
+      flake = config.local.nix.flakePath;
+      clean.enable = config.local.nix.gc.useNh;
+      clean.extraArgs = config.local.nix.gc.flag;
     };
     environment.systemPackages = with pkgs; [
       nh
@@ -86,7 +86,7 @@
     ];
 
     # Allow unfree packages
-    nixpkgs.config = lib.mkIf config.custom.nix.allowUnfree {
+    nixpkgs.config = lib.mkIf config.local.nix.allowUnfree {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
     };

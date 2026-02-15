@@ -9,6 +9,9 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Private nix module
+    nix-private.url = "github:manning390/nix-private";
+
     # Flake utils
     flake-utils.url = "github:numtide/flake-utils";
 

@@ -27,7 +27,7 @@
       "modules/keyboard.nix"
     ];
 
-  custom = {
+  local = {
     ffxiv.enable = true;
     sops.enable = true;
     sops.homeOnSeparatePartition = true;

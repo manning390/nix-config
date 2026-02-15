@@ -4,7 +4,7 @@
     "home/core/default.nix"
   ];
 
-  custom.wm.caelestia.enable = true;
+  local.wm.caelestia.enable = true;
 
   programs.zoxide.enable = true;
   programs.zoxide.options = ["--cmd cd"];

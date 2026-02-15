@@ -3,8 +3,8 @@
   lib,
   ...
 }: {
-  options.custom.keyd.enable = lib.mkEnableOption "enables keyd remaps";
-  config = lib.mkIf config.custom.keyd.enable {
+  options.local.keyd.enable = lib.mkEnableOption "enables keyd remaps";
+  config = lib.mkIf config.local.keyd.enable {
     services.keyd = {
       enable = true;
       keyboards.true = {

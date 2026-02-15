@@ -29,7 +29,7 @@ in {
       "modules/1pass.nix"
     ];
 
-  custom = {
+  local = {
     shells = {
       systemShell = "bash";
       userShell = "fish";

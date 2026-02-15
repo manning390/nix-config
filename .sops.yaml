@@ -3,6 +3,7 @@ keys:
   - &hosts:
     - &sentry age15h6r3y83pst3eq6mvjmh8c53zux7thpj9q2ncn2lensg6z0ltvns56ygt2
     - &glaciem age1zkcgjt69zxcy25hepsym6ecykg40vua0fuxtqm9mxxytj92ph5vsav8huh
+    - &mado age1c4nfw0ltdvyz4qqq49as065585de9p8fnx2n7tl2xyf9m852jfzst2t4yp
   - &telariel age1czf562frvwgus6xmhj4x6vth3v47r93dzxlfh4td6yfaz9vagc8qhcg633
 creation_rules:
   - path_regex: secrets.yaml$
@@ -11,6 +12,7 @@ creation_rules:
         - *standalone
         - *sentry
         - *glaciem
+        - *mado
   - path_regex: iteration110/secrets.yaml$
     key_groups:
       - age:

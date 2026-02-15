@@ -25,7 +25,7 @@
     isNormalUser = true;
   };
 
-  custom = {
+  local = {
     shells = {
       systemShell = "bash";
       userShell = "fish";
