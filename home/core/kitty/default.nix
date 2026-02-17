@@ -13,6 +13,7 @@
     };
 
     settings = {
+      cursor_trail = 1;
     };
 
     keybindings = {
