@@ -55,12 +55,15 @@ in {
     };
 
     # Setup access tokens for nix
-    sops.secrets."github_nix_private_token" = {
-      # This token expires 1/1/2027
-      mode = "0440";
-      restartUnits = ["nix-daemon.service"];
-    };
-    nix.settings.access-tokens = "github.com@config.sops.secrets.\"github_nix_private_token.\".path";
+    # sops.secrets."github_nix_private_token" = {
+    #   # This token expires 1/1/2027
+    #   mode = "0440";
+    #   group = "wheel";
+    #   restartUnits = ["nix-daemon.service"];
+    # };
+    # nix.settings.access-tokens = [
+    #   "github.com=${config.sops.secrets."github_nix_private_token".path}"
+    # ];
 
     system.activationScripts = lib.mkIf config.local.sops.generateKeys {
       generateSSHKeys.text = let

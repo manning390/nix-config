@@ -4,9 +4,9 @@
   vars,
   ...
 }: let 
-  cfg = config.custom.wsl;
+  cfg = config.local.wsl;
 in {
-  options.custom.wsl = {
+  options.local.wsl = {
     enable = lib.mkEnableOption "enables WSL";
   };
 

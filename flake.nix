@@ -13,7 +13,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Private nix module
-    nix-private.url = "github:manning390/nix-private";
+    nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
+    nix-private.inputs.nixpkgs.follows = "nixpkgs";
 
     # Flake parts
     flake-parts.url = "github:hercules-ci/flake-parts";

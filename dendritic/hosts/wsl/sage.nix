@@ -18,7 +18,7 @@ in {
                     isNormalUser = true;
                 };
 
-                custom = {
+                local = {
                     wsl.enable = true;
                     shells = {
                         systemShell = "fish";
