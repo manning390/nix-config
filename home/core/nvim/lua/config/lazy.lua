@@ -162,14 +162,11 @@ local plugins = {
 	-- Highlight, edit, navigate code
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = function()
-			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-		end,
+		lazy = false,
+		build = ":TSUpdate",
 		dependencies = {
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			"nvim-treesitter/nvim-treesitter-textobjects",
-			"nvim-treesitter/nvim-tree-docs",
-			"nvim-treesitter/playground",
 		},
 	},
 	-- Tmux
@@ -239,7 +236,7 @@ local plugins = {
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ -- Jump to keypairs via labels
-		"ggandor/leap.nvim",
+		url = "https://codeberg.org/andyg/leap.nvim.git",
 		ops = {}
 	},
 	-- {"catgoose/nvim-colorizer.lua", opts = {}},
@@ -262,14 +259,13 @@ local plugins = {
 	-- Telescope
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
+		version = "*",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
-				build =
-				"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				build = "make",
 			},
 		},
 	},

@@ -7,8 +7,9 @@
   ...
 }: let
   home = "/home/${vars.username}";
-  host_key_file = "/etc/ssh/host_${vars.hostname}_ed25519_key";
-  user_key_file = "${home}/.ssh/user_${vars.username}_${vars.hostname}_ed25519_key";
+  hostname = config.networking.hostName;
+  host_key_file = "/etc/ssh/host_${hostname}_ed25519_key";
+  user_key_file = "${home}/.ssh/user_${vars.username}_${hostname}_ed25519_key";
 in {
   # Get sops from flake input
   imports = [inputs.sops-nix.nixosModules.sops];
@@ -67,7 +68,7 @@ in {
       in ''
         # Generate host ssh key if missing
         if [ ! -f "${host_key_file}" ]; then
-          ${sshKeygen} -t ed25519 -N "" -C "host key ${vars.hostname} $(date +%s)" -f "${host_key_file}"
+          ${sshKeygen} -t ed25519 -N "" -C "host key ${hostname} $(date +%s)" -f "${host_key_file}"
           chmod 600 ${host_key_file}
           chmod 644 ${host_key_file}.pub
         fi
