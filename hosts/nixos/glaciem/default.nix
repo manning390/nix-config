@@ -22,8 +22,8 @@ in {
       "modules/homelab"
     ];
 
-  # Custom module options
-  custom = {
+  # local module options
+  local = {
     shells = {
       systemShell = "bash";
       userShell = "fish";

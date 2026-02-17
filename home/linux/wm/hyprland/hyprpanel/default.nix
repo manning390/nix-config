@@ -4,9 +4,9 @@
   osConfig,
   ...
 }: {
-  options.custom.wm.hyprpanel.enable = lib.mkEnableOption "enables hyprpanel" // {default = true;};
+  options.local.wm.hyprpanel.enable = lib.mkEnableOption "enables hyprpanel" // {default = true;};
 
-  config = lib.mkIf config.custom.wm.hyprpanel.enable {
+  config = lib.mkIf config.local.wm.hyprpanel.enable {
     programs.hyprpanel.enable = true;
 
     home.file.".config/hyprpanel/config.js".source = ./${osConfig.networking.hostName}.config.json;

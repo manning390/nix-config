@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: {
-  options.custom.colemak_dhm.enable = lib.mkEnableOption "enables colemak_dhm remaps";
+  options.local.colemak_dhm.enable = lib.mkEnableOption "enables colemak_dhm remaps";
   config = lib.mkMerge [
-    (lib.mkIf config.custom.colemak_dhm.enable {
+    (lib.mkIf config.local.colemak_dhm.enable {
       services.xserver.xkb = {
         layout = "colemak_dhm,us";
         options = "caps:escape,grp:alt_shift_toggle";
@@ -47,7 +47,7 @@
         };
       };
     })
-    (lib.mkIf (!config.custom.colemak_dhm.enable) {
+    (lib.mkIf (!config.local.colemak_dhm.enable) {
       services.xserver.xkb = {
         layout = "us";
         options = "caps:escape";

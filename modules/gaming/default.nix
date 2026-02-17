@@ -9,7 +9,7 @@
     ./godot.nix
   ];
 
-  custom = {
+  local = {
     ffxiv.enable = lib.mkDefault true;
     steam.enable = lib.mkDefault true;
   };

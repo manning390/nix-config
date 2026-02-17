@@ -5,7 +5,7 @@
   vars,
   ...
 }: let
-  cfg = config.custom.shells;
+  cfg = config.local.shells;
   shellPkg = shellName:
     if shellName == "bash"
     then pkgs.bashInteractive
@@ -15,7 +15,7 @@
     then pkgs.fish
     else null;
 in {
-  options.custom.shells = {
+  options.local.shells = {
     systemShell = lib.mkOption {
       type = lib.types.nullOr (lib.types.enum ["bash" "zsh" "fish"]);
       default = null;

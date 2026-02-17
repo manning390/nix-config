@@ -21,8 +21,8 @@ in {
       enable = true;
       passwordFile = config.sops.secrets."samba_password".path;
       shares = {
-        Photos = {
-          path = "${hl.mounts.fast}/Photos";
+        Fast = {
+          path = "${hl.mounts.fast}";
         };
         Media = {
           path = "${hl.mounts.slow}/Media";

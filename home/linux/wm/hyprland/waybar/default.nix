@@ -4,13 +4,13 @@
   config,
   ...
 }: {
-  options.custom.wm.waybar.enable =
+  options.local.wm.waybar.enable =
     lib.mkEnableOption "enables waybar"
     // {
       default = false;
     };
 
-  config = lib.mkIf config.custom.wm.waybar.enable {
+  config = lib.mkIf config.local.wm.waybar.enable {
     home.packages = with pkgs; [
       (pkgs.waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];})) # Bar
       glxinfo # GPU info

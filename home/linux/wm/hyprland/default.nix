@@ -13,7 +13,7 @@
   ];
 
   # Set defaults for our wm modules
-  custom.wm = {
+  local.wm = {
     waybar.enable = lib.mkDefault false;
     hyprpanel.enable = lib.mkDefault false;
     caelestia.enable = lib.mkDefault true;
@@ -28,11 +28,11 @@
         "app2unit -s b udiskie --smart-stray"
       ];
       input = lib.mkMerge [
-        (lib.mkIf osConfig.custom.colemak_dhm.enable {
+        (lib.mkIf osConfig.local.colemak_dhm.enable {
           kb_layout = "colemak_dhm,us";
           kb_options = "caps:escape,grp:alt_shift_toggle";
         })
-        (lib.mkIf (!osConfig.custom.colemak_dhm.enable) {
+        (lib.mkIf (!osConfig.local.colemak_dhm.enable) {
           kb_options = "caps:escape";
         })
       ];
