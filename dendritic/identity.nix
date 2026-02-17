@@ -22,7 +22,7 @@
 
   config.local.identity = {
     username = "pch";
-    email = "Michael Manning";
+    email = "michael@manning390.com";
     fullName = "Michael Manning";
   };
 }
