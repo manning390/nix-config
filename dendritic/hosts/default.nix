@@ -8,7 +8,7 @@
 
   options.local.hosts = lib.mkOption {
     type = lib.types.lazyAttrsOf (lib.types.submodule (
-      {name, ...}: {
+      {config, name, ...}: {
         options = {
           type = lib.mkOption {
             type = lib.types.enum ["nixos" "wsl"];

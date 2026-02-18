@@ -1,6 +1,5 @@
 {
-  description = "Audio support via PipeWire";
-
+  # Audio support via PipeWire
   flake.aspects.audio.nixos = {
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;

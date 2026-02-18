@@ -1,13 +1,9 @@
 {
-  config,
-  lib,
-  ...
-}: let
-  cfg = config.local.term.kitty;
-in {
   flake.aspects.kitty = {
-    options.local.term.kitty = lib.mkEnableOptions "Enables Kitty Terminal";
-    homeManager = lib.mkIf cfg.enable ({pkgs, ...}: {
+    nixos = {lib, ...}: {
+      options.local.term.kitty = lib.mkEnableOptions "Enables Kitty Terminal";
+    };
+    homeManager = {config, lib, ...}: lib.mkIf config.local.term.kitty.enable ({pkgs, ...}: {
       programs.kitty = {
         enable = true;
         themeFile = "Nord";

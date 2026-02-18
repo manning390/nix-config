@@ -1,9 +1,8 @@
 {
-  lib,
   self',
   ...
 }: {
-  perSystem = {pkgs, ...}: {
+  perSystem = {pkgs, lib, ...}: {
     packages.wiki = pkgs.buildGoModule rec {
       pname = "wiki";
       version = "1.4.1";

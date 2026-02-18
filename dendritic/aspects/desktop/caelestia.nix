@@ -1,17 +1,12 @@
 {
-  inputs,
-  config,
-  lib,
-  ...
-}: let
-  cfg = config.local.desktop.caelestia;
-in {
   flake.aspects = {aspects, ...}: {
     caelestia = {
-      description = "Desktop build with caelestia shell on hyprland.";
+      # description = "Desktop build with caelestia shell on hyprland.";
       includes = with aspects; [hyprland];
 
-      homeManager = {
+      homeManager = {config,lib, inputs, ...}: let
+        cfg = config.local.desktop.caelestia;
+      in {
         imports = [inputs.caelestia-shell.homeManagerModules.default];
         options.local.desktop.caelestia = {
           enable = lib.mkEnableOption "enables caelstia shell";

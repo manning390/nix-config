@@ -1,13 +1,8 @@
 {
-  input,
-  config,
-  lib,
-  ...
-}: {
   flake.aspects.hyprland = {
-    description = "The wayland desktop compositor";
+    # description = "The wayland desktop compositor";
 
-    nixos = {pkgs, ...}: let
+    nixos = {pkgs, config, ...}: let
       userShell = config.custom.shells.userShell;
       uwsmStartSnippet = ''
         if uwsm check may-start
@@ -44,7 +39,7 @@
       programs.${userShell}.interactiveShellInit = uwsmStartSnippet;
     };
 
-    homeManager = {
+    homeManager = {config, lib, ...}: {
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
