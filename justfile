@@ -16,5 +16,11 @@ build:
 update:
   nh os switch . --update
 
-new-host hostname type="nixos" aspects="":
-  ./scripts/generate-host.sh {{hostname}} {{type}} {{aspects}}
+new subcommand hostname *args:
+  if [ "{{subcommand}}" = "host" ]; then
+    ./scripts/generate-host.sh "{{hostname}}" {{args}}
+  else
+    echo "Unknown subcommand: {{subcommand}}"
+    echo "Available: host"
+    exit 1
+  fi
