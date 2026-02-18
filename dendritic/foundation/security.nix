@@ -1,5 +1,5 @@
 {
-  flake.modules.foundation.security = {
+  flake.modules.security = {
     nixos = {pkgs, ...}: {
       security.rtkit.enable = true;
       security.polkit.enable = true;

@@ -42,7 +42,11 @@
   };
 
   flake.aspects.wiki = {
-    nixos.environment.systemPackages = [self'.packages.wiki];
-    homeManager.home.packages = [self'.packages.wiki];
+    nixos = {
+      environment.systemPackages = [self'.packages.wiki];
+    };
+    homeManager = {
+      home.packages = [self'.packages.wiki];
+    };
   };
 }

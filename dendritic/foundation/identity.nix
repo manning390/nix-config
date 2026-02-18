@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.foundation.identity = {
+  flake.modules.identity = {
     nixos = {
       options.local.identity = {
         username = lib.mkOption {

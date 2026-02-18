@@ -1,8 +1,7 @@
-{
-  flake.aspects = {aspects, ...}: {
-    caelestia = {
+{config, ...}: {
+  flake.aspects.caelestia = {
       # description = "Desktop build with caelestia shell on hyprland.";
-      includes = with aspects; [hyprland];
+      # includes = [config.flake.aspects.hyprland];
 
       homeManager = {config,lib, inputs, ...}: let
         cfg = config.local.desktop.caelestia;
@@ -43,5 +42,4 @@
         };
       };
     };
-  };
 }
