@@ -15,3 +15,6 @@ build:
 
 update:
   nh os switch . --update
+
+new-host hostname type="nixos" aspects="":
+  ./scripts/generate-host.sh {{hostname}} {{type}} {{aspects}}

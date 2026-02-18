@@ -1,0 +1,35 @@
+{config, ...}: let
+    machineName = "HOSTNAME_PLACEHOLDER";
+    user = config.local.identity.username;
+in {
+    config.local.hosts.${machineName} = {
+        type = "TYPE_PLACEHOLDER";
+        aspects = [ASPECTS_PLACEHOLDER];
+        modules = [
+            MODULES_PLACEHOLDER
+            {
+                networking.hostName = machineName;
+                users.user.${user} = {
+                    isNormalUser = true;
+                };
+
+                # My local configuration options
+                local = {
+                    LOCAL_CONFIG_PLACEHOLDER
+                    shells = {
+                        systemShell = "bash";
+                        userShell = "fish";
+                    };
+                    sops.enable = true;
+                    nix.allowUnfree = true;
+                };
+                environment.sessionVariables = {
+                    NIXCONFIG = "/home/${user}/Code/nix/nix-config";
+                };
+            }
+        ];
+        homeManagerModules = [ ];
+        stateVersion = "25.11";
+    };
+}
+
