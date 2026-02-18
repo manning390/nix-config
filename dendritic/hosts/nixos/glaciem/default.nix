@@ -4,8 +4,9 @@
 in {
   config.local.hosts.${machineName} = {
     type = "nixos";
-    aspects = lib.splitString "," "git,wiki";
+    aspects = []; #lib.splitString "," "git,wiki";
     modules = [
+      ../../../../modules/shells.nix
       ./_hardware-configuration.nix
       ./_disk-config.nix
       ./_impermanence.nix

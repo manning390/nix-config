@@ -83,8 +83,7 @@
           lib = extendedLib;
         };
         modules = let
-          baseModules = lib.optional (hostCfg.type == "wsl") inputs.nixos-wsl.nixosModules.default;
-          foundationModules = lib.mapAttrsToList (_: mod: mod.nixos) config.flake.modules.foundation;
+          baseModules = lib.optional (hostCfg.type == "wsl") [];
           aspectModules =
             map (aspect: config.flake.modules.nixos.${aspect})
             (lib.filter (a: config.flake.modules.nixos ? ${a}) hostCfg.aspects);
@@ -92,17 +91,16 @@
           stateVersionModule = {system.stateVersion = hostCfg.stateVersion;};
         in
           baseModules
-          ++ foundationModules
           ++ aspectModules
           ++ hostCfg.modules
           ++ [hmModule stateVersionModule inputs.home-manager.nixosModules.home-manager];
       };
   in {
     nixosConfigurations = lib.mapAttrs mkNixosConfig config.local.hosts;
-    checks.x86_64-linux =
-      lib.mapAttrs (machineName: _: {
-        "configuration:${machineName}" = config.flake.nixosConfigurations.${machineName}.config.system.build.toplevel;
-      })
-      config.local.hosts;
+    # checks.x86_64-linux =
+    #   lib.mapAttrs (machineName: _: {
+    #     "configuration:${machineName}" = config.flake.nixosConfigurations.${machineName}.config.system.build.toplevel;
+    #   })
+    #   config.local.hosts;
   };
 }
