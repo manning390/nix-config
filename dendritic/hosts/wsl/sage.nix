@@ -4,7 +4,7 @@
 in {
     config.local.hosts.${machineName} = {
         type = "wsl";
-        aspects = [];
+        aspects = ["wiki"];
         modules = [
             ../../../modules/wsl
             ../../../modules/nix.nix

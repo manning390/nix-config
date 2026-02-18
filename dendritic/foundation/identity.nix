@@ -1,28 +1,23 @@
 {lib, ...}: {
-  options.local.identity = lib.mkOption {
-    type = lib.types.submodule {
-      options = {
+  flake.modules.foundation.identity = {
+    nixos = {
+      options.local.identity = {
         username = lib.mkOption {
           type = lib.types.str;
+          default = "pch";
           description = "System username";
         };
         email = lib.mkOption {
           type = lib.types.str;
+          default = "michael@manning390.com";
           description = "User email";
         };
         fullName = lib.mkOption {
           type = lib.types.str;
+          default = "Michael Manning";
           description = "User full name";
         };
       };
     };
-    default = {};
-    description = "User identity information";
-  };
-
-  config.local.identity = {
-    username = "pch";
-    email = "michael@manning390.com";
-    fullName = "Michael Manning";
   };
 }
