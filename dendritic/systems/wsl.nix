@@ -1,5 +1,5 @@
 {inputs,...}: {
-  flake.aspects.wsl = {
+  flake.aspects.systems.wsl = {
     nixos = {config, ...}: {
       imports = [inputs.nixos-wsl.nixosModules.wsl];
 

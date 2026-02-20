@@ -52,6 +52,7 @@ in {
       fzf # Fzf search
       fd # Better find
       bat # Better cat
+      eza # Better ls
     ];
 
     programs.bash.enable = lib.mkIf usesBash true;

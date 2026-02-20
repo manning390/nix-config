@@ -3,104 +3,100 @@
   inputs,
   lib,
   ...
-}: {
+}: let 
+  self = config.flake.modules;
+  hosts = config.local.hosts;
+  # Maps from system type to flake configurations
+  typeDispatch = rec {
+    nixos = {
+      flakeAttr = "nixosConfigurations";
+      builder = inputs.nixpkgs.lib.nixosSystem;
+      class = "nixos";
+      toplevelAttr = cfg: cfg.config.system.build.toplevel;
+    };
+    wsl = nixos; # The same except wsl gets the system.wsl aspect
+    darwin = {
+      flakeAttr = "darwinConfigurations";
+      builder = inputs.nix-darwin.lib.darwinSystem;
+      class = "darwin";
+      toplevelAttr = cfg: cfg.config.systems.examples.macos;
+    };
+  };
+  # Creates a host based on type, includes host and system aspects
+  mkHost = hostname: hostCfg:
+    let cfg = typeDispatch.${hostCfg.type};
+    in cfg.builder {
+      inherit (hostCfg) system;
+      specialArgs = {
+        inherit inputs /* hostname hostCfg */;
+        vars = import ../../vars; # Temp until everything dendritic
+      };
+      modules = [
+        self.${cfg.class}.${hostname}
+        # inputs.self.modules.${cfg.class}.${hostname}
+        # self.${cfg.class}.hosts.${hostname}
+        self.${cfg.class}.systems.${hostCfg.type}
+        # inputs.self.modules.${cfg.class}.systems.${hostCfg.type}
+        hostCfg.extraModules
+        {
+          networking.hostName = hostname;
+          system.stateVersion = hostCfg.stateVersion;
+        }
+      ];
+    };
+  attrGroupBy = f: attrs: attrs
+    |> lib.mapAttrsToList (name: value: { inherit name value; })
+    |> lib.groupBy (x: f x.value)
+    |> lib.mapAttrs (key: list: list
+      |> builtins.map (x: { inherit (x) name; value = x.value; })
+      |> lib.listToAttrs
+    );
+in {
   imports = [inputs.flake-aspects.flakeModule];
 
+  # This option is the entrypoint for hosts
   options.local.hosts = lib.mkOption {
     type = lib.types.lazyAttrsOf (lib.types.submodule (
-      {config, name, ...}: {
+      {name,...}: {
         options = {
           type = lib.mkOption {
-            type = lib.types.enum ["nixos" "wsl"];
+            type = lib.types.enum ["nixos" "wsl" "darwin"];
             description = "Type of host configuration";
           };
           system = lib.mkOption {
             type = lib.types.str;
             default = "x86_64-linux";
-          };
-          modules = lib.mkOption {
-            type = lib.types.listOf (lib.types.oneOf [
-              lib.types.path
-              lib.types.deferredModule
-            ]);
-            default = [];
-            description = "The NixOS modules for this host";
-          };
-          aspects = lib.mkOption {
-            type = lib.types.listOf lib.types.str;
-            default = [];
-            description = "Aspect names to include for this host";
-          };
-          homeManagerModules = lib.mkOption {
-            type = lib.types.listOf lib.types.deferredModule;
-            default = [];
+            description = "System architecture target";
           };
           stateVersion = lib.mkOption {
             type = lib.types.str;
             default = "25.11";
             description = "NixOS state version";
           };
+          extraModules = lib.mkOption {
+            type = lib.types.listOf (lib.types.oneOf [
+              lib.types.path
+              lib.types.deferredModule
+            ]);
+            default = [];
+            description = "Additional nixos class modules for this host";
+          };
         };
       }
     ));
+
     default = {};
-    description = "Host configurations.";
+    description = "Host configurations";
   };
 
-  config.flake = let
-    username = config.local.identity.username;
-    extendedLib = inputs.nixpkgs.lib.extend (self: super: {
-      custom = import ../../lib {inherit (inputs.nixpkgs) lib;};
-    });
-    mkHomeManager = hostName: aspects: homeManagerModules: stateVersion: {
-      home-manager = {
-        useGlobalPkgs = false;
-        extraSpecialArgs = {
-          inherit inputs;
-          vars = import ../../vars;
-        };
-        users.${username} = {
-          home.stateVersion = stateVersion;
-          home.homeDirectory = lib.mkDefault "/home/${username}";
-          programs.home-manager.enable = true;
-          systemd.user.startServices = "sd-switch";
-          imports =
-            homeManagerModules
-            ++ (map (aspect: config.flake.modules.homeManager.${aspect})
-              (lib.filter (a: config.flake.modules.homeManager ? ${a}) aspects));
-        };
-        backupFileExtension = "hm.bak";
-        useUserPackages = false;
-      };
-    };
-    mkNixosConfig = machineName: hostCfg:
-      inputs.nixpkgs.lib.nixosSystem {
-        system = hostCfg.system;
-        # Todo effectively remove special args later
-        specialArgs = {
-          inherit inputs;
-          vars = import ../../vars;
-          lib = extendedLib;
-        };
-        modules = let
-          baseModules = lib.optional (hostCfg.type == "wsl") [];
-          aspectModules =
-            map (aspect: config.flake.modules.nixos.${aspect})
-            (lib.filter (a: config.flake.modules.nixos ? ${a}) hostCfg.aspects);
-          hmModule = mkHomeManager machineName hostCfg.aspects hostCfg.homeManagerModules hostCfg.stateVersion;
-          stateVersionModule = {system.stateVersion = hostCfg.stateVersion;};
-        in
-          baseModules
-          ++ aspectModules
-          ++ hostCfg.modules
-          ++ [hmModule stateVersionModule inputs.home-manager.nixosModules.home-manager];
-      };
-  in {
-    nixosConfigurations = lib.mapAttrs mkNixosConfig config.local.hosts;
-    # checks.x86_64-linux =
-    #   lib.mapAttrs (machineName: _: {
-    #     "configuration:${machineName}" = config.flake.nixosConfigurations.${machineName}.config.system.build.toplevel;
-    #   })
-    #   config.local.hosts;
-  };
+  # Iterates through host options, creates host and checks
+  config.flake = hosts
+    |> attrGroupBy (host: typeDispatch.${host.type}.flakeAttr)
+    |> lib.mapAttrs (_: lib.mapAttrs mkHost);
+    # |> (baseFlake: baseFlake // {
+    #   checks = lib.mapAttrs (name: cfg: {
+    #       "host-${name}" = cfg;
+    #     }) baseFlake;
+    # });
 }
+

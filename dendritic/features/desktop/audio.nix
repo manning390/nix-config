@@ -1,5 +1,4 @@
 {
-  # Audio support via PipeWire
   flake.aspects.audio = {
     nixos = {
       services.pulseaudio.enable = false;

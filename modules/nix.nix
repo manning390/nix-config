@@ -43,7 +43,7 @@
     nix = {
       settings = {
         # enable flakes globally
-        experimental-features = ["nix-command" "flakes"];
+        experimental-features = ["nix-command" "flakes" "pipe-operators"];
         # Deduplicate and optimize nix store
         auto-optimise-store = true;
         trusted-users = ["root" vars.username];
