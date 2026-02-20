@@ -3,7 +3,7 @@ top @ {...}: {
     homeManager._.users  = username: {
       includes = [aspects.${username}];
 
-      nixos = {lib, inputs, config,...}: {
+      nixos = { inputs, ...}: {
         imports = [inputs.home-manager.nixosModules.home-manager];
         home-manager = {
           useGlobalPkgs = true;
@@ -15,7 +15,10 @@ top @ {...}: {
           backupFileExtension = "hmbak";
 
           users.${username} = {
-            imports = [top.config.flake.modules.homeManager.${username}];
+            # import user's homeManager aspects
+            imports = [
+              top.config.flake.modules.homeManager.${username}
+            ];
             home = {
               homeDirectory = "/home/${username}";
               inherit username;

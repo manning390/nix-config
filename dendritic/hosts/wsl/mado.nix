@@ -31,12 +31,6 @@ in {
                     # NIXCONFIG = "/home/${user}/Code/nix/nix-config";
                 };
             };
-
-            homeManager = {
-                imports = [
-                    ../../../home/core
-                ];
-            };
         };
     };
 }
