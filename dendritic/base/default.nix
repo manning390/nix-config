@@ -2,7 +2,6 @@
   flake.aspects = {aspects,...}: {
     base = {
       includes = with aspects; [
-        identity
         nix
         git
         sops

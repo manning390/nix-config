@@ -1,6 +1,6 @@
-{
+{config,...}: {
   flake.aspects.wsl = {
-    nixos = {inputs, config, ...}: {
+    nixos = {inputs, ...}: {
       imports = [inputs.nixos-wsl.nixosModules.wsl];
 
       wsl.enable = true;

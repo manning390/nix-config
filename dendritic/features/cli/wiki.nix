@@ -1,8 +1,6 @@
-{
-  self',
-  ...
-}: {
-  perSystem = {pkgs, lib, ...}: {
+{self', ...}: {
+  # imports = [ inputs.flake-parts.flakeModules.easyOverlay ];
+  perSystem = {pkgs, lib, config, ...}: {
     packages.wiki = pkgs.buildGoModule rec {
       pname = "wiki";
       version = "1.4.1";
@@ -39,14 +37,18 @@
         ];
       };
     };
+    # overlayAttrs.wiki = config.packages.wiki;
   };
 
   flake.aspects.wiki = {
-    nixos = {
+    nixos = {...}: {
       environment.systemPackages = [self'.packages.wiki];
     };
-    homeManager = {
-      home.packages = [self'.packages.wiki];
-    };
+
+    # homeManager = {config, pkgs,...}: {
+    #   home.packages = [
+    #     config.packages.${pkgs.stdenv.hostPlatform.system}.wiki
+    #   ];
+    # };
   };
 }

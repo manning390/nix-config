@@ -1,4 +1,6 @@
-{
+{config,...}: let
+  user = config.local.identity.username;
+in {
   flake.aspects.nix = {
     nixos = {
       config,
@@ -17,7 +19,7 @@
         };
         flakePath = lib.mkOption {
           type = lib.types.str;
-          default = "/home/${config.local.identity.username}/Code/nix/nix-config";
+          default = "/home/${user}/Code/nix/nix-config";
           description = ''
             Where the nixos config is stored on the system.
           '';
@@ -47,7 +49,7 @@
             experimental-features = ["nix-command" "flakes" "pipe-operators"];
             # Deduplicate and optimize nix store
             auto-optimise-store = true;
-            trusted-users = ["root" "${config.local.identity.username}"];
+            trusted-users = ["root" "${user}"];
           };
 
           # Garbage Collection

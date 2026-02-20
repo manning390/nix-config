@@ -1,13 +1,13 @@
-{inputs, ...}: let
-    machineName = "sage";
-    user = inputs.self.identity.username;
+{config,...}: let
+    hostname = "sage";
+    user = config.local.identity.username;
 in {
-    local.hosts.${machineName} = {
+    local.hosts.${hostname} = {
         type = "wsl";
         stateVersion = "25.11";
     };
     flake.aspects = {aspects,...}: {
-        ${machineName} = {
+        ${hostname} = {
             includes = with aspects; [
                 base 
                 (homeManager._.users user)

@@ -1,9 +1,9 @@
 {
   flake.aspects.security = {
-    nixos = {pkgs, ...}: {
+    nixos = {pkgs, lib, ...}: {
       security.polkit.enable = true;
 
-      programs.gnupg.agent = {
+      programs.gnupg.agent = lib.mkForce {
         enable = true;
         pinentryPackage = pkgs.pinentry-curses;
       };
