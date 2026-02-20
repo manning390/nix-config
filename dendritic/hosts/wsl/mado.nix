@@ -10,7 +10,7 @@ in {
         ${machineName} = {
             includes = with aspects; [
                 base
-                homeManager._.users "${user}"
+                (homeManager._.users user)
             ];
 
             nixos = {
