@@ -1,5 +1,5 @@
 {
-    flake.aspects.systems.darwin = {
+    flake.aspects.darwin = {
         darwin = {};
     };
 }

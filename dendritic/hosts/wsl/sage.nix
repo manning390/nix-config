@@ -5,16 +5,20 @@ in {
     local.hosts.${machineName} = {
         type = "wsl";
         stateVersion = "25.11";
-        extraModules = [
-            ../../../modules/common.nix
-            ../../../modules/shells.nix
-        ];
     };
-    flake.aspects.${machineName} = {aspects,...}: {
-        includes = with aspects; [base]
-            ++ aspects.homeManager._.users "${user}";
+    flake.aspects = {aspects,...}: {
+        ${machineName} = {
+        includes = with aspects; [
+            base 
+            homeManager._.users "${user}"
+        ];
 
         nixos = {
+            imports = [
+                ../../../modules/common.nix
+                ../../../modules/shells.nix
+            ];
+
             local = {
                 shells = {
                     systemShell = "fish";
@@ -45,5 +49,6 @@ in {
                 ../../../home/wsl/git-wrapper.nix
             ];
         };
+    };
     };
 }

@@ -1,1 +1,3 @@
-{}
+{
+    flake.aspects.nixos = {};
+}

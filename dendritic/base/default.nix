@@ -1,5 +1,6 @@
 {
-  flake.aspects.base = {aspects, ...}: {
+  flake.aspects = {aspects,...}: {
+    base = {
     includes = with aspects; [
       nix
       git
@@ -15,4 +16,5 @@
       };
     };
   };
+    };
 }

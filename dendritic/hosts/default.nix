@@ -4,7 +4,6 @@
   lib,
   ...
 }: let 
-  self = config.flake.modules;
   hosts = config.local.hosts;
   # Maps from system type to flake configurations
   typeDispatch = rec {
@@ -32,12 +31,8 @@
         vars = import ../../vars; # Temp until everything dendritic
       };
       modules = [
-        self.${cfg.class}.${hostname}
-        # inputs.self.modules.${cfg.class}.${hostname}
-        # self.${cfg.class}.hosts.${hostname}
-        self.${cfg.class}.systems.${hostCfg.type}
-        # inputs.self.modules.${cfg.class}.systems.${hostCfg.type}
-        hostCfg.extraModules
+        inputs.self.modules.${cfg.class}.${hostname}
+        inputs.self.modules.${cfg.class}.${hostCfg.type}
         {
           networking.hostName = hostname;
           system.stateVersion = hostCfg.stateVersion;
@@ -52,7 +47,10 @@
       |> lib.listToAttrs
     );
 in {
-  imports = [inputs.flake-aspects.flakeModule];
+  imports = [
+    inputs.flake-parts.flakeModules.modules
+    inputs.flake-aspects.flakeModule
+  ];
 
   # This option is the entrypoint for hosts
   options.local.hosts = lib.mkOption {
