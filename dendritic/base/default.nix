@@ -2,6 +2,7 @@
   flake.aspects = {aspects,...}: {
     base = {
       includes = with aspects; [
+        identity
         nix
         git
         sops
@@ -11,8 +12,8 @@
       nixos = {lib,pkgs,...}: {
         environment.systemPackages = [ pkgs.vim ]; # Never remove a text editor
         local = {
-          git = lib.mkDefault true;
-          sops = lib.mkDefault true;
+          git.enable = lib.mkDefault true;
+          sops.enable = lib.mkDefault true;
         };
       };
     };

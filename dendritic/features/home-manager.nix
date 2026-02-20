@@ -3,7 +3,7 @@ top @ {...}: {
     homeManager._.users  = username: {
       includes = [aspects.${username}];
 
-      nixos = { inputs, ...}: {
+      nixos = { config, inputs, ...}: {
         imports = [inputs.home-manager.nixosModules.home-manager];
         home-manager = {
           useGlobalPkgs = true;
@@ -22,6 +22,7 @@ top @ {...}: {
             home = {
               homeDirectory = "/home/${username}";
               inherit username;
+              stateVersion = config.system.stateVersion;
             };
             programs.home-manager.enable = true;
             # fonts.fontconfig.enble = true;

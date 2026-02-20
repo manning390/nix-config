@@ -1,9 +1,6 @@
 {
   flake.aspects.kitty = {
-    nixos = {lib, ...}: {
-      options.local.term.kitty = lib.mkEnableOptions "Enables Kitty Terminal";
-    };
-    homeManager = {config, lib, ...}: lib.mkIf config.local.term.kitty.enable ({pkgs, ...}: {
+    homeManager = {lib, pkgs, ...}: {
       programs.kitty = {
         enable = true;
         themeFile = "Nord";
@@ -36,6 +33,6 @@
         TERM = "kitty";
         KITTY_ENABLE_WAYLAND = "1";
       };
-    });
+    };
   };
 }

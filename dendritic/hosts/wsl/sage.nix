@@ -1,6 +1,6 @@
-{config, ...}: let
+{inputs, ...}: let
     machineName = "sage";
-    user = config.local.identity.username;
+    user = inputs.self.identity.username;
 in {
     local.hosts.${machineName} = {
         type = "wsl";

@@ -9,14 +9,14 @@
       cfg = config.local.git;
     in {
       options.local.git = {
-        enable = lib.mkEnable "Enables git";
+        enable = lib.mkEnableOption "Enables git";
         email = lib.mkOption {
           type = lib.types.str;
           default = config.local.identity.email;
           description = "User level default email";
         };
         server = {
-          enable = lib.mkEnable "Enable hosting git repositories";
+          enable = lib.mkEnableOption "Enable hosting git repositories";
           directory = lib.mkOption {
             type = lib.types.string;
             default = "/home/git";
