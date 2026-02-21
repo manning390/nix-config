@@ -1,6 +1,6 @@
-{self', ...}: {
+{self, ...}: {
   # imports = [ inputs.flake-parts.flakeModules.easyOverlay ];
-  perSystem = {pkgs, lib, config, ...}: {
+  perSystem = {pkgs, lib, ...}: {
     packages.wiki = pkgs.buildGoModule rec {
       pname = "wiki";
       version = "1.4.1";
@@ -41,14 +41,16 @@
   };
 
   flake.aspects.wiki = {
-    nixos = {...}: {
-      environment.systemPackages = [self'.packages.wiki];
+    nixos = {pkgs,...}: let
+      system = pkgs.stdenv.hostPlatform.system;
+    in {
+      environment.systemPackages = [self.packages.${system}.wiki];
     };
 
-    # homeManager = {config, pkgs,...}: {
-    #   home.packages = [
-    #     config.packages.${pkgs.stdenv.hostPlatform.system}.wiki
-    #   ];
-    # };
+    homeManager = {pkgs,...}: let
+        system = pkgs.stdenv.hostPlatform.system;
+    in {
+      home.packages = [self.packages.${system}.wiki];
+    };
   };
 }
