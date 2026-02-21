@@ -1,4 +1,4 @@
-top @ {...}: {
+top: {
   flake.aspects = {aspects, ...}:{
     homeManager._.users  = username: {
       includes = [aspects.${username}];
