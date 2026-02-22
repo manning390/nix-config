@@ -31,6 +31,8 @@ in {
                     # NIXCONFIG = "/home/${user}/Code/nix/nix-config";
                 };
             };
+
+            homeManager = {}; # Required for included homeMager modules to be imported
         };
     };
 }

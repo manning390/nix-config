@@ -19,8 +19,7 @@ in {
 
       homeManager = {
         imports = [
-          ../../home/core/nvim
-          ../../home/core/git
+          ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
         ];
 
         programs = {

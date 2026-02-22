@@ -1,6 +1,8 @@
 top: {
   flake.aspects = {aspects, ...}:{
     homeManager._.users  = username: {
+      description = "Parameterized aspect, takes username and imports and sets up home-manager.";
+
       includes = [aspects.${username}];
 
       nixos = { config, inputs, ...}: {
@@ -15,9 +17,9 @@ top: {
           backupFileExtension = "hmbak";
 
           users.${username} = {
-            # import user's homeManager aspects
+            # import host's homeManager aspect which includes the user
             imports = [
-              top.config.flake.modules.homeManager.${username}
+              top.config.flake.modules.homeManager.${config.networking.hostName}
             ];
             home = {
               homeDirectory = "/home/${username}";

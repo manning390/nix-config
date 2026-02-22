@@ -1,6 +1,8 @@
 {
   flake.aspects = {aspects,...}: {
     base = {
+      description = "Base Aspect includes things installed on every system.";
+
       includes = with aspects; [
         nix
         git

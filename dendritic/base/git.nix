@@ -94,10 +94,10 @@ in {
 
       homeManager = {
         lib,
-        config,
+        osConfig,
         ...
       }: let
-        cfg = config.local.git;
+        cfg = osConfig.local.git;
       in
         lib.mkIf cfg.enable {
           programs.git = {
