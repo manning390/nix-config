@@ -116,7 +116,7 @@ in {
               alias = {
                 st = "status";
                 ci = "commit";
-                ca = "commit --ammend";
+                ca = "commit --amend";
                 co = "checkout";
                 cp = "cherry-pick";
                 br = "branch";
