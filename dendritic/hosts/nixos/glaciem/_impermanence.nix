@@ -1,4 +1,4 @@
-{config,inputs,...}: let
+{config, inputs,...}: let
   hostname = config.networking.hostName;
   user = config.local.identity.username;
 in {

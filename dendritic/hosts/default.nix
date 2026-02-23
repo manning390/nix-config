@@ -11,14 +11,12 @@
       flakeAttr = "nixosConfigurations";
       builder = inputs.nixpkgs.lib.nixosSystem;
       class = "nixos";
-      toplevelAttr = cfg: cfg.config.system.build.toplevel;
     };
     wsl = nixos; # The same except wsl gets the system.wsl aspect
     darwin = {
       flakeAttr = "darwinConfigurations";
       builder = inputs.nix-darwin.lib.darwinSystem;
       class = "darwin";
-      toplevelAttr = cfg: cfg.config.systems.examples.macos;
     };
   };
   # Creates a host based on type, includes host and system aspects
@@ -33,6 +31,7 @@
       modules = [
         inputs.self.modules.${cfg.class}.${hostname}
         inputs.self.modules.${cfg.class}.${hostCfg.type}
+        ../base/identity.nix # Hack for identity to be available in nixos config
         {
           networking.hostName = hostname;
           system.stateVersion = hostCfg.stateVersion;

@@ -45,7 +45,7 @@ in {
     extraGroups = ["wheel"];
 
     openssh.authorizedKeys.keys = [
-      (builtins.readFile ./keys/user_pch_glaciem_ed25519_key.pub)
+      (builtins.readFile ../../../hosts/nixos/glaciem/keys/user_pch_glaciem_ed25519_key.pub)
     ];
   };
 

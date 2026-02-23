@@ -8,6 +8,7 @@
         git
         sops
         security
+        localization
       ];
 
       nixos = {lib,pkgs,...}: {

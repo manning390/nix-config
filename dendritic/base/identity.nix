@@ -1,3 +1,4 @@
+# This is imported both at flake level and nixos module level
 {lib,...}: let 
   identity = {
     username = "pch";

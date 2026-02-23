@@ -584,11 +584,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1769557063,
-        "narHash": "sha256-IzJmsixusBOOJt/N6itnzLkagcCSP6wzVibLXrwY4b8=",
+        "lastModified": 1771835650,
+        "narHash": "sha256-D/oA6gHmWnC9hFlJ0LKvRjo0T4AoyGUo1uAuu+GpDZU=",
         "ref": "refs/heads/main",
-        "rev": "33e93ac7be5b92a5cc8acba52e4573c2c640f25f",
-        "revCount": 5,
+        "rev": "d1429404803fb3aab584d3125f557744948e9dbf",
+        "revCount": 7,
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
       },
