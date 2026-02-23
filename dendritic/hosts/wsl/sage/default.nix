@@ -2,6 +2,7 @@
     hostname = "sage";
     user = config.local.identity.username;
 in {
+    local.identity.email = "michael.manning@sage.com";
     local.hosts.${hostname} = {
         type = "wsl";
         stateVersion = "25.11";
@@ -11,6 +12,7 @@ in {
             includes = with aspects; [
                 base 
                 (homeManager._.users user)
+                docker
             ];
 
             nixos = {
