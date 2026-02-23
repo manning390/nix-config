@@ -33,6 +33,7 @@
       modules = [
         inputs.self.modules.${cfg.class}.${hostname}
         inputs.self.modules.${cfg.class}.${hostCfg.type}
+        ../base/identity.nix # Hack to get identity config in nixos
         {
           networking.hostName = hostname;
           system.stateVersion = hostCfg.stateVersion;
@@ -93,7 +94,7 @@ in {
     |> lib.mapAttrs (_: lib.mapAttrs mkHost);
     # |> (baseFlake: baseFlake // {
     #   checks = lib.mapAttrs (name: cfg: {
-    #       "host-${name}" = cfg;
+    #       "hosts.${name}" = cfg;
     #     }) baseFlake;
     # });
 }

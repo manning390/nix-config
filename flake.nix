@@ -84,7 +84,7 @@
               inherit inputs;
               outputs = self.outputs or {};
             };
-            inherit (flakehelpers) mkMerge mkNixos mkWsl;
+            inherit (flakehelpers) mkMerge mkNixos;
           in
             mkMerge [
               {overlays = import ./overlays {inherit inputs;};}
@@ -95,9 +95,9 @@
                 inputs.determinate.nixosModules.default
               ])
               # Framework laptop
-              (mkNixos "ruby" inputs.nixpkgs [
-                inputs.nur.modules.nixos.default
-              ])
+              # (mkNixos "ruby" inputs.nixpkgs [
+              #   inputs.nur.modules.nixos.default
+              # ])
               # Homelab
               # (mkNixos "glaciem" inputs.nixpkgs [
               #   inputs.disko.nixosModules.disko
@@ -107,9 +107,6 @@
               # Windows WSL environment
               # (mkWsl "mado" inputs.nixpkgs [
               #   # inputs.nur.modules.nixos.default
-              #   inputs.home-manager.nixosModules.home-manager
-              # ] [])
-              # (mkWsl "sage" inputs.nixpkgs [
               #   inputs.home-manager.nixosModules.home-manager
               # ] [])
             ];

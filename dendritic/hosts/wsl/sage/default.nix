@@ -17,7 +17,6 @@ in {
                 imports = [
                     ../../../../modules/common.nix
                     ../../../../modules/shells.nix
-                    ./_daily_logging.nix
                 ];
 
                 local = {
@@ -47,7 +46,7 @@ in {
 
             homeManager = {
                 imports = [
-                    ./_git-wrapper.nix
+                    ./_daily_logging.nix
                 ];
             };
         };

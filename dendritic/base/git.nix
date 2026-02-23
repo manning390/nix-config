@@ -109,22 +109,29 @@ in {
               init.defaultBranch = "main";
               pull.rebase = false;
               push.autoSetupRemote = true;
+              core.editor = "nvim";
+              fetch.prune = true;
+              github.user = "manning390";
 
               alias = {
                 st = "status";
                 ci = "commit";
+                ca = "commit --ammend";
                 co = "checkout";
-                br = "branch";
                 cp = "cherry-pick";
+                br = "branch";
+                bc = "!git branch --show-current | tr -d '\n' | pbcopy"; # WSL hosts need pbcopy alias
+                by = "bc";
+                vi = "!nvim -c 'G'"; # Fugitive in vim
+
                 last = "log -1";
                 unstage = "reset HEAD --";
-                ca = "commit --amend";
                 tree = "log --all --graph --decorate --oneline";
+                hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
+
                 mv = "!branchmv() { git branch -m $1 $2; if [[ `git ls-remote --heads origin $1 | wc -l` -eq 1 ]]; then git push origin :$1; git push origin $2; fi }; branchmv";
 
-                vi = "!nvim -c 'G'"; # Fugitive in vim
-                bc = "!git branch --show-current | tr -d '\n' | pbcopy"; # Copy branch name
-                by = "bc";
+                pr = "!f(){git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; };f";
                 fd = "!f(){git branch -a | grep -v remotes | grep $1 | head -n 1 | xargs git checkout; };f"; # Partial search for branch name
 
                 yeet = "!git add . && git commit"; # Add, commit

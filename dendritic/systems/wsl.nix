@@ -1,10 +1,15 @@
 {config,...}: {
-  flake.aspects.wsl = {
-    nixos = {inputs, ...}: {
-      imports = [inputs.nixos-wsl.nixosModules.wsl];
+  flake.aspects = {aspects, ...} : {
+    wsl = {
+      includes = with aspects; [wsl-git-wrapper];
 
-      wsl.enable = true;
-      wsl.defaultUser = config.local.identity.username;
+      nixos = {inputs, ...}: {
+        imports = [inputs.nixos-wsl.nixosModules.wsl];
+
+        wsl.enable = true;
+        wsl.defaultUser = config.local.identity.username;
+      };
+      homeManager = {};
     };
   };
 }

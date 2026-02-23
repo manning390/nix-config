@@ -17,9 +17,13 @@ top: {
           backupFileExtension = "hmbak";
 
           users.${username} = {
-            # import host's homeManager aspect which includes the user
-            imports = [
-              top.config.flake.modules.homeManager.${config.networking.hostName}
+            # Import homeManager modules through host and system type aspects
+            imports = let
+              hmModules = top.config.flake.modules.homeManager; 
+              hostname = config.networking.hostName;
+            in [
+              hmModules.${hostname}
+              hmModules.${top.config.local.hosts.${hostname}.type}
             ];
             home = {
               homeDirectory = "/home/${username}";
