@@ -15,8 +15,9 @@ in {
 
             nixos = {
                 imports = [
-                    ../../../modules/common.nix
-                    ../../../modules/shells.nix
+                    ../../../../modules/common.nix
+                    ../../../../modules/shells.nix
+                    ./_daily_logging.nix
                 ];
 
                 local = {
@@ -36,7 +37,7 @@ in {
                 };
 
                 sops.secrets."npm/npmrc" = {
-                    sopsFile = ../../../secrets/sage.yaml;
+                    sopsFile = ./secrets/sage.yaml;
                     path = "/home/${user}/.npmrc";
                     owner = user;
                     group = "users";
@@ -46,7 +47,7 @@ in {
 
             homeManager = {
                 imports = [
-                    ../../../home/wsl/git-wrapper.nix
+                    ./_git-wrapper.nix
                 ];
             };
         };

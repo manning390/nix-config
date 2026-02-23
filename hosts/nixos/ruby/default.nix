@@ -16,7 +16,7 @@
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/common.nix"
       "modules/nix.nix"
-      "modules/zsh.nix"
+      "modules/shells.nix"
       "modules/audio.nix"
       "modules/browsers.nix"
       "modules/hyprland.nix"
@@ -32,6 +32,10 @@
     sops.enable = true;
     sops.homeOnSeparatePartition = true;
     stylix.enable = true;
+    shells = {
+      systemShell = "zsh";
+      userShell = "zsh";
+    };
   };
 
   nixpkgs = {
