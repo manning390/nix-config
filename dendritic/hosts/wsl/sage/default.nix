@@ -14,7 +14,7 @@ in {
                 docker
             ];
 
-            nixos = {
+            nixos = {config,...}: {
                 imports = [
                     ../../../../modules/common.nix
                     ../../../../modules/shells.nix
@@ -25,6 +25,7 @@ in {
                         systemShell = "fish";
                         userShell = "fish";
                     };
+                    git.includeFile = config.sops.templates."gitconfig".path;
                 };
 
                 environment.sessionVariables = {
@@ -39,6 +40,21 @@ in {
                 sops.secrets."npm/npmrc" = {
                     sopsFile = ./secrets/sage.yaml;
                     path = "/home/${user}/.npmrc";
+                    owner = user;
+                    group = "users";
+                    mode = "0600";
+                };
+                sops.secrets."workemail" = {
+                    sopsFile = ./secrets/sage.yaml;
+                    owner = user;
+                    group = "users";
+                    mode = "0600";
+                };
+                sops.templates."gitconfig"= {
+                    content = ''
+                        [user]
+                            email = ${config.sops.placeholder.workemail}
+                    '';
                     owner = user;
                     group = "users";
                     mode = "0600";

@@ -18,6 +18,14 @@ in {
             default = identity.email;
             description = "User level default email";
           };
+          includeFile = lib.mkOption {
+            type = lib.types.nullOr lib.types.path;
+            default = null;
+            description = "
+              Optional gitconfig fragment incuded after everything for global overrides.
+              Ensure it follows git config INI format.
+            ";
+          };
           server = {
             enable = lib.mkEnableOption "Enable hosting git repositories";
             directory = lib.mkOption {
@@ -102,6 +110,10 @@ in {
         lib.mkIf cfg.enable {
           programs.git = {
             enable = true;
+
+            includes = lib.optionals (cfg.includeFile != null) [
+              {path = cfg.includeFile;}
+            ];
 
             settings = {
               user.name = identity.fullName;
