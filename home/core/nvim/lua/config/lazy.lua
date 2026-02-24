@@ -276,7 +276,8 @@ local plugins = {
 	{
 		"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
 		opts = {
-			selected_browser = "firefox"
+			selected_browser = "firefox",
+			config_dir = vim.env.BROWSER_CONFIG_DIR,
 		},
 		dependencies = { 'kkharji/sqlite.lua' }
 	},

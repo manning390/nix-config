@@ -36,28 +36,30 @@ in {
                 environment.shellAliases = {
                     whostname = "echo 'AP1H85254WLR' | clip.exe";
                 };
-
-                sops.secrets."npm/npmrc" = {
-                    sopsFile = ./secrets/sage.yaml;
-                    path = "/home/${user}/.npmrc";
-                    owner = user;
-                    group = "users";
-                    mode = "0600";
-                };
-                sops.secrets."workemail" = {
+                sops = let
                     sopsFile = ./secrets/sage.yaml;
                     owner = user;
                     group = "users";
                     mode = "0600";
-                };
-                sops.templates."gitconfig"= {
-                    content = ''
-                        [user]
-                            email = ${config.sops.placeholder.workemail}
-                    '';
-                    owner = user;
-                    group = "users";
-                    mode = "0600";
+                in {
+                    secrets = {
+                        "npm/npmrc" = {
+                            inherit sopsFile owner group mode;
+                            path = "/home/${user}/.npmrc";
+                        };
+                        "workemail" = { inherit sopsFile owner group mode;};
+                        "userProfile" = {
+                            inherit sopsFile owner group mode;
+                            path = "/home/${user}/.profile";
+                        };
+                    };
+                    templates."gitconfig"= {
+                        inherit owner group mode;
+                        content = ''
+                            [user]
+                                email = ${config.sops.placeholder.workemail}
+                        '';
+                    };
                 };
             };
 

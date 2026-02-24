@@ -4,6 +4,10 @@
     plugins = [{
       name = "fzf-fish";
       src = pkgs.fishPlugins.fzf-fish.src;
+    }
+    {
+      name = "foreign-env";
+      src = pkgs.fishPlugins.foreign-env.src;
     }];
 
     interactiveShellInit = ''
@@ -21,6 +25,11 @@
         commandline -i 'sudo '
       end
       bind \es '__fish_prepend_sudo'
+
+      # Load .profile
+      if test -f ~/.profile
+        fenv ~/.profile > /dev/null
+      end
 
       set -g fish_greeting "Hi. Hello. Welcome. <3"
     '';
