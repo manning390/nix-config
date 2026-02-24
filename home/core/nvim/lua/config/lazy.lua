@@ -48,8 +48,8 @@ local plugins = {
 	},
 	{
 		"Zeioth/compiler.nvim",
-		cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
-		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim"},
+		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
 		opts = {}
 	},
 	{ -- PHP Actions
@@ -112,6 +112,7 @@ local plugins = {
 				javascript = { { "prettierd", "prettier" } },
 				svelte = { { "prettier", lsp_format = "fallback" } },
 				php = { "pint" },
+				nix = { "alejandra" },
 			},
 		},
 	},
@@ -228,11 +229,11 @@ local plugins = {
 		event = "VeryLazy",
 		opts = {},
 	},
-	"tpope/vim-unimpaired",            -- bracket mappings
+	"tpope/vim-unimpaired",                        -- bracket mappings
 	-- No bindings or cmds by default, make telescope command?
 	{ "Vonr/align.nvim",             branch = "v2" }, -- Align things vertically
 	{
-		"folke/todo-comments.nvim",    -- Highlight todo comments
+		"folke/todo-comments.nvim",                -- Highlight todo comments
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ -- Jump to keypairs via labels
@@ -270,9 +271,15 @@ local plugins = {
 		},
 	},
 	"xiyaowong/telescope-emoji.nvim",
-	"danielvolchek/tailiscope.nvim",   -- Tailwind
-	"crispgm/telescope-heading.nvim",  -- Markdown headers etc.
-	"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
+	"danielvolchek/tailiscope.nvim",    -- Tailwind
+	"crispgm/telescope-heading.nvim",   -- Markdown headers etc.
+	{
+		"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
+		opts = {
+			selected_browser = "firefox"
+		},
+		dependencies = { 'kkharji/sqlite.lua' }
+	},
 	"cwebster2/github-coauthors.nvim", -- Co-authors
 
 	-- Harpoo"n
@@ -366,14 +373,14 @@ local plugins = {
 	-- Zen Mode
 	{
 		"folke/zen-mode.nvim",
-		cmd = {"ZenMode", "Write"},
-		dependencies = {{
+		cmd = { "ZenMode", "Write" },
+		dependencies = { {
 			-- Dims paragraphs not working on
 			"folke/twilight.nvim",
 			enabled = false,
 			cmd = "Twilight",
 			lazy = true,
-		}},
+		} },
 		lazy = true,
 		opts = {
 			window = {

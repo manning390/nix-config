@@ -8,12 +8,12 @@ local function bind(op, outer_opts)
 	end
 end
 
-local map            = bind('')
-local nmap           = bind('n', { noremap = false })
-local nnoremap       = bind('n')
-local vnoremap       = bind('v')
-local xnoremap       = bind('x')
-local inoremap       = bind('i')
+local map      = bind('')
+local nmap     = bind('n', { noremap = false })
+local nnoremap = bind('n')
+local vnoremap = bind('v')
+local xnoremap = bind('x')
+local inoremap = bind('i')
 
 nmap('<leader>/', ':noh<cr>', { silent = true })
 nnoremap('<enter>', ':let @/=""<cr>', { silent = true }) -- Clear search buffer
@@ -45,9 +45,9 @@ end
 -- nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 -- nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-nnoremap(sf('<C-%s>', h), ':TmuxNavigateLeft<cr>', { silent = true }) -- change window left
-nnoremap(sf('<C-%s>', j), ':TmuxNavigateDown<cr>', { silent = true }) -- change window down
-nnoremap(sf('<C-%s>', k), ':TmuxNavigateUp<cr>', { silent = true }) -- change window up
+nnoremap(sf('<C-%s>', h), ':TmuxNavigateLeft<cr>', { silent = true })  -- change window left
+nnoremap(sf('<C-%s>', j), ':TmuxNavigateDown<cr>', { silent = true })  -- change window down
+nnoremap(sf('<C-%s>', k), ':TmuxNavigateUp<cr>', { silent = true })    -- change window up
 nnoremap(sf('<C-%s>', l), ':TmuxNavigateRight<cr>', { silent = true }) -- change window right
 nnoremap("<C-\\>", ':TmuxNavigatePrevious<cr>', { silent = true })
 
@@ -75,6 +75,7 @@ nnoremap('<leader>ph', require 'telescope.builtin'.help_tags, { desc = 'Search [
 nnoremap('<leader>pd', require 'telescope.builtin'.diagnostics, { desc = 'Search [D]iagnostics' })
 nnoremap('<leader>pg', require 'telescope'.extensions.live_grep_args.live_grep_args, { desc = 'Search by [G]rep' })
 nnoremap('<leader>p/', require 'telescope.builtin'.grep_string, { desc = 'Search current [W]ord' })
+nnoremap('<leader>pb', require 'telescope'.extensions.bookmarks.bookmarks, { desc = 'Search browser [B]ookmarks'})
 -- nnoremap('<leader>pg', function()
 -- 	tel.grep_string{ search = vim.fn.input("Grep For > ")} end)
 -- nnoremap('<leader>pw', function()
@@ -100,8 +101,10 @@ nnoremap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: [C]ode [A]ction' 
 -- nnoremap('<leader>ct', ':ClorizerToggle', { desc = '[C]olor Display [T]oggle' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic ' })
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic' })
-nnoremap(']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Next Error' })
-nnoremap('[e', function() vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Previous Error' })
+nnoremap(']e', function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+	{ desc = 'Next Error' })
+nnoremap('[e', function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+	{ desc = 'Previous Error' })
 --nnoremap(']t', require'todo-comments'.jump_next, { desc = "Next todo comment"})
 --nnoremap('[t', require'todo-comments'.jump_prev, { desc = "Previous todo comment"})
 nnoremap('<leader>q', vim.diagnostic.setloclist)
@@ -119,11 +122,11 @@ nnoremap('<leader>d', ':OverseerRun<CR>', { desc = '[D]ispatch Overseer action' 
 xnoremap("<leader>re", ":Refactor extract ")
 xnoremap("<leader>rf", ":Refactor extract_to_file ")
 xnoremap("<leader>rv", ":Refactor extract_var ")
-vim.keymap.set({"n", "x"}, "<leader>ri", ":Refactor inline_var")
+vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
 nnoremap("<leader>rI", ":Refactor inline_func")
 nnoremap("<leader>rb", ":Refactor extract_block")
 nnoremap("<leader>rbf", ":Refactor extract_block_to_file")
-vim.keymap.set({"n", "x"}, "<leader>rr", function() require('telescope').extensions.refactoring.refactors() end)
+vim.keymap.set({ "n", "x" }, "<leader>rr", function() require('telescope').extensions.refactoring.refactors() end)
 
 -- Run tests
 nnoremap('<leader>tq', ':TestNearest<CR>', { desc = 'Tests: [T]est Nearest [Q]' })
@@ -162,22 +165,23 @@ nnoremap('<leader>gc', ':G ci<cr>')
 nnoremap('<leader>gp', ':G push<cr>')
 nnoremap('<leader>g' .. j, ':diffget //3<cr>')
 nnoremap('<leader>g' .. f, ':diffget //2<cr>')
-nnoremap('<leader>gb', ':GBrowse<cr>', { desc = "Fugitive GBrowse to default"})
+nnoremap('<leader>gb', ':GBrowse<cr>', { desc = "Fugitive GBrowse to default" })
 vnoremap('<leader>gb', ":'<,'>GBrowse<cr>")
+nnoremap('<leader>ga', require 'telescope'.extensions.githubcoauthors.coauthors, { desc = "Add github co-author from git history"})
 nnoremap('<leader>gm', function()
 	local branch = fn.getDefaultBranch()
 	vim.cmd(string.format('GBrowse origin/%s:%%', branch))
-end, { desc = "Fugitive GBrowse to default branch"})
+end, { desc = "Fugitive GBrowse to default branch" })
 vnoremap('<leader>gm', function()
 	local branch = fn.getDefaultBranch()
 	vim.cmd(string.format("'<,'>GBrowse origin/%s:%%", branch))
-end, { desc = "Fugitive GBrowse to default branch"})
+end, { desc = "Fugitive GBrowse to default branch" })
 
 nnoremap('<leader>gw', require 'telescope'.extensions.git_worktree.create_git_worktree)
 
 -- Leap see :help leap-mappings
-vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
-vim.keymap.set('n',             'S', '<Plug>(leap-from-window)')
+vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
+vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
 
 -- Quick fix lists
 nnoremap('g' .. n, ':cnext<cr>', { silent = true })
@@ -208,7 +212,7 @@ nnoremap('Y', 'y$')                                -- Add missing yank
 nnoremap('0', function() fn.toggleMovement('^', '0') end)
 nnoremap('~', fn.customCaseToggle)
 
-vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
 vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
 
 nnoremap('<leader>pm', ':PhpactorContextMenu<cr>')
