@@ -4,10 +4,6 @@
     plugins = [{
       name = "fzf-fish";
       src = pkgs.fishPlugins.fzf-fish.src;
-    }
-    {
-      name = "foreign-env";
-      src = pkgs.fishPlugins.foreign-env.src;
     }];
 
     interactiveShellInit = ''
