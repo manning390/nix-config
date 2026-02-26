@@ -11,7 +11,7 @@
         };
 
         settings = {
-          cursor_trail = 1;
+          cursor_trail = 3;
         };
 
         keybindings = {
