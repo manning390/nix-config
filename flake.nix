@@ -67,7 +67,10 @@
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
-  outputs = inputs @ {self, ...}:
+  outputs = inputs @ {self, ...}: let
+    lib = inputs.nixpkgs.lib;
+    importTree = path: lib.toList (lib.fileFilter (file: file.hasExt "nix" && ! (lib.hasPrefix "_" file.name)));
+  in
     inputs.flake-parts.lib.mkFlake {inherit inputs;} (
       inputs.nixpkgs.lib.foldl inputs.nixpkgs.lib.recursiveUpdate {} [
         {
