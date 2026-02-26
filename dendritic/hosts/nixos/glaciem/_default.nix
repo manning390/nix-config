@@ -1,35 +1,50 @@
-{config, pkgs, lib, ...}: let
-  machineName = "glaciem";
+{config, ...}: let
+  hostname = "glaciem";
   user = config.local.identity.username;
+  nixCfgPath = "/home/${user}/nix-config";
 in {
-  config.local.hosts.${machineName} = {
+  local.hosts.${hostname} = {
     type = "nixos";
-    aspects = []; #lib.splitString "," "git,wiki";
-    modules = [
-      ../../../../modules/shells.nix
-      ./_hardware-configuration.nix
-      ./_disk-config.nix
-      ./_impermanence.nix
-      ./_impermanence.nix
-      {
-        networking = {
-            hostName = machineName;
-            hostId = "9dea9b66";
-            networkmanager.enable = false;
-            useDHCP = true;
-        };
+    stateVersion = "25.05";
+  };
+  flake.aspects = {aspects, pkgs, ...}: {
+    ${hostname} = {
+      includes = with aspects; [
+        base
+        (homeManager._.users user)
+      ];
+      nixos = {
+        imports = [
+          ./_hardware-configuration.nix
+          ./_disk-config.nix
+          ./_impermanence.nix
+          ./_homelab.nix
+          ../../../../modules/common.nix
+          ../../../../modules/shells.nix
+          ../../../../modules/homelab
+        ];
 
-        users.user.${user} = {
-          isNormalUser = true;
-        };
-
-        # My local configuration options
         local = {
           shells = {
-            systemShell = "bash";
+            systemShell = "fish";
             userShell = "fish";
           };
-          sops.enable = true;
+          git.server = {
+            enable = true;
+          };
+          nix = {
+            flakePath = nixCfgPath;
+          };
+        };
+
+        users.users.${user}.openssh.authorizedKeys.keys = [];
+        services.openssh = {
+          enable = true;
+          openFirewall = true;
+          settings = {
+            # Forbid root login through SSH.
+            PermitRootLogin = "no";
+          };
         };
 
         environment.systemPackages = with pkgs; [
@@ -42,12 +57,29 @@ in {
           powertop
         ];
 
-        environment.sessionVariables = {
-          NIXCONFIG = "/home/${user}/Code/nix/nix-config";
+        networking = {
+          hostName = hostname;
+          hostId = "9dea9b66";
+          networkmanager.enable = false;
+          useDHCP = true;
         };
-      }
-    ];
-    homeManagerModules = [];
-    stateVersion = "25.05";
+
+        # systemd.services.hd-idle = {
+        #   description = "External HD spin down daemon";
+        #   wantedBy = ["multi-user.target"];
+        #   serviceConfig = {
+        #     Type = "simple";
+        #     ExecStart = let
+        #       idleTime = toString 900;
+        #       hardDriveParameter = lib.strings.concatMapStringSep " " (x: "-a ${x} ie ${idleTime}") hardDrives;
+        #     in "${pkgs.hd-idle}/bin/hd-idle -i 0 ${hardDriveParameter}";
+        #   };
+        # };
+
+        environment.sessionVariables = {
+          NIXCONFIG = nixCfgPath;
+        };
+      };
+    };
   };
 }
