@@ -140,9 +140,11 @@ local plugins = {
 			"L3MON4D3/LuaSnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-calc",
+			"f3fora/cmp-spell",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-path",
+			{ url = "https://codeberg.org/FelipeLema/cmp-async-path", name = "async_path"},
 			{
 				"dcampos/cmp-emmet-vim",
 				dependencies = {
@@ -361,6 +363,15 @@ local plugins = {
 	},
 	{
 		"stevearc/dressing.nvim",
+		opts = {},
+	},
+	{
+		"GustavEikaas/easy-dotnet.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"mfussenegger/nvim-dap",
+		},
 		opts = {},
 	},
 

@@ -5,6 +5,7 @@ local n = vim.g.keymaps.n;
 require('config.snippets')
 require('config.cmp.githandles').setup()
 
+cmp.register_source("easy-dotnet", require "easy-dotnet".package_completion_source)
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -51,7 +52,8 @@ cmp.setup({
     { name = 'nvim_lua' },
     { name = 'nvim_lsp' },
     -- { name = 'nvim_lsp_signature_help' },
-    { name = 'path' },
+    { name = 'easy-dotnet' },
+    { name = 'async_path' },
     { name = 'calc' },
     { name = 'luasnip' },
     {
@@ -63,6 +65,7 @@ cmp.setup({
       }
     },
     { name = 'buffer', keyword_length = 5 },
+    { name = 'spell' },
     { name = 'emoji' },
     -- { name = 'cmdline'},
   },

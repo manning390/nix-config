@@ -65,6 +65,7 @@ vim.lsp.enable('lua_ls', {
     end,
 })
 vim.lsp.enable('jsonls')
+-- vim.lsp.enable('roslyn_ls')
 
 -- vim.lsp.config.intelephense.init_options = {}
 local servers = {
