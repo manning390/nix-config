@@ -1,35 +1,38 @@
 {config, ...}: let
-    machineName = "HOSTNAME_PLACEHOLDER";
+    hostname = "HOSTNAME_PLACEHOLDER";
     user = config.local.identity.username;
 in {
-    config.local.hosts.${machineName} = {
+    local.hosts.${hostname} = {
         type = "TYPE_PLACEHOLDER";
-        aspects = [ASPECTS_PLACEHOLDER];
-        modules = [
-            MODULES_PLACEHOLDER
-            {
-                networking.hostName = machineName;
-                users.user.${user} = {
-                    isNormalUser = true;
-                };
+        stateVersion = "25.11";
+    };
+    flake.aspects = {aspects,...}: {
+        ${hostname} = {
+            description = "Host entrypoint for HOSTNAME_PLACEHOLDER";
+            includes = with aspects; [
+                base
+                (homeManager._.users user)
+                ASPECTS_PLACEHOLDER
+            ];
 
-                # My local configuration options
+            nixos = {
                 local = {
-                    LOCAL_CONFIG_PLACEHOLDER
                     shells = {
-                        systemShell = "bash";
-                        userShell = "fish";
+                        systemShell = "zsh";
+                        userShell = "zsh";
                     };
                     sops.enable = true;
                     nix.allowUnfree = true;
                 };
+
                 environment.sessionVariables = {
+                    COLEMAK = "1";
                     NIXCONFIG = "/home/${user}/Code/nix/nix-config";
                 };
-            }
-        ];
-        homeManagerModules = [ ];
-        stateVersion = "25.11";
+            };
+
+            homeManager = {}; # Required for included homeMager modules to be imported
+        };
     };
 }
 

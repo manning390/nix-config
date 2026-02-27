@@ -16,11 +16,8 @@ build:
 update:
   nh os switch . --update
 
-new subcommand hostname *args:
-  if [ "{{subcommand}}" = "host" ]; then
-  ./scripts/generate-host.sh "{{hostname}}" {{args}}
-  else
-  echo "Unknown subcommand: {{subcommand}}"
-  echo "Available: host"
-  exit 1
-  fi
+new command *args:
+  @just new-{{command}} {{args}}
+
+new-host *args:
+  ./scripts/generate-host.sh {{args}}

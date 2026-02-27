@@ -81,12 +81,6 @@ if [[ -n "$ASPECTS" ]]; then
     done
 fi
 
-LOCAL_CONFIG=""
-MODULES=""
-if [[ "$TYPE" == "WSL" ]]; then
-    MODULES='../../modules/wsl'
-    LOCAL_CONFIG='wsl.enable = true;'
-fi
 
 # Generate the host configuration file from template
 cp "$TEMPLATE_FILE" "$HOST_FILE"
@@ -95,14 +89,12 @@ cp "$TEMPLATE_FILE" "$HOST_FILE"
 sed -i "s|HOSTNAME_PLACEHOLDER|${HOSTNAME}|g" "$HOST_FILE"
 sed -i "s|TYPE_PLACEHOLDER|${TYPE}|g" "$HOST_FILE"
 sed -i "s|ASPECTS_PLACEHOLDER|${ASPECTS_LIST}|g" "$HOST_FILE"
-sed -i "/MODULES_PLACEHOLDER/c\\${MODULES}" "$HOST_FILE"
-sed -i "/LOCAL_CONFIG_PLACEHOLDER/c\\${LOCAL_CONFIG}" "$HOST_FILE"
-nix fmt "$HOST_FILE" --quiet
+nix fmt "$HOST_FILE" -- --quiet
+git add "$HOST_FILE"
 
 echo "✓ Created host configuration at $HOST_FILE"
 echo ""
 echo "Next steps:"
-echo "1. Edit $HOST_FILE to customize your host configuration"
-echo "2. Git add $HOST_FILE so the config sees it"
-echo "3. Run 'just check' to verify the configuration"
-echo "4. Build with 'just build'"
+echo "1. Edit $HOST_FILE to customize your host configuration (update stateVersion)"
+echo "2. Run 'just check' to verify the configuration"
+echo "3. Build with 'just build'"
