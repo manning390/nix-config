@@ -5,12 +5,12 @@
     ...
   }: {
     packages.easy-dotnet-server = pkgs.buildDotnetGlobalTool {
-      pname = "easy-dotnet-server";
-      version = "unstable-2026-02-26";
-      nugetHash = lib.fakeSha256;
+      pname = "dotnet-easydotnet";
+      nugetName = "EasyDotnet";
+      version = "2.9.6";
+      nugetHash = "sha256-GohjenhJRSFvN8OJX5v0tucgigba6MOcOWldEjQ0lY8=";
 
       meta = {
-        description = "EasyDotnet CLI including Roslyn and ProjX language server";
         homepage = "https://github.com/GustavEikaas/easy-dotnet-server";
         license = lib.licenses.mit;
         platforms = lib.platforms.all;
