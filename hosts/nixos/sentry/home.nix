@@ -1,10 +1,12 @@
-{lib, ...}: {
-  imports = [ ] ++ builtins.map lib.custom.relativeToRoot [
+{lib, inputs, ...}: {
+  # inputs.nix-private.homeManagerModules
+  imports = [  ] ++ builtins.map lib.custom.relativeToRoot [
     "home/linux/desktop.nix"
     "home/core/default.nix"
   ];
 
   custom.wm.caelestia.enable = true;
+  # custom.ssh.hosts = [ "pch@glaciem" "pch@sentry" ];
 
   programs.zoxide.enable = true;
   programs.zoxide.options = ["--cmd cd"];

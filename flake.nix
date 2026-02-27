@@ -9,6 +9,9 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Private nix modules
+    nix-private.url = "git+ssh://git@github/manning390/nix-private.git";
+
     # Flake utils
     flake-utils.url = "github:numtide/flake-utils";
 
@@ -41,10 +44,6 @@
 
     # Automagic/breaking Color Themes
     stylix.url = "github:danth/stylix/release-25.11";
-
-    # Currated Taskbar
-    # hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
-    # hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
 
     # Utility scripts, like screen shots
     hyprland-contrib.url = "github:hyprwm/contrib";
