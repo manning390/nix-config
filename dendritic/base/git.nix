@@ -125,15 +125,15 @@ in {
               fetch.prune = true;
               github.user = "manning390";
 
-              alias = {
+              alias = let
+                bash = c: ''!bash -c '${c}' ''; # Wraps commands in bash
+              in {
                 st = "status";
                 ci = "commit";
                 ca = "commit --amend";
                 co = "checkout";
                 cp = "cherry-pick";
                 br = "branch";
-                bc = "!git branch --show-current | tr -d '\n' | pbcopy"; # WSL hosts need pbcopy alias
-                by = "bc";
                 vi = "!nvim -c 'G'"; # Fugitive in vim
 
                 last = "log -1";
@@ -141,21 +141,27 @@ in {
                 tree = "log --all --graph --decorate --oneline";
                 hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
 
-                mv = "!branchmv() { git branch -m $1 $2; if [[ `git ls-remote --heads origin $1 | wc -l` -eq 1 ]]; then git push origin :$1; git push origin $2; fi }; branchmv";
-
-                pr = "!f(){git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; };f";
-                fd = "!f(){git branch -a | grep -v remotes | grep $1 | head -n 1 | xargs git checkout; };f"; # Partial search for branch name
-
-                yeet = "!git add . && git commit"; # Add, commit
+                # Complex, Require bash wrapping
+                # Copy branch name, requires copy
+                bc = bash "git branch --show-current | tr -d '\n' | copy";
+                by = "bc";
+                # Move a branch
+                mv = bash ''git branch -m "$1" "$2" && [ $(git ls-remote --heads origin "$1" | wc -l) = 1 ] && git push origin ":$1" "$2"'';
+                # Make a pr branch under pr number
+                pr = bash "git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1";
+                # Search for a branch
+                fd = bash ''branch=$(git branch -a | grep -v remotes | grep "$1" | head -n1 | cut -c3-); [ -n $branch ] && git checkout "$branch"'';
+                yeet = bash "git add . && git commit"; # Add, commit
                 yt = "yeet";
-                yoink = "!git pull origin $(git branch --show-current | tr -d '\n')"; # Get remote head
+                yoink = bash ''git pull origin $(git branch --show-current | tr -d '\n')''; # Get remote head
                 yk = "yoink";
-
-                yolo = "!git add . && git commit -m \"$(curl -s https://whatthecommit.com/index.txt) -yolo\"  && git push origin HEAD -f"; # add, commit, force push
-                rent = "!git pull origin $(git branch -l master main | sed 's/^* //')"; # git origin pull main
-                cull = "!git for-each-ref --format '%(refname:short)' refs/heads | grep -v 'master\\|main' | xargs git branch -D"; # Delete all branches locally but main or master
-
-                clear = "!clear; echo \"Good job.\"";
+                # add, commit, force push
+                yolo = bash ''msg=$(curl -s https://whatthecommit.com/index.txt); git add . && git commit -m "$msg -yolo" -y && git push origin HEAD -f'';
+                # git pull origin main
+                rent = bash ''main=$(git branch -l master main | sed 's/^* //' | head -1); [ -n $main ] && git pull origin $main'';
+                # Delete all branches locally but main or master
+                cull = bash "git for-each-ref --format '%(refname:short)' refs/heads | grep -v 'master|main' | xargs git branch -D";
+                clear = bash ''clear; echo "Good job."'';
               };
             };
           };
