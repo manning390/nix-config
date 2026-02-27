@@ -86,6 +86,7 @@ in {
           nh
           nix-output-monitor
           nvd
+          alejandra
         ];
 
         # Allow unfree packages
