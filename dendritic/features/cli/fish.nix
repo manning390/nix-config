@@ -5,10 +5,11 @@
       homeManager = {pkgs, ...}: {
         programs.fish = {
           enable = true;
-          plugins = [{
-            name = "fzf-fish";
-            src = pkgs.fishPlugins.fzf-fish.src;
-          }];
+          plugins = map (name: {
+            inherit name;
+            src = pkgs.fishPlugins.${name}.src;
+          }) ["foreign-env" "fzf-fish"];
+
           interactiveShellInit = ''
             # Colors
             set -g fish_color_autosuggiston brblack
