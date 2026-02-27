@@ -1,5 +1,5 @@
 {
-  flake.aspects = {aspects,...}: {
+  flake.aspects = {aspects, ...}: {
     base = {
       description = "Base Aspect includes things installed on every system.";
 
@@ -10,8 +10,12 @@
         security
       ];
 
-      nixos = {lib,pkgs,...}: {
-        environment.systemPackages = [ pkgs.vim ]; # Never remove a text editor
+      nixos = {
+        lib,
+        pkgs,
+        ...
+      }: {
+        environment.systemPackages = [pkgs.vim]; # Never remove a text editor
         local = {
           git.enable = lib.mkDefault true;
           sops.enable = lib.mkDefault true;
