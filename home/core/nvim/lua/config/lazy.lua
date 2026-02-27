@@ -48,8 +48,8 @@ local plugins = {
 	},
 	{
 		"Zeioth/compiler.nvim",
-		cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
-		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim"},
+		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
 		opts = {}
 	},
 	{ -- PHP Actions
@@ -112,6 +112,7 @@ local plugins = {
 				javascript = { { "prettierd", "prettier" } },
 				svelte = { { "prettier", lsp_format = "fallback" } },
 				php = { "pint" },
+				nix = { "alejandra" },
 			},
 		},
 	},
@@ -139,9 +140,11 @@ local plugins = {
 			"L3MON4D3/LuaSnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-calc",
+			"f3fora/cmp-spell",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-path",
+			{ url = "https://codeberg.org/FelipeLema/cmp-async-path", name = "async_path"},
 			{
 				"dcampos/cmp-emmet-vim",
 				dependencies = {
@@ -162,14 +165,11 @@ local plugins = {
 	-- Highlight, edit, navigate code
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = function()
-			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-		end,
+		lazy = false,
+		build = ":TSUpdate",
 		dependencies = {
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			"nvim-treesitter/nvim-treesitter-textobjects",
-			"nvim-treesitter/nvim-tree-docs",
-			"nvim-treesitter/playground",
 		},
 	},
 	-- Tmux
@@ -231,18 +231,18 @@ local plugins = {
 		event = "VeryLazy",
 		opts = {},
 	},
-	"tpope/vim-unimpaired",            -- bracket mappings
+	"tpope/vim-unimpaired",                        -- bracket mappings
 	-- No bindings or cmds by default, make telescope command?
 	{ "Vonr/align.nvim",             branch = "v2" }, -- Align things vertically
 	{
-		"folke/todo-comments.nvim",    -- Highlight todo comments
+		"folke/todo-comments.nvim",                -- Highlight todo comments
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ -- Jump to keypairs via labels
-		"ggandor/leap.nvim",
+		url = "https://codeberg.org/andyg/leap.nvim.git",
 		ops = {}
 	},
-	{"catgoose/nvim-colorizer.lua", opts = {}},
+	-- {"catgoose/nvim-colorizer.lua", opts = {}},
 	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
 	"jghauser/mkdir.nvim", -- Write non-existing folders with :w :e etc.
 	{
@@ -262,21 +262,27 @@ local plugins = {
 	-- Telescope
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
+		version = "*",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
-				build =
-				"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				build = "make",
 			},
 		},
 	},
 	"xiyaowong/telescope-emoji.nvim",
-	"danielvolchek/tailiscope.nvim",   -- Tailwind
-	"crispgm/telescope-heading.nvim",  -- Markdown headers etc.
-	"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
+	"danielvolchek/tailiscope.nvim",    -- Tailwind
+	"crispgm/telescope-heading.nvim",   -- Markdown headers etc.
+	{
+		"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
+		opts = {
+			selected_browser = "firefox",
+			config_dir = vim.env.BROWSER_CONFIG_DIR,
+		},
+		dependencies = { 'kkharji/sqlite.lua' }
+	},
 	"cwebster2/github-coauthors.nvim", -- Co-authors
 
 	-- Harpoo"n
@@ -359,6 +365,15 @@ local plugins = {
 		"stevearc/dressing.nvim",
 		opts = {},
 	},
+	{
+		"GustavEikaas/easy-dotnet.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"mfussenegger/nvim-dap",
+		},
+		opts = {},
+	},
 
 	-- Writing related plugins
 	{
@@ -370,14 +385,14 @@ local plugins = {
 	-- Zen Mode
 	{
 		"folke/zen-mode.nvim",
-		cmd = {"ZenMode", "Write"},
-		dependencies = {{
+		cmd = { "ZenMode", "Write" },
+		dependencies = { {
 			-- Dims paragraphs not working on
 			"folke/twilight.nvim",
 			enabled = false,
 			cmd = "Twilight",
 			lazy = true,
-		}},
+		} },
 		lazy = true,
 		opts = {
 			window = {

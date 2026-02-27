@@ -1,19 +1,27 @@
-{lib, config, ...}: {
-  imports = [ ] ++ builtins.map lib.custom.relativeToRoot [
-    "home/linux/desktop.nix"
-  ];
+{
+  lib,
+  config,
+  ...
+}: {
+  imports =
+    []
+    ++ builtins.map lib.custom.relativeToRoot [
+      "home/linux/desktop.nix"
+      "home/core/default.nix"
+    ];
 
-  # wayland.windowManager.hyprland.settings.input = {
-  #   kb_layout = "us";
-  #   kb_variant = "colemak_dh";
-  #   kb_options = "caps:swapescape";
-  # };
-  #
-  # config.services.xserver = {
-  #   xkb.layout = "us";
-  #   xkb.variant = "colemak_dh";
-  #   xkb.options = "caps:swapescape";
-  # };
+  custom.wm.caelestia.enable = true;
+
+  programs.zoxide.enable = true;
+  programs.zoxide.options = ["--cmd cd"];
+  programs.fzf.enable = true;
+
+  home.sessionVariables = {
+    PATH = "$HOME/.local/bin:$PATH";
+    DOTFILES = "$HOME/.dotfiles";
+    NIXCONFIG = "$HOME/Code/nix/nix-config";
+    COLEMAK = "1";
+  };
 
   config.home.stateVersion = "24.05";
 }

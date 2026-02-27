@@ -22,6 +22,11 @@
       end
       bind \es '__fish_prepend_sudo'
 
+      # Load .profile
+      if test -f ~/.profile
+        fenv ~/.profile > /dev/null
+      end
+
       set -g fish_greeting "Hi. Hello. Welcome. <3"
     '';
   };

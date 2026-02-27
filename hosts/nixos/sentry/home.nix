@@ -5,8 +5,8 @@
     "home/core/default.nix"
   ];
 
-  custom.wm.caelestia.enable = true;
-  # custom.ssh.hosts = [ "pch@glaciem" "pch@sentry" ];
+  local.wm.caelestia.enable = true;
+  # local.ssh.hosts = [ "pch@glaciem" "pch@sentry" ];
 
   programs.zoxide.enable = true;
   programs.zoxide.options = ["--cmd cd"];

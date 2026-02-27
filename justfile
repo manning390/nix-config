@@ -8,10 +8,16 @@ format:
 
 # Check if flake compiles
 check:
-  nom flake check
+  nix flake check
 
 build:
   nh os switch .
 
 update:
   nh os switch . --update
+
+new command *args:
+  @just new-{{command}} {{args}}
+
+new-host *args:
+  ./scripts/generate-host.sh {{args}}

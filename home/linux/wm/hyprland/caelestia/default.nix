@@ -4,11 +4,11 @@
   inputs,
   ...
 }: let
-  cfg = config.custom.wm.caelestia;
+  cfg = config.local.wm.caelestia;
 in {
   imports = [inputs.caelestia-shell.homeManagerModules.default];
 
-  options.custom.wm.caelestia = {
+  options.local.wm.caelestia = {
     enable = lib.mkEnableOption "enables caelestia shell";
     showBattery = lib.mkEnableOption "shows battery in left sidebar";
     showBrightness = lib.mkEnableOption "shows brightness slider in right sidebar";

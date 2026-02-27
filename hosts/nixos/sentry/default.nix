@@ -29,7 +29,14 @@ in {
       "modules/1pass.nix"
     ];
 
-  custom = {
+  local = {
+    hardware = {
+      monitors = {
+        "DP-1"= "2560x1440@144,2560x0,1";
+        "HDMI-A-1" = "2560x1440@144,0x0,1";
+        "HDMI-A-2" = "2560x1440@144,5120x0,1";
+      };
+    };
     shells = {
       systemShell = "bash";
       userShell = "fish";

@@ -7,6 +7,7 @@
     inherit inputs outputs;
     lib = nixpkgsVersion.lib.extend (self: super: {custom = import ../lib {inherit (nixpkgsVersion) lib;};});
     vars = (import ../vars) // {hostname = machineHostname;};
+    self' = outputs; # This is an alias workaround so my non-flake-parts modules stay consistent with my flake-parts modules under the dendritic system, makes migration more seamless.
   };
   homeManagerCfg = userPackages: extraImports: hmExtraSpecialArgs: {
     home-manager.useGlobalPkgs = false;
@@ -15,7 +16,7 @@
       [
       ]
       ++ extraImports;
-    home-manager.backupFileExtension = "bak";
+    home-manager.backupFileExtension = "hm.bak";
     home-manager.useUserPackages = userPackages;
   };
 in {

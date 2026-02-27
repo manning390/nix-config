@@ -12,7 +12,11 @@ vim.lsp.enable('emmet_language_server', {
 })
 vim.lsp.enable('cmake')
 vim.lsp.enable('tailwindcss')
-vim.lsp.enable('nixd')
+vim.lsp.enable('nixd', {
+    formatting = {
+       command = { "alejandra" }
+   }
+})
 vim.lsp.enable('vimls')
 vim.lsp.enable('cssls', {
     on_attach = function(client)
@@ -65,6 +69,7 @@ vim.lsp.enable('lua_ls', {
     end,
 })
 vim.lsp.enable('jsonls')
+-- vim.lsp.enable('roslyn_ls')
 
 -- vim.lsp.config.intelephense.init_options = {}
 local servers = {
@@ -159,6 +164,7 @@ local servers = {
     -- },
     -- nixd = {},
     -- svelte = {},
+ -- godot = (os.getenv("GODOT") and {} or nil)
 }
 
 vim.diagnostic.config({

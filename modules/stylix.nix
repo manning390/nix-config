@@ -5,9 +5,9 @@
   config,
   ...
 }: let
-  cfg = config.custom.stylix;
+  cfg = config.local.stylix;
 in {
-  options.custom.stylix.enable = lib.mkEnableOption "enables stylix";
+  options.local.stylix.enable = lib.mkEnableOption "enables stylix";
   imports = [inputs.stylix.nixosModules.stylix];
   config = lib.mkIf cfg.enable {
     # Nord from https://github.com/ada-lovecraft/base16-nord-scheme/tree/master

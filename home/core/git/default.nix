@@ -16,6 +16,7 @@
       };
       init.defaultBranch = "main";
       pull.rebase = false;
+      push.autoSetupRemote = true;
 
       alias = {
         st = "status";

@@ -5,9 +5,9 @@
   vars,
   ...
 }: {
-  options.custom.steam.enable = lib.mkEnableOption "enables steam";
+  options.local.steam.enable = lib.mkEnableOption "enables steam";
 
-  config = lib.mkIf config.custom.steam.enable {
+  config = lib.mkIf config.local.steam.enable {
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
         "steam"

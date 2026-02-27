@@ -7,13 +7,14 @@
   ...
 }: let
   home = "/home/${vars.username}";
-  host_key_file = "/etc/ssh/host_${vars.hostname}_ed25519_key";
-  user_key_file = "${home}/.ssh/user_${vars.username}_${vars.hostname}_ed25519_key";
+  hostname = config.networking.hostName;
+  host_key_file = "/etc/ssh/host_${hostname}_ed25519_key";
+  user_key_file = "${home}/.ssh/user_${vars.username}_${hostname}_ed25519_key";
 in {
   # Get sops from flake input
   imports = [inputs.sops-nix.nixosModules.sops];
 
-  options.custom.sops = {
+  options.local.sops = {
     enable = lib.mkEnableOption "enables sops";
     homeOnSeparatePartition = lib.mkOption {
       type = lib.types.bool;
@@ -31,10 +32,9 @@ in {
     };
   };
 
-  config = lib.mkIf config.custom.sops.enable {
+  config = lib.mkIf config.local.sops.enable {
     # Include required packages to run scripts and work with secrets
     environment.systemPackages = with pkgs; [openssh sops ssh-to-age];
-
     sops = {
       defaultSopsFile = lib.custom.relativeToRoot "secrets/secrets.yaml";
       defaultSopsFormat = "yaml";
@@ -50,17 +50,28 @@ in {
       };
     };
 
-    fileSystems = lib.mkIf config.custom.sops.homeOnSeparatePartition {
+    fileSystems = lib.mkIf config.local.sops.homeOnSeparatePartition {
       "/home".neededForBoot = true;
     };
 
-    system.activationScripts = lib.mkIf config.custom.sops.generateKeys {
+    # Setup access tokens for nix
+    # sops.secrets."github_nix_private_token" = {
+    #   # This token expires 1/1/2027
+    #   mode = "0440";
+    #   group = "wheel";
+    #   restartUnits = ["nix-daemon.service"];
+    # };
+    # nix.settings.access-tokens = [
+    #   "github.com=${config.sops.secrets."github_nix_private_token".path}"
+    # ];
+
+    system.activationScripts = lib.mkIf config.local.sops.generateKeys {
       generateSSHKeys.text = let
         sshKeygen = "${pkgs.openssh}/bin/ssh-keygen";
       in ''
         # Generate host ssh key if missing
         if [ ! -f "${host_key_file}" ]; then
-          ${sshKeygen} -t ed25519 -N "" -C "host key ${vars.hostname} $(date +%s)" -f "${host_key_file}"
+          ${sshKeygen} -t ed25519 -N "" -C "host key ${hostname} $(date +%s)" -f "${host_key_file}"
           chmod 600 ${host_key_file}
           chmod 644 ${host_key_file}.pub
         fi
