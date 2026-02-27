@@ -27,14 +27,24 @@
         "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
         "app2unit -s b udiskie --smart-stray"
       ];
-      input = lib.mkMerge [
-        (lib.mkIf osConfig.local.colemak_dhm.enable {
+      # input = lib.mkMerge [
+      #   (lib.mkIf osConfig.local.colemak_dhm.enable {
+      #     kb_layout = "colemak_dhm,us";
+      #     kb_options = "caps:escape,grp:alt_shift_toggle";
+      #   })
+      #   (lib.mkIf (!osConfig.local.colemak_dhm.enable) {
+      #     kb_options = "caps:escape";
+      #   })
+      device = [
+        {
+          name = "at-translated-set-2-keyboard";
           kb_layout = "colemak_dhm,us";
           kb_options = "caps:escape,grp:alt_shift_toggle";
-        })
-        (lib.mkIf (!osConfig.local.colemak_dhm.enable) {
-          kb_options = "caps:escape";
-        })
+        }
+        {
+          name = "zsa-technology-labs-voyager-keyboard";
+          kb_layout = "us";
+        }
       ];
       monitor = [
         "DP-1,2560x1440@144,2560x0,1"

@@ -160,6 +160,7 @@ local servers = {
     -- },
     -- nixd = {},
     -- svelte = {},
+ -- godot = (os.getenv("GODOT") and {} or nil)
 }
 
 vim.diagnostic.config({

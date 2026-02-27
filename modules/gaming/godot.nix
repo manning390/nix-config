@@ -1,7 +1,13 @@
 {pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    godot_4
-    gdtoolkit_4
-    aseprite
-  ];
+  environment = {
+    sessionVariables = {
+      GODOT = "1";
+    };
+    systemPackages = with pkgs; [
+      godot_4
+      gdtoolkit_4
+      aseprite
+    ];
+  };
+  
 }

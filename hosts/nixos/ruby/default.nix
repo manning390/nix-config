@@ -7,7 +7,10 @@
   pkgs,
   vars,
   ...
-}: {
+}: let
+  username = "ruby";
+  hostName = "ruby";
+in {
   imports =
     [
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
@@ -16,24 +19,27 @@
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/common.nix"
       "modules/nix.nix"
+      "modules/sops.nix"
       "modules/shells.nix"
       "modules/audio.nix"
       "modules/browsers.nix"
       "modules/hyprland.nix"
-      # "modules/gaming/steam.nix"
       "modules/gaming/ffxiv.nix"
-      # "modules/stylix.nix"
-      # "modules/keyd.nix"
+      "modules/stylix.nix"
       "modules/keyboard.nix"
+      "modules/zsa.nix"
+      "modules/1pass.nix"
+      "modules/laptop.nix"
     ];
 
   local = {
-    ffxiv.enable = true;
+    ffxiv.enable = false;
     sops.enable = true;
     sops.homeOnSeparatePartition = true;
     stylix.enable = true;
+    colemak_dhm.enable = true;
     shells = {
-      systemShell = "zsh";
+      systemShell = "bash";
       userShell = "zsh";
     };
   };
@@ -60,7 +66,7 @@
 
   # Networking
   networking = {
-    hostName = vars.hostname;
+    hostName = hostName;
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
@@ -72,7 +78,7 @@
   # networking.firewall.enable = false;
 
   # Users
-  users.users."${vars.username}" = {
+  users.users."${username}" = {
     isNormalUser = true;
     description = vars.userfullname;
     extraGroups = ["networkmanager" "wheel" "audio" "docker" "video"];
@@ -82,12 +88,12 @@
   # Given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [vars.username];
+  nix.settings.trusted-users = [username];
 
   # System packages
   environment.systemPackages = with pkgs; [
     #   # Utils
-    #   vim # Do not remove, need an editor to edit configuration.nix
+    vim # Do not remove, need an editor to edit configuration.nix
     #   zsh
     #   git
     #   btop
