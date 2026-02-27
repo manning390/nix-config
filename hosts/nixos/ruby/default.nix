@@ -7,8 +7,7 @@
   pkgs,
   vars,
   ...
-}:
-with myvars; let
+}: let
   username = "ruby";
   hostName = "ruby";
 in {
@@ -20,16 +19,16 @@ in {
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/common.nix"
       "modules/nix.nix"
-      "modules/zsh.nix"
+      "modules/sops.nix"
+      "modules/shells.nix"
       "modules/audio.nix"
       "modules/browsers.nix"
       "modules/hyprland.nix"
-      # "modules/gaming/steam.nix"
       "modules/gaming/ffxiv.nix"
-      # "modules/stylix.nix"
-      # "modules/keyd.nix"
+      "modules/stylix.nix"
       "modules/keyboard.nix"
       "modules/zsa.nix"
+      "modules/1pass.nix"
       "modules/laptop.nix"
     ];
 
@@ -39,6 +38,10 @@ in {
     sops.homeOnSeparatePartition = true;
     stylix.enable = true;
     colemak_dhm.enable = true;
+    shells = {
+      systemShell = "bash";
+      userShell = "zsh";
+    };
   };
 
   nixpkgs = {
@@ -63,12 +66,10 @@ in {
 
   # Networking
   networking = {
-    hostName = hostname;
+    hostName = hostName;
     networkmanager.enable = true;
   };
   hardware.bluetooth.enable = true;
-
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
