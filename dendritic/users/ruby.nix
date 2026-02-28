@@ -2,7 +2,7 @@ let
   username = "ruby";
 in {
   flake.aspects = {aspects, ...}: {
-    ${username} = {
+    "user-${username}" = {
       includes = with aspects; [
         zsh
         kitty

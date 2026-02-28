@@ -13,13 +13,19 @@ in {
       includes = with aspects; [
         base
         (homeManager._.users user)
+        desktop
+        caelestia
+        discord
       ];
 
       nixos = {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-13-7040-amd
           ./_hardware-configuration.nix
+          ./_disk-config.nix
+          ../../../../modules/shells.nix
         ];
+
         local = {
           shells = {
             systemShell = "zsh";

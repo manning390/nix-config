@@ -1,6 +1,6 @@
 {
   flake.aspects.audio = {
-    nixos = {
+    nixos = {pkgs, ...}: {
       services.pulseaudio.enable = false;
       security.rtkit.enable = true;
 
@@ -11,6 +11,11 @@
         pulse.enable = true;
         jack.enable = true;
       };
+
+      environment.systemPackages = with pkgs; [
+        headsetcontrol # minor support for G733 Logi headset
+        ncpamixer # Audio levels cli
+      ];
     };
   };
 }

@@ -43,7 +43,7 @@
 
           environment.systemPackages = with pkgs; [
             app2unit # similar to UWSM, daemon launcher, faster
-            hyprlock # lock screen
+            # hyprlock # lock screen
             hyprcursor # Better cursors
             hypridle # System idle
             hyprpicker # Color picker
