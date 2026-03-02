@@ -119,6 +119,7 @@ nnoremap('<leader>d', ':OverseerRun<CR>', { desc = '[D]ispatch Overseer action' 
 -- end, {silent = true})
 
 -- Refactoring
+-- Spaces at end are intentional
 xnoremap("<leader>re", ":Refactor extract ")
 xnoremap("<leader>rf", ":Refactor extract_to_file ")
 xnoremap("<leader>rv", ":Refactor extract_var ")

@@ -304,9 +304,7 @@ local plugins = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		config = function()
-			require("refactoring").setup()
-		end,
+		opts = {},
 	},
 
 	-- Testing
@@ -374,6 +372,7 @@ local plugins = {
 		},
 		opts = {},
 	},
+	"mfussenegger/nvim-dap",
 
 	-- Writing related plugins
 	{
