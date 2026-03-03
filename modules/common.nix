@@ -58,6 +58,8 @@
     enable = true;
     pinentryPackage = pkgs.pinentry-curses;
   };
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   # USB Services
   services.udisks2.enable = true;

@@ -228,6 +228,8 @@
               "maxsize 1 1, class:^(xwaylandvideobridge)$"
               "noblur, class:^(xwaylandvideobridge)$"
               "nofocus, class:^(xwaylandvideobridge)$"
+              "float,class:^(XIVLauncher.*)$"
+              "float, class:^(1password)$"
             ];
           };
         };

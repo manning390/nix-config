@@ -12,7 +12,7 @@
       ];
     };
 
-    homeManager = {}:{
+    homeManager = {
       programs = {
         man.enable = true;
         bat = {

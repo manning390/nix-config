@@ -10,5 +10,6 @@
     environment.systemPackages = with pkgs; [
       xivlauncher
     ];
+    programs.gamemode.enable = true;
   };
 }

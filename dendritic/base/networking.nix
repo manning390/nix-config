@@ -6,7 +6,7 @@
         cfg = config.local.hardware.networking;
     in {
       options.local.hardware.networking = {
-        enable = lib.mkEnableOption;
+        enable = lib.mkEnableOption "Install networking related packages";
       };
       config = lib.mkIf cfg.enable {
           networking = {
