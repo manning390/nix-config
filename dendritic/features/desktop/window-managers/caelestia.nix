@@ -23,9 +23,16 @@
           };
           showBattery = lib.mkEnableOption "shows battery in left sidebar";
           showBrightness = lib.mkEnableOption "shows brightness slider in right sidebar";
+          excludedScreens = lib.mkOption {
+              type = lib.types.listOf lib.types.singleLineStr;
+              default = [];
+              example = ["HDMI-A-1" "HDMI-A-2"];
+              description = "Screens to not show the taskbar";
+            };
         };
 
         config = lib.mkIf cfg.enable {
+        # config = {
           programs.caelestia = {
             enable = true;
             cli.enable = true;
@@ -41,7 +48,7 @@
               };
               paths.wallpaperDir = cfg.wallpaperDir;
               bar = {
-                excludedScreens = ["HDMI-A-1" "HDMI-A-2"];
+                inherit (cfg) excludedScreens;
                 persistent = true;
                 status.showBattery = cfg.showBattery;
               };

@@ -3,56 +3,59 @@
     zsh = {
       includes = with aspects; [starship nix-index];
       homeManager = {
-        initContent = /* zsh */''
-          source '${inputs.zinit}/zinit.zsh"
-          zinit light zsh-users/zsh-syntax-highlighting
-          zinit light zsh-users/zsh-completions
-          zinit light zsh-users/zsh-autosuggestions
-          zinit light Aloxaf/fzf-tab
+        programs.zsh = {
+          initContent =
+            /* zsh */ ''
+              source '${inputs.zinit}/zinit.zsh"
+              zinit light zsh-users/zsh-syntax-highlighting
+              zinit light zsh-users/zsh-completions
+              zinit light zsh-users/zsh-autosuggestions
+              zinit light Aloxaf/fzf-tab
 
-          # Add in snippets
-          zinit snippet OMZP::sudo
-          zinit snippet OMZP::command-not-found
-          #zinit snippet OMZP::last-working-dir
-          zinit snippet OMZP::colored-man-pages
+              # Add in snippets
+              zinit snippet OMZP::sudo
+              zinit snippet OMZP::command-not-found
+              #zinit snippet OMZP::last-working-dir
+              zinit snippet OMZP::colored-man-pages
 
-          # Load completions
-          autoload -U compinit && compinit
-          zinit cdreplay -q
+              # Load completions
+              autoload -U compinit && compinit
+              zinit cdreplay -q
 
-          # Keybindings
-          bindkey -e # emacs ctrl keys, trying
-          bindkey '^p' history-search-forward
-          bindkey '^n' history-search-backward
+              # Keybindings
+              bindkey -e # emacs ctrl keys, trying
+              bindkey '^p' history-search-forward
+              bindkey '^n' history-search-backward
 
-          # History
-          HISTSIZE=5000
-          SAVEHIST=$HISTSIZE
-          HISTUP=erase
-          setopt appendhistory
-          setopt sharehistory
-          setopt hist_ignore_space
-          setopt hist_ignore_all_dups
-          setopt hist_save_no_dups
-          setopt hist_ignore_dups
-          setopt hist_find_no_dups
+              # History
+              HISTSIZE=5000
+              SAVEHIST=$HISTSIZE
+              HISTUP=erase
+              setopt appendhistory
+              setopt sharehistory
+              setopt hist_ignore_space
+              setopt hist_ignore_all_dups
+              setopt hist_save_no_dups
+              setopt hist_ignore_dups
+              setopt hist_find_no_dups
 
-          # Completion styling
-          zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-          zstyle ':completion:*' list-colors "$\{(s.:.)LS_COLORS}"
-          zstyle ':completion:*' menu no
-          zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-          zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+              # Completion styling
+              zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+              zstyle ':completion:*' list-colors "$\{(s.:.)LS_COLORS}"
+              zstyle ':completion:*' menu no
+              zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+              zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-          # Additional variables
-          export PATH=/usr/bin:~/.local/bin:$PATH
+              # Additional variables
+              export PATH=/usr/bin:~/.local/bin:$PATH
 
-          # Load local machine profile
-          # Are you managing with sops?
-          [ -f ~/.profile ] && source ~/.profile
+              # Load local machine profile
+              # Are you managing with sops?
+              [ -f ~/.profile ] && source ~/.profile
 
-          echo "Hi. Hello. Welcome. <3"
-        '';
+              echo "Hi. Hello. Welcome. <3"
+            '';
+        };
       };
     };
   };

@@ -3,7 +3,7 @@ top: {
     homeManager._.users  = username: {
       description = "Parameterized aspect, takes username and imports and sets up home-manager.";
 
-      includes = [aspects.${username}];
+      includes = [aspects."user-${username}"];
 
       nixos = { config, inputs, ...}: {
         imports = [inputs.home-manager.nixosModules.home-manager];

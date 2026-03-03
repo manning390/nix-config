@@ -43,7 +43,7 @@
 
           environment.systemPackages = with pkgs; [
             app2unit # similar to UWSM, daemon launcher, faster
-            hyprlock # lock screen
+            # hyprlock # lock screen
             hyprcursor # Better cursors
             hypridle # System idle
             hyprpicker # Color picker
@@ -228,6 +228,8 @@
               "maxsize 1 1, class:^(xwaylandvideobridge)$"
               "noblur, class:^(xwaylandvideobridge)$"
               "nofocus, class:^(xwaylandvideobridge)$"
+              "float,class:^(XIVLauncher.*)$"
+              "float, class:^(1password)$"
             ];
           };
         };

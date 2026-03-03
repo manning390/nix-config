@@ -8,6 +8,10 @@
         git
         sops
         security
+        networking
+        localization
+        utilities
+        fonts
       ];
 
       nixos = {
@@ -15,10 +19,11 @@
         pkgs,
         ...
       }: {
-        environment.systemPackages = [pkgs.vim]; # Never remove a text editor
+        environment.systemPackages = with pkgs; [vim fastfetch]; # Always keep one text editor
         local = {
           git.enable = lib.mkDefault true;
           sops.enable = lib.mkDefault true;
+          hardware.networking.enable = lib.mkDefault true;
         };
       };
     };

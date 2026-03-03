@@ -2,23 +2,15 @@ let
   username = "ruby";
 in {
   flake.aspects = {aspects, ...}: {
-    ${username} = {
+    "user-${username}" = {
       includes = with aspects; [
         zsh
         kitty
         wiki
         zoxide
-        caelestia
       ];
 
       nixos = {
-        local = {
-          desktop.caelestia = {
-            enable = true;
-            showBattery = true;
-            showBrightness = true;
-          };
-        };
         users.users.${username} = {
           isNormalUser = true;
           extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
@@ -30,6 +22,14 @@ in {
         imports = [
           ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
         ];
+
+        local = {
+          desktop.caelestia = {
+            enable = true;
+            showBattery = true;
+            showBrightness = true;
+          };
+        };
 
         home.sessionVariables = {
           PATH = "$HOME/.local/bin:$PATH";

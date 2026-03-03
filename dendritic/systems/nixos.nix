@@ -1,6 +1,8 @@
-{
+{inputs,...}: {
     flake.aspects.nixos = {
-        nixos = {};
+        nixos = {
+            imports = [inputs.determinate.nixosModules.default];
+        };
         homeManager = {};
     };
 }

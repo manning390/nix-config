@@ -19,7 +19,24 @@
     caelestia.enable = lib.mkDefault true;
   };
 
-  wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = let
+    monitors = [
+      {
+        output = "DP-1";
+        mode = "2560x1440@144";
+      }
+      {
+        output = "HDMI-A-1";
+        mode = "2560x144@144";
+        position = "auto-left";
+      }
+      {
+        output = "HDMI-A-2";
+        mode = "2560x144@144";
+        position = "auto-right";
+      }
+    ];
+  in {
     enable = true;
     systemd.enable = false;
     settings = {
@@ -46,11 +63,18 @@
           kb_layout = "us";
         }
       ];
-      monitor = [
-        "DP-1,2560x1440@144,2560x0,1"
-        "HDMI-A-1,2560x1440@144,0x0,1"
-        "HDMI-A-2,2560x1440@144,5120x0,1"
-      ];
+      monitorv2 = map (m:
+        m
+        // {
+          # Picture settings
+          bitdepth = 10;
+          cm = "hdr";
+          sdrbrightness = 1.05;
+          sdrsaturation = 1.2;
+          sdr_max_luminance = 240;
+          sdr_min_luminance = 0.05;
+        })
+      monitors;
       env = [
         "HYPRCURSOR_THEME,rose-pine-hyprcursor"
         "HYPRCURSOR_SIZE,24"
@@ -66,7 +90,7 @@
           "$mod, V, togglefloating"
           # "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
           "$mod, D, global, caelestia:launcher"
-          
+
           "$mod, P, pseudo"
           "$mod, T, togglesplit"
           "$mod, F, fullscreen"
@@ -197,6 +221,9 @@
         "maxsize 1 1, class:^(xwaylandvideobridge)$"
         "noblur, class:^(xwaylandvideobridge)$"
         "nofocus, class:^(xwaylandvideobridge)$"
+        "float,class:^(XIVLauncher.*)$"
+        "float, class:^(1password)$"
+        "noborder, initialTitle:^(FINAL FANTASY XIV)$"
       ];
     };
   };
