@@ -13,7 +13,7 @@ in {
       nixos = {
         users.users.${username} = {
           isNormalUser = true;
-          extraGroups = ["wheel"];
+          extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
         };
       };
 

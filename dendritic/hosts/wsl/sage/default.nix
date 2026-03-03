@@ -71,6 +71,9 @@ in {
         imports = [
           ./_daily_logging.nix
         ];
+        home.sessionVariables = {
+          PATH = "$HOME/.local/bin:$PATH";
+        };
       };
     };
   };
