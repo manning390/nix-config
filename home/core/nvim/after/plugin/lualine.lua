@@ -68,7 +68,7 @@ local branch = {
         if win_width <= 80 then
             return ""
         elseif head ~= nil then
-            return "[nw-" .. str:match("%d+", tail + 1) .. "]"
+            return "[CON100-" .. str:match("%d+", tail + 1) .. "]"
         end
         return str
     end,
