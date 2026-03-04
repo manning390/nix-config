@@ -1,6 +1,6 @@
 {config, inputs, ...}: let
   hostname = "ruby";
-  user = "ruby";
+  user = "pch";
 in {
   local.identity.username = user;
   local.hosts.${hostname} = {

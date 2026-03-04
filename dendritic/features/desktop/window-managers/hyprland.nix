@@ -1,7 +1,8 @@
 {
-  flake.aspects = {...}: {
+  flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
+      includes = [aspects.keyboards];
 
       nixos = {
         config,
@@ -65,7 +66,7 @@
       };
 
       homeManager = {
-        config,
+        osConfig,
         lib,
         ...
       }: {
@@ -78,11 +79,11 @@
               "app2unit -s b udiskie --smart-stray"
             ];
             input = lib.mkMerge [
-              (lib.mkIf config.local.colemak_dhm.enable {
+              (lib.mkIf osConfig.local.colemak_dhm.enable {
                 kb_layout = "colemak_dhm,us";
                 kb_options = "caps:escape,grp:alt_shift_toggle";
               })
-              (lib.mkIf (!config.local.colemak_dhm.enable) {
+              (lib.mkIf (!osConfig.local.colemak_dhm.enable) {
                 kb_options = "caps:escape";
               })
             ];
@@ -92,7 +93,7 @@
             #   "HDMI-A-1,2560x1440@144,0x0,1"
             #   "HDMI-A-2,2560x1440@144,5120x0,1"
             # ];
-            monitor = lib.mapAttrsToList (name: value: "${name},${value}");
+            # monitor = lib.mapAttrsToList (name: value: "${name},${value}");
             env = [
               "HYPRCURSOR_THEME,rose-pine-hyprcursor"
               "HYPRCURSOR_SIZE,24"
