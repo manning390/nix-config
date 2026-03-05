@@ -1,6 +1,6 @@
 {config, ...}: let
     hostname = "HOSTNAME_PLACEHOLDER";
-    user = config.local.identity.username;
+    user = "pch";
 in {
     local.hosts.${hostname} = {
         type = "TYPE_PLACEHOLDER";

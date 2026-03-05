@@ -1,6 +1,6 @@
 {self, config, ...}: let
   hostname = "sage";
-  user = config.local.identity.username;
+  user = "pch";
 in {
   local.hosts.${hostname} = {
     type = "wsl";
@@ -12,6 +12,7 @@ in {
         base
         (homeManager._.users user)
         docker
+        jira
       ];
 
       nixos = {
@@ -56,6 +57,8 @@ in {
               inherit sopsFile owner group mode;
               path = "/home/${user}/.profile";
             };
+            "jira/pat" = {inherit owner group mode sopsFile;};
+            "jira/url" = {inherit owner group mode sopsFile;};
           };
           templates."gitconfig" = {
             inherit owner group mode;

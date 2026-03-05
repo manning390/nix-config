@@ -5,13 +5,17 @@
   outputs,
   pkgs,
   vars,
+  inputs,
   ...
 }:
 with vars; let
   hostName = "sentry";
 in {
   imports =
-    [./hardware-configuration.nix]
+    [
+      ./hardware-configuration.nix
+      inputs.self.modules.nixos.identity
+    ]
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/plymouth.nix"
       "modules/nix.nix"

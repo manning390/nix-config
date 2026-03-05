@@ -1,6 +1,4 @@
-{config,...}: let
-  user = config.local.identity.username;
-in {
+{
   flake.aspects.nix = {
     nixos = {
       config,
@@ -8,7 +6,9 @@ in {
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      user = config.local.identity.username;
+    in {
       options.local.nix = {
         allowUnfree = lib.mkOption {
           type = lib.types.bool;
@@ -49,7 +49,7 @@ in {
             experimental-features = ["nix-command" "flakes" "pipe-operators"];
             # Deduplicate and optimize nix store
             auto-optimise-store = true;
-            trusted-users = ["root" "${user}"];
+            trusted-users = ["${user}"];
           };
 
           # Garbage Collection

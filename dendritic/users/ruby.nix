@@ -18,7 +18,7 @@ in {
         };
       };
 
-      homeManager = {...}: {
+      homeManager = {
         imports = [
           ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
         ];

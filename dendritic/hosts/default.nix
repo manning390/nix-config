@@ -33,7 +33,7 @@
       modules = [
         inputs.self.modules.${cfg.class}.${hostname}
         inputs.self.modules.${cfg.class}.${hostCfg.type}
-        ../base/identity.nix # Hack to get identity config in nixos
+        inputs.self.modules.nixos.identity
         {
           networking.hostName = hostname;
           system.stateVersion = hostCfg.stateVersion;

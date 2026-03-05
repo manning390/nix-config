@@ -2,10 +2,10 @@
   lib,
   config,
   pkgs,
-  vars,
   ...
 }: let
   cfg = config.local.shells;
+  user = config.local.identity.username;
   shellPkg = shellName:
     if shellName == "bash"
     then pkgs.bashInteractive
@@ -40,7 +40,7 @@ in {
     usesFish = cfg.systemShell == "fish" || cfg.userShell == "fish";
   in {
     users.defaultUserShell = lib.mkIf (cfg.systemShell != null) (shellPkg cfg.systemShell);
-    users.users.${vars.username}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
+    users.users.${user}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
 
     environment.systemPackages = with pkgs; [
       # shells

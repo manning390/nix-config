@@ -1,6 +1,4 @@
-top: let
-  identity = top.config.local.identity;
-in {
+{
   flake.aspects = {
     git = {
       nixos = {
@@ -15,7 +13,7 @@ in {
           enable = lib.mkEnableOption "Enables git";
           email = lib.mkOption {
             type = lib.types.str;
-            default = identity.email;
+            default = config.local.identity.email;
             description = "User level default email";
           };
           includeFile = lib.mkOption {
@@ -116,7 +114,7 @@ in {
             ];
 
             settings = {
-              user.name = identity.fullName;
+              user.name = osConfig.local.identity.fullName;
               user.email = cfg.email;
               init.defaultBranch = "main";
               pull.rebase = false;

@@ -1,6 +1,6 @@
 {config,...}: let
     hostname = "mado";
-    user = config.local.identity.username;
+    user = "pch";
 in {
     local.hosts.${hostname} = {
         type = "wsl";
