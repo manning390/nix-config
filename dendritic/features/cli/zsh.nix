@@ -4,9 +4,10 @@
       includes = with aspects; [starship nix-index];
       homeManager = {
         programs.zsh = {
+          enable = true;
           initContent =
             /* zsh */ ''
-              source '${inputs.zinit}/zinit.zsh"
+              source "${inputs.zinit}/zinit.zsh"
               zinit light zsh-users/zsh-syntax-highlighting
               zinit light zsh-users/zsh-completions
               zinit light zsh-users/zsh-autosuggestions
@@ -44,7 +45,7 @@
               zstyle ':completion:*' list-colors "$\{(s.:.)LS_COLORS}"
               zstyle ':completion:*' menu no
               zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-              zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+              zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath
 
               # Additional variables
               export PATH=/usr/bin:~/.local/bin:$PATH

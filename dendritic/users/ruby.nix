@@ -23,13 +23,13 @@ in {
           ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
         ];
 
-        # local = {
-        #   desktop.caelestia = {
-        #     enable = true;
-        #     showBattery = true;
-        #     showBrightness = true;
-        #   };
-        # };
+        local = {
+          desktop.caelestia = {
+            enable = true;
+            showBattery = true;
+            showBrightness = true;
+          };
+        };
 
         home.sessionVariables = {
           PATH = "$HOME/.local/bin:$PATH";

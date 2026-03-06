@@ -2,7 +2,7 @@
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
-      includes = [aspects.keyboards];
+
 
       nixos = {
         config,
