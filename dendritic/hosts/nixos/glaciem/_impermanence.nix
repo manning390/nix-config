@@ -1,8 +1,9 @@
-{config,inputs,...}: let
+{config, inputs,...}: let
   hostname = config.networking.hostName;
   user = config.local.identity.username;
 in {
   imports = [inputs.impermanence.nixosModules.impermanence];
+
   # Impermanence config
   # List what should be kept
   environment.persistence."/persist" = {

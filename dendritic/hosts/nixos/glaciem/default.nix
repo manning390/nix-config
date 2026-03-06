@@ -1,6 +1,6 @@
 {config, ...}: let
   hostname = "glaciem";
-  user = config.local.identity.username;
+  user = "pch";
   nixCfgPath = "/home/${user}/nix-config";
 in {
   local.hosts.${hostname} = {
@@ -80,6 +80,7 @@ in {
           NIXCONFIG = nixCfgPath;
         };
       };
+      homeManager = {};
     };
   };
 }

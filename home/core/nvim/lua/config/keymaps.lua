@@ -33,8 +33,8 @@ if vim.env.COLEMAK == '1' then
 	map('e', 'k')   -- up
 	map('i', 'l')   -- right
 	map('l', 'i')   -- insert
-	nmap('e', 'k')  -- end word
-	nmap('E', 'K')  -- end WORD
+	nmap('j', 'k')  -- end word
+	nmap('J', 'K')  -- end WORD
 	nmap('h', 'n')  -- next
 	nmap('H', 'N')  -- previous
 	nmap('k', 'm')  -- mark
