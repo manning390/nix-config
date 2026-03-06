@@ -13,6 +13,7 @@ in {
         (homeManager._.users user)
         docker
         jira
+        sc-im
       ];
 
       nixos = {
