@@ -3,7 +3,6 @@
     hyprland = {
       description = "The wayland desktop compositor";
 
-
       nixos = {
         config,
         lib,
@@ -12,9 +11,9 @@
       }: let
         userShell = config.local.shells.userShell;
         uwsmStartSnippet = ''
-          if uwsm check may-start
+          if uwsm check may-start; then
             exec uwsm start hyprland-uwsm.desktop
-          end
+          fi
         '';
       in {
         options.local = {
@@ -78,14 +77,17 @@
               # "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
               "app2unit -s b udiskie --smart-stray"
             ];
-            input = lib.mkMerge [
-              (lib.mkIf osConfig.local.colemak_dhm.enable {
+
+            device = [
+              {
+                name = "at-translated-set-2-keyboard";
                 kb_layout = "colemak_dhm,us";
                 kb_options = "caps:escape,grp:alt_shift_toggle";
-              })
-              (lib.mkIf (!osConfig.local.colemak_dhm.enable) {
-                kb_options = "caps:escape";
-              })
+              }
+              {
+                name = "zsa-technology-labs-voyager-keyboard";
+                kb_layout = "us";
+              }
             ];
 
             # monitor = [
@@ -192,7 +194,7 @@
               border_size = 2;
               "col.active_border" = lib.mkDefault "rgba(33ccffee) rgba(00ff99ee) 45deg";
               "col.inactive_border" = lib.mkDefault "rgba(595959aa)";
-              layout = "dwindle";
+              layout = "scrolling";
               allow_tearing = false;
             };
             decoration = {
