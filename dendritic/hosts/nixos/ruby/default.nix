@@ -26,6 +26,7 @@ in {
         ];
 
         local = {
+          colemak_dhm.enable = true;
           shells = {
             systemShell = "zsh";
             userShell = "zsh";

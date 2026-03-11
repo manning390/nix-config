@@ -12,6 +12,7 @@
         localization
         utilities
         fonts
+        keyboards
       ];
 
       nixos = {

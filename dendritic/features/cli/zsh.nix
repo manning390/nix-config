@@ -3,10 +3,12 @@
     zsh = {
       includes = with aspects; [starship nix-index];
       homeManager = {
+        programs.starship.enable = true;
         programs.zsh = {
+          enable = true;
           initContent =
             /* zsh */ ''
-              source '${inputs.zinit}/zinit.zsh"
+              source "${inputs.zinit}/zinit.zsh"
               zinit light zsh-users/zsh-syntax-highlighting
               zinit light zsh-users/zsh-completions
               zinit light zsh-users/zsh-autosuggestions
