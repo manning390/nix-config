@@ -36,6 +36,7 @@
 
   environment.sessionVariables = {
     COLEMAK = "1";
+    NIXCONFIG = "/home/${user}/Code/nix/nix-config";
   };
 
   # This value determines the NixOS release from which the default

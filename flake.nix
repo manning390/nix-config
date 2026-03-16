@@ -66,6 +66,11 @@
 
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    # Nvim nix plugin patching patching
+    nixPatch.url = "git+https://codeberg.org/NicoElbers/nixPatch-nvim.git";
+    nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
+    nixPatch.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs @ {self, ...}: let
     lib = inputs.nixpkgs.lib;

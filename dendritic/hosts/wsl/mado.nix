@@ -28,7 +28,7 @@ in {
 
                 environment.sessionVariables = {
                     COLEMAK = "1";
-                    # NIXCONFIG = "/home/${user}/Code/nix/nix-config";
+                    NIXCONFIG = "/home/${user}/Code/nix/nix-config";
                 };
             };
 

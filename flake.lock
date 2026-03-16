@@ -597,6 +597,29 @@
         "url": "ssh://git@github.com/manning390/nix-private"
       }
     },
+    "nixPatch": {
+      "inputs": {
+        "neovim-nightly-overlay": [
+          "neovim-nightly-overlay"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770644469,
+        "narHash": "sha256-1ouq3yqeqzT6LBo9+sOixR2t638eM76a2ePsZ5ZKs5g=",
+        "ref": "refs/heads/main",
+        "rev": "c4d8ae77b168c3035fb634efcb25f522b7f38fbc",
+        "revCount": 188,
+        "type": "git",
+        "url": "https://codeberg.org/NicoElbers/nixPatch-nvim.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/NicoElbers/nixPatch-nvim.git"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1771969195,
@@ -899,6 +922,7 @@
         "import-tree": "import-tree",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-private": "nix-private",
+        "nixPatch": "nixPatch",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_6",
