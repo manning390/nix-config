@@ -190,7 +190,7 @@ local plugins = {
 			"TmuxNavigatePrevious",
 		},
 	},
-	"tpope/vim-speeddating.vim", -- ctrl-a ctrl-x on date strings
+	"tpope/vim-speeddating", -- ctrl-a ctrl-x on date strings
 	-- Git
 	"tpope/vim-fugitive", -- :G commands
 	"tpope/vim-rhubarb", -- :GBrowse
@@ -429,6 +429,18 @@ local plugins = {
 			vim.g.tq_openoffice_en_file = "~/Documents/MyThes-1.0/th_en_US_new"
 			vim.g.tq_enabled_backends = { "openoffice_en", "datamuse_com" }
 		end,
+	},
+	{
+		"CopilotC-nvim/CopilotChat.nvim",
+		dependencies = {
+			"zbirenbaum/copilot.lua",
+			"nvim-lua/plenary.nvim"
+		},
+		opts = {
+			-- model = 'Claude Sonnet 4.5',
+			temperature = 0.1,
+		},
+		event = "VeryLazy",
 	},
 	-- {
 	-- 	"epwalsh/obsidian.nvim",

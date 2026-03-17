@@ -7,13 +7,14 @@ in {
     type = "nixos";
     stateVersion = "25.05";
   };
-  flake.aspects = {aspects, pkgs, ...}: {
+  flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "Homelab system";
       includes = with aspects; [
         base
         (homeManager._.users user)
       ];
-      nixos = {
+      nixos = {pkgs,...}: {
         imports = [
           ./_hardware-configuration.nix
           ./_disk-config.nix
@@ -58,7 +59,6 @@ in {
         ];
 
         networking = {
-          hostName = hostname;
           hostId = "9dea9b66";
           networkmanager.enable = false;
           useDHCP = true;

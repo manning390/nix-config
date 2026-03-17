@@ -206,7 +206,7 @@ vnoremap('<', '<gv')
 vnoremap('>', '>gv')
 
 nnoremap('<leader>ss', ':setlocal spell!<cr>', { silent = true })
-nnoremap('<leader>sq', fn.spellToQF)
+-- nnoremap('<leader>sq', fn.spellToQF)
 vnoremap('.', ':normal .<cr>')
 nnoremap('<leader>%', ':let @+=expand(\'%\')<cr>') -- Yank filepath into copy buffer
 nnoremap('Y', 'y$')                                -- Add missing yank

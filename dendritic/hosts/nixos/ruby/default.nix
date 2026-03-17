@@ -8,7 +8,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "Host entrypoint for ruby";
+      description = "Framework laptop with red border";
       includes = with aspects; [
         base
         (homeManager._.users user)
@@ -36,11 +36,24 @@ in {
 
         environment.sessionVariables = {
           COLEMAK = "1";
-          NIXCONFIG = "/home/${user}/Code/nix/nix-config";
         };
       };
 
-      homeManager = {}; # Required for included homeMager modules to be imported
+      homeManager = {
+        local = {
+          desktop.caelestia = {
+            enable = true;
+            showBattery = true;
+            showBrightness = true;
+          };
+        };
+
+        home.sessionVariables = {
+          PATH = "$HOME/.local/bin:$PATH";
+          DOTFILES = "$HOME/.dotfiles";
+          NIXCONFIG = "$HOME/Code/nix/nix-config";
+        };
+      };# Required for included homeManager modules to be imported
     };
   };
 }

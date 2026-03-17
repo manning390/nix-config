@@ -11,7 +11,7 @@
       config = lib.mkIf cfg.enable {
           networking = {
             # Hostname is set by hosts/default
-            networkmanager.enable = true;
+            networkmanager.enable = lib.mkDefault true;
           };
 
           hardware.bluetooth.enable = lib.mkDefault true;

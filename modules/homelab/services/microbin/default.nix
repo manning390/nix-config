@@ -5,7 +5,7 @@
   ...
 }: let
   nordHighlight = builtins.toFile "nord.css" (builtins.readFile ./nord.css);
-  nordUi = builtins.toFile "nord_ui.css" (buitlins.readFile ./nord_ui.css);
+  nordUi = builtins.toFile "nord_ui.css" (builtins.readFile ./nord_ui.css);
   highlightJsNix = pkgs.fetchurl {
     url = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/nix.min.js";
     hash = "sha256-j4dmtrr8qUODoICuOsgnj1ojTAmxbKe00mE5sfElC/I=";
