@@ -21,8 +21,6 @@ in {
                         systemShell = "zsh";
                         userShell = "zsh";
                     };
-                    sops.enable = true;
-                    nix.allowUnfree = true;
                 };
 
                 environment.sessionVariables = {

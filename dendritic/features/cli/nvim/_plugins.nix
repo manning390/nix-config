@@ -75,4 +75,4 @@
     auto-save-nvim
     zen-mode-nvim
     twilight-nvim
-];
+]

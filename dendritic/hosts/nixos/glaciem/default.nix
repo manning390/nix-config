@@ -49,7 +49,6 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          pciutils
           glances
           hdparm
           hd-idle

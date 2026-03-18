@@ -53,6 +53,7 @@
             brightnessctl
             mako
             libnotify
+            wl-clipboard-rs
           ];
 
           xdg.portal = {
