@@ -25,11 +25,6 @@ in {
         )
         cfg.shares;
     };
-    passwordFile = lib.mkOption {
-      type = lib.types.path;
-      default = /dev/null;
-      description = "Path to samba password file";
-    };
     globalSettings = lib.mkOption {
       description = "Global Samba parameters";
       type = lib.types.attrsOf lib.types.str;

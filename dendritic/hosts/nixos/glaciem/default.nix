@@ -30,12 +30,8 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
-          git.server = {
-            enable = true;
-          };
-          nix = {
-            flakePath = nixCfgPath;
-          };
+          git.server.enable = true;
+          nix.flakePath = nixCfgPath;
         };
 
         users.users.${user}.openssh.authorizedKeys.keys = [];

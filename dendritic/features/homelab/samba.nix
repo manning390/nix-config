@@ -1,5 +1,5 @@
 {
-  flake.aspects = {aspects, ...}: {
+  flake.aspects = {
     samba = {
       description = "Samba is the windows prefered networked storage protocol / server / mount to share files across machines.";
       nixos = {config, lib, ...}: {
@@ -54,11 +54,6 @@
                 default = "vers=3.1.1";
                 description = "Default CIFS mount options (comma-separated).";
               };
-              credentialsFile = lib.mkOption {
-                type = lib.types.orNull lib.types.path;
-                default = null;
-                description = "CIFS credentials file";
-              };
             };
             config = lib.mkIf cfg.enable {
               environment.systemPackages = [ pkgs.cifs-utils ];
@@ -75,7 +70,7 @@
                   device = "//${cfg.serverHost}/${name}";
                   fsType = "cifs";
                   options = [
-                  "credentials=${cfg.credentialsFile}"
+                  "credentials=${config.sops.templates."cifs-credentials".path}"
                     cfg.mountOptions
                   ];
                 };
@@ -99,11 +94,6 @@
           in {
             options.homelab.samba.server = {
               enable = lib.mkEnableOption "Enables samba to serve shares for the homelab";
-              passwordFile = lib.mkOption {
-                type = lib.types.path;
-                default = /dev/null;
-                description = "Path to samba password file";
-              };
               globalSettings = lib.mkOption {
                 description = "Global Samba parameters";
                 type = lib.types.attrsOf lib.types.str;
