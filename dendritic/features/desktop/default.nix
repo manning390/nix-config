@@ -6,7 +6,7 @@
       includes = with aspects; [
         audio
         browsers
-        drives
+        usbdrives
       ];
     };
   };

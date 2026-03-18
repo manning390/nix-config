@@ -13,6 +13,7 @@ in {
       includes = with aspects; [
         base
         (homeManager._.users user)
+        usbdrives
       ];
       nixos = {pkgs,...}: {
         imports = [
@@ -20,15 +21,14 @@ in {
           ./_disk-config.nix
           ./_impermanence.nix
           ./_homelab.nix
-          ../../../../modules/common.nix
           ../../../../modules/shells.nix
           ../../../../modules/homelab
         ];
 
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
+            systemShell = "zsh";
+            userShell = "zsh";
           };
           git.server = {
             enable = true;

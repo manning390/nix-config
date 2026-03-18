@@ -1,5 +1,5 @@
 {
-  flake.aspects.drives = {
+  flake.aspects.usbdrives = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         usbutils
