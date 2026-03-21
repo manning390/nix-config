@@ -15,6 +15,7 @@
     # Private nix module
     nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
     nix-private.inputs.nixpkgs.follows = "nixpkgs";
+    nix-private.inputs.flake-parts.follows = "flake-parts";
 
     # Flake parts
     flake-parts.url = "github:hercules-ci/flake-parts";

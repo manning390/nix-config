@@ -574,9 +574,8 @@
     },
     "nix-private": {
       "inputs": {
-        "alejandra": [
-          "nix-private",
-          "nixpkgs"
+        "flake-parts": [
+          "flake-parts"
         ],
         "nixpkgs": [
           "nixpkgs"
@@ -584,11 +583,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1771835650,
-        "narHash": "sha256-D/oA6gHmWnC9hFlJ0LKvRjo0T4AoyGUo1uAuu+GpDZU=",
+        "lastModified": 1774055662,
+        "narHash": "sha256-E1SkDqkTKMbiJvgbVdogTj+qkDJHmJ8ofGNWn9MF3HY=",
         "ref": "refs/heads/main",
-        "rev": "d1429404803fb3aab584d3125f557744948e9dbf",
-        "revCount": 7,
+        "rev": "0e8942d5c127b4c76f419095fbdcde26138983b3",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
       },
