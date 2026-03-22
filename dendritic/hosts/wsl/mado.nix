@@ -25,6 +25,21 @@ in {
                         systemShell = "fish";
                         userShell = "fish";
                     };
+                    ssh = {
+                        enable = true;
+                        users = {
+                            "${user}" = {
+                                connectTo = ["pch@sentry" "pch@glaciem" "ruby@ruby"];
+                                extraHosts = {
+                                    "github.com" = {
+                                        hostName = "github.com";
+                                        user = "git";
+                                        identityFile = "github";
+                                    };
+                                };
+                            };
+                        };
+                    };
                 };
 
                 environment.sessionVariables = {

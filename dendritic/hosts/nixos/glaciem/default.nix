@@ -35,6 +35,19 @@ in {
           nix = {
             flakePath = nixCfgPath;
           };
+          ssh ={
+            enable = true;
+            users."${user}" = {
+              authorizedKeys = ["pch@sentry" "pch@mado"];
+              extraHosts = {
+                "github.com" = {
+                  hostName = "github.com";
+                  user = "git";
+                  identityFile = "github";
+                };
+              };
+            };
+          };
         };
 
         users.users.${user}.openssh.authorizedKeys.keys = [];

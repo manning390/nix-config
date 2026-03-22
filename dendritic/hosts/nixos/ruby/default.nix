@@ -32,6 +32,20 @@ in {
             userShell = "zsh";
           };
           sops.enable = true;
+          ssh = {
+            enable = true;
+            users."${user}" = {
+              connectTo = ["pch@sentry" "pch@glaciem"];
+              authorizedKeys = ["pch@sentry" "pch@mado"];
+              extraHosts = {
+                "github.com" = {
+                  hostName = "github.com";
+                  user = "git";
+                  identityFile = "github";
+                };
+              };
+            };
+          };
         };
 
         environment.sessionVariables = {

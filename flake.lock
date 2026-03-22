@@ -319,6 +319,27 @@
     "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
+          "nix-private",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772408722,
+        "narHash": "sha256-rHuJtdcOjK7rAHpHphUb1iCvgkU3GpfvicLMwwnfMT0=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f20dc5d9b8027381c474144ecabc9034d6a839a3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_5": {
+      "inputs": {
+        "nixpkgs-lib": [
           "nur",
           "nixpkgs"
         ]
@@ -337,7 +358,7 @@
         "type": "github"
       }
     },
-    "flake-parts_5": {
+    "flake-parts_6": {
       "inputs": {
         "nixpkgs-lib": [
           "stylix",
@@ -594,21 +615,18 @@
     },
     "nix-private": {
       "inputs": {
-        "alejandra": [
-          "nix-private",
-          "nixpkgs"
-        ],
+        "flake-parts": "flake-parts_4",
         "nixpkgs": [
           "nixpkgs"
         ],
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1771835650,
-        "narHash": "sha256-D/oA6gHmWnC9hFlJ0LKvRjo0T4AoyGUo1uAuu+GpDZU=",
+        "lastModified": 1774137738,
+        "narHash": "sha256-xTyWC2YuyEGV5Fo2haUgc3q7iCPewqz8woK3Waqh1XA=",
         "ref": "refs/heads/main",
-        "rev": "d1429404803fb3aab584d3125f557744948e9dbf",
-        "revCount": 7,
+        "rev": "79f011bf0b67004a5f0e93f8253f00a4952269bf",
+        "revCount": 11,
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
       },
@@ -843,7 +861,7 @@
     },
     "nur": {
       "inputs": {
-        "flake-parts": "flake-parts_4",
+        "flake-parts": "flake-parts_5",
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
@@ -958,7 +976,7 @@
         "base16-helix": "base16-helix",
         "base16-vim": "base16-vim",
         "firefox-gnome-theme": "firefox-gnome-theme",
-        "flake-parts": "flake-parts_5",
+        "flake-parts": "flake-parts_6",
         "gnome-shell": "gnome-shell",
         "nixpkgs": "nixpkgs_8",
         "nur": "nur_2",
