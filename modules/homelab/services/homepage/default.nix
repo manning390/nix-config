@@ -36,6 +36,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     services.glances.enable = true;
+    networking.firewall.allowedTCPPorts = [ 8082 80 ];
     services.${service} = {
       enable = true;
       environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain}";
