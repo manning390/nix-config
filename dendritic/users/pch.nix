@@ -5,6 +5,7 @@ in {
     "user-${username}" = {
       includes = with aspects; [
         fish
+        zsh
         kitty
         wiki
         zoxide

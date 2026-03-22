@@ -13,7 +13,7 @@
       80
       443
     ];
-    environment.systemPackages = [ pkgs.nss-tools ];
+    environment.systemPackages = [ pkgs.nss.tools ];
     services.caddy = {
       enable = true;
       globalConfig = ''
