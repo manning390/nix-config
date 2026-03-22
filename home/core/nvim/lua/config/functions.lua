@@ -37,9 +37,9 @@ M.customCaseToggle = function()
   local p = vim.fn.col('.')
   local char = string.sub(vim.api.nvim_get_current_line(), p, p)
   local seq = ({
-    ['-'] = '"_r_l',       -- '-' -> '_'
-    ['_'] = '"_r-l',       -- '_' -> '-'
-    ['"'] = '"_r\'l',      -- etc.
+    ['-'] = '"_r_l',  -- '-' -> '_'
+    ['_'] = '"_r-l',  -- '_' -> '-'
+    ['"'] = '"_r\'l', -- etc.
     ["'"] = '"_r"l',
   })[char]
   vim.cmd('normal! ' .. (seq or '~'))
@@ -71,20 +71,27 @@ M.getDefaultBranch = function()
   return "master" -- or main depending on our own config pref
 end
 
-M.spellQFText = function(qf_info)
-  return qf_info.lnum ..":".. qf_info.col " ".. qf_info.text
+function _G._spelling_qftf(info)
+  local items = vim.fn.getqflist({ id = info.id, items = 0 }).items
+  local ret = {}
+  for i = info.start_idx, info.end_idx do
+    local e = items[i]
+    local fmt = "%d:%d %s" -- line:col text
+    table.insert(ret, fmt:format(e.lnum, e.col, e.text))
+  end
+  return ret
 end
 
 M.spellToQF = function()
   -- Ensure spell is on
   vim.opt_local.spell = true
-  vim.opt.quickfixtextfunc = "v:lua.require('config.functions').spellQFText"
 
   local filename = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
   local qf = {}
+  local last_pos = { 0, 0, 0, 0 }
 
   -- Put cursor on top
-  vim.api.nvim_win_set_cursor(0, { 1, 1 })
+  vim.api.nvim_win_set_cursor(0, { 1, 0 })
   local max_seen = vim.fn.getpos('.')
 
   -- helper function, run normal keys ignoring keymaps
@@ -97,34 +104,32 @@ M.spellToQF = function()
   local iter_count = 0
   while iter_count < max_iter do
     iter_count = iter_count + 1
+    normal("]s")
 
     -- If our line is less than our max seen
     -- or it's the same line and we're at a lower col
     -- we're looping and should exit
-    local cur_pos = vim.fn.getpos('.')
-    if cur_pos[2] < max_seen[2] or
-      (cur_pos[2] == max_seen[2] and cur_pos[3] < max_seen[3]) then 
+    local pos = vim.fn.getpos('.')
+    if pos[2] < max_seen[2] or
+        (pos[2] == max_seen[2] and pos[3] <= max_seen[3]) or
+        (pos[2] == last_pos[2] and pos[3] == last_pos[3]) then
       break
     end
-    max_seen = cur_pos
+    max_seen = pos
 
     local bad = vim.fn.spellbadword()
     local word = bad[1]
     local kind = bad[2]
 
-    if word == "" then -- No error here, try ]s
-      normal("]s")
-    else -- Now at next error, loop back and let spellbadword() see it
+    if word ~= "" then -- No error here, try ]s
       normal("eb")
-      local pos = vim.fn.getpos('.')
-      local key = pos[2] .. ":" .. pos[3]
-        table.insert(qf, {
-          filename = filename,
-          lnum = pos[2],
-          col = pos[3],
-          text = word .. " (" .. kind .. ")",
-        })
-      normal("]s")
+      table.insert(qf, {
+        filename = filename,
+        lnum = pos[2],
+        col = pos[3],
+        text = word .. " (" .. kind .. ")",
+      })
+      last_pos = pos
     end
   end
 
@@ -135,7 +140,7 @@ M.spellToQF = function()
     return
   end
 
-  vim.fn.setqflist(qf, "r")
+  vim.fn.setqflist({}, "r", { title = "Spelling", items = qf, quickfixtextfunc = "v:lua._G._spelling_qftf" })
   vim.cmd("copen | wincmd p")
 end
 

@@ -36,6 +36,7 @@ local plugins = {
 				sources = {
 					nls.builtins.formatting.prettier,
 					nls.builtins.completion.spell,
+					-- nls.builtins.diagnostics.cspell,
 					-- require("none-ls.diagnostics.eslint"),
 					--require("none-ls.diagnostics.php")
 				}
@@ -365,6 +366,10 @@ local plugins = {
 	},
 	{
 		"GustavEikaas/easy-dotnet.nvim",
+		enabled = false,
+		lazy = true,
+		ft = "c_sharp",
+		event = { "VeryLazy" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
