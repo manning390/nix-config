@@ -603,11 +603,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1774151338,
-        "narHash": "sha256-0ccEZ+CIaO1EWK96dJyczTSKKjw/sbGkqLQ0tAEZdGw=",
+        "lastModified": 1774157528,
+        "narHash": "sha256-NFhtTML8EdZNGNbKsUl3GgfW3s7oP3UI2/bDdOmscFc=",
         "ref": "refs/heads/main",
-        "rev": "c85465a0c4cfcdf2805c82eb042b713c91265eab",
-        "revCount": 18,
+        "rev": "cdb8d033584b45700adf34afa8463e03d41596ec",
+        "revCount": 19,
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
       },
