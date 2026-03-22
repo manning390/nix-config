@@ -1,4 +1,4 @@
-{config, ...}: let
+let
   hostname = "mado";
   user = "pch";
 in {
@@ -14,7 +14,7 @@ in {
         nix-index
       ];
 
-      nixos = {
+      nixos = {config,...}: {
         imports = [
           ../../../modules/common.nix
           ../../../modules/shells.nix
@@ -35,6 +35,11 @@ in {
                     hostname = "github.com";
                     user = "git";
                     identityFile = "github";
+                  };
+                  "glaciem.git" = {
+                    hostname = config.local.lan.hosts.glaciem;
+                    user = "git";
+                    identityFile = "${user}@${hostname}";
                   };
                 };
               };
