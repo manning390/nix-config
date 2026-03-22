@@ -33,10 +33,10 @@ in {
           ssh ={
             enable = true;
             users."${user}" = {
-              authorizedKeys = ["pch@sentry" "pch@mado"];
+              authorizedKeys = ["pch@sentry" "pch@mado" "pch@glaciem"];
               extraHosts = {
                 "github.com" = {
-                  hostName = "github.com";
+                  hostname = "github.com";
                   user = "git";
                   identityFile = "github";
                 };
@@ -47,7 +47,7 @@ in {
           nix.flakePath = nixCfgPath;
         };
 
-        users.users.${user}.openssh.authorizedKeys.keys = [];
+        users.users.${user}.openssh.authorizedKeys.keys = [(builtins.readFile ./../../../../hosts/nixos/glaciem/keys/user_pch_glaciem_ed25519_key.pub)];
         services.openssh = {
           enable = true;
           openFirewall = true;

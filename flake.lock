@@ -319,27 +319,6 @@
     "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
-          "nix-private",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1772408722,
-        "narHash": "sha256-rHuJtdcOjK7rAHpHphUb1iCvgkU3GpfvicLMwwnfMT0=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "f20dc5d9b8027381c474144ecabc9034d6a839a3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_5": {
-      "inputs": {
-        "nixpkgs-lib": [
           "nur",
           "nixpkgs"
         ]
@@ -358,7 +337,7 @@
         "type": "github"
       }
     },
-    "flake-parts_6": {
+    "flake-parts_5": {
       "inputs": {
         "nixpkgs-lib": [
           "stylix",
@@ -615,24 +594,49 @@
     },
     "nix-private": {
       "inputs": {
-        "flake-parts": "flake-parts_4",
+        "flake-parts": [
+          "flake-parts"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1774137738,
-        "narHash": "sha256-xTyWC2YuyEGV5Fo2haUgc3q7iCPewqz8woK3Waqh1XA=",
+        "lastModified": 1774151338,
+        "narHash": "sha256-0ccEZ+CIaO1EWK96dJyczTSKKjw/sbGkqLQ0tAEZdGw=",
         "ref": "refs/heads/main",
-        "rev": "79f011bf0b67004a5f0e93f8253f00a4952269bf",
-        "revCount": 11,
+        "rev": "c85465a0c4cfcdf2805c82eb042b713c91265eab",
+        "revCount": 18,
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
       },
       "original": {
         "type": "git",
         "url": "ssh://git@github.com/manning390/nix-private"
+      }
+    },
+    "nixPatch": {
+      "inputs": {
+        "neovim-nightly-overlay": [
+          "neovim-nightly-overlay"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770644469,
+        "narHash": "sha256-1ouq3yqeqzT6LBo9+sOixR2t638eM76a2ePsZ5ZKs5g=",
+        "ref": "refs/heads/main",
+        "rev": "c4d8ae77b168c3035fb634efcb25f522b7f38fbc",
+        "revCount": 188,
+        "type": "git",
+        "url": "https://codeberg.org/NicoElbers/nixPatch-nvim.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/NicoElbers/nixPatch-nvim.git"
       }
     },
     "nixos-hardware": {
@@ -861,7 +865,7 @@
     },
     "nur": {
       "inputs": {
-        "flake-parts": "flake-parts_5",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
@@ -938,6 +942,7 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-index-database": "nix-index-database",
         "nix-private": "nix-private",
+        "nixPatch": "nixPatch",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_6",
@@ -976,7 +981,7 @@
         "base16-helix": "base16-helix",
         "base16-vim": "base16-vim",
         "firefox-gnome-theme": "firefox-gnome-theme",
-        "flake-parts": "flake-parts_6",
+        "flake-parts": "flake-parts_5",
         "gnome-shell": "gnome-shell",
         "nixpkgs": "nixpkgs_8",
         "nur": "nur_2",

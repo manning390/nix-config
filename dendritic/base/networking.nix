@@ -5,12 +5,12 @@
     nixos = {config, pkgs,lib,...}: let
         cfg = config.local.hardware.networking;
     in {
-      imports = [inputs.nix-private.lan];
+      imports = [inputs.nix-private.nixosModules.lan];
       options.local.hardware.networking = {
         enable = lib.mkEnableOption "Install networking related packages";
       };
       config = lib.mkIf cfg.enable {
-          local.lan.enableMapping = lib.mkDefault true; # Adds host -> ip mappings
+          local.lan.enableMappings = lib.mkDefault true; # Adds host -> ip mappings
           networking = {
             # Hostname is set by hosts/default
             networkmanager.enable = lib.mkDefault true;

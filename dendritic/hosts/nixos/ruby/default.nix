@@ -39,7 +39,7 @@ in {
               authorizedKeys = ["pch@sentry" "pch@mado"];
               extraHosts = {
                 "github.com" = {
-                  hostName = "github.com";
+                  hostname = "github.com";
                   user = "git";
                   identityFile = "github";
                 };
