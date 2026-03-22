@@ -36,7 +36,7 @@ in {
       enable = true;
       homepage.enable = true;
       microbin = {
-        enable = true;
+        enable = false;
         role = "server";
       };
     };
