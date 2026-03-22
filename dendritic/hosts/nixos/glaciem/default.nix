@@ -1,4 +1,4 @@
-{config, ...}: let
+let
   hostname = "glaciem";
   user = "pch";
   nixCfgPath = "/home/${user}/nix-config";
@@ -15,7 +15,7 @@ in {
         (homeManager._.users user)
         usbdrives
       ];
-      nixos = {pkgs,...}: {
+      nixos = {config, pkgs,...}: {
         imports = [
           ./_hardware-configuration.nix
           ./_disk-config.nix
@@ -43,11 +43,13 @@ in {
               };
             };
           };
-          git.server.enable = true;
+          git.server = {
+            enable = true;
+            authorizedKeys = config.local.ssh.users."${user}".authorizedKeys;
+          };
           nix.flakePath = nixCfgPath;
         };
 
-        users.users.${user}.openssh.authorizedKeys.keys = [(builtins.readFile ./../../../../hosts/nixos/glaciem/keys/user_pch_glaciem_ed25519_key.pub)];
         services.openssh = {
           enable = true;
           openFirewall = true;
@@ -58,7 +60,6 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          glances
           hdparm
           hd-idle
           hddtemp
