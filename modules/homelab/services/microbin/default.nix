@@ -126,7 +126,7 @@ in {
           tls internal
           @noauth path /p/* /static/* file/* /static/highlight/*
           handle @noauth {
-            reverse_procy http://${addr}:${toString port}
+            reverse_proxy http://${addr}:${toString port}
           }
         '';
       };
