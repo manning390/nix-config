@@ -154,7 +154,7 @@ in {
       # useACMEHost = homelab.baseDomain;
       extraConfig = ''
         tls internal
-        reverse_proxy http://127.0.0.1:${toString config.services.${service}.listenPort}
+        reverse_proxy http://${homelab.baseDomain}:${toString config.services.${service}.listenPort}
       '';
     };
   };
