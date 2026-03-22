@@ -18,7 +18,7 @@
           '';
         };
         flakePath = lib.mkOption {
-          type = lib.types.str;
+          type = lib.types.singleLineStr;
           default = "/home/${user}/Code/nix/nix-config";
           description = ''
             Where the nixos config is stored on the system.

@@ -1,5 +1,4 @@
 {lib, inputs, ...}: {
-  # inputs.nix-private.homeManagerModules
   imports = [  ] ++ builtins.map lib.custom.relativeToRoot [
     "home/linux/desktop.nix"
     "home/core/default.nix"

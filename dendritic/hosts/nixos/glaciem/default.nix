@@ -7,33 +7,28 @@ in {
     type = "nixos";
     stateVersion = "25.05";
   };
-  flake.aspects = {aspects, pkgs, ...}: {
+  flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "Homelab system";
       includes = with aspects; [
         base
         (homeManager._.users user)
+        usbdrives
       ];
-      nixos = {
+      nixos = {pkgs,...}: {
         imports = [
           ./_hardware-configuration.nix
           ./_disk-config.nix
           ./_impermanence.nix
           ./_homelab.nix
-          ../../../../modules/common.nix
           ../../../../modules/shells.nix
           ../../../../modules/homelab
         ];
 
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
-          };
-          git.server = {
-            enable = true;
-          };
-          nix = {
-            flakePath = nixCfgPath;
+            systemShell = "zsh";
+            userShell = "zsh";
           };
           ssh ={
             enable = true;
@@ -48,6 +43,8 @@ in {
               };
             };
           };
+          git.server.enable = true;
+          nix.flakePath = nixCfgPath;
         };
 
         users.users.${user}.openssh.authorizedKeys.keys = [];
@@ -61,7 +58,6 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          pciutils
           glances
           hdparm
           hd-idle
@@ -71,7 +67,6 @@ in {
         ];
 
         networking = {
-          hostName = hostname;
           hostId = "9dea9b66";
           networkmanager.enable = false;
           useDHCP = true;

@@ -1,7 +1,7 @@
-{
+{inputs,...}: {
   flake.aspects = {aspects, ...}: {
     base = {
-      description = "Base Aspect includes things installed on every system.";
+      description = "Base Aspect is a collection of aspects to installed on every system.";
 
       includes = with aspects; [
         nix
@@ -21,6 +21,7 @@
         ...
       }: {
         environment.systemPackages = with pkgs; [vim fastfetch]; # Always keep one text editor
+        imports = [ inputs.nix-private.nixosModules.ssh ];
         local = {
           git.enable = lib.mkDefault true;
           sops.enable = lib.mkDefault true;

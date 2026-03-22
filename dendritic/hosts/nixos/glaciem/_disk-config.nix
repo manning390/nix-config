@@ -166,5 +166,6 @@
     "/persist".neededForBoot = true;
     "/home".neededForBoot = true;
     "/".neededForBoot = true;
+    "/var".neededForBoot = true;
   };
 }

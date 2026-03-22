@@ -1,8 +1,3 @@
-local opts = {
-	dev = {
-		path = "~/Documents",
-	},
-}
 local plugins = {
 	-- LSP
 	{
@@ -36,7 +31,6 @@ local plugins = {
 				sources = {
 					nls.builtins.formatting.prettier,
 					nls.builtins.completion.spell,
-					-- nls.builtins.diagnostics.cspell,
 					-- require("none-ls.diagnostics.eslint"),
 					--require("none-ls.diagnostics.php")
 				}
@@ -191,11 +185,11 @@ local plugins = {
 			"TmuxNavigatePrevious",
 		},
 	},
-	"tpope/vim-speeddating", -- ctrl-a ctrl-x on date strings
+	"tpope/vim-speeddating.vim", -- ctrl-a ctrl-x on date strings
 	-- Git
-	"tpope/vim-fugitive", -- :G commands
-	"tpope/vim-rhubarb", -- :GBrowse
-	{                  -- Sidebar signs
+	"tpope/vim-fugitive",     -- :G commands
+	"tpope/vim-rhubarb",      -- :GBrowse
+	{                         -- Sidebar signs
 		"lewis6991/gitsigns.nvim",
 		main = "gitsigns",
 		config = true,
@@ -280,7 +274,7 @@ local plugins = {
 			},
 		},
 	},
-	"xiyaowong/telescope-emoji.nvim",
+	-- "xiyaowong/telescope-emoji.nvim",
 	"danielvolchek/tailiscope.nvim",    -- Tailwind
 	"crispgm/telescope-heading.nvim",   -- Markdown headers etc.
 	{
@@ -373,10 +367,6 @@ local plugins = {
 	},
 	{
 		"GustavEikaas/easy-dotnet.nvim",
-		enabled = false,
-		lazy = true,
-		ft = "c_sharp",
-		event = { "VeryLazy" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
@@ -427,26 +417,14 @@ local plugins = {
 			wezterm = { enabled = true },
 		}
 	},
-	{
-		"ron89/thesaurus_query.vim",
-		config = function()
-			-- vim.g.tq_language={'en'}
-			vim.g.tq_openoffice_en_file = "~/Documents/MyThes-1.0/th_en_US_new"
-			vim.g.tq_enabled_backends = { "openoffice_en", "datamuse_com" }
-		end,
-	},
-	{
-		"CopilotC-nvim/CopilotChat.nvim",
-		dependencies = {
-			"zbirenbaum/copilot.lua",
-			"nvim-lua/plenary.nvim"
-		},
-		opts = {
-			-- model = 'Claude Sonnet 4.5',
-			temperature = 0.1,
-		},
-		event = "VeryLazy",
-	},
+	-- {
+	-- 	"ron89/thesaurus_query.vim",
+	-- 	config = function()
+	-- 		-- vim.g.tq_language={'en'}
+	-- 		vim.g.tq_openoffice_en_file = "~/Documents/MyThes-1.0/th_en_US_new"
+	-- 		vim.g.tq_enabled_backends = { "openoffice_en", "datamuse_com" }
+	-- 	end,
+	-- },
 	-- {
 	-- 	"epwalsh/obsidian.nvim",
 	-- 	ft = "markdown",
@@ -483,4 +461,41 @@ local plugins = {
 }
 
 -- Run --
+local nixSet = function(nix, nonNix)
+	if vim.g.nix == true then
+		return nix
+	else
+		return nonNix
+	end
+end
+local load_lazy = nixSet(
+	function()
+		vim.opt.rtp:prepend([[lazy.nvim-plugin-path]])
+	end,
+	function()
+		local lazypath = vim.fn.stdpath("data") .. '/lazy/lazy.nvim'
+		if not (vim.uv or vim.loop).fs_stat(lazypath) then
+			local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+			local out
+			em
+			vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+			if vim.v.shell_error ~= 0 then
+				vim.api.nvim_echo({
+					{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+					{ out,                            "WarningMsg" },
+					{ "\nPress any key to exit..." },
+				}, true, {})
+				vim.fn.getchar()
+				os.exit(1)
+			end
+		end
+	end)
+
+local opts = {
+	performance = { rtp = { reset = nixSet(false, true) } },
+	dev = {
+		path = "~/Documents",
+	},
+}
+load_lazy()
 require("lazy").setup(plugins, opts)

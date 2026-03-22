@@ -28,6 +28,7 @@
       inherit (hostCfg) system;
       specialArgs = {
         inherit inputs /* hostname hostCfg */;
+        lib = inputs.self.lib;
         vars = import ../../vars; # Temp until everything dendritic
       };
       modules = [

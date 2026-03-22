@@ -17,7 +17,6 @@ in {
 
     samba = {
       enable = true;
-      passwordFile = config.sops.secrets."samba_password".path;
       shares = {
         Fast = {
           path = "${hl.mounts.fast}";

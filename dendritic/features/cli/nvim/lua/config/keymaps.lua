@@ -1,19 +1,12 @@
+local utils = require 'config.utilities'
 local fn = require 'config.functions'
 
-local function bind(op, outer_opts)
-	outer_opts = outer_opts or { noremap = true }
-	return function(lhs, rhs, opts)
-		opts = vim.tbl_extend("force", outer_opts, opts or {})
-		vim.keymap.set(op, lhs, rhs, opts)
-	end
-end
-
-local map      = bind('')
-local nmap     = bind('n', { noremap = false })
-local nnoremap = bind('n')
-local vnoremap = bind('v')
-local xnoremap = bind('x')
-local inoremap = bind('i')
+local map = utils.map
+local nmap = utils.nmap
+local nnoremap = utils.nnoremap
+local vnoremap = utils.vnoremap
+local xnoremap = utils.xnoremap
+local inoremap = utils.inoremap
 
 nnoremap('<enter>', ':let @/=""<cr>', { silent = true }) -- Clear search buffer
 
@@ -24,9 +17,9 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<nop>', { silent = true })
 
 -- Setting local variables for qwerty <-> colemak for downsteam mappings
 local sf = string.format
-local h, j, k, l, n, N, f = 'h', 'j', 'k', 'l', 'n', 'N', 'f'
+local h, j, k, l, n, N, f, J = 'h', 'j', 'k', 'l', 'n', 'N', 'f', 'J'
 if vim.env.COLEMAK == '1' then
-	h, j, k, l, n, N, f = 'm', 'n', 'e', 'i', 'h', 'H', 't'
+	h, j, k, l, n, N, f, J = 'm', 'n', 'e', 'i', 'h', 'H', 't', 'N'
 	map('m', 'h')   -- left
 	map('n', 'j')   -- down
 	map('e', 'k')   -- up
@@ -195,7 +188,7 @@ nnoremap('gf', ':edit <cfile><cr>')
 local tsj = require('treesj')
 nnoremap('gm', tsj.toggle)
 nnoremap('gs', tsj.split)
-nnoremap('gJ', tsj.join)
+nnoremap('g' .. J, tsj.join)
 
 -- Jump to EOL
 inoremap(';;', '<ESC>A;<ESC>')
@@ -206,7 +199,7 @@ vnoremap('<', '<gv')
 vnoremap('>', '>gv')
 
 nnoremap('<leader>ss', ':setlocal spell!<cr>', { silent = true })
--- nnoremap('<leader>sq', fn.spellToQF)
+nnoremap('<leader>sq', fn.spellToQF)
 vnoremap('.', ':normal .<cr>')
 nnoremap('<leader>%', ':let @+=expand(\'%\')<cr>') -- Yank filepath into copy buffer
 nnoremap('Y', 'y$')                                -- Add missing yank

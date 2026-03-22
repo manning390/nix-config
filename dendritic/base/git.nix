@@ -12,7 +12,7 @@
         options.local.git = {
           enable = lib.mkEnableOption "Enables git";
           email = lib.mkOption {
-            type = lib.types.str;
+            type = lib.types.singleLineStr;
             default = config.local.identity.email;
             description = "User level default email";
           };
@@ -27,12 +27,12 @@
           server = {
             enable = lib.mkEnableOption "Enable hosting git repositories";
             directory = lib.mkOption {
-              type = lib.types.string;
+              type = lib.types.singleLineStr;
               default = "/home/git";
               description = "Where will the git repositoies be saved";
             };
             authorizedKeys = lib.mkOption {
-              type = lib.types.listOf lib.types.str;
+              type = lib.types.listOf lib.types.singleLineStr;
               default = [];
             };
           };

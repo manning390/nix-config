@@ -13,7 +13,7 @@
           local.lan.enableMapping = lib.mkDefault true; # Adds host -> ip mappings
           networking = {
             # Hostname is set by hosts/default
-            networkmanager.enable = true;
+            networkmanager.enable = lib.mkDefault true;
           };
 
           hardware.bluetooth.enable = lib.mkDefault true;
