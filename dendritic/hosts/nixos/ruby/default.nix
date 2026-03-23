@@ -11,6 +11,7 @@ in {
       description = "Framework laptop with red border";
       includes = with aspects; [
         base
+        (hardware hostname)
         (homeManager._.users user)
         desktop
         caelestia
@@ -18,12 +19,9 @@ in {
       ];
 
       nixos = {
+        # Overwrite our default user identity
         local.identity.username = user;
-        imports = [
-          inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-          ./_hardware-configuration.nix
-        ];
-
+        imports = [ inputs.nixos-hardware.nixosModules.framework-13-7040-amd ];
         local = {
           colemak_dhm.enable = true;
           shells = {

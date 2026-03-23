@@ -12,12 +12,12 @@ in {
       description = "Homelab system";
       includes = with aspects; [
         base
+        (hardware hostname)
         (homeManager._.users user)
         usbdrives
       ];
       nixos = {config, pkgs,...}: {
         imports = [
-          ./_hardware-configuration.nix
           ./_disk-config.nix
           ./_impermanence.nix
           ./_homelab.nix
