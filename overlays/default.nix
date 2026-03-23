@@ -25,7 +25,7 @@
 
         # Keep their GST_PlUGIN fix
         wrapProgram $out/bin/XIVLauncher.Core \
-          --prefix GST_PLUGIN_SYSTEM_PATH_1_0 ":" "$GEST_PLUGIN_SYSTEM_PATH_1_0"
+          --prefix GST_PLUGIN_SYSTEM_PATH_1_0 ":" "$GST_PLUGIN_SYSTEM_PATH_1_0"
 
         # aria2 dependency fix
         mkdir -p $out/nix-support
