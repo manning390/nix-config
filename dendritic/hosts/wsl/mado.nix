@@ -8,6 +8,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "WSL Instance on windows home machine";
       includes = with aspects; [
         base
         (homeManager._.users user)
@@ -15,11 +16,6 @@ in {
       ];
 
       nixos = {config,...}: {
-        imports = [
-          ../../../modules/common.nix
-          ../../../modules/shells.nix
-        ];
-
         local = {
           shells = {
             systemShell = "fish";

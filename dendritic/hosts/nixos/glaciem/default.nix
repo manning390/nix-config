@@ -21,7 +21,6 @@ in {
           ./_disk-config.nix
           ./_impermanence.nix
           ./_homelab.nix
-          ../../../../modules/shells.nix
           ../../../../modules/homelab
         ];
 
@@ -45,7 +44,7 @@ in {
           };
           git.server = {
             enable = true;
-            authorizedKeys = config.users."${user}".openssh.authorizedKeys.keys;
+            authorizedKeys = config.users.users."${user}".openssh.authorizedKeys.keys;
           };
           nix.flakePath = nixCfgPath;
         };

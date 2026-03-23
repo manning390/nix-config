@@ -22,7 +22,6 @@ in {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-13-7040-amd
           ./_hardware-configuration.nix
-          ../../../../modules/shells.nix
         ];
 
         local = {
