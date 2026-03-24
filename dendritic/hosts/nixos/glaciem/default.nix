@@ -91,6 +91,8 @@ in {
           NIXCONFIG = nixCfgPath;
         };
       };
+
+      # Required for included homeManager modules to be imported
       homeManager = {};
     };
   };

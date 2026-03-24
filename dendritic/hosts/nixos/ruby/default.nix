@@ -16,6 +16,7 @@ in {
         desktop
         caelestia
         discord
+        _1password
       ];
 
       nixos = {
@@ -53,6 +54,7 @@ in {
         };
       };
 
+      # Required for included homeManager modules to be imported
       homeManager = {
         local = {
           desktop.caelestia = {
@@ -67,7 +69,7 @@ in {
           DOTFILES = "$HOME/.dotfiles";
           NIXCONFIG = "$HOME/Code/nix/nix-config";
         };
-      };# Required for included homeManager modules to be imported
+      };
     };
   };
 }
