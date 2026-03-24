@@ -1,4 +1,4 @@
-let
+{self, inputs, ...}:let
   hostname = "glaciem";
   user = "pch";
   nixCfgPath = "/home/${user}/nix-config";
@@ -16,10 +16,11 @@ in {
         (homeManager._.users user)
         usbdrives
       ];
-      nixos = {config, pkgs,...}: {
+      nixos = {config, pkgs, ...}: {
         imports = [
+          inputs.disko.nixosModules.disko
           ./_disk-config.nix
-          ./_impermanence.nix
+          self.modules.nixos.impermanence-glaciem
           ./_homelab.nix
           ../../../../modules/homelab
         ];
