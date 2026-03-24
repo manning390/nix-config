@@ -28,6 +28,7 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
+          # wireguard.enable = true;
           sops.enable = true;
           ssh = {
             enable = true;
