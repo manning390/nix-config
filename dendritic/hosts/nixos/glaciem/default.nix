@@ -1,4 +1,4 @@
-{self, inputs, ...}:let
+{self, inputs,...}:let
   hostname = "glaciem";
   user = "pch";
   nixCfgPath = "/home/${user}/nix-config";
@@ -9,13 +9,15 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "Homelab system";
+      description = "Homelab system white cube";
+
       includes = with aspects; [
         base
         (hardware hostname)
         (homeManager._.users user)
         usbdrives
       ];
+
       nixos = {config, pkgs, ...}: {
         imports = [
           inputs.disko.nixosModules.disko
