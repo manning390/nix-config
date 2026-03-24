@@ -11,6 +11,7 @@ in {
             description = "Host entrypoint for HOSTNAME_PLACEHOLDER";
             includes = with aspects; [
                 base
+                (hardware hostname)
                 (homeManager._.users user)
                 ASPECTS_PLACEHOLDER
             ];
@@ -29,7 +30,8 @@ in {
                 };
             };
 
-            homeManager = {}; # Required for included homeMager modules to be imported
+            # Required for included homeManager modules to be imported
+            homeManager = {};
         };
     };
 }

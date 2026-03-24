@@ -10,29 +10,7 @@
         ...
       }: let
         userShell = config.local.shells.userShell;
-        uwsmStartSnippet = ''
-          if uwsm check may-start; then
-            exec uwsm start hyprland-uwsm.desktop
-          fi
-        '';
       in {
-        options.local = {
-          hardware = {
-            monitors = lib.mkOption {
-              type = lib.types.attrsOf lib.types.singleLineStr;
-              default = {};
-              description = "
-                Attribute set of monitor hardware ids and settings as values.
-                [hardware name] => resolution@frequency,positioning,scale
-                list available hardware with `hyprland monitors all` ipc command
-              ";
-              example = {
-                "HDMI-0" = "2560x1440@144,0x0,1";
-                "HDMI-1" = "2560x1440@144,2560x0,1";
-              };
-            };
-          };
-        };
         config = {
           programs.hyprland = {
             enable = true;
@@ -61,7 +39,11 @@
             extraPortals = [pkgs.xdg-desktop-portal-hyprland];
           };
 
-          programs.${userShell}.interactiveShellInit = uwsmStartSnippet;
+          programs.${userShell}.interactiveShellInit = ''
+            if uwsm check may-start; then
+              exec uwsm start hyprland-uwsm.desktop
+            fi
+          '';
         };
       };
 
@@ -96,7 +78,7 @@
             #   "HDMI-A-1,2560x1440@144,0x0,1"
             #   "HDMI-A-2,2560x1440@144,5120x0,1"
             # ];
-            # monitor = lib.mapAttrsToList (name: value: "${name},${value}");
+            monitor = lib.mapAttrsToList (name: value: "${name},${value}") osConfig.local.hardware.monitors;
             env = [
               "HYPRCURSOR_THEME,rose-pine-hyprcursor"
               "HYPRCURSOR_SIZE,24"
