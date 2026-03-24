@@ -5,7 +5,10 @@
     nixos = {config, pkgs,lib,...}: let
         cfg = config.local.hardware.networking;
     in {
-      imports = [inputs.nix-private.nixosModules.lan];
+      imports = [
+        inputs.nix-private.nixosModules.lan
+        inputs.nix-private.nixosModules.wireguard # VPN Configs
+      ];
       options.local.hardware.networking = {
         enable = lib.mkEnableOption "Install networking related packages";
       };
