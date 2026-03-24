@@ -19,7 +19,7 @@
           '';
         }).run;
       in ''
-        # Replaec exec with steam-run wrapper
+        # Replace exec with steam-run wrapper
         substituteInPlace $out/bin/XIVLauncher.Core \
           --replace-fail 'exec' "exec ${steam-run}/bin/steam-run"
 
