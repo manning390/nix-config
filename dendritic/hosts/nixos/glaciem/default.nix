@@ -15,6 +15,7 @@ in {
         (hardware._.hosts hostname)
         (homeManager._.users user)
         usbdrives
+        hdd-monitor
       ];
 
       nixos = {config, pkgs, ...}: let
@@ -27,6 +28,13 @@ in {
           ./_homelab.nix
           ../../../../modules/homelab
         ];
+
+        # Experiment to check how frequently drives would spindown
+        services.hdd-monitor = {
+          enable = true;
+          poolName = "hdd-pool";
+          checkInterval = "5min";
+        };
 
         local = {
           shells = {
