@@ -11,7 +11,8 @@ in {
       description = "Framework laptop with red border";
       includes = with aspects; [
         base
-        (hardware hostname)
+        hardware
+        (hardware._.hosts hostname)
         (homeManager._.users user)
         desktop
         caelestia

@@ -15,7 +15,7 @@
           description = "Which manufacturer is the graphics card for drivers. Colors are aliases";
         };
       };
-      config = lib.mkIf cfg.enable lib.mkMerge [
+      config = lib.mkIf cfg.enable (lib.mkMerge [
         {
           # Hardware acceleration drivers
           hardware.graphics = {
@@ -39,7 +39,7 @@
           services.xserver.videoDrivers = ["nvidia"];
           hardware.nvidia.open = lib.mkDefault true;
         })
-      ];
+      ]);
     };
   };
 }

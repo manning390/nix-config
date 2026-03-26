@@ -1,7 +1,6 @@
 {self, inputs,...}:let
   hostname = "glaciem";
   user = "pch";
-  nixCfgPath = "/home/${user}/nix-config";
 in {
   local.hosts.${hostname} = {
     type = "nixos";
@@ -13,12 +12,14 @@ in {
 
       includes = with aspects; [
         base
-        (hardware hostname)
+        (hardware._.hosts hostname)
         (homeManager._.users user)
         usbdrives
       ];
 
-      nixos = {config, pkgs, ...}: {
+      nixos = {config, pkgs, ...}: let
+        nixCfgPath = "/home/${user}/nix-config";
+      in {
         imports = [
           inputs.disko.nixosModules.disko
           ./_disk-config.nix

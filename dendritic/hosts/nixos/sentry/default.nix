@@ -13,7 +13,8 @@ in {
 
       includes = with aspects; [
         base
-        (hardware hostname)
+        hardware
+        (hardware._.hosts hostname)
         (homeManager._.users user)
         caelestia
         desktop
