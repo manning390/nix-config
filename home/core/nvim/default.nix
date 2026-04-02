@@ -55,8 +55,7 @@
       paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
     });
   in pkgs.writeText "init.lua" ''
-    vim.opt.runtimepath:append("${pkgs.vimPlugins.nvim-treesitter}")
-    vim.opt.runtimepath:append("${grammarsPath}")
+    vim.opt.runtimepath:prepend("${grammarsPath}")
 
     require'config'
   '';

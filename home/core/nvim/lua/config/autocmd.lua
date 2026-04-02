@@ -29,8 +29,14 @@ au({ 'FileType' }, {
         if vim.tbl_contains(ignore_ft, ft) then return end
 
         local lang = vim.treesitter.language.get_lang(ft)
-        if lang then
-            pcall(vim.treesitter.start, buf, lang)
+        if not lang then
+            vim.notify("No treesitter lang for filetype: " .. ft, vim.log.levels.WARN)
+            return
+        end
+
+        local ok, err = pcall(vim.treesitter.start, buf, lang)
+        if not ok then
+            vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
         end
     end,
 })
