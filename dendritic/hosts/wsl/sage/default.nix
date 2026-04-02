@@ -27,8 +27,8 @@ in {
 
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
+            systemShell = "zsh";
+            userShell = "zsh";
           };
           git.includeFile = config.sops.templates."gitconfig".path;
         };
