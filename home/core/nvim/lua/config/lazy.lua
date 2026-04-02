@@ -1,4 +1,7 @@
 local opts = {
+	performance = {
+		reset_packpath = false,
+	},
 	dev = {
 		path = "~/Documents",
 	},
@@ -373,7 +376,6 @@ local plugins = {
 	},
 	{
 		"GustavEikaas/easy-dotnet.nvim",
-		enabled = false,
 		lazy = true,
 		ft = "c_sharp",
 		event = { "VeryLazy" },
@@ -484,3 +486,4 @@ local plugins = {
 
 -- Run --
 require("lazy").setup(plugins, opts)
+vim.cmd([[packloadall]])

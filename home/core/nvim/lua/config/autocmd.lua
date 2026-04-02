@@ -20,6 +20,7 @@ au({ 'BufEnter', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
 })
 au({ 'FileType' }, {
     group = ag('treesitter_highlight', {}),
+    pattern = '*',
     callback = function(args)
         local buf = args.buf
         local ft = vim.bo[buf].filetype
