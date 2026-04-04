@@ -13,7 +13,6 @@ in {
         (homeManager._.users user)
         docker
         jira
-        sc-im
         nix-index
       ];
 
