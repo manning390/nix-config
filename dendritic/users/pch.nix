@@ -5,6 +5,7 @@ in {
     "user-${username}" = {
       includes = with aspects; [
         fish
+        zsh
         kitty
         wiki
         zoxide
@@ -13,7 +14,7 @@ in {
       nixos = {
         users.users.${username} = {
           isNormalUser = true;
-          extraGroups = ["wheel"];
+          extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
         };
       };
 

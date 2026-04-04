@@ -73,7 +73,7 @@ vim.o.listchars                 = "eol:¶,tab:>·,trail:~,extends:>,precedes:<,s
 -- 	+ "j" -- Auto-remove comments if possible.
 -- 	- "2" -- I'm not in gradeschool anymore
 vim.o.formatoptions = 'cqrn'
-vim.o.conceallevel = 1;
+-- vim.o.conceallevel = 0;
 
 vim.wo.number                   = true
 vim.wo.relativenumber           = true --Show line numbers Relative line numbers

@@ -1,21 +1,15 @@
-{
+{inputs, ...}: {
   flake.aspects.nix-index = {
     nixos = {
-      programs.nix-index = {
-        enable = true;
-        enableBashIntegration = true;
-        enableZshIntegration = true;
-        enableFishIntegration = true;
-      };
-    };
+      imports = [inputs.nix-index-database.nixosModules.default];
+      programs.nix-index-database.comma.enable = true;
 
-    homeManager = {
-      programs.nix-index = {
-        enable = true;
-        enableBashIntegration = true;
-        enableZshIntegration = true;
-        enableFishIntegration = true;
-      };
+      # programs.nix-index = {
+      #   enable = true;
+      #   enableBashIntegration = true;
+      #   enableZshIntegration = true;
+      #   enableFishIntegration = true;
+      # };
     };
   };
 }

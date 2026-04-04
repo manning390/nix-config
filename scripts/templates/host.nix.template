@@ -1,6 +1,6 @@
 {config, ...}: let
     hostname = "HOSTNAME_PLACEHOLDER";
-    user = config.local.identity.username;
+    user = "pch";
 in {
     local.hosts.${hostname} = {
         type = "TYPE_PLACEHOLDER";
@@ -11,6 +11,7 @@ in {
             description = "Host entrypoint for HOSTNAME_PLACEHOLDER";
             includes = with aspects; [
                 base
+                (hardware hostname)
                 (homeManager._.users user)
                 ASPECTS_PLACEHOLDER
             ];
@@ -21,8 +22,6 @@ in {
                         systemShell = "zsh";
                         userShell = "zsh";
                     };
-                    sops.enable = true;
-                    nix.allowUnfree = true;
                 };
 
                 environment.sessionVariables = {
@@ -31,7 +30,8 @@ in {
                 };
             };
 
-            homeManager = {}; # Required for included homeMager modules to be imported
+            # Required for included homeManager modules to be imported
+            homeManager = {};
         };
     };
 }

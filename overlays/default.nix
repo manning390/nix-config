@@ -19,13 +19,13 @@
           '';
         }).run;
       in ''
-        # Replaec exec with steam-run wrapper
+        # Replace exec with steam-run wrapper
         substituteInPlace $out/bin/XIVLauncher.Core \
           --replace-fail 'exec' "exec ${steam-run}/bin/steam-run"
 
         # Keep their GST_PlUGIN fix
         wrapProgram $out/bin/XIVLauncher.Core \
-          --prefix GST_PLUGIN_SYSTEM_PATH_1_0 ":" "$GEST_PLUGIN_SYSTEM_PATH_1_0"
+          --prefix GST_PLUGIN_SYSTEM_PATH_1_0 ":" "$GST_PLUGIN_SYSTEM_PATH_1_0"
 
         # aria2 dependency fix
         mkdir -p $out/nix-support

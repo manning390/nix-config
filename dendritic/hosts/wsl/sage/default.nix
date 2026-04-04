@@ -1,6 +1,6 @@
-{self, config, ...}: let
+let
   hostname = "sage";
-  user = config.local.identity.username;
+  user = "pch";
 in {
   local.hosts.${hostname} = {
     type = "wsl";
@@ -12,22 +12,23 @@ in {
         base
         (homeManager._.users user)
         docker
+        jira
+        sc-im
+        nix-index
       ];
 
       nixos = {
         config,
-        pkgs,
         ...
       }: {
         imports = [
-          ../../../../modules/common.nix
-          ../../../../modules/shells.nix
+          (import ./_sops.nix {inherit user;}) # Passing some scope, this file is special
         ];
 
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
+            systemShell = "zsh";
+            userShell = "zsh";
           };
           git.includeFile = config.sops.templates."gitconfig".path;
         };
@@ -40,37 +41,15 @@ in {
         environment.shellAliases = {
           whostname = "echo 'AP1H85254WLR' | clip.exe";
         };
-        sops = let
-          sopsFile = ./secrets/sage.yaml;
-          owner = user;
-          group = "users";
-          mode = "0600";
-        in {
-          secrets = {
-            "npm/npmrc" = {
-              inherit sopsFile owner group mode;
-              path = "/home/${user}/.npmrc";
-            };
-            "workemail" = {inherit sopsFile owner group mode;};
-            "userProfile" = {
-              inherit sopsFile owner group mode;
-              path = "/home/${user}/.profile";
-            };
-          };
-          templates."gitconfig" = {
-            inherit owner group mode;
-            content = ''
-              [user]
-                  email = ${config.sops.placeholder.workemail}
-            '';
-          };
-        };
       };
 
       homeManager = {
         imports = [
           ./_daily_logging.nix
         ];
+        home.sessionVariables = {
+          PATH = "$HOME/.local/bin:$PATH";
+        };
       };
     };
   };

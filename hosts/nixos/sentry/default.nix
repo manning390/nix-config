@@ -5,6 +5,7 @@
   outputs,
   pkgs,
   vars,
+  inputs,
   ...
 }:
 with vars; let
@@ -14,6 +15,7 @@ in {
     [
       ./hardware-configuration.nix
       outputs.modules.nixos.mediawiki
+      inputs.self.modules.nixos.identity
     ]
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/plymouth.nix"

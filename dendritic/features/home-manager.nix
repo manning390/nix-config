@@ -26,8 +26,8 @@ top: {
               hmModules.${top.config.local.hosts.${hostname}.type}
             ];
             home = {
-              homeDirectory = "/home/${username}";
               inherit username;
+              homeDirectory = "/home/${username}";
               stateVersion = config.system.stateVersion;
             };
             programs.home-manager.enable = true;

@@ -1,43 +1,66 @@
-{config, ...}: let
+{self, inputs,...}:let
   hostname = "glaciem";
-  user = config.local.identity.username;
-  nixCfgPath = "/home/${user}/nix-config";
+  user = "pch";
 in {
   local.hosts.${hostname} = {
     type = "nixos";
     stateVersion = "25.05";
   };
-  flake.aspects = {aspects, pkgs, ...}: {
+  flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "Homelab system white cube";
+
       includes = with aspects; [
         base
+        (hardware._.hosts hostname)
         (homeManager._.users user)
+        usbdrives
+        hdd-monitor
       ];
-      nixos = {
+
+      nixos = {config, pkgs, ...}: let
+        nixCfgPath = "/home/${user}/nix-config";
+      in {
         imports = [
-          ./_hardware-configuration.nix
+          inputs.disko.nixosModules.disko
           ./_disk-config.nix
-          ./_impermanence.nix
+          self.modules.nixos.impermanence-glaciem
           ./_homelab.nix
-          ../../../../modules/common.nix
-          ../../../../modules/shells.nix
           ../../../../modules/homelab
         ];
 
+        # Experiment to check how frequently drives would spindown
+        services.hdd-monitor = {
+          enable = true;
+          poolName = "hdd-pool";
+          checkInterval = "5min";
+        };
+
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
+            systemShell = "zsh";
+            userShell = "zsh";
+          };
+          ssh ={
+            enable = true;
+            users."${user}" = {
+              authorizedKeys = ["pch@sentry" "pch@mado" "pch@glaciem"];
+              extraHosts = {
+                "github.com" = {
+                  hostname = "github.com";
+                  user = "git";
+                  identityFile = "github";
+                };
+              };
+            };
           };
           git.server = {
             enable = true;
+            authorizedKeys = config.users.users."${user}".openssh.authorizedKeys.keys;
           };
-          nix = {
-            flakePath = nixCfgPath;
-          };
+          nix.flakePath = nixCfgPath;
         };
 
-        users.users.${user}.openssh.authorizedKeys.keys = [];
         services.openssh = {
           enable = true;
           openFirewall = true;
@@ -48,8 +71,6 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          pciutils
-          glances
           hdparm
           hd-idle
           hddtemp
@@ -58,7 +79,6 @@ in {
         ];
 
         networking = {
-          hostName = hostname;
           hostId = "9dea9b66";
           networkmanager.enable = false;
           useDHCP = true;
@@ -80,6 +100,9 @@ in {
           NIXCONFIG = nixCfgPath;
         };
       };
+
+      # Required for included homeManager modules to be imported
+      homeManager = {};
     };
   };
 }

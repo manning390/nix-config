@@ -22,33 +22,6 @@ in {
         imports = [
           ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
         ];
-
-        local = {
-          desktop.caelestia = {
-            enable = true;
-            showBattery = true;
-            showBrightness = true;
-          };
-        };
-
-        home.sessionVariables = {
-          PATH = "$HOME/.local/bin:$PATH";
-          DOTFILES = "$HOME/.dotfiles";
-          NIXCONFIG = "$HOME/Code/nix/nix-config";
-          COLEMAK = "1";
-        };
-
-        programs = {
-          man.enable = true;
-          bat = {
-            enable = true;
-            # configs wip
-          };
-          fd.enable = true; # says doesn't exist?
-          btop.enable = true;
-          jq.enable = true;
-          aria2.enable = true;
-        };
       };
     };
   };

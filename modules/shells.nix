@@ -2,18 +2,15 @@
   lib,
   config,
   pkgs,
-  vars,
   ...
 }: let
   cfg = config.local.shells;
-  shellPkg = shellName:
-    if shellName == "bash"
-    then pkgs.bashInteractive
-    else if shellName == "zsh"
-    then pkgs.zsh
-    else if shellName == "fish"
-    then pkgs.fish
-    else null;
+  user = config.local.identity.username;
+  typeDispatch = {
+    "bash" = {pkg = pkgs.bashInteractive;};
+    "zsh" = {pkg = pkgs.zsh;};
+    "fish" = {pkg = pkgs.fish;};
+  };
 in {
   options.local.shells = {
     systemShell = lib.mkOption {
@@ -35,12 +32,10 @@ in {
   };
 
   config = let
-    usesBash = cfg.systemShell == "bash" || cfg.userShell == "bash";
-    usesZsh = cfg.systemShell == "zsh" || cfg.userShell == "zsh";
-    usesFish = cfg.systemShell == "fish" || cfg.userShell == "fish";
+    uses = shell: cfg.systemShell == shell || cfg.userShell == shell;
   in {
-    users.defaultUserShell = lib.mkIf (cfg.systemShell != null) (shellPkg cfg.systemShell);
-    users.users.${vars.username}.shell = lib.mkIf (cfg.userShell != null) (shellPkg cfg.userShell);
+    users.defaultUserShell = lib.mkIf (cfg.systemShell != null) (typeDispatch.${cfg.systemShell}.pkg);
+    users.users.${user}.shell = lib.mkIf (cfg.userShell != null) (typeDispatch.${cfg.userShell}.pkg);
 
     environment.systemPackages = with pkgs; [
       # shells
@@ -55,9 +50,9 @@ in {
       eza # Better ls
     ];
 
-    programs.bash.enable = lib.mkIf usesBash true;
-    programs.zsh.enable = lib.mkIf usesZsh true;
-    programs.fish.enable = lib.mkIf usesFish true;
+    programs.bash.enable = lib.mkIf (uses "bash") true;
+    programs.zsh.enable = lib.mkIf (uses "zsh") true;
+    programs.fish.enable = lib.mkIf (uses "fish") true;
 
     environment.shellAliases = {
       ln = "ln -v";
@@ -74,10 +69,10 @@ in {
       alpha = "echo 'a b c d e f g h i j k l m n o p q r s t u v w x y z'";
 
       cat = "bat";
-      path = "echo $PATH | tr -s ':' '\n'";
-      root = "cd $(git rev-parse --show-cdup)";
-      ":w" = "clear; echo \"You're not in vim but ok\"";
-      ":q" = "exit";
+      path = ''echo "$PATH" | tr -s ':' '\n' '';
+      root = ''cd "$(git rev-parse --show-cdup 2>/dev/null || echo .)"'';
+      ":w" = ''clear; echo "You're not in vim but ok"'';
+      ":q" = ''exit'';
 
       vi = "nvim";
       vim = "nvim";

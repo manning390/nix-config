@@ -5,7 +5,7 @@
   username = (import ../vars).username;
   mkSpecialArgs = nixpkgsVersion: machineHostname: {
     inherit inputs outputs;
-    lib = nixpkgsVersion.lib.extend (self: super: {custom = import ../lib {inherit (nixpkgsVersion) lib;};});
+    lib = outputs.lib;
     vars = (import ../vars) // {hostname = machineHostname;};
     self' = outputs; # This is an alias workaround so my non-flake-parts modules stay consistent with my flake-parts modules under the dendritic system, makes migration more seamless.
   };

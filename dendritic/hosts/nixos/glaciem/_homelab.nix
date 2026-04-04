@@ -17,7 +17,6 @@ in {
 
     samba = {
       enable = true;
-      passwordFile = config.sops.secrets."samba_password".path;
       shares = {
         Fast = {
           path = "${hl.mounts.fast}";
@@ -35,7 +34,7 @@ in {
       enable = true;
       homepage.enable = true;
       microbin = {
-        enable = true;
+        enable = false;
         role = "server";
       };
     };

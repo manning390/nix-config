@@ -36,6 +36,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     services.glances.enable = true;
+    networking.firewall.allowedTCPPorts = [ 8082 80 ];
     services.${service} = {
       enable = true;
       environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain}";
@@ -153,7 +154,7 @@ in {
       # useACMEHost = homelab.baseDomain;
       extraConfig = ''
         tls internal
-        reverse_proxy http://127.0.0.1:${toString config.services.${service}.listenPort}
+        reverse_proxy http://${homelab.baseDomain}:${toString config.services.${service}.listenPort}
       '';
     };
   };

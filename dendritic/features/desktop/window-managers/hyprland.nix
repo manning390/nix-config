@@ -1,5 +1,5 @@
 {
-  flake.aspects = {...}: {
+  flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
 
@@ -10,29 +10,7 @@
         ...
       }: let
         userShell = config.local.shells.userShell;
-        uwsmStartSnippet = ''
-          if uwsm check may-start
-            exec uwsm start hyprland-uwsm.desktop
-          end
-        '';
       in {
-        options.local = {
-          hardware = {
-            monitors = lib.mkOption {
-              type = lib.types.attrsOf lib.types.singleLineStr;
-              default = {};
-              description = "
-                Attribute set of monitor hardware ids and settings as values.
-                [hardware name] => resolution@frequency,positioning,scale
-                list available hardware with `hyprland monitors all` ipc command
-              ";
-              example = {
-                "HDMI-0" = "2560x1440@144,0x0,1";
-                "HDMI-1" = "2560x1440@144,2560x0,1";
-              };
-            };
-          };
-        };
         config = {
           programs.hyprland = {
             enable = true;
@@ -53,6 +31,7 @@
             brightnessctl
             mako
             libnotify
+            wl-clipboard-rs
           ];
 
           xdg.portal = {
@@ -60,12 +39,16 @@
             extraPortals = [pkgs.xdg-desktop-portal-hyprland];
           };
 
-          programs.${userShell}.interactiveShellInit = uwsmStartSnippet;
+          programs.${userShell}.interactiveShellInit = ''
+            if uwsm check may-start; then
+              exec uwsm start hyprland-uwsm.desktop
+            fi
+          '';
         };
       };
 
       homeManager = {
-        config,
+        osConfig,
         lib,
         ...
       }: {
@@ -77,14 +60,17 @@
               # "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
               "app2unit -s b udiskie --smart-stray"
             ];
-            input = lib.mkMerge [
-              (lib.mkIf config.local.colemak_dhm.enable {
+
+            device = [
+              {
+                name = "at-translated-set-2-keyboard";
                 kb_layout = "colemak_dhm,us";
                 kb_options = "caps:escape,grp:alt_shift_toggle";
-              })
-              (lib.mkIf (!config.local.colemak_dhm.enable) {
-                kb_options = "caps:escape";
-              })
+              }
+              {
+                name = "zsa-technology-labs-voyager-keyboard";
+                kb_layout = "us";
+              }
             ];
 
             # monitor = [
@@ -92,7 +78,7 @@
             #   "HDMI-A-1,2560x1440@144,0x0,1"
             #   "HDMI-A-2,2560x1440@144,5120x0,1"
             # ];
-            monitor = lib.mapAttrsToList (name: value: "${name},${value}");
+            monitor = lib.mapAttrsToList (name: value: "${name},${value}") osConfig.local.hardware.monitors;
             env = [
               "HYPRCURSOR_THEME,rose-pine-hyprcursor"
               "HYPRCURSOR_SIZE,24"
@@ -191,7 +177,7 @@
               border_size = 2;
               "col.active_border" = lib.mkDefault "rgba(33ccffee) rgba(00ff99ee) 45deg";
               "col.inactive_border" = lib.mkDefault "rgba(595959aa)";
-              layout = "dwindle";
+              layout = "scrolling";
               allow_tearing = false;
             };
             decoration = {
@@ -228,10 +214,16 @@
               "maxsize 1 1, class:^(xwaylandvideobridge)$"
               "noblur, class:^(xwaylandvideobridge)$"
               "nofocus, class:^(xwaylandvideobridge)$"
-              "float,class:^(XIVLauncher.*)$"
               "float, class:^(1password)$"
+              "float,class:^(XIVLauncher.*)$"
+              "noborder, initialTitle:^(FINAL FANTASY XIV)$"
             ];
           };
+        };
+
+        # Hint electron to use wayland
+        home.sessionVariables = {
+          NIXOS_OZONE_WL = "1";
         };
 
         home.file.".config/uwsm/env".text =
