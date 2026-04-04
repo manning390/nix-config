@@ -11,7 +11,10 @@ with vars; let
   hostName = "sentry";
 in {
   imports =
-    [./hardware-configuration.nix]
+    [
+      ./hardware-configuration.nix
+      outputs.modules.nixos.mediawiki
+    ]
     ++ builtins.map lib.custom.relativeToRoot [
       "modules/plymouth.nix"
       "modules/nix.nix"
