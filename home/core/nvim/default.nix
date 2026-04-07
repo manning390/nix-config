@@ -41,6 +41,7 @@
 
     # Formatter
     stylua
+    codespell
 
     # dotnet
     (with pkgs.dotnetCorePackages; combinePackages [

@@ -45,6 +45,6 @@ end, {
 	nargs = "*",
 	bang = true,
 })
-vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-  require"conform".format({ async = false })
-end, { desc = 'Format current buffer with Conform+LSP' })
+vim.api.nvim_create_user_command("Format", function(_)
+	require("conform").format({ async = false })
+end, { desc = "Format current buffer with Conform+LSP" })

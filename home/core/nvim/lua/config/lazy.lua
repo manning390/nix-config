@@ -123,7 +123,8 @@ local plugins = {
                 svelte = { "prettier" },
                 php = { "pint" },
                 nix = { "alejandra" },
-                csharp = { "csharpier" },
+                cs = { "csharpier" },
+                ["_"] = { "codespell" }, -- _ runs on filetypes that have other formatters configured
                 ["*"] = {"trim_whitespace"},
             },
             default_format_opts = {
@@ -348,6 +349,9 @@ local plugins = {
                     stopinsert = true,
                     keep_one = true,
                 },
+                runners = {
+                    cs = "nvim-test.runners.dotnet",
+                }
             })
         end,
     },
