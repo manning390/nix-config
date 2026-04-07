@@ -4,7 +4,7 @@ end
 
 require('nvim-treesitter.configs').setup {
 	ensure_installed      = {},
-	highlight             = { enable = true },
+	highlight             = { enable = true, disable = { 'bash' , 'sh' } },
 	indent                = { enable = true, disable = { 'python' } },
 	incremental_selection = {
 		enable = true,

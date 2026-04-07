@@ -7,8 +7,8 @@
     packages.easy-dotnet-server = pkgs.buildDotnetGlobalTool {
       pname = "dotnet-easydotnet";
       nugetName = "EasyDotnet";
-      version = "2.9.6";
-      nugetHash = "sha256-GohjenhJRSFvN8OJX5v0tucgigba6MOcOWldEjQ0lY8=";
+      version = "3.0.0";
+      nugetHash = "sha256-olaARuN/RErqyZAIiDeHZlYAxlNM/Qfn6wk73nfRBjM=";
 
       meta = {
         homepage = "https://github.com/GustavEikaas/easy-dotnet-server";

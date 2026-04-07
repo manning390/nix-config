@@ -39,12 +39,16 @@
     nixd
     vale-ls
 
+    # Formatter
+    stylua
+
     # dotnet
     (with pkgs.dotnetCorePackages; combinePackages [
       sdk_8_0
       sdk_10_0
     ])
-    pkgs.dotnet-ef
+    dotnet-ef
+    csharpier
   ];
 
   programs.direnv.enable = true;

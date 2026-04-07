@@ -52,7 +52,7 @@ cmp.setup({
     { name = 'nvim_lua' },
     { name = 'nvim_lsp' },
     -- { name = 'nvim_lsp_signature_help' },
-    -- { name = 'easy-dotnet' },
+    { name = 'easy-dotnet' },
     { name = 'async_path' },
     { name = 'calc' },
     { name = 'luasnip' },

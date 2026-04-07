@@ -108,7 +108,7 @@ nnoremap('[e', function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.s
 --nnoremap('[t', require'todo-comments'.jump_prev, { desc = "Previous todo comment"})
 nnoremap('<leader>q', vim.diagnostic.setloclist)
 nnoremap('K', vim.lsp.buf.hover, { buffer = 0, desc = 'LSP: Hover Documentation' }) -- Needs colemak rebind
-nnoremap('<leader>f', ':Format<CR>', { desc = 'LSP: [F]ormat' })
+nnoremap('<leader>f', ':Format<CR>', { desc = 'LSP+Conform: [F]ormat' })
 nnoremap('<leader>d', ':OverseerRun<CR>', { desc = '[D]ispatch Overseer action' })
 -- nnoremap(sf('<C-%s>', h), vim.lsp.buf.signature_help, { desc = 'LSP: Signature Documentation'}) -- Needs colemak rebind
 -- nmap('<leader>'..n, function() vim.lsp.diagnostic.goto_next() end, {silent = true})
