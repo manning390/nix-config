@@ -2,8 +2,7 @@
   inputs,
   pkgs,
   ...
-}: let
-in {
+}: {
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -27,15 +26,6 @@ in {
     devenv
     ripgrep
 
-    gcc
-    gnumake
-    nodejs
-    pnpm
-    # intelephense
-    python3
-    cmake
-    ninja
-
     # LSP
     tree-sitter
     cmake-language-server
@@ -48,11 +38,32 @@ in {
     efm-langserver
     nixd
     vale-ls
+
+    # Formatter
+    stylua
+    codespell
+
+    # dotnet
+    (with pkgs.dotnetCorePackages; combinePackages [
+      sdk_8_0
+      sdk_10_0
+    ])
+    dotnet-ef
+    csharpier
   ];
 
   programs.direnv.enable = true;
 
-  xdg.configFile."nvim/init.lua".source = ./init.lua;
+  xdg.configFile."nvim/init.lua".source = let
+    grammarsPath = builtins.toString (pkgs.symlinkJoin {
+      name = "nvim-treesitter-grammars";
+      paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+    });
+  in pkgs.writeText "init.lua" ''
+    vim.opt.runtimepath:prepend("${grammarsPath}")
+
+    require'config'
+  '';
   xdg.configFile."nvim/lua" = {
     recursive = true;
     source = ./lua;

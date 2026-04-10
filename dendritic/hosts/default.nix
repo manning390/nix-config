@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  self,
   ...
 }: let 
   hosts = config.local.hosts;
@@ -28,12 +29,13 @@
       inherit (hostCfg) system;
       specialArgs = {
         inherit inputs /* hostname hostCfg */;
+        lib = inputs.self.lib;
         vars = import ../../vars; # Temp until everything dendritic
       };
       modules = [
-        inputs.self.modules.${cfg.class}.${hostname}
-        inputs.self.modules.${cfg.class}.${hostCfg.type}
-        inputs.self.modules.nixos.identity
+        self.modules.${cfg.class}.${hostname}
+        self.modules.${cfg.class}.${hostCfg.type}
+        self.modules.nixos.identity
         {
           networking.hostName = hostname;
           system.stateVersion = hostCfg.stateVersion;

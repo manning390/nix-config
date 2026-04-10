@@ -3,12 +3,14 @@
     nixos = {pkgs, ...}:{
       environment.systemPackages = with pkgs; [
         eza
+        fzf
         stow
         zip
         unzip
         p7zip
         htop
         pciutils
+        just
       ];
     };
 

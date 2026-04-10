@@ -28,7 +28,7 @@
     git
     eza # ls replacement
     stow
-    wl-clipboard
+    wl-clipboard-rs
     just
 
     # archives

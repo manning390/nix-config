@@ -1,17 +1,22 @@
-{
+{inputs,...}: {
   flake.aspects.networking = {
     description = "Networking settings and utilities";
 
     nixos = {config, pkgs,lib,...}: let
         cfg = config.local.hardware.networking;
     in {
+      imports = [
+        inputs.nix-private.nixosModules.lan
+        inputs.nix-private.nixosModules.wireguard # VPN Configs
+      ];
       options.local.hardware.networking = {
         enable = lib.mkEnableOption "Install networking related packages";
       };
       config = lib.mkIf cfg.enable {
+          local.lan.enableMappings = lib.mkDefault true; # Adds host -> ip mappings
           networking = {
             # Hostname is set by hosts/default
-            networkmanager.enable = true;
+            networkmanager.enable = lib.mkDefault true;
           };
 
           hardware.bluetooth.enable = lib.mkDefault true;

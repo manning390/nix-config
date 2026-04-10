@@ -5,7 +5,7 @@ local n = vim.g.keymaps.n;
 require('config.snippets')
 require('config.cmp.githandles').setup()
 
-cmp.register_source("easy-dotnet", require "easy-dotnet".package_completion_source)
+-- cmp.register_source("easy-dotnet", require "easy-dotnet".package_completion_source)
 cmp.setup({
   snippet = {
     expand = function(args)

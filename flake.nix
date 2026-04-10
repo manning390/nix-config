@@ -15,6 +15,7 @@
     # Private nix module
     nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
     nix-private.inputs.nixpkgs.follows = "nixpkgs";
+    nix-private.inputs.flake-parts.follows = "flake-parts";
 
     # Flake parts
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -28,6 +29,9 @@
 
     # Nix User Repository
     nur.url = "github:nix-community/NUR";
+
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
     # Disk Management
     disko.url = "github:nix-community/disko";
@@ -66,6 +70,11 @@
 
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    # Nvim nix plugin patching
+    nixPatch.url = "git+https://codeberg.org/NicoElbers/nixPatch-nvim.git";
+    nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
+    nixPatch.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs @ {self, ...}: let
     lib = inputs.nixpkgs.lib;
@@ -97,21 +106,6 @@
                 inputs.home-manager.nixosModules.home-manager
                 inputs.determinate.nixosModules.default
               ])
-              # Framework laptop
-              # (mkNixos "ruby" inputs.nixpkgs [
-              #   inputs.nur.modules.nixos.default
-              # ])
-              # Homelab
-              # (mkNixos "glaciem" inputs.nixpkgs [
-              #   inputs.disko.nixosModules.disko
-              #   inputs.impermanence.nixosModules.impermanence
-              #   inputs.home-manager.nixosModules.home-manager
-              # ])
-              # Windows WSL environment
-              # (mkWsl "mado" inputs.nixpkgs [
-              #   # inputs.nur.modules.nixos.default
-              #   inputs.home-manager.nixosModules.home-manager
-              # ] [])
             ];
         }
         (inputs.import-tree ./dendritic)

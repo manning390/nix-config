@@ -15,13 +15,12 @@ local vnoremap = bind('v')
 local xnoremap = bind('x')
 local inoremap = bind('i')
 
-nmap('<leader>/', ':noh<cr>', { silent = true })
 nnoremap('<enter>', ':let @/=""<cr>', { silent = true }) -- Clear search buffer
 
 nnoremap('Q', '<nop>', { silent = true })
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<nop>', { silent = true })
 
-nnoremap('<leader><cr>', function() require('reload') end)
+-- nnoremap('<leader><cr>', function() require('reload') end)
 
 -- Setting local variables for qwerty <-> colemak for downsteam mappings
 local sf = string.format
@@ -33,8 +32,8 @@ if vim.env.COLEMAK == '1' then
 	map('e', 'k')   -- up
 	map('i', 'l')   -- right
 	map('l', 'i')   -- insert
-	nmap('j', 'k')  -- end word
-	nmap('J', 'K')  -- end WORD
+	nnoremap('j', 'e')  -- end word
+	nnoremap('J', 'E')  -- end WORD
 	nmap('h', 'n')  -- next
 	nmap('H', 'N')  -- previous
 	nmap('k', 'm')  -- mark
@@ -109,7 +108,7 @@ nnoremap('[e', function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.s
 --nnoremap('[t', require'todo-comments'.jump_prev, { desc = "Previous todo comment"})
 nnoremap('<leader>q', vim.diagnostic.setloclist)
 nnoremap('K', vim.lsp.buf.hover, { buffer = 0, desc = 'LSP: Hover Documentation' }) -- Needs colemak rebind
-nnoremap('<leader>f', ':Format<CR>', { desc = 'LSP: [F]ormat' })
+nnoremap('<leader>f', ':Format<CR>', { desc = 'LSP+Conform: [F]ormat' })
 nnoremap('<leader>d', ':OverseerRun<CR>', { desc = '[D]ispatch Overseer action' })
 -- nnoremap(sf('<C-%s>', h), vim.lsp.buf.signature_help, { desc = 'LSP: Signature Documentation'}) -- Needs colemak rebind
 -- nmap('<leader>'..n, function() vim.lsp.diagnostic.goto_next() end, {silent = true})
@@ -206,7 +205,8 @@ inoremap(',,', '<ESC>A,<ESC>')
 vnoremap('<', '<gv')
 vnoremap('>', '>gv')
 
-nnoremap('<leader>s', ':setlocal spell!<cr>', { silent = true })
+nnoremap('<leader>ss', ':setlocal spell!<cr>', { silent = true })
+-- nnoremap('<leader>sq', fn.spellToQF)
 vnoremap('.', ':normal .<cr>')
 nnoremap('<leader>%', ':let @+=expand(\'%\')<cr>') -- Yank filepath into copy buffer
 nnoremap('Y', 'y$')                                -- Add missing yank
