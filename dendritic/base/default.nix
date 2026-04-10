@@ -20,7 +20,7 @@
         pkgs,
         ...
       }: {
-        environment.systemPackages = with pkgs; [vim fastfetch]; # Always keep one text editor
+        environment.systemPackages = with pkgs; [vim fastfetch just]; # Always keep one text editor
         local = {
           git.enable = lib.mkDefault true;
           sops.enable = lib.mkDefault true;

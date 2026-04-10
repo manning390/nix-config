@@ -2,6 +2,7 @@
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
+      includes = with aspects; [gtk];
 
       nixos = {
         config,
@@ -65,7 +66,7 @@
       };
 
       homeManager = {
-        osConfig,
+        pkgs,
         lib,
         ...
       }: {
@@ -235,6 +236,13 @@
               "float, class:^(1password)$"
             ];
           };
+        };
+
+        home.pointerCursor = {
+          gtk.enable = true;
+          package = pkgs.catppuccin-cursors.mochaDark;
+          name = "catppuccin-mocha-dark-cursors";
+          size = 20;
         };
 
         home.file.".config/uwsm/env".text =
