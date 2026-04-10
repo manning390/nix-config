@@ -56,6 +56,21 @@
                 enableMicrophone = true;
                 enableBrightness = cfg.showBrightness;
               };
+              estate = {
+                  settings = {
+                    vpnChanged = true;
+                  };
+                };
+              vpn = {
+                  enabled = true;
+                  provider = [
+                    {
+                      name = "wireguard";
+                      interface = "wg-home";
+                      displayName = "Home";
+                    }
+                  ];
+                };
             };
           };
         };
