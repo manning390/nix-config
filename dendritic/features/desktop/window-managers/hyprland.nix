@@ -51,6 +51,7 @@
       homeManager = {
         pkgs,
         lib,
+        osConfig,
         ...
       }: {
         wayland.windowManager.hyprland = {

@@ -32,7 +32,6 @@
         };
 
         config = lib.mkIf cfg.enable {
-        # config = {
           programs.caelestia = {
             enable = true;
             cli.enable = true;
