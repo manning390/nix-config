@@ -13,6 +13,7 @@ in {
         base
         hardware
         (hardware._.hosts hostname)
+        laptop
         (homeManager._.users user)
         desktop
         caelestia
