@@ -2,6 +2,7 @@
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
+      includes = with aspects; [gtk];
 
       nixos = {
         config,
@@ -48,8 +49,9 @@
       };
 
       homeManager = {
-        osConfig,
+        pkgs,
         lib,
+        osConfig,
         ...
       }: {
         wayland.windowManager.hyprland = {
@@ -221,10 +223,15 @@
           };
         };
 
-        # Hint electron to use wayland
-        home.sessionVariables = {
-          NIXOS_OZONE_WL = "1";
+        home.pointerCursor = {
+          gtk.enable = true;
+          package = pkgs.catppuccin-cursors.mochaDark;
+          name = "catppuccin-mocha-dark-cursors";
+            size = 20;
         };
+
+        # Hint electron to use wayland
+        home.sessionVariables.NIXOS_OZONE_WL = "1";
 
         home.file.".config/uwsm/env".text =
           /*
