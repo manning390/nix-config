@@ -36,6 +36,7 @@ in {
         };
 
         local = {
+          sops.generateKeys = false;
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
