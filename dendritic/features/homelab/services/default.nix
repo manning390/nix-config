@@ -35,8 +35,10 @@
       };
 
       includes = with aspects; [
+        homepage
         immich
         filebrowser
+        microbin
       ];
     };
   };

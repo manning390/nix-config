@@ -33,10 +33,11 @@ in {
     services = {
       enable = true;
       homepage.enable = true;
-      microbin = {
-        enable = false;
-        role = "server";
-      };
+      filebrowser.enable = true;
+      # microbin = {
+      #   enable = false;
+      #   role = "server";
+      # };
     };
   };
 }

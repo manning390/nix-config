@@ -16,17 +16,16 @@ in {
         (homeManager._.users user)
         usbdrives
         hdd-monitor
+        homelab
       ];
 
-      nixos = {config, pkgs, ...}: let
+      nixos = {config, pkgs, lib, ...}: let
         nixCfgPath = "/home/${user}/nix-config";
       in {
         imports = [
-          inputs.disko.nixosModules.disko
-          ./_disk-config.nix
           self.modules.nixos.impermanence-glaciem
+          ./_disk-config.nix
           ./_homelab.nix
-          ../../../../modules/homelab
         ];
 
         # Experiment to check how frequently drives would spindown
@@ -79,22 +78,10 @@ in {
         ];
 
         networking = {
-          hostId = "9dea9b66";
+          hostId = lib.readonly "9dea9b66";
           networkmanager.enable = false;
           useDHCP = true;
         };
-
-        # systemd.services.hd-idle = {
-        #   description = "External HD spin down daemon";
-        #   wantedBy = ["multi-user.target"];
-        #   serviceConfig = {
-        #     Type = "simple";
-        #     ExecStart = let
-        #       idleTime = toString 900;
-        #       hardDriveParameter = lib.strings.concatMapStringSep " " (x: "-a ${x} ie ${idleTime}") hardDrives;
-        #     in "${pkgs.hd-idle}/bin/hd-idle -i 0 ${hardDriveParameter}";
-        #   };
-        # };
 
         environment.sessionVariables = {
           NIXCONFIG = nixCfgPath;
