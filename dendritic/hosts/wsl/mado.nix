@@ -18,8 +18,8 @@ in {
       nixos = {config,...}: {
         local = {
           shells = {
-            systemShell = "fish";
-            userShell = "fish";
+            systemShell = "zsh";
+            userShell = "zsh";
           };
           ssh = {
             enable = true;
