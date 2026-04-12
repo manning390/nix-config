@@ -25,12 +25,16 @@ au({ 'FileType' }, {
         local buf = args.buf
         local ft = vim.bo[buf].filetype
 
-        local ignore_ft = { "TelescopePrompt", "TelescopeResults", "notify", "help" }
+        local ignore_ft = { "TelescopePrompt", "TelescopeResults", "notify", "help", "fugitive",
+            "cmp_menu", "cmp_docs",
+            "lazy", "lazy_backdrop",
+            "bash", "sh"
+        }
         if vim.tbl_contains(ignore_ft, ft) then return end
 
         local lang = vim.treesitter.language.get_lang(ft)
         if not lang then
-            vim.notify("No treesitter lang for filetype: " .. ft, vim.log.levels.WARN)
+            -- vim.notify("No treesitter lang for filetype: " .. ft, vim.log.levels.WARN)
             return
         end
 

@@ -118,12 +118,18 @@ local plugins = {
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
-                typescript = { { "prettierd", "prettier" } },
-                javascript = { { "prettierd", "prettier" } },
-                svelte = { { "prettier", lsp_format = "fallback" } },
+                typescript = { "prettierd", "prettier", stop_after_first = true },
+                javascript = { "prettierd", "prettier", stop_after_first = true },
+                svelte = { "prettier" },
                 php = { "pint" },
                 nix = { "alejandra" },
+                cs = { "csharpier" },
+                ["_"] = { "codespell" }, -- _ runs on filetypes that have other formatters configured
+                ["*"] = {"trim_whitespace"},
             },
+            default_format_opts = {
+                lsp_format = "fallback",
+            }
         },
     },
     -- Notifications
@@ -343,6 +349,9 @@ local plugins = {
                     stopinsert = true,
                     keep_one = true,
                 },
+                runners = {
+                    cs = "nvim-test.runners.dotnet",
+                }
             })
         end,
     },

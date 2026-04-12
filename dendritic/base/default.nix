@@ -21,7 +21,7 @@
         pkgs,
         ...
       }: {
-        environment.systemPackages = with pkgs; [vim fastfetch]; # Always keep one text editor
+        environment.systemPackages = with pkgs; [vim fastfetch just]; # Always keep one text editor
         imports = [ inputs.nix-private.nixosModules.ssh ];
         local = {
           git.enable = lib.mkDefault true;

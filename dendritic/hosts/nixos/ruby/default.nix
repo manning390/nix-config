@@ -13,6 +13,7 @@ in {
         base
         hardware
         (hardware._.hosts hostname)
+        laptop
         (homeManager._.users user)
         desktop
         caelestia
@@ -32,7 +33,7 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
-          # wireguard.enable = true;
+          wireguard.enable = true;
           sops.enable = true;
           ssh = {
             enable = true;

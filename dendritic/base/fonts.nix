@@ -1,5 +1,5 @@
 {
-  flake.aspects.fonts.nixos = {pkgs,...}: {
+  flake.aspects.fonts.nixos = {pkgs, ...}: {
     fonts = {
       packages = with pkgs; [
         nerd-fonts.fira-code
