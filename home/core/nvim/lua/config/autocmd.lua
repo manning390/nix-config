@@ -52,7 +52,7 @@ au('TextYankPost', {
     group = ag('yank_highlight', { clear = true }),
     pattern = '*',
     callback = function()
-        vim.highlight.on_yank { higroup = 'IncSearch', timeout = 300 }
+        vim.hl.on_yank { higroup = 'IncSearch', timeout = 300 }
     end,
 })
 -- Show line diagnostics automatically in hover window
@@ -63,8 +63,8 @@ au({ 'CursorHold', 'CursorHoldI' }, {
         vim.diagnostic.open_float(nil, { focus = false })
     end
 })
-au({ 'BufEnter' }, {
-    group = ag('blade', { clear = true }),
-    pattern = '*.blade.php',
-    command = 'set filetype=blade.php',
-})
+-- au({ 'BufEnter' }, {
+--     group = ag('blade', { clear = true }),
+--     pattern = '*.blade.php',
+--     command = 'set filetype=blade.php',
+-- })
