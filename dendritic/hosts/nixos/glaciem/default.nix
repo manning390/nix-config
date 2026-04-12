@@ -45,7 +45,7 @@ in {
           };
           git.server = {
             enable = true;
-            authorizedKeys = config.users."${user}".openssh.authorizedKeys.keys;
+            authorizedKeys = config.users.users."${user}".openssh.authorizedKeys.keys;
           };
           nix.flakePath = nixCfgPath;
         };
