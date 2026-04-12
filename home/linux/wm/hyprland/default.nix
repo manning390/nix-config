@@ -25,16 +25,16 @@
         output = "DP-1";
         mode = "2560x1440@144";
       }
-      {
-        output = "HDMI-A-1";
-        mode = "2560x144@144";
-        position = "auto-left";
-      }
-      {
-        output = "HDMI-A-2";
-        mode = "2560x144@144";
-        position = "auto-right";
-      }
+      # {
+      #   output = "HDMI-A-1";
+      #   mode = "2560x144@144";
+      #   position = "auto-left";
+      # }
+      # {
+      #   output = "HDMI-A-2";
+      #   mode = "2560x144@144";
+      #   position = "auto-right";
+      # }
     ];
   in {
     enable = true;
@@ -63,18 +63,24 @@
           kb_layout = "us";
         }
       ];
-      monitorv2 = map (m:
-        m
-        // {
-          # Picture settings
-          bitdepth = 10;
-          cm = "hdr";
-          sdrbrightness = 1.05;
-          sdrsaturation = 1.2;
-          sdr_max_luminance = 240;
-          sdr_min_luminance = 0.05;
-        })
-      monitors;
+      monitor = [
+        "HDMI-A-1,2560x1440@144,0x0,1"
+        "DP-1,2560x1440@144,2560x0,1"
+        "HDMI-A-2,2560x1440@144,5120x0,1"
+      ];
+      # monitorv2 = monitors;
+      # monitorv2 = map (m:
+      #   m
+      #   // {
+      #     # Picture settings
+      #     bitdepth = 10;
+      #     cm = "hdr";
+      #     sdrbrightness = 1.05;
+      #     sdrsaturation = 1.2;
+      #     sdr_max_luminance = 240;
+      #     sdr_min_luminance = 0.05;
+      #   })
+      # monitors;
       env = [
         "HYPRCURSOR_THEME,rose-pine-hyprcursor"
         "HYPRCURSOR_SIZE,24"
