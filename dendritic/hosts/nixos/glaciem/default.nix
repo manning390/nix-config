@@ -78,7 +78,7 @@ in {
         ];
 
         networking = {
-          hostId = lib.readonly "9dea9b66";
+          hostId = "9dea9b66";
           networkmanager.enable = false;
           useDHCP = true;
         };

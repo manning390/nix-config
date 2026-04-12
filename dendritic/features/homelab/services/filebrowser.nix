@@ -36,6 +36,10 @@
           type = lib.types.singleLineStr;
           default = "Files";
         };
+        homepage.icon = lib.mkOption {
+          type = lib.types.singleLineStr;
+          default = "filebrowser.svg";
+        };
         homepage.description = lib.mkOption {
           type = lib.types.str;
           default = "Self-hosted filebrowser";
@@ -56,7 +60,7 @@
         services.caddy.virtualHosts."${cfg.url}" = {
           extraConfig = ''
             tls internal
-            reverse_proxy http://${config.services.filebrowser.address}:${toString config.services.settings.port}
+            reverse_proxy http://${config.services.filebrowser.settings.address}:${toString config.services.filebrowser.settings.port}
           '';
         };
       };
