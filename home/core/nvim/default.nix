@@ -35,9 +35,12 @@
     nodePackages.typescript-language-server
     nodePackages.eslint
     eslint_d
+    emmet-language-server
     efm-langserver
     nixd
     vale-ls
+    vscode-css-languageserver
+    tailwindcss-language-server
 
     # Formatter
     stylua

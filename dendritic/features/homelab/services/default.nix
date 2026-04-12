@@ -36,6 +36,7 @@
 
       includes = with aspects; [
         immich
+        filebrowser
       ];
     };
   };
