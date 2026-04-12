@@ -11,26 +11,29 @@ in {
       description = "Framework laptop with red border";
       includes = with aspects; [
         base
+        hardware
+        (hardware._.hosts hostname)
+        laptop
         (homeManager._.users user)
         desktop
         caelestia
         discord
+        _1password
       ];
 
       nixos = {
+        # Overwrite our default user identity
         local.identity.username = user;
-        imports = [
-          inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-          ./_hardware-configuration.nix
-          ../../../../modules/shells.nix
-        ];
+        imports = [ inputs.nixos-hardware.nixosModules.framework-13-7040-amd ];
 
+        # My defined configurations for modules
         local = {
           colemak_dhm.enable = true;
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
           };
+          wireguard.enable = true;
           sops.enable = true;
           ssh = {
             enable = true;
@@ -53,6 +56,7 @@ in {
         };
       };
 
+      # Required for included homeManager modules to be imported
       homeManager = {
         local = {
           desktop.caelestia = {
@@ -67,7 +71,7 @@ in {
           DOTFILES = "$HOME/.dotfiles";
           NIXCONFIG = "$HOME/Code/nix/nix-config";
         };
-      };# Required for included homeManager modules to be imported
+      };
     };
   };
 }

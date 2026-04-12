@@ -160,8 +160,21 @@
       };
     };
   };
-  boot.supportedFilesystems = ["zfs"]; # Actually support the filesystem
-  boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # Other non-root pools that auto mount
+  boot.supportedFilesystems = ["zfs"];
+  boot.zfs.extraPools = [ "ssd-pool" "hdd-pool"]; # auto imported, not hdd-poll
+
+  # Check for corrupted data once a month, will spin up drives
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+  };
+
+  # Trim the ssds, hdds get skipped
+  services.zfs.trim = {
+    enable = true;
+    interval = "weekly";
+  };
+
   fileSystems = {
     "/persist".neededForBoot = true;
     "/home".neededForBoot = true;

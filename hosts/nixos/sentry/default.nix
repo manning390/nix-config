@@ -14,6 +14,7 @@ in {
   imports =
     [
       ./hardware-configuration.nix
+      outputs.modules.nixos.mediawiki
       inputs.self.modules.nixos.identity
     ]
     ++ builtins.map lib.custom.relativeToRoot [

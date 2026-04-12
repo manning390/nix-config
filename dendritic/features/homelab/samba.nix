@@ -18,10 +18,10 @@
         config.homelab.samba = {
           shares = {
             Fast = {
-              path = "/fast";
+              path = config.homelab.mounts.fast;
             };
             Media = {
-              path = "/bulk/Media";
+              path = "${config.homelab.mounts.slow}/Media";
             };
             Backups = {
               path = "/backups";

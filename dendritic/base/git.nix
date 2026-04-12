@@ -31,6 +31,11 @@
               default = "/home/git";
               description = "Where will the git repositoies be saved";
             };
+            group = lib.mkOption {
+              default = config.homelab.group;
+              type = lib.types.singleLineStr;
+              description = "The group the repos will be set under";
+            };
             authorizedKeys = lib.mkOption {
               type = lib.types.listOf lib.types.singleLineStr;
               default = [];
@@ -45,13 +50,13 @@
           (lib.mkIf (cfg.enable && cfg.server.enable) {
             users.users.git = {
               isSystemUser = true;
-              group = "git";
+              group = cfg.server.group;
               home = cfg.server.directory;
               createHome = true;
               shell = "${pkgs.git}/bin/git-shell";
               openssh.authorizedKeys.keys = cfg.server.authorizedKeys;
             };
-            users.groups.git = {};
+            users.groups."${cfg.server.group}" = {};
             services.openssh = {
               enable = true;
               extraConfig = ''
@@ -82,7 +87,7 @@
 
                   echo "Creating bare git repository: $REPO_NAME"
                   ${pkgs.git}/bin/git init --bare "$GIT_DIR"
-                  ${pkgs.coreutils}/bin/chown -R git:git "$GIT_DIR"
+                  ${pkgs.coreutils}/bin/chown -R git:${cfg.server.group} "$GIT_DIR"
                   ${pkgs.coreutils}/bin/chmod -R 750 "$GIT_DIR"
 
                   if [ -n "$DESCRIPTION" ]; then
@@ -151,12 +156,12 @@
                 fd = bash ''branch=$(git branch -a | grep -v remotes | grep "$1" | head -n1 | cut -c3-); [ -n $branch ] && git checkout "$branch"'';
                 yeet = bash "git add . && git commit"; # Add, commit
                 yt = "yeet";
-                yoink = bash ''git pull origin $(git branch --show-current | tr -d '\n')''; # Get remote head
+                yoink = bash ''git pull origin "$(git branch --show-current)"''; # Get remote head
                 yk = "yoink";
                 # add, commit, force push
                 yolo = bash ''msg=$(curl -s https://whatthecommit.com/index.txt); git add . && git commit -m "$msg -yolo" -y && git push origin HEAD -f'';
                 # git pull origin main
-                rent = bash ''main=$(git branch -l master main | sed 's/^* //' | head -1); [ -n $main ] && git pull origin $main'';
+                rent = bash ''main=$(git branch --list master main | sed "s/^[* ]*//" | head -1); [ -n $main ] && git pull origin $main'';
                 # Delete all branches locally but main or master
                 cull = bash "git for-each-ref --format '%(refname:short)' refs/heads | grep -v 'master|main' | xargs git branch -D";
                 clear = bash ''clear; echo "Good job."'';

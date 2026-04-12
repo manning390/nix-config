@@ -10,6 +10,7 @@
         p7zip
         htop
         pciutils
+        just
       ];
     };
 

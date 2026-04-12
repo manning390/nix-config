@@ -71,7 +71,7 @@
     # Neovim nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    # Nvim nix plugin patching patching
+    # Nvim nix plugin patching
     nixPatch.url = "git+https://codeberg.org/NicoElbers/nixPatch-nvim.git";
     nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
     nixPatch.inputs.nixpkgs.follows = "nixpkgs";
@@ -106,21 +106,6 @@
                 inputs.home-manager.nixosModules.home-manager
                 inputs.determinate.nixosModules.default
               ])
-              # Framework laptop
-              # (mkNixos "ruby" inputs.nixpkgs [
-              #   inputs.nur.modules.nixos.default
-              # ])
-              # Homelab
-              # (mkNixos "glaciem" inputs.nixpkgs [
-              #   inputs.disko.nixosModules.disko
-              #   inputs.impermanence.nixosModules.impermanence
-              #   inputs.home-manager.nixosModules.home-manager
-              # ])
-              # Windows WSL environment
-              # (mkWsl "mado" inputs.nixpkgs [
-              #   # inputs.nur.modules.nixos.default
-              #   inputs.home-manager.nixosModules.home-manager
-              # ] [])
             ];
         }
         (inputs.import-tree ./dendritic)

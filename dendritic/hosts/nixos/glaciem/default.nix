@@ -1,7 +1,6 @@
-let
+{self, inputs,...}:let
   hostname = "glaciem";
   user = "pch";
-  nixCfgPath = "/home/${user}/nix-config";
 in {
   local.hosts.${hostname} = {
     type = "nixos";
@@ -9,21 +8,33 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "Homelab system";
+      description = "Homelab system white cube";
+
       includes = with aspects; [
         base
+        (hardware._.hosts hostname)
         (homeManager._.users user)
         usbdrives
+        hdd-monitor
       ];
-      nixos = {config, pkgs,...}: {
+
+      nixos = {config, pkgs, ...}: let
+        nixCfgPath = "/home/${user}/nix-config";
+      in {
         imports = [
-          ./_hardware-configuration.nix
+          inputs.disko.nixosModules.disko
           ./_disk-config.nix
-          ./_impermanence.nix
+          self.modules.nixos.impermanence-glaciem
           ./_homelab.nix
-          ../../../../modules/shells.nix
           ../../../../modules/homelab
         ];
+
+        # Experiment to check how frequently drives would spindown
+        services.hdd-monitor = {
+          enable = true;
+          poolName = "hdd-pool";
+          checkInterval = "5min";
+        };
 
         local = {
           shells = {
@@ -89,6 +100,8 @@ in {
           NIXCONFIG = nixCfgPath;
         };
       };
+
+      # Required for included homeManager modules to be imported
       homeManager = {};
     };
   };

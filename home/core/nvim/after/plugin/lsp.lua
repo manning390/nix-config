@@ -1,5 +1,5 @@
 -- vim.lsp.set_log_level('debug')
--- local efm_languages = { 
+-- local efm_languages = {
 --     lua = { require('efml-configs.formatters.stylua') }
 -- }
 vim.lsp.enable('clangd', {
@@ -14,8 +14,8 @@ vim.lsp.enable('cmake')
 vim.lsp.enable('tailwindcss')
 vim.lsp.enable('nixd', {
     formatting = {
-       command = { "alejandra" }
-   }
+        command = { "alejandra" }
+    }
 })
 vim.lsp.enable('vimls')
 vim.lsp.enable('cssls', {
@@ -25,10 +25,10 @@ vim.lsp.enable('cssls', {
     end,
 })
 vim.lsp.enable('eslint', {
-    filetypes = {'javascriptreact', 'typescriptreact', 'javascript', 'svelte'},
+    filetypes = { 'javascriptreact', 'typescriptreact', 'javascript', 'svelte' },
     on_attach = function(_, bufnr)
         vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-            vim.lsp.buf.format()
+            require"conform".format()
             vim.cmd('EslintFixAll')
         end, { desc = 'Format current buffer with LSP' })
     end,
@@ -40,7 +40,7 @@ vim.lsp.enable('lua_ls', {
             return true
         end
         client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua or {}, {
-             {
+            {
                 runtime = {
                     -- Tell the language server which version of Lua you're using
                     -- (most likely LuaJIT in the case of Neovim)
@@ -160,7 +160,7 @@ local servers = {
     -- },
     -- nixd = {},
     -- svelte = {},
- -- godot = (os.getenv("GODOT") and {} or nil)
+    -- godot = (os.getenv("GODOT") and {} or nil)
 }
 
 vim.diagnostic.config({
@@ -177,13 +177,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.mak
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 --
 -- This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(client, bufnr)
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-        vim.lsp.buf.format({ async = false })
-    end, { desc = 'Format current buffer with LSP' })
-end
 
 vim.lsp.config('*', {
     capabilities = capabilities,
-    on_attach = on_attach,
 })

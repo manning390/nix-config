@@ -21,6 +21,7 @@ in {
           (pkgs.azure-cli.withExtensions [
             pkgs.azure-cli.extensions.fzf
             pkgs.azure-cli.extensions.application-insights
+            pkgs.azure-cli.extensions.front-door
           ])
           pkgs.azure-functions-core-tools
         ];
