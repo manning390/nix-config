@@ -43,7 +43,7 @@
         networking.firewall.allowedTCPPorts = [8082 80];
         services.${service} = {
           enable = true;
-          environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain}";
+          environmentFile = builtins.toFile "homepage.env" "HOMEPAGE_ALLOWED_HOSTS=${homelab.baseDomain},${homelab.baseDomain}:${toString config.services.${service}.listenPort}";
           customCSS = builtins.readFile ./custom.css;
           settings = {
             layout = [
@@ -154,7 +154,7 @@
               }
             ];
         };
-        services.caddy.virtualHosts."${homelab.baseDomain}" = {
+        services.caddy.virtualHosts."https://${homelab.baseDomain}" = {
           # useACMEHost = homelab.baseDomain;
           extraConfig = ''
             tls internal
