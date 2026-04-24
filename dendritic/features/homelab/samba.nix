@@ -1,7 +1,9 @@
 {
-  flake.aspects = {
+  flake.aspects = {aspects,...}: {
     samba = {
       description = "Samba is the windows prefered networked storage protocol / server / mount to share files across machines.";
+      includes = with aspects; [samba._.client samba._.server];
+
       nixos = {config, lib, ...}: {
         options.homelab.samba = {
           shares = lib.mkOption {
