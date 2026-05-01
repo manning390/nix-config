@@ -26,9 +26,9 @@ au({ 'FileType' }, {
         local ft = vim.bo[buf].filetype
 
         local ignore_ft = { "TelescopePrompt", "TelescopeResults", "notify", "help", "fugitive",
-            "cmp_menu", "cmp_docs",
+            "cmp_menu", "cmp_docs", "harpoon",
             "lazy", "lazy_backdrop",
-            "bash", "sh"
+            "bash", "sh", "text"
         }
         if vim.tbl_contains(ignore_ft, ft) then return end
 
@@ -39,9 +39,9 @@ au({ 'FileType' }, {
         end
 
         local ok, err = pcall(vim.treesitter.start, buf, lang)
-        if not ok then
-            vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
-        end
+        -- if not ok then
+            -- vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
+        -- end
     end,
 })
 -- au({'BufReadPost', 'FileReadPost', 'BufEnter'}, {
