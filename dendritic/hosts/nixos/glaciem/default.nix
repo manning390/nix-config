@@ -44,7 +44,7 @@ in {
           ssh ={
             enable = true;
             users."${user}" = {
-              authorizedKeys = ["pch@sentry" "pch@mado" "pch@glaciem"];
+              authorizedKeys = ["pch@sentry" "pch@mado" "pch@glaciem" "ruby@ruby"];
               extraHosts = {
                 "github.com" = {
                   hostname = "github.com";
