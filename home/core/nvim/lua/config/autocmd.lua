@@ -26,9 +26,9 @@ au({ 'FileType' }, {
         local ft = vim.bo[buf].filetype
 
         local ignore_ft = { "TelescopePrompt", "TelescopeResults", "notify", "help", "fugitive",
-            "cmp_menu", "cmp_docs",
+            "cmp_menu", "cmp_docs", "harpoon",
             "lazy", "lazy_backdrop",
-            "bash", "sh"
+            "bash", "sh", "text"
         }
         if vim.tbl_contains(ignore_ft, ft) then return end
 

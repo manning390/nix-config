@@ -8,6 +8,7 @@
 
         wsl.enable = true;
         wsl.defaultUser = config.local.identity.username;
+        environment.shellAliases.open = "explorer.exe";
       };
       homeManager = {};
     };

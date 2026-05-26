@@ -42,6 +42,10 @@
           type = lib.types.singleLineStr;
           default = "Immich";
         };
+        homepage.icon = lib.mkOption {
+          type = lib.types.str;
+          default = "immich.svg";
+        };
         homepage.description = lib.mkOption {
           type = lib.types.str;
           default = "Self-hosted photo and video management solution";

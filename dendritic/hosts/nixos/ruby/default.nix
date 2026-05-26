@@ -13,7 +13,6 @@ in {
         base
         hardware
         (hardware._.hosts hostname)
-        laptop
         (homeManager._.users user)
         desktop
         caelestia
@@ -21,7 +20,7 @@ in {
         _1password
       ];
 
-      nixos = {
+      nixos = {config,...}: {
         # Overwrite our default user identity
         local.identity.username = user;
         imports = [ inputs.nixos-hardware.nixosModules.framework-13-7040-amd ];
@@ -45,6 +44,11 @@ in {
                   hostname = "github.com";
                   user = "git";
                   identityFile = "github";
+                };
+                "glaciem.git" = {
+                  hostname = config.local.lan.hosts.glaciem;
+                  user = "git";
+                  identityFile = "${user}@${hostname}";
                 };
               };
             };
