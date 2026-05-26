@@ -120,9 +120,12 @@ local plugins = {
                 lua = { "stylua" },
                 typescript = { "prettierd", "prettier", stop_after_first = true },
                 javascript = { "prettierd", "prettier", stop_after_first = true },
+                html = { "prettierd", "prettier", stop_after_first = true },
                 svelte = { "prettier" },
                 php = { "pint" },
                 nix = { "alejandra" },
+                json = {"fixjson", "jq"},
+                json5 = {"fixjson" },
                 cs = { "csharpier" },
                 ["_"] = { "codespell" }, -- _ runs on filetypes that have other formatters configured
                 ["*"] = {"trim_whitespace"},
@@ -161,17 +164,14 @@ local plugins = {
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-path",
             { url = "https://codeberg.org/FelipeLema/cmp-async-path", name = "async_path" },
-            {
-                "dcampos/cmp-emmet-vim",
-                dependencies = {
-                    {
-                        "mattn/emmet-vim",
-                        config = function()
-                            vim.g.user_emmet_leader_key = "<C-Z>"
-                        end,
-                    },
-                },
-            },
+            -- {
+            --     "dcampos/cmp-emmet-vim",
+            --     dependencies = {
+            --         {
+            --             "mattn/emmet-vim",
+            --         },
+            --     },
+            -- },
             "saadparwaiz1/cmp_luasnip",
             -- 'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -326,9 +326,9 @@ local plugins = {
     {
         "ThePrimeagen/refactoring.nvim",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
+            "lewis6991/async.nvim",
         },
+        lazy = false,
         opts = {},
     },
 

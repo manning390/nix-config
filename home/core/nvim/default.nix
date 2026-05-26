@@ -25,6 +25,7 @@
   home.packages = with pkgs; [
     devenv
     ripgrep
+    nodejs
 
     # LSP
     tree-sitter
@@ -45,6 +46,8 @@
     # Formatter
     stylua
     codespell
+    prettierd
+    fixjson
 
     # dotnet
     (with pkgs.dotnetCorePackages; combinePackages [

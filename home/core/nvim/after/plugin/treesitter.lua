@@ -3,7 +3,6 @@ if not pcall(require, 'nvim-treesitter.configs') then
 end
 
 require('nvim-treesitter.configs').setup {
-	ensure_installed      = {},
 	highlight             = { enable = true, disable = { 'bash' , 'sh' } },
 	indent                = { enable = true, disable = { 'python' } },
 	incremental_selection = {
@@ -17,6 +16,7 @@ require('nvim-treesitter.configs').setup {
 	},
 	sync_install          = false,
 	auto_install          = false,
+	parser_install_path = vim.fn.stdpath("data") .. "/site",
 	textobjects           = {
 		select = {
 			enable = true,

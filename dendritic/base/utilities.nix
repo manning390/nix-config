@@ -11,6 +11,8 @@
         htop
         pciutils
         just
+        xdg-utils
+        xclip
       ];
     };
 

@@ -39,9 +39,9 @@ au({ 'FileType' }, {
         end
 
         local ok, err = pcall(vim.treesitter.start, buf, lang)
-        if not ok then
-            vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
-        end
+        -- if not ok then
+        --     vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
+        -- end
     end,
 })
 -- au({'BufReadPost', 'FileReadPost', 'BufEnter'}, {

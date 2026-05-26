@@ -11,6 +11,8 @@ in {
       ${name} = pkgs.mkShell {
         inherit name;
         packages = [
+          pkgs.gh
+          pkgs.gh-f # fzf support
           # dotnet-sdk
           (with pkgs.dotnetCorePackages; combinePackages [
             sdk_8_0
@@ -18,6 +20,7 @@ in {
           ])
           pkgs.dotnet-ef
           self.packages.${pkgs.stdenv.hostPlatform.system}.easy-dotnet-server
+          self.packages.${pkgs.stdenv.hostPlatform.system}.dotnet-reportgenerator
           (pkgs.azure-cli.withExtensions [
             pkgs.azure-cli.extensions.fzf
             pkgs.azure-cli.extensions.application-insights

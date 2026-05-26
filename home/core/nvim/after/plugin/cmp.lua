@@ -5,13 +5,11 @@ local n = vim.g.keymaps.n
 require("config.snippets")
 require("config.cmp.githandles").setup()
 
--- cmp.register_source("easy-dotnet", require "easy-dotnet".package_completion_source)
+cmp.register_source("easy-dotnet", require "easy-dotnet".package_completion_source)
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			if has_luasnip then
-				luasnip.lsp_expand(args.body)
-			end
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
@@ -69,19 +67,19 @@ cmp.setup({
 		documentation = cmp.config.window.bordered(),
 	},
 })
-cmp.setup.filetype({
-	"html",
-	"typescriptreact",
-	"javascriptreact",
-	"css",
-	"sass",
-	"scss",
-	"less",
-	"svelte",
-	"vue",
-}, {
-	sources = cmp.config.sources({ name = "emmet_vim" }),
-})
+-- cmp.setup.filetype({
+-- 	"html",
+-- 	"typescriptreact",
+-- 	"javascriptreact",
+-- 	"css",
+-- 	"sass",
+-- 	"scss",
+-- 	"less",
+-- 	"svelte",
+-- 	"vue",
+-- }, {
+-- 	sources = cmp.config.sources({ name = "emmet_vim" }),
+-- })
 cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({ name = "githandles" }),
 })
