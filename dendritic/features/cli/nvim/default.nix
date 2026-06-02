@@ -9,6 +9,7 @@
                 aliases = [ "vim" "vi" ];
                 luaPath = ./.;
                 runtimeDeps = with pkgs; [
+                    devenv
                     ripgrep
                     fzf
 
@@ -24,10 +25,11 @@
                     tree-sitter
                     cmake-language-server
                     lua-language-server
+                    svelte-language-server
                     neovim-node-client
-                    nodePackages.typescript
-                    nodePackages.typescript-language-server
-                    nodePackages.eslint
+                    typescript
+                    typescript-language-server
+                    eslint
                     eslint_d
                     efm-langserver
                     nixd

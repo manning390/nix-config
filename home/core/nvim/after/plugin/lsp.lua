@@ -17,6 +17,7 @@ vim.lsp.enable("nixd", {
 		command = { "alejandra" },
 	},
 })
+vim.lsp.enable('svelte')
 vim.lsp.enable("vimls")
 vim.lsp.enable("cssls", {
 	on_attach = function(client)

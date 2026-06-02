@@ -15,6 +15,7 @@
 
     withNodeJs = true;
     withPython3 = true;
+    withRuby = false;
 
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
@@ -32,15 +33,15 @@
     cmake-language-server
     lua-language-server
     neovim-node-client
-    nodePackages.typescript
-    nodePackages.typescript-language-server
-    nodePackages.eslint
+    typescript
+    typescript-language-server
+    eslint
     eslint_d
     emmet-language-server
     efm-langserver
     nixd
     vale-ls
-    vscode-css-languageserver
+    vscode-langservers-extracted
     tailwindcss-language-server
 
     # Formatter
