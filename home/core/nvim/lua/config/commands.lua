@@ -23,7 +23,8 @@ for from, to in pairs({
 	end, { range = true })
 end
 
-vim.api.nvim_create_user_command("Tw", ":Telescope tailiscope", {})
+vim.api.nvim_create_user_command("TW", ":Telescope tailiscope", {})
+vim.api.nvim_create_user_command("TT", ":TailwindFoldToggle", {})
 
 -- From https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#make-similar-to-vim-dispatch
 vim.api.nvim_create_user_command("Make", function(params)
@@ -48,3 +49,4 @@ end, {
 vim.api.nvim_create_user_command("Format", function(_)
 	require("conform").format({ async = false })
 end, { desc = "Format current buffer with Conform+LSP" })
+
