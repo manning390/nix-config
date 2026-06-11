@@ -37,9 +37,10 @@ if vim.env.COLEMAK == "1" then
 	nmap("h", "n") -- next
 	nmap("H", "N") -- previous
 	nmap("k", "m") -- mark
-	nmap("K", "H") -- top screen
 	nmap("N", "J") -- join
-	nmap("I", "<nop>") -- Shift I
+	nmap("M", "H") -- top screen
+	nmap("I", "L") -- bottom screen
+	nmap("E", "M") -- middle screen
 end
 -- nnoremap(k, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 -- nnoremap(j, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
