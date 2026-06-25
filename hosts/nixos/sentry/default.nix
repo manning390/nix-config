@@ -19,7 +19,6 @@ in {
       inputs.self.modules.nixos.nix-index
     ]
     ++ builtins.map lib.custom.relativeToRoot [
-      "modules/plymouth.nix"
       "modules/nix.nix"
       "modules/common.nix"
       "modules/sops.nix"
