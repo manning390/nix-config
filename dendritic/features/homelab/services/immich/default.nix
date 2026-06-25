@@ -2,7 +2,12 @@
   flake.aspects.immich = {
     description = "Self-hosted photo and video management solution";
 
-    nixos = {config,pkgs,lib,...}: let
+    nixos = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }: let
       homelab = config.homelab;
       cfg = homelab.services.immich;
     in {
@@ -30,12 +35,16 @@
           default = "${homelab.mounts.fast}/Photos/Immich";
         };
         url = lib.mkOption {
-          type = lib.types.sinleLineStr;
+          type = lib.types.singleLineStr;
           default = "photos.${homelab.baseDomain}";
         };
         homepage.name = lib.mkOption {
-          type = lib.types.sinleLineStr;
+          type = lib.types.singleLineStr;
           default = "Immich";
+        };
+        homepage.icon = lib.mkOption {
+          type = lib.types.str;
+          default = "immich.svg";
         };
         homepage.description = lib.mkOption {
           type = lib.types.str;
@@ -47,7 +56,7 @@
         };
       };
       config = lib.mkIf cfg.enable {
-        systemd.tmpfiles.rules = [ "d ${cfg.mediaDir} 0775 ${cfg.user} ${cfg.group} - -"];
+        systemd.tmpfiles.rules = ["d ${cfg.mediaDir} 0775 ${cfg.user} ${cfg.group} - -"];
         users.users.immich.extraGroups = [
           "video"
           "render"

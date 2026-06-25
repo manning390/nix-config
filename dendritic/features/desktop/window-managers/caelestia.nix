@@ -24,11 +24,11 @@
           showBattery = lib.mkEnableOption "shows battery in left sidebar";
           showBrightness = lib.mkEnableOption "shows brightness slider in right sidebar";
           excludedScreens = lib.mkOption {
-              type = lib.types.listOf lib.types.singleLineStr;
-              default = [];
-              example = ["HDMI-A-1" "HDMI-A-2"];
-              description = "Screens to not show the taskbar";
-            };
+            type = lib.types.listOf lib.types.singleLineStr;
+            default = [];
+            example = ["HDMI-A-1" "HDMI-A-2"];
+            description = "Screens to not show the taskbar";
+          };
         };
 
         config = lib.mkIf cfg.enable {
@@ -55,21 +55,11 @@
                 enableMicrophone = true;
                 enableBrightness = cfg.showBrightness;
               };
-              estate = {
-                  settings = {
-                    vpnChanged = true;
-                  };
-                };
-              vpn = {
+              utilities = {
+                vpn = {
                   enabled = true;
-                  provider = [
-                    {
-                      name = "wireguard";
-                      interface = "wg-home";
-                      displayName = "Home";
-                    }
-                  ];
                 };
+              };
             };
           };
         };

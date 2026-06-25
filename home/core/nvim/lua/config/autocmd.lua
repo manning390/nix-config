@@ -26,9 +26,9 @@ au({ 'FileType' }, {
         local ft = vim.bo[buf].filetype
 
         local ignore_ft = { "TelescopePrompt", "TelescopeResults", "notify", "help", "fugitive",
-            "cmp_menu", "cmp_docs",
+            "cmp_menu", "cmp_docs", "harpoon",
             "lazy", "lazy_backdrop",
-            "bash", "sh"
+            "bash", "sh", "text"
         }
         if vim.tbl_contains(ignore_ft, ft) then return end
 
@@ -39,9 +39,9 @@ au({ 'FileType' }, {
         end
 
         local ok, err = pcall(vim.treesitter.start, buf, lang)
-        if not ok then
-            vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
-        end
+        -- if not ok then
+        --     vim.notify("Treesitter start failed: "..tostring(err), vim.log.levels.ERROR)
+        -- end
     end,
 })
 -- au({'BufReadPost', 'FileReadPost', 'BufEnter'}, {
@@ -52,7 +52,7 @@ au('TextYankPost', {
     group = ag('yank_highlight', { clear = true }),
     pattern = '*',
     callback = function()
-        vim.highlight.on_yank { higroup = 'IncSearch', timeout = 300 }
+        vim.hl.on_yank { higroup = 'IncSearch', timeout = 300 }
     end,
 })
 -- Show line diagnostics automatically in hover window
@@ -63,8 +63,8 @@ au({ 'CursorHold', 'CursorHoldI' }, {
         vim.diagnostic.open_float(nil, { focus = false })
     end
 })
-au({ 'BufEnter' }, {
-    group = ag('blade', { clear = true }),
-    pattern = '*.blade.php',
-    command = 'set filetype=blade.php',
-})
+-- au({ 'BufEnter' }, {
+--     group = ag('blade', { clear = true }),
+--     pattern = '*.blade.php',
+--     command = 'set filetype=blade.php',
+-- })
