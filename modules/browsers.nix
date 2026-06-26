@@ -4,7 +4,7 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    firefox
+    firefox-bin
     # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
     brave
   ];

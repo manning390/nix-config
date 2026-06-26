@@ -5,6 +5,7 @@ local opts = {
 	dev = {
 		path = "~/Documents",
 	},
+	rocks = { enabled = false },
 }
 local plugins = {
 	-- LSP
@@ -338,7 +339,7 @@ local plugins = {
 		opts = {
 			symbol = "󱏿",
 			highlight = {
-				fg = "#ff0000"
+				fg = "#ff0000",
 			},
 		},
 		dependencies = { "nvim-treesitter/nvim-treesitter" },

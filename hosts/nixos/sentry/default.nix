@@ -14,7 +14,7 @@ in {
   imports =
     [
       ./hardware-configuration.nix
-      outputs.modules.nixos.mediawiki
+      # outputs.modules.nixos.mediawiki
       inputs.self.modules.nixos.identity
       inputs.self.modules.nixos.nix-index
     ]
@@ -59,7 +59,7 @@ in {
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
+     (final: prev: { openblas = prev.openblas.overrideAttrs (old: { doCheck = false; }); })
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 

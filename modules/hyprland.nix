@@ -29,7 +29,7 @@ in {
       hyprcursor # Better cursors
       hypridle # System idle
       hyprpicker # Color picker
-      hyprpolkitagent # Escalate priviledges
+#      hyprpolkitagent # Escalate priviledges
       nwg-look # GTK3 settings editor
       playerctl
       brightnessctl

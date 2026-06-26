@@ -54,7 +54,7 @@ in {
     programs.zsh.enable = lib.mkIf (uses "zsh") true;
     programs.fish.enable = lib.mkIf (uses "fish") true;
 
-    programs.bash.enableCompletion = lib.mkIf (uses "bash") true;
+    programs.bash.completion.enable = lib.mkIf (uses "bash") true;
 
     environment.shellAliases = {
       ln = "ln -v";

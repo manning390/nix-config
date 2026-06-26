@@ -39,6 +39,7 @@
   in {
     enable = true;
     systemd.enable = false;
+    configType = "hyprlang";
     settings = {
       exec-once = [
         "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
@@ -98,7 +99,7 @@
           "$mod, D, global, caelestia:launcher"
 
           "$mod, P, pseudo"
-          "$mod, T, togglesplit"
+          "$mod, T, layoutmsg, togglesplit"
           "$mod, F, fullscreen"
           "$mod, TAB, focuscurrentorlast"
           # "$mod, L, exec, hyprlock"
@@ -179,7 +180,7 @@
         border_size = 2;
         "col.active_border" = lib.mkDefault "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = lib.mkDefault "rgba(595959aa)";
-        layout = "dwindle";
+        layout = "scrolling";
         allow_tearing = false;
       };
       decoration = {
@@ -208,28 +209,31 @@
       # };
       misc.force_default_wallpaper = 0;
       dwindle = {
-        pseudotile = "yes";
-        preserve_split = "yes";
+        # pseudotile = true;
+        preserve_split = true;
       };
-      windowrulev2 = [
+      scrolling = {
+
+      };
+      windowrule = [
         #   "float,class:^(kvantummanager)$"
         #   "float,class:^(qt5ct)$"
         #   "float,class:^(qt6ct)$"
-        "float,class:^(nwg-look)$"
+        "float on, match:class ^(nwg-look)$"
         #   "float,class:^(org.kde.ark)$"
-        "float,class:^(pavucontrol)$"
+        "float on, match:class ^(pavucontrol)$"
         #   "float,class:^(blueman-manager)$"
         #   "float,class:^(nm-applet)$"
         #   "float,class:^(nm-connection-editor)$"
-        "opacity 0.0 override, class:^(xwaylandvideobridge)$"
-        "noanim, class:^(xwaylandvideobridge)$"
-        "noinitialfocus, class:^(xwaylandvideobridge)$"
-        "maxsize 1 1, class:^(xwaylandvideobridge)$"
-        "noblur, class:^(xwaylandvideobridge)$"
-        "nofocus, class:^(xwaylandvideobridge)$"
-        "float,class:^(XIVLauncher.*)$"
-        "float, class:^(1password)$"
-        "noborder, initialTitle:^(FINAL FANTASY XIV)$"
+        "opacity 0.0 0.0 override, match:class ^(xwaylandvideobridge)$"
+        "no_anim on, match:class ^(xwaylandvideobridge)$"
+        #"noinitigalfocus, match:class ^(xwaylandvideobridge)$"
+        "max_size 1 1, match:class ^(xwaylandvideobridge)$"
+        "no_blur on, match:class ^(xwaylandvideobridge)$"
+        "no_focus on, match:class ^(xwaylandvideobridge)$"
+        "float on, match:class ^(XIVLauncher.*)$"
+        "float on, match:class ^(1password)$"
+        "border_size 0, match:initial_title ^(FINAL FANTASY XIV)$"
       ];
     };
   };
@@ -250,6 +254,7 @@
   };
 
   gtk = {
+    gtk4.theme = null;
     enable = true;
     theme = {
       package = pkgs.nordic;
