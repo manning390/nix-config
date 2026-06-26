@@ -28,6 +28,12 @@
         environment.sessionVariables = {
           STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${user}/.steam/root/compatibilitytools.d";
         };
+
+        nixpkgs.overlays = [
+          # openblas gets pulled in for audio 32-bit support from steam proton
+          # its build checks run infinitely on amd hardware, so skip them
+          (self: super: { openblas = super.openblas.overrideAttrs (old: { doCheck = false; }); })
+        ];
       };
     };
   };

@@ -12,6 +12,13 @@
       }: let
         userShell = config.local.shells.userShell;
       in {
+        options.local.wm.hyprland = {
+          layout = lib.mkOption {
+            type = lib.types.enum ["dwindle" "scrolling" "master"];
+            default = "dwindle";
+            example = "scrolling";
+          };
+        };
         config = {
           programs.hyprland = {
             enable = true;
@@ -26,7 +33,7 @@
             hyprcursor # Better cursors
             hypridle # System idle
             hyprpicker # Color picker
-            hyprpolkitagent # Escalate priviledges
+            #hyprpolkitagent # Escalate priviledges
             nwg-look
             playerctl
             brightnessctl
@@ -57,6 +64,7 @@
         wayland.windowManager.hyprland = {
           enable = true;
           systemd.enable = true;
+          configType = "hyprlang";
           settings = {
             exec-once = [
               # "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
@@ -87,7 +95,65 @@
             ];
 
             "$mod" = "SUPER";
-            bind =
+            bind = let
+              cfg = osConfig.local.wm.hyprland;
+              directions = {
+                l = {
+                  arrow = "left";
+                  vi = "M";
+                };
+                r = {
+                  arrow = "right";
+                  vi = "I";
+                };
+                u = {
+                  arrow = "up";
+                  vi = "E";
+                };
+                d = {
+                  arrow = "down";
+                  vi = "N";
+                };
+              };
+              dwindleBinds = builtins.concatLists (builtins.attrValues (
+                builtins.mapAttrs (dir: keys: [
+                  "$mod, ${keys.arrow}, movefocus, ${dir}"
+                  "$mod, ${keys.vi}, movefocus, ${dir}"
+                  "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
+                  "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
+                ])
+                directions
+              ));
+              scrollingBinds = [
+                "$mod, ${directions.l.vi}, focus, l"
+                "$mod, ${directions.r.vi}, focus, r"
+                "$mod, ${directions.u.vi}, focus, u"
+                "$mod, ${directions.d.vi}, focus, d"
+
+                "$mod SHIFT, ${directions.l.vi}, swapcol, l"
+                "$mod SHIFT, ${directions.r.vi}, swapcol, r"
+                "$mod SHIFT, ${directions.d.vi}, movewindow, d"
+                "$mod SHIFT, ${directions.u.vi}, movewindow, u"
+
+                "$mod ${directions.d.arrow}, consume"
+                "$mod ${directions.u.arrow}, expel"
+                "$mod SHIFT, ${directions.u.arrow}, colresize, +conf"
+                "$mod SHIFT, ${directions.d.arrow}, colresize, -conf"
+              ];
+              # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+              workspaceBinds = builtins.concatLists (builtins.genList (
+                  x: let
+                    ws = let
+                      c = (x + 1) / 10;
+                    in
+                      toString (x + 1 - (c * 10));
+                  in [
+                    "$mod, ${ws}, workspace, ${toString (x + 1)}"
+                    "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+                  ]
+                )
+                10);
+            in
               [
                 "$mod, RETURN, exec, app2unit -s a kitty"
                 "$mod, C, killactive"
@@ -113,50 +179,17 @@
                 ", XF86AudioNext, exec, playerctl next"
                 ", XF86AudioPrev, exec, playerctl previous"
               ]
-              ++ (builtins.concatLists (
-                builtins.attrValues (
-                  builtins.mapAttrs (direction: keys: [
-                    "$mod, ${keys.arrow}, movefocus, ${direction}"
-                    "$mod, ${keys.vi}, movefocus, ${direction}"
-                    "$mod SHIFT, ${keys.arrow}, movewindow, ${direction}"
-                    "$mod SHIFT, ${keys.vi}, movewindow, ${direction}"
-                  ])
-                  {
-                    l = {
-                      arrow = "left";
-                      vi = "M";
-                    };
-                    r = {
-                      arrow = "right";
-                      vi = "I";
-                    };
-                    u = {
-                      arrow = "up";
-                      vi = "E";
-                    };
-                    d = {
-                      arrow = "down";
-                      vi = "N";
-                    };
-                  }
-                )
-              ))
               ++ (
-                # workspaces
-                # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-                builtins.concatLists (builtins.genList (
-                    x: let
-                      ws = let
-                        c = (x + 1) / 10;
-                      in
-                        builtins.toString (x + 1 - (c * 10));
-                    in [
-                      "$mod, ${ws}, workspace, ${toString (x + 1)}"
-                      "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-                    ]
-                  )
-                  10)
-              );
+                if cfg.layout == "dwindle"
+                then dwindleBinds
+                else []
+              )
+              ++ (
+                if cfg.layout == "scrolling"
+                then scrollingBinds
+                else []
+              )
+              ++ workspaceBinds;
             bindm = [
               "$mod, mouse:272, movewindow"
               "$mod, mouse:273, resizewindow" # right click with mod to resize
@@ -179,7 +212,7 @@
               border_size = 2;
               "col.active_border" = lib.mkDefault "rgba(33ccffee) rgba(00ff99ee) 45deg";
               "col.inactive_border" = lib.mkDefault "rgba(595959aa)";
-              layout = "scrolling";
+              layout = osConfig.local.wm.hyprland.layout;
               allow_tearing = false;
             };
             decoration = {
@@ -197,28 +230,21 @@
 
             misc.force_default_wallpaper = 0;
             dwindle = {
-              pseudotile = "yes";
-              preserve_split = "yes";
+              preserve_split = true;
             };
-            windowrulev2 = [
-              #   "float,class:^(kvantummanager)$"
-              #   "float,class:^(qt5ct)$"
-              #   "float,class:^(qt6ct)$"
-              "float,class:^(nwg-look)$"
-              #   "float,class:^(org.kde.ark)$"
-              "float,class:^(pavucontrol)$"
-              #   "float,class:^(blueman-manager)$"
-              #   "float,class:^(nm-applet)$"
-              #   "float,class:^(nm-connection-editor)$"
-              "opacity 0.0 override, class:^(xwaylandvideobridge)$"
-              "noanim, class:^(xwaylandvideobridge)$"
-              "noinitialfocus, class:^(xwaylandvideobridge)$"
-              "maxsize 1 1, class:^(xwaylandvideobridge)$"
-              "noblur, class:^(xwaylandvideobridge)$"
-              "nofocus, class:^(xwaylandvideobridge)$"
-              "float, class:^(1password)$"
-              "float,class:^(XIVLauncher.*)$"
-              "noborder, initialTitle:^(FINAL FANTASY XIV)$"
+            scrolling = {
+            };
+            windowrule = [
+              "float on, match:class ^(nwg-look)$"
+              "float on, match:class ^(pavucontrol)$"
+              "opacity 0.0 0.0 override, match:class ^(xwaylandvideobridge)$"
+              "no_anim on, match:class ^(xwaylandvideobridge)$"
+              "max_size 1 1, match:class ^(xwaylandvideobridge)$"
+              "no_blur on, match:class ^(xwaylandvideobridge)$"
+              "no_focus on, match:class ^(xwaylandvideobridge)$"
+              "float on, match:class ^(XIVLauncher.*)$"
+              "float on, match:class ^(1password)$"
+              "border_size 0, match:initial_title ^(FINAL FANTASY XIV)$"
             ];
           };
         };
@@ -227,7 +253,7 @@
           gtk.enable = true;
           package = pkgs.catppuccin-cursors.mochaDark;
           name = "catppuccin-mocha-dark-cursors";
-            size = 20;
+          size = 20;
         };
 
         # Hint electron to use wayland

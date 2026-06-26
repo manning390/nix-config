@@ -216,18 +216,10 @@
 
       };
       windowrule = [
-        #   "float,class:^(kvantummanager)$"
-        #   "float,class:^(qt5ct)$"
-        #   "float,class:^(qt6ct)$"
         "float on, match:class ^(nwg-look)$"
-        #   "float,class:^(org.kde.ark)$"
         "float on, match:class ^(pavucontrol)$"
-        #   "float,class:^(blueman-manager)$"
-        #   "float,class:^(nm-applet)$"
-        #   "float,class:^(nm-connection-editor)$"
         "opacity 0.0 0.0 override, match:class ^(xwaylandvideobridge)$"
         "no_anim on, match:class ^(xwaylandvideobridge)$"
-        #"noinitigalfocus, match:class ^(xwaylandvideobridge)$"
         "max_size 1 1, match:class ^(xwaylandvideobridge)$"
         "no_blur on, match:class ^(xwaylandvideobridge)$"
         "no_focus on, match:class ^(xwaylandvideobridge)$"

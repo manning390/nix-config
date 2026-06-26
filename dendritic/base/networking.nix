@@ -17,7 +17,7 @@
           networking = {
             # Hostname is set by hosts/default
             networkmanager.enable = lib.mkDefault true;
-            networking.useNetworkd = lib.mkDefault false;
+            useNetworkd = lib.mkDefault false;
           };
 
           hardware.bluetooth.enable = lib.mkDefault true;

@@ -91,22 +91,22 @@
             formatter = pkgs.alejandra;
           };
 
-          flake = let
-            flakehelpers = import ./lib/flakeHelpers.nix {
-              inherit inputs;
-              outputs = self.outputs or {};
-            };
-            inherit (flakehelpers) mkMerge mkNixos;
-          in
-            mkMerge [
-              {overlays = import ./overlays {inherit inputs;};}
-              # Desktop
-              (mkNixos "sentry" inputs.nixpkgs [
-                inputs.nur.modules.nixos.default
-                inputs.home-manager.nixosModules.home-manager
-                inputs.determinate.nixosModules.default
-              ])
-            ];
+          # flake = let
+          #   flakehelpers = import ./lib/flakeHelpers.nix {
+          #     inherit inputs;
+          #     outputs = self.outputs or {};
+          #   };
+          #   inherit (flakehelpers) mkMerge mkNixos;
+          # in
+          #   mkMerge [
+          #     {overlays = import ./overlays {inherit inputs;};}
+          #     # Desktop
+          #     # (mkNixos "sentry" inputs.nixpkgs [
+          #     #   inputs.nur.modules.nixos.default
+          #     #   inputs.home-manager.nixosModules.home-manager
+          #     #   inputs.determinate.nixosModules.default
+          #     # ])
+          #   ];
         }
         (inputs.import-tree ./dendritic)
       ]

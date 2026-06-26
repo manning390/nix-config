@@ -2,11 +2,10 @@
   hostname = "sentry";
   user = "pch";
 in {
-  # Not activating yet...
-  # local.hosts.${hostname} = {
-  #   type = "nixos";
-  #   stateVersion = "23.11";
-  # };
+  local.hosts.${hostname} = {
+    type = "nixos";
+    stateVersion = "23.11";
+  };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
       description = "Slim gray desktop war machine";
@@ -42,7 +41,7 @@ in {
             userShell = "zsh";
           };
           sops.homeOnSeparatePartition = true;
-          abidan-archive-backup.enable = true;
+          abidan-archive-backup.enable = false;
         };
 
         environment.sessionVariables = {
