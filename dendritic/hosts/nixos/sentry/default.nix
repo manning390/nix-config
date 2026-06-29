@@ -30,7 +30,7 @@ in {
         nordvpn
       ];
 
-      nixos = {...}: {
+      nixos = {config, ...}: {
         local = {
           wm.hyprland.layout = "dwindle";
           hardware = {
@@ -50,12 +50,40 @@ in {
           sops.homeOnSeparatePartition = true;
           abidan-archive-backup.enable = false;
           nordvpn.enable = true;
+          ssh = {
+            enable = true;
+            users."${user}" = {
+              authorizedKeys = ["pch@mado" "ruby@ruby"];
+            };
+            connectTo = ["pch@glaciem" "ruby@ruby"];
+            extraHosts = {
+              "github.com" = {
+                hostname = "github.com";
+                user = "git";
+                identityFile = "github";
+              };
+              "glaciem.git" = {
+                hostname = config.local.lan.hosts.glaciem;
+                user = "git";
+                identityFile = "${user}@${hostname}";
+              };
+            };
+          };
         };
+
         homelab = {
           baseDomain = "glaciem.home";
           samba.client = {
             enable = true;
             mountOptions = "vers=3.1.1,rw,noperm,uid=1000,gid=100";
+          };
+        };
+
+        services.openssh = {
+          enable = true;
+          openFirewall = true;
+          settings = {
+            PermitRootLogin = "no";
           };
         };
 
