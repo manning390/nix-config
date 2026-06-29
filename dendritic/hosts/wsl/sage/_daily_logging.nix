@@ -1,10 +1,14 @@
 # home-manager class
-{pkgs, osConfig, ...}: let
+{
+  pkgs,
+  osConfig,
+  ...
+}: let
   username = osConfig.local.identity.username;
 in {
   home.packages = [
     (pkgs.writeShellScriptBin "daily"
-      /* bash */
+      # bash
       ''
         DATE=$(date +%F)
         DAILY_DIR="/home/${username}/Daily"
