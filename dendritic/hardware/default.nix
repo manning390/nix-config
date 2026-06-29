@@ -3,25 +3,27 @@
     hardware = {
       description = "Hardware options and shared configurations.";
 
-      includes = with aspects; [hardware._.graphics];
+      includes = with aspects; [
+        hardware._.graphics
+        hardware._.zsa
+      ];
 
       nixos = {lib, ...}: {
         options.local = {
           hardware = {
-            monitors =
-              lib.mkOption {
-                type = lib.types.attrsOf lib.types.singleLineStr;
-                default = {};
-                description = "
+            monitors = lib.mkOption {
+              type = lib.types.attrsOf lib.types.singleLineStr;
+              default = {};
+              description = "
                   Attribute set of monitor hardware ids and settings as values.
                   [hardware name] => resolution@frequency,positioning,scale
                   list available hardware with `hyprland monitors all` ipc command
                 ";
-                example = {
-                  "HDMI-0" = "2560x1440@144,0x0,1";
-                  "HDMI-1" = "2560x1440@144,2560x0,1";
-                };
+              example = {
+                "HDMI-0" = "2560x1440@144,0x0,1";
+                "HDMI-1" = "2560x1440@144,2560x0,1";
               };
+            };
           };
         };
       };

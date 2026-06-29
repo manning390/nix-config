@@ -1,3 +1,12 @@
+local opts = {
+	performance = {
+		reset_packpath = false,
+	},
+	dev = {
+		path = "~/Documents",
+	},
+	rocks = { enabled = false },
+}
 local plugins = {
 	-- LSP
 	{
@@ -15,7 +24,7 @@ local plugins = {
 	},
 	{
 		"creativenull/efmls-configs-nvim", -- configurations for efm lang
-		version = "v1.x.x",          -- tag is optional, but recommended
+		version = "v1.x.x", -- tag is optional, but recommended
 		dependencies = { "neovim/nvim-lspconfig" },
 	},
 	{
@@ -31,21 +40,22 @@ local plugins = {
 				sources = {
 					nls.builtins.formatting.prettier,
 					nls.builtins.completion.spell,
+					-- nls.builtins.diagnostics.cspell,
 					-- require("none-ls.diagnostics.eslint"),
 					--require("none-ls.diagnostics.php")
-				}
+				},
 			}
 		end,
 		dependencies = {
 			"gbprod/none-ls-php.nvim",
 			"nvimtools/none-ls-extras.nvim",
-		}
+		},
 	},
 	{
 		"Zeioth/compiler.nvim",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
 		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
-		opts = {}
+		opts = {},
 	},
 	{ -- PHP Actions
 		"gbprod/phpactor.nvim",
@@ -78,7 +88,9 @@ local plugins = {
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		ft = { "markdown" },
-		build = function() vim.fn["mkdp#util#install"]() end,
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
 	},
 	{
 		enabled = false,
@@ -109,11 +121,20 @@ local plugins = {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
-				typescript = { { "prettierd", "prettier" } },
-				javascript = { { "prettierd", "prettier" } },
-				svelte = { { "prettier", lsp_format = "fallback" } },
+				typescript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "prettierd", "prettier", stop_after_first = true },
+				html = { "prettierd", "prettier", stop_after_first = true },
+				svelte = { "prettier" },
 				php = { "pint" },
 				nix = { "alejandra" },
+				json = { "fixjson", "jq" },
+				json5 = { "fixjson" },
+				cs = { "csharpier" },
+				["_"] = { "codespell" }, -- _ runs on filetypes that have other formatters configured
+				["*"] = { "trim_whitespace" },
+			},
+			default_format_opts = {
+				lsp_format = "fallback",
 			},
 		},
 	},
@@ -146,32 +167,37 @@ local plugins = {
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-path",
 			{ url = "https://codeberg.org/FelipeLema/cmp-async-path", name = "async_path" },
-			{
-				"dcampos/cmp-emmet-vim",
-				dependencies = {
-					{
-						"mattn/emmet-vim",
-						config = function()
-							vim.g.user_emmet_leader_key = "<C-Z>"
-						end,
-					},
-				},
-			},
+			-- {
+			--     "dcampos/cmp-emmet-vim",
+			--     dependencies = {
+			--         {
+			--             "mattn/emmet-vim",
+			--         },
+			--     },
+			-- },
 			"saadparwaiz1/cmp_luasnip",
 			-- 'hrsh7th/cmp-cmdline',
-			'hrsh7th/cmp-nvim-lsp-signature-help',
-			'onsails/lspkind.nvim',
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"onsails/lspkind.nvim",
 		},
 	},
 	-- Highlight, edit, navigate code
+	-- {
+	--     "nvim-treesitter/nvim-treesitter",
+	--     lazy = false,
+	--     build = ":TSUpdate",
+	--     dependencies = {
+	--         "JoosepAlviste/nvim-ts-context-commentstring",
+	--         "nvim-treesitter/nvim-treesitter-textobjects",
+	--     },
+	-- },
 	{
-		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
-		build = ":TSUpdate",
-		dependencies = {
-			"JoosepAlviste/nvim-ts-context-commentstring",
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	-- Tmux
 	{
@@ -185,11 +211,11 @@ local plugins = {
 			"TmuxNavigatePrevious",
 		},
 	},
-	"tpope/vim-speeddating.vim", -- ctrl-a ctrl-x on date strings
+	"tpope/vim-speeddating", -- ctrl-a ctrl-x on date strings
 	-- Git
-	"tpope/vim-fugitive",     -- :G commands
-	"tpope/vim-rhubarb",      -- :GBrowse
-	{                         -- Sidebar signs
+	"tpope/vim-fugitive", -- :G commands
+	"tpope/vim-rhubarb", -- :GBrowse
+	{ -- Sidebar signs
 		"lewis6991/gitsigns.nvim",
 		main = "gitsigns",
 		config = true,
@@ -223,26 +249,26 @@ local plugins = {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	-- -- Our lord and savior
-	"tpope/vim-abolish",    -- Better substitutions and iabbrev
-	"tpope/vim-eunuch",     -- :Rename and :SudoWrite
-	"tpope/vim-repeat",     -- bracket mappings and dot-repeats
-	"tpope/vim-sleuth",     -- Detect tabstop and shiftwidth auto
+	"tpope/vim-abolish", -- Better substitutions and iabbrev
+	"tpope/vim-eunuch", -- :Rename and :SudoWrite
+	"tpope/vim-repeat", -- bracket mappings and dot-repeats
+	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth auto
 	{
 		"kylechui/nvim-surround", -- Surround operator
 		version = "*",
 		event = "VeryLazy",
 		opts = {},
 	},
-	"tpope/vim-unimpaired",                        -- bracket mappings
+	"tpope/vim-unimpaired", -- bracket mappings
 	-- No bindings or cmds by default, make telescope command?
-	{ "Vonr/align.nvim",             branch = "v2" }, -- Align things vertically
+	{ "Vonr/align.nvim", branch = "v2" }, -- Align things vertically
 	{
-		"folke/todo-comments.nvim",                -- Highlight todo comments
+		"folke/todo-comments.nvim", -- Highlight todo comments
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ -- Jump to keypairs via labels
 		url = "https://codeberg.org/andyg/leap.nvim.git",
-		ops = {}
+		ops = {},
 	},
 	-- {"catgoose/nvim-colorizer.lua", opts = {}},
 	-- {"NTBBloodbath/color-converter.nvim", opts = {}},
@@ -274,16 +300,16 @@ local plugins = {
 			},
 		},
 	},
-	-- "xiyaowong/telescope-emoji.nvim",
-	"danielvolchek/tailiscope.nvim",    -- Tailwind
-	"crispgm/telescope-heading.nvim",   -- Markdown headers etc.
+	"xiyaowong/telescope-emoji.nvim",
+	"danielvolchek/tailiscope.nvim", -- Tailwind
+	"crispgm/telescope-heading.nvim", -- Markdown headers etc.
 	{
 		"dhruvmanila/browser-bookmarks.nvim", -- Browser bookmarks
 		opts = {
 			selected_browser = "firefox",
 			config_dir = vim.env.BROWSER_CONFIG_DIR,
 		},
-		dependencies = { 'kkharji/sqlite.lua' }
+		dependencies = { "kkharji/sqlite.lua" },
 	},
 	"cwebster2/github-coauthors.nvim", -- Co-authors
 
@@ -303,10 +329,21 @@ local plugins = {
 	{
 		"ThePrimeagen/refactoring.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
+			"lewis6991/async.nvim",
 		},
+		lazy = false,
 		opts = {},
+	},
+	{
+		"razak17/tailwind-fold.nvim",
+		opts = {
+			symbol = "󱏿",
+			highlight = {
+				fg = "#ff0000",
+			},
+		},
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		ft = { "html", "svelte", "astro", "vue", "typescriptreact", "php", "blade" },
 	},
 
 	-- Testing
@@ -325,6 +362,9 @@ local plugins = {
 					-- go_back = true,
 					stopinsert = true,
 					keep_one = true,
+				},
+				runners = {
+					cs = "nvim-test.runners.dotnet",
 				},
 			})
 		end,
@@ -358,7 +398,7 @@ local plugins = {
 				min_height = 25,
 				max_height = 25,
 				default_detail = 1,
-			}
+			},
 		},
 	},
 	{
@@ -367,6 +407,9 @@ local plugins = {
 	},
 	{
 		"GustavEikaas/easy-dotnet.nvim",
+		lazy = true,
+		ft = "c_sharp",
+		event = { "VeryLazy" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
@@ -387,13 +430,15 @@ local plugins = {
 	{
 		"folke/zen-mode.nvim",
 		cmd = { "ZenMode", "Write" },
-		dependencies = { {
-			-- Dims paragraphs not working on
-			"folke/twilight.nvim",
-			enabled = false,
-			cmd = "Twilight",
-			lazy = true,
-		} },
+		dependencies = {
+			{
+				-- Dims paragraphs not working on
+				"folke/twilight.nvim",
+				enabled = false,
+				cmd = "Twilight",
+				lazy = true,
+			},
+		},
 		lazy = true,
 		opts = {
 			window = {
@@ -409,22 +454,34 @@ local plugins = {
 					number = false,
 					relativenumber = false,
 					colorcolumn = "",
-				}
+				},
 			},
 			gitsigns = { enabled = true },
 			tmux = { enabled = true },
 			kitty = { enabled = true },
 			wezterm = { enabled = true },
-		}
+		},
 	},
-	-- {
-	-- 	"ron89/thesaurus_query.vim",
-	-- 	config = function()
-	-- 		-- vim.g.tq_language={'en'}
-	-- 		vim.g.tq_openoffice_en_file = "~/Documents/MyThes-1.0/th_en_US_new"
-	-- 		vim.g.tq_enabled_backends = { "openoffice_en", "datamuse_com" }
-	-- 	end,
-	-- },
+	{
+		"ron89/thesaurus_query.vim",
+		config = function()
+			-- vim.g.tq_language={'en'}
+			vim.g.tq_openoffice_en_file = "~/Documents/MyThes-1.0/th_en_US_new"
+			vim.g.tq_enabled_backends = { "openoffice_en", "datamuse_com" }
+		end,
+	},
+	{
+		"CopilotC-nvim/CopilotChat.nvim",
+		dependencies = {
+			"zbirenbaum/copilot.lua",
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			-- model = 'Claude Sonnet 4.5',
+			temperature = 0.1,
+		},
+		event = "VeryLazy",
+	},
 	-- {
 	-- 	"epwalsh/obsidian.nvim",
 	-- 	ft = "markdown",
@@ -461,41 +518,5 @@ local plugins = {
 }
 
 -- Run --
-local nixSet = function(nix, nonNix)
-	if vim.g.nix == true then
-		return nix
-	else
-		return nonNix
-	end
-end
-local load_lazy = nixSet(
-	function()
-		vim.opt.rtp:prepend([[lazy.nvim-plugin-path]])
-	end,
-	function()
-		local lazypath = vim.fn.stdpath("data") .. '/lazy/lazy.nvim'
-		if not (vim.uv or vim.loop).fs_stat(lazypath) then
-			local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-			local out
-			em
-			vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-			if vim.v.shell_error ~= 0 then
-				vim.api.nvim_echo({
-					{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-					{ out,                            "WarningMsg" },
-					{ "\nPress any key to exit..." },
-				}, true, {})
-				vim.fn.getchar()
-				os.exit(1)
-			end
-		end
-	end)
-
-local opts = {
-	performance = { rtp = { reset = nixSet(false, true) } },
-	dev = {
-		path = "~/Documents",
-	},
-}
-load_lazy()
 require("lazy").setup(plugins, opts)
+vim.cmd([[packloadall]])

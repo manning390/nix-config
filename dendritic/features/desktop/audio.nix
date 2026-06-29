@@ -15,6 +15,11 @@
         headsetcontrol # minor support for G733 Logi headset
         ncpamixer # Audio levels cli
       ];
+
+      environment.shellAliases = {
+        sound = "ncpamixer";
+        led = "headsetcontrol -l 0";
+      };
     };
   };
 }

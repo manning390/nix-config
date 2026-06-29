@@ -23,6 +23,7 @@ in {
       nixos = {config,...}: {
         # Overwrite our default user identity
         local.identity.username = user;
+
         imports = [ inputs.nixos-hardware.nixosModules.framework-13-7040-amd ];
 
         # My defined configurations for modules

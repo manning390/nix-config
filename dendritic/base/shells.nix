@@ -79,9 +79,6 @@
 
           vi = "nvim";
           vim = "nvim";
-
-          sound = "ncpamixer";
-          led = "headsetcontrol -l 0";
         };
       };
     };

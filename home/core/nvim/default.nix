@@ -63,7 +63,7 @@
   programs.direnv.enable = true;
 
   xdg.configFile."nvim/init.lua".source = let
-    grammarsPath = builtins.toString (pkgs.symlinkJoin {
+    grammarsPath = toString (pkgs.symlinkJoin {
       name = "nvim-treesitter-grammars";
       paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
     });

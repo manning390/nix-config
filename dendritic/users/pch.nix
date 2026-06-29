@@ -9,6 +9,7 @@ in {
         kitty
         wiki
         zoxide
+        nvim
       ];
 
       nixos = {
@@ -18,12 +19,7 @@ in {
         };
       };
 
-      homeManager = {
-        imports = [
-          ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
-        ];
-
-      };
+      homeManager = { };
     };
   };
 }

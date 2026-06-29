@@ -32,7 +32,7 @@
         nixpkgs.overlays = [
           # openblas gets pulled in for audio 32-bit support from steam proton
           # its build checks run infinitely on amd hardware, so skip them
-          (self: super: { openblas = super.openblas.overrideAttrs (old: { doCheck = false; }); })
+          (self: super: {openblas = super.openblas.overrideAttrs (old: {doCheck = false;});})
         ];
       };
     };

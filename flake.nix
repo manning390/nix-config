@@ -76,39 +76,5 @@
     nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
     nixPatch.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs @ {self, ...}: let
-    lib = inputs.nixpkgs.lib;
-    importTree = path: lib.toList (lib.fileFilter (file: file.hasExt "nix" && ! (lib.hasPrefix "_" file.name)));
-  in
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} (
-      inputs.nixpkgs.lib.foldl inputs.nixpkgs.lib.recursiveUpdate {} [
-        {
-          systems = ["x86_64-linux"];
-          perSystem = {pkgs, ...}: {
-            devShells.default = pkgs.mkShell {
-              packages = with pkgs; [just nixos-rebuild];
-            };
-            formatter = pkgs.alejandra;
-          };
-
-          # flake = let
-          #   flakehelpers = import ./lib/flakeHelpers.nix {
-          #     inherit inputs;
-          #     outputs = self.outputs or {};
-          #   };
-          #   inherit (flakehelpers) mkMerge mkNixos;
-          # in
-          #   mkMerge [
-          #     {overlays = import ./overlays {inherit inputs;};}
-          #     # Desktop
-          #     # (mkNixos "sentry" inputs.nixpkgs [
-          #     #   inputs.nur.modules.nixos.default
-          #     #   inputs.home-manager.nixosModules.home-manager
-          #     #   inputs.determinate.nixosModules.default
-          #     # ])
-          #   ];
-        }
-        (inputs.import-tree ./dendritic)
-      ]
-    );
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./dendritic);
 }
