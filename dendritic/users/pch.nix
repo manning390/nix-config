@@ -5,11 +5,12 @@ in {
     "user-${username}" = {
       includes = with aspects; [
         fish
-        zsh
         kitty
-        wiki
-        zoxide
         nvim
+        wiki
+        yazi
+        zoxide
+        zsh
       ];
 
       nixos = {

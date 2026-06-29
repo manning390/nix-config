@@ -4,10 +4,12 @@ in {
   flake.aspects = {aspects, ...}: {
     "user-${username}" = {
       includes = with aspects; [
-        zsh
         kitty
+        nvim
         wiki
+        yazi
         zoxide
+        zsh
       ];
 
       nixos = {
@@ -18,11 +20,7 @@ in {
         };
       };
 
-      homeManager = {
-        imports = [
-          ../../home/core/nvim # Need to convert nvim to dendritic, oh boy...
-        ];
-      };
+      homeManager = {};
     };
   };
 }
