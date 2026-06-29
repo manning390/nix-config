@@ -26,6 +26,7 @@
             wget
             curl
             nmap
+            wgnord
           ];
         };
     };

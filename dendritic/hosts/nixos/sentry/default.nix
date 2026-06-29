@@ -1,4 +1,8 @@
-{self, inputs,...}: let
+{
+  self,
+  inputs,
+  ...
+}: let
   hostname = "sentry";
   user = "pch";
 in {
@@ -22,18 +26,21 @@ in {
         godot
         _1password
         abidan-archive-backup
+        homelab
+        nordvpn
       ];
 
-      nixos = {
+      nixos = {...}: {
         local = {
+          wm.hyprland.layout = "dwindle";
           hardware = {
             gpu.enable = true;
 
             # This will likely be changed in the future with different format
             monitors = {
-            "HDMI-A-1" ="2560x1440@144,0x0,1"; # left
-            "DP-1"     = "2560x1440@144,2560x0,1"; # center
-            "HDMI-A-2" = "2560x1440@144,5120x0,1"; #right 
+              "HDMI-A-1" = "2560x1440@144,0x0,1"; # left
+              "DP-1" = "2560x1440@144,2560x0,1"; # center
+              "HDMI-A-2" = "2560x1440@144,5120x0,1"; #right
             };
           };
           shells = {
@@ -42,6 +49,14 @@ in {
           };
           sops.homeOnSeparatePartition = true;
           abidan-archive-backup.enable = false;
+          nordvpn.enable = true;
+        };
+        homelab = {
+          baseDomain = "glaciem.home";
+          samba.client = {
+            enable = true;
+            mountOptions = "vers=3.1.1,rw,noperm,uid=1000,gid=100";
+          };
         };
 
         environment.sessionVariables = {

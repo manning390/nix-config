@@ -89,10 +89,21 @@
           alejandra
         ];
 
-        # Allow unfree packages
-        nixpkgs.config = lib.mkIf config.local.nix.allowUnfree {
-          allowUnfree = true;
-          allowUnfreePredicate = _: true;
+        nixpkgs = {
+          # Allow unfree packages
+          config = lib.mkIf config.local.nix.allowUnfree {
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
+          };
+          # use unstable packages with pkgs.unstable.<pkg name>
+          overlays = [
+            (final: prev: {
+              unstable = import inputs.nixpkgs-unstable {
+                system = final.system;
+                config.allowUnfree = config.local.nix.allowUnfree;
+              };
+            })
+          ];
         };
       };
     };

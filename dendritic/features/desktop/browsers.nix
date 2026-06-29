@@ -2,7 +2,7 @@
   flake.aspects.browsers.nixos = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       firefox-bin
-      brave-bin
+      brave
     ];
   };
 }

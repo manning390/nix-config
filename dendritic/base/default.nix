@@ -32,7 +32,7 @@
 
       homeManager = {
         imports = [ inputs.nix-private.homeManagerModules.ssh ];
-        programs.ssh.enableDefaultConfig = false; # Spewing errors about an option being depreciated, then it will spew errors about this one beign depreciated once it's depreciated.
+        programs.ssh.enableDefaultConfig = false; # Spewing errors about an option being depreciated, then it will spew errors about this one being depreciated once it's depreciated.
       };
     };
   };

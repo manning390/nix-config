@@ -1,6 +1,6 @@
 {lib, inputs, ...}: {
   imports = [  ] ++ builtins.map lib.custom.relativeToRoot [
-    "home/linux/desktop.nix"
+    # "home/linux/desktop.nix"
     "home/core/default.nix"
   ];
 

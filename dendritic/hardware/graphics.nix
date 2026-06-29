@@ -3,6 +3,7 @@
     nixos = {
       config,
       lib,
+      pkgs,
       ...
     }: let
       cfg = config.local.hardware.gpu;
@@ -32,6 +33,7 @@
         (lib.mkIf (cfg.team == "amd" || cfg.team == "red") {
           # https://wiki.nixos.org/wiki/AMD_GPU
           services.xserver.videoDrivers = ["amdgpu"];
+          environment.systemPackages = with pkgs; [ rocmPackages.rocm-smi ];
         })
         (lib.mkIf (cfg.team == "nvidia" || cfg.team == "green") {
           # https://wiki.nixos.org/wiki/NVIDIA

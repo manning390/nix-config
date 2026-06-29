@@ -33,7 +33,7 @@
             hyprcursor # Better cursors
             hypridle # System idle
             hyprpicker # Color picker
-            #hyprpolkitagent # Escalate priviledges
+            unstable.hyprpolkitagent # Escalate priviledges
             nwg-look
             playerctl
             brightnessctl
@@ -115,30 +115,32 @@
                   vi = "N";
                 };
               };
-              dwindleBinds = builtins.concatLists (builtins.attrValues (
-                builtins.mapAttrs (dir: keys: [
-                  "$mod, ${keys.arrow}, movefocus, ${dir}"
-                  "$mod, ${keys.vi}, movefocus, ${dir}"
-                  "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
-                  "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
-                ])
-                directions
-              ));
+              dwindleBinds =
+                builtins.concatLists (builtins.attrValues (
+                  builtins.mapAttrs (dir: keys: [
+                    "$mod, ${keys.arrow}, movefocus, ${dir}"
+                    "$mod, ${keys.vi}, movefocus, ${dir}"
+                    "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
+                    "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
+                    "$mod, T, layoutmsg, togglesplit"
+                  ])
+                  directions
+                ));
               scrollingBinds = [
-                "$mod, ${directions.l.vi}, focus, l"
-                "$mod, ${directions.r.vi}, focus, r"
-                "$mod, ${directions.u.vi}, focus, u"
-                "$mod, ${directions.d.vi}, focus, d"
+                "$mod, ${directions.l.vi}, layoutmsg, focus, l"
+                "$mod, ${directions.r.vi}, layoutmsg, focus, r"
+                "$mod, ${directions.u.vi}, layoutmsg, focus, u"
+                "$mod, ${directions.d.vi}, layoutmsg, focus, d"
 
-                "$mod SHIFT, ${directions.l.vi}, swapcol, l"
-                "$mod SHIFT, ${directions.r.vi}, swapcol, r"
-                "$mod SHIFT, ${directions.d.vi}, movewindow, d"
-                "$mod SHIFT, ${directions.u.vi}, movewindow, u"
+                "$mod SHIFT, ${directions.l.vi}, layoutmsg, swapcol, l"
+                "$mod SHIFT, ${directions.r.vi}, layoutmsg, swapcol, r"
+                "$mod SHIFT, ${directions.d.vi}, layoutmsg, movewindow, d"
+                "$mod SHIFT, ${directions.u.vi}, layoutmsg, movewindow, u"
 
-                "$mod ${directions.d.arrow}, consume"
-                "$mod ${directions.u.arrow}, expel"
-                "$mod SHIFT, ${directions.u.arrow}, colresize, +conf"
-                "$mod SHIFT, ${directions.d.arrow}, colresize, -conf"
+                # "$mod ${directions.d.arrow}, layoutmsg, consume"
+                # "$mod ${directions.u.arrow}, layoutmsg, expel"
+                "$mod SHIFT, ${directions.u.arrow}, layoutmsg, colresize, +conf"
+                "$mod SHIFT, ${directions.d.arrow}, layoutmsg, colresize, -conf"
               ];
               # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
               workspaceBinds = builtins.concatLists (builtins.genList (
@@ -164,7 +166,6 @@
                 "$mod, D, global, caelestia:launcher"
 
                 "$mod, P, pseudo"
-                "$mod, T, togglesplit"
                 "$mod, F, fullscreen"
                 "$mod, TAB, focuscurrentorlast"
                 # "$mod, L, exec, hyprlock"
@@ -251,7 +252,7 @@
 
         home.pointerCursor = {
           gtk.enable = true;
-          package = pkgs.catppuccin-cursors.mochaDark;
+          package = pkgs.unstable.catppuccin-cursors.mochaDark;
           name = "catppuccin-mocha-dark-cursors";
           size = 20;
         };
