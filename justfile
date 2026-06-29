@@ -8,12 +8,17 @@ format:
 
 # Check if flake compiles
 check:
+  @just flake
   nix flake check
 
 build:
   nh os switch .
 
+flake:
+  nix run .#write-flake
+
 update:
+  @just flake
   nh os switch . --update
 
 new command *args:

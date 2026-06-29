@@ -1,10 +1,12 @@
 {
+  flake-file.inputs.hyprland-contrib.url = "github:hyprwm/contrib";
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
       includes = with aspects; [gtk];
 
       nixos = {
+        inputs,
         config,
         lib,
         pkgs,
@@ -34,12 +36,12 @@
             hypridle # System idle
             hyprpicker # Color picker
             unstable.hyprpolkitagent # Escalate priviledges
-            nwg-look
             playerctl
             brightnessctl
             mako
             libnotify
             wl-clipboard-rs
+            inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
           ];
 
           xdg.portal = {
@@ -115,17 +117,16 @@
                   vi = "N";
                 };
               };
-              dwindleBinds =
-                builtins.concatLists (builtins.attrValues (
-                  builtins.mapAttrs (dir: keys: [
-                    "$mod, ${keys.arrow}, movefocus, ${dir}"
-                    "$mod, ${keys.vi}, movefocus, ${dir}"
-                    "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
-                    "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
-                    "$mod, T, layoutmsg, togglesplit"
-                  ])
-                  directions
-                ));
+              dwindleBinds = builtins.concatLists (builtins.attrValues (
+                builtins.mapAttrs (dir: keys: [
+                  "$mod, ${keys.arrow}, movefocus, ${dir}"
+                  "$mod, ${keys.vi}, movefocus, ${dir}"
+                  "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
+                  "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
+                  "$mod, T, layoutmsg, togglesplit"
+                ])
+                directions
+              ));
               scrollingBinds = [
                 "$mod, ${directions.l.vi}, layoutmsg, focus, l"
                 "$mod, ${directions.r.vi}, layoutmsg, focus, r"

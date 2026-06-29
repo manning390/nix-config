@@ -1,4 +1,6 @@
 {
+  flake-file.inputs.caelestia-shell.url = "github:caelestia-dots/shell";
+
   flake.aspects = {aspects, ...}: {
     caelestia = {
       description = "Desktop build with caelestia shell on hyprland.";

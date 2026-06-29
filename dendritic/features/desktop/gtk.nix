@@ -8,5 +8,8 @@
         name = "Nordic";
       };
     };
+    home.packages = with pkgs; [
+      nwg-look
+    ];
   };
 }

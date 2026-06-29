@@ -12,19 +12,19 @@ These concepts are layers onto themselves, read top > down.
 
 ## TODO
 - [ ] Dendritic
-    - [ ] Convert all non-dendritic modules to dendritic
-    - [ ] Convert hosts to new dendritic style
+    - [x] Convert all non-dendritic modules to dendritic
+    - [x] Convert hosts to new dendritic style
     - [ ] Reorganize dendritic folder and rename to modules
 - [ ] Nvim
     - [ ] Convert nvim to use nixpkgs via wrapper?
     - [ ] Setup dap with nvim for debugger
     - [ ] Setup refactoring plugin for nvim
     - [ ] Setup c# env on nvim
-- [ ] Set up auto ssh via nix-private
+- [x] Set up auto ssh via nix-private
 - [ ] Finish homelab modules
     - [ ] immich
     - [ ] clip
-    - [ ] git
+    - [x] git
     - [ ] backups
     - [ ] arr?
 - [ ] Setup impermanence on all hosts

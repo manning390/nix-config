@@ -1,4 +1,8 @@
 {inputs, ...}: {
+  flake-file.inputs.zinit = {
+    url = "github:zdharma-continuum/zinit";
+    flake = false;
+  };
   flake.aspects = {aspects, ...}: {
     zsh = {
       includes = with aspects; [starship nix-index];

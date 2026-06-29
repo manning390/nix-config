@@ -1,9 +1,15 @@
 {
-  flake.aspects = {aspects, ...} : {
+  flake-file.inputs.nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
+  flake.aspects = {aspects, ...}: {
     wsl = {
       includes = with aspects; [wsl-git-wrapper];
 
-      nixos = {inputs, config, ...}: {
+      nixos = {
+        inputs,
+        config,
+        ...
+      }: {
         imports = [inputs.nixos-wsl.nixosModules.wsl];
 
         wsl.enable = true;

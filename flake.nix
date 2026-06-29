@@ -1,80 +1,41 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
   description = "Nix Configurations of Manning390";
+
+  outputs =
+    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./dendritic);
+
   inputs = {
-    # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # Determinate Systems
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    # Home Manager
-    home-manager.url = "github:nix-community/home-manager/release-26.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Private nix module
-    nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
-    nix-private.inputs.nixpkgs.follows = "nixpkgs";
-    nix-private.inputs.flake-parts.follows = "flake-parts";
-
-    # Flake parts
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
-
-    # Flake aspects
-    flake-aspects.url = "github:vic/flake-aspects";
-
-    # Import util
-    import-tree.url = "github:vic/import-tree";
-
-    # Nix User Repository
-    nur.url = "github:nix-community/NUR";
-
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Disk Management
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Ephemeral Root
-    impermanence.url = "github:nix-community/impermanence";
-
-    # Windows WSL
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-
-    # MacOS Nix
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
-    # Secrets Managment
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Hardward specific configs
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    # Zsh plugin manager
-    zinit.url = "github:zdharma-continuum/zinit";
-    zinit.flake = false;
-
-    # Automagic/breaking Color Themes
-    stylix.url = "github:danth/stylix/release-25.11";
-
-    # Utility scripts, like screen shots
-    hyprland-contrib.url = "github:hyprwm/contrib";
-    hyprland-contrib.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Caelestia wm theme
     caelestia-shell.url = "github:caelestia-dots/shell";
-    caelestia-shell.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Neovim nightly
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    disko.url = "github:nix-community/disko";
+    flake-aspects.url = "github:denful/flake-aspects";
+    flake-file.url = "github:vic/flake-file";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
+    hyprland-contrib.url = "github:hyprwm/contrib";
+    impermanence.url = "github:nix-community/impermanence";
+    import-tree.url = "github:vic/import-tree";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
-    # Nvim nix plugin patching
-    nixPatch.url = "git+https://codeberg.org/NicoElbers/nixPatch-nvim.git";
-    nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
-    nixPatch.inputs.nixpkgs.follows = "nixpkgs";
+    nix-auto-follow = {
+      url = "github:fzakaria/nix-auto-follow";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    sops-nix.url = "github:Mic92/sops-nix";
+    zinit = {
+      url = "github:zdharma-continuum/zinit";
+      flake = false;
+    };
   };
-  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./dendritic);
 }

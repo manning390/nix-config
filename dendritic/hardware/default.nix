@@ -1,4 +1,6 @@
 {self, ...}: {
+  flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
   flake.aspects = {aspects, ...}: {
     hardware = {
       description = "Hardware options and shared configurations.";
