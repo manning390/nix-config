@@ -53,19 +53,19 @@ in {
           ssh = {
             enable = true;
             users."${user}" = {
+              connectTo = ["pch@glaciem" "ruby@ruby"];
               authorizedKeys = ["pch@mado" "ruby@ruby"];
-            };
-            connectTo = ["pch@glaciem" "ruby@ruby"];
-            extraHosts = {
-              "github.com" = {
-                hostname = "github.com";
-                user = "git";
-                identityFile = "github";
-              };
-              "glaciem.git" = {
-                hostname = config.local.lan.hosts.glaciem;
-                user = "git";
-                identityFile = "${user}@${hostname}";
+              extraHosts = {
+                "github.com" = {
+                  hostname = "github.com";
+                  user = "git";
+                  identityFile = "github";
+                };
+                "glaciem.git" = {
+                  hostname = config.local.lan.hosts.glaciem;
+                  user = "git";
+                  identityFile = "${user}@${hostname}";
+                };
               };
             };
           };
