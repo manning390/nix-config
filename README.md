@@ -3,7 +3,7 @@
 ## Mind the dust?
 Currently in the middle of a migration. Everything will eventually live in `./dendritic`, outside of that is somewhat deprecated.
 
-Entry point for systems is `hosts/<system>/<hostname/default.nix` which sets options for `hosts/default.nix` to consume.
+Entry point for systems is `hosts/<system>/<hostname>/default.nix` which sets options for `hosts/default.nix` to consume.
 
 ## Concepts
 These concepts are layers onto themselves, read top > down.
