@@ -1,5 +1,5 @@
 # The first params is for passing scope, the second is the actual module
-{user,...}: {config,...}: {
+{user, ...}: {config, ...}: {
   sops = let
     sopsFile = ./secrets/sage.yaml;
     owner = user;

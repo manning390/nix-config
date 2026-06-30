@@ -1,10 +1,14 @@
 {
-  flake.aspects = {aspects,...}: {
+  flake.aspects = {aspects, ...}: {
     samba = {
       description = "Samba is the windows prefered networked storage protocol / server / mount to share files across machines.";
       includes = with aspects; [samba._.client samba._.server];
 
-      nixos = {config, lib, ...}: {
+      nixos = {
+        config,
+        lib,
+        ...
+      }: {
         options.homelab.samba = {
           shares = lib.mkOption {
             type = lib.types.attrs;
@@ -35,7 +39,12 @@
       provides = {
         client = {
           description = "The client to connect to samba shares";
-          nixos = {config, lib, pkgs, ...}: let
+          nixos = {
+            config,
+            lib,
+            pkgs,
+            ...
+          }: let
             hl = config.homelab;
             samba = hl.samba;
             cfg = samba.client;
@@ -58,32 +67,39 @@
               };
             };
             config = lib.mkIf cfg.enable {
-              environment.systemPackages = [ pkgs.cifs-utils ];
-              systemd.tmpfiles.rules = [ "d ${cfg.mountRoot} 0755 root root -" ];
+              environment.systemPackages = [pkgs.cifs-utils];
+              systemd.tmpfiles.rules = ["d ${cfg.mountRoot} 0755 root root -"];
               sops.secrets."samba_password" = {};
               sops.templates."cifs-credentials".content = ''
                 username=${hl.user}
                 password=${config.sops.placeholder.samba_password}
               '';
-              
-              fileSystems = lib.mapAttrs' (name: share: {
-                name = "${cfg.mountRoot}/${name}";
-                value = {
-                  device = "//${cfg.serverHost}/${name}";
-                  fsType = "cifs";
-                  options = [
-                  "credentials=${config.sops.templates."cifs-credentials".path}"
-                    cfg.mountOptions
-                  ];
-                };
-              }) samba.shares;
+
+              fileSystems =
+                lib.mapAttrs' (name: share: {
+                  name = "${cfg.mountRoot}/${name}";
+                  value = {
+                    device = "//${cfg.serverHost}/${name}";
+                    fsType = "cifs";
+                    options = [
+                      "credentials=${config.sops.templates."cifs-credentials".path}"
+                      cfg.mountOptions
+                    ];
+                  };
+                })
+                samba.shares;
             };
           };
         };
 
         server = {
           description = "The server to provide samba shares";
-          nixos = {config,lib,pkgs,...}: let
+          nixos = {
+            config,
+            lib,
+            pkgs,
+            ...
+          }: let
             hl = config.homelab;
             samba = hl.samba;
             cfg = samba.server;
@@ -138,7 +154,7 @@
             config = lib.mkIf cfg.enable {
               services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
 
-              environment.systemPackages = [ config.services.samba.package ]; # Provides smbclient to path
+              environment.systemPackages = [config.services.samba.package]; # Provides smbclient to path
 
               systemd.tmpfiles.rules = map (x: "d ${x.path} 0775 ${hl.user} ${hl.group} - -") (lib.attrValues samba.shares);
 
@@ -177,7 +193,6 @@
                   // builtins.mapAttrs (name: value: value // cfg.commonSettings) samba.shares;
               };
             };
-
           };
         };
       };

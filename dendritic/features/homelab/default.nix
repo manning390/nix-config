@@ -1,11 +1,15 @@
 {
-  flake.aspects = {aspects,...}: {
+  flake.aspects = {aspects, ...}: {
     homelab = {
       description = "Entrypoint for homelab configurations.";
 
       includes = with aspects; [samba services];
 
-      nixos = {config,lib,...}: let
+      nixos = {
+        config,
+        lib,
+        ...
+      }: let
         cfg = config.homelab;
       in {
         options.homelab = {

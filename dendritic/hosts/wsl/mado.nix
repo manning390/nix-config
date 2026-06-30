@@ -15,7 +15,7 @@ in {
         nix-index
       ];
 
-      nixos = {config,...}: {
+      nixos = {config, ...}: {
         local = {
           shells = {
             systemShell = "zsh";

@@ -1,11 +1,17 @@
 top: {
-  flake.aspects = {aspects, ...}:{
-    homeManager._.users  = username: {
+  flake-file.inputs.home-manager.url = "github:nix-community/home-manager/release-${top.config.nixpkgsVersion}";
+
+  flake.aspects = {aspects, ...}: {
+    homeManager._.users = username: {
       description = "Parameterized aspect, takes username and imports and sets up home-manager.";
 
       includes = [aspects."user-${username}"];
 
-      nixos = { config, inputs, ...}: {
+      nixos = {
+        config,
+        inputs,
+        ...
+      }: {
         imports = [inputs.home-manager.nixosModules.home-manager];
         home-manager = {
           useGlobalPkgs = true;
@@ -19,7 +25,7 @@ top: {
           users.${username} = {
             # Import homeManager modules through host and system type aspects
             imports = let
-              hmModules = top.config.flake.modules.homeManager; 
+              hmModules = top.config.flake.modules.homeManager;
               hostname = config.networking.hostName;
             in [
               hmModules.${hostname}

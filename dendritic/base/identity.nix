@@ -1,4 +1,4 @@
-{lib,...}: let 
+{lib, ...}: let
   identity = {
     username = "pch";
     email = "michael@manning390.com";

@@ -1,6 +1,6 @@
 {
   flake.aspects.utilities = {
-    nixos = {pkgs, ...}:{
+    nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         eza
         fzf

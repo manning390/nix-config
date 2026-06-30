@@ -1,7 +1,6 @@
 {
-  flake.modules.nixos.mediawiki = {pkgs,...}: {
+  flake.modules.nixos.mediawiki = {pkgs, ...}: {
     services.nginx = {
-
     };
     services.mediawiki = {
       enable = true;
@@ -21,40 +20,44 @@
         "pm.min_spare_servers" = 1;
         "pm.max_spare_servers" = 3;
       };
-      extraConfig = /* php */ ''
-        // Enable Darkmode feature!
-        $wgVectorNightMode['beta'] = true;
-        $wgVectorNightMode['logged_out'] = true;
-        $wgVectorNightMode['logged_in'] = true;
-        $wgDefaultUserOptions['vector-theme'] = 'os';
+      extraConfig =
+        /*
+        php
+        */
+        ''
+          // Enable Darkmode feature!
+          $wgVectorNightMode['beta'] = true;
+          $wgVectorNightMode['logged_out'] = true;
+          $wgVectorNightMode['logged_in'] = true;
+          $wgDefaultUserOptions['vector-theme'] = 'os';
 
-        // Scribunto configs
-        $wgScribuntoDefaultEngine = 'luastandalone';
-        $wgScribuntoEngineConf['luastandalone']['memoryLimit'] = "50M";
+          // Scribunto configs
+          $wgScribuntoDefaultEngine = 'luastandalone';
+          $wgScribuntoEngineConf['luastandalone']['memoryLimit'] = "50M";
 
-        // Pluggable Auth
-        $wgPluggableAuth_Config = [
-            'Abidan Archive' => [
-                'plugin' => 'OpenIDConnect',
-                'data' => [
-                    'providerURL' => 'http://localhost:8000',
-                    'clientID' => 'mediawiki',
-                    'clientsecret' => 'secret',
-                ]
-            ]
-        ];
-        // Force OAuth login
-        $wgPluggableAuth_EnableAutoLogin = false;
-        $wgPluggableAuth_EnableLocalLogin = true; // No mediawiki based accounts
-        $wgPluggableAuth_EnableLocalProperties = false; // Email through laravel
+          // Pluggable Auth
+          $wgPluggableAuth_Config = [
+              'Abidan Archive' => [
+                  'plugin' => 'OpenIDConnect',
+                  'data' => [
+                      'providerURL' => 'http://localhost:8000',
+                      'clientID' => 'mediawiki',
+                      'clientsecret' => 'secret',
+                  ]
+              ]
+          ];
+          // Force OAuth login
+          $wgPluggableAuth_EnableAutoLogin = false;
+          $wgPluggableAuth_EnableLocalLogin = true; // No mediawiki based accounts
+          $wgPluggableAuth_EnableLocalProperties = false; // Email through laravel
 
-        $wgScribuntoDefaultEngine = 'luastandalone';
-        $wgScribuntoEngineConf['luastandalone']['memoryLimit'] = "50M";
+          $wgScribuntoDefaultEngine = 'luastandalone';
+          $wgScribuntoEngineConf['luastandalone']['memoryLimit'] = "50M";
 
-        $wgDebugLogFile = '/tmp/mediawiki-debug.log';
-        $wgDebugLogGroups['PluggableAuth'] = '/tmp/pluggableauth-debug.log';
-        $wgShowExceptionDetails = true;
-      '';
+          $wgDebugLogFile = '/tmp/mediawiki-debug.log';
+          $wgDebugLogGroups['PluggableAuth'] = '/tmp/pluggableauth-debug.log';
+          $wgShowExceptionDetails = true;
+        '';
 
       # 'email' => 'email',
       # 'realname' => 'name',

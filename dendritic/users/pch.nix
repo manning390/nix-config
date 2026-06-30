@@ -20,7 +20,7 @@ in {
         };
       };
 
-      homeManager = { };
+      homeManager = {};
     };
   };
 }

@@ -1,8 +1,8 @@
 {
   flake.aspects.docker = {
-    nixos = {config,...}: {
+    nixos = {config, ...}: {
       virtualisation.docker.enable = true;
-      users.users.${config.local.identity.username}.extraGroups = [ "docker" ];
+      users.users.${config.local.identity.username}.extraGroups = ["docker"];
     };
   };
 }

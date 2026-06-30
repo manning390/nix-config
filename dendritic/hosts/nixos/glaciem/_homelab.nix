@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: let
+{config, ...}: let
   hl = config.homelab;
 in {
   # Homelab module options

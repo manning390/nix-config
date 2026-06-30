@@ -1,4 +1,8 @@
-{self, inputs,...}:let
+{
+  self,
+  inputs,
+  ...
+}: let
   hostname = "glaciem";
   user = "pch";
 in {
@@ -19,7 +23,12 @@ in {
         homelab
       ];
 
-      nixos = {config, pkgs, lib, ...}: let
+      nixos = {
+        config,
+        pkgs,
+        lib,
+        ...
+      }: let
         nixCfgPath = "/home/${user}/nix-config";
       in {
         imports = [
@@ -41,7 +50,7 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
-          ssh ={
+          ssh = {
             enable = true;
             users."${user}" = {
               authorizedKeys = ["pch@sentry" "pch@mado" "pch@glaciem" "ruby@ruby"];

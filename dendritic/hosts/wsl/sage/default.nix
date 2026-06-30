@@ -16,10 +16,7 @@ in {
         nix-index
       ];
 
-      nixos = {
-        config,
-        ...
-      }: {
+      nixos = {config, ...}: {
         imports = [
           (import ./_sops.nix {inherit user;}) # Passing some scope, this file is special
         ];

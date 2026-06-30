@@ -1,6 +1,10 @@
 {
   flake.aspects.security = {
-    nixos = {pkgs, lib, ...}: {
+    nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       security.polkit.enable = true;
 
       programs.gnupg.agent = lib.mkForce {

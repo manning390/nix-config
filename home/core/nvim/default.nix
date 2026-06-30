@@ -52,10 +52,11 @@
     fixjson
 
     # dotnet
-    (with pkgs.dotnetCorePackages; combinePackages [
-      sdk_8_0
-      sdk_10_0
-    ])
+    (with pkgs.dotnetCorePackages;
+      combinePackages [
+        sdk_8_0
+        sdk_10_0
+      ])
     dotnet-ef
     csharpier
   ];
@@ -67,11 +68,12 @@
       name = "nvim-treesitter-grammars";
       paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
     });
-  in pkgs.writeText "init.lua" ''
-    vim.opt.runtimepath:prepend("${grammarsPath}")
+  in
+    pkgs.writeText "init.lua" ''
+      vim.opt.runtimepath:prepend("${grammarsPath}")
 
-    require'config'
-  '';
+      require'config'
+    '';
   xdg.configFile."nvim/lua" = {
     recursive = true;
     source = ./lua;

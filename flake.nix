@@ -3,8 +3,7 @@
 {
   description = "Nix Configurations of Manning390";
 
-  outputs =
-    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./dendritic);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./dendritic);
 
   inputs = {
     caelestia-shell.url = "github:caelestia-dots/shell";

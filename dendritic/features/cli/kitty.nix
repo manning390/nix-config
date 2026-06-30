@@ -1,6 +1,10 @@
 {
   flake.aspects.kitty = {
-    homeManager = {lib, pkgs, ...}: {
+    homeManager = {
+      lib,
+      pkgs,
+      ...
+    }: {
       programs.kitty = {
         enable = true;
         themeFile = "Nord";

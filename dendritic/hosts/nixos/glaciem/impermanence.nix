@@ -1,5 +1,9 @@
 {
-  flake.modules.nixos.impermanence-glaciem = {config, inputs, ...}: let
+  flake.modules.nixos.impermanence-glaciem = {
+    config,
+    inputs,
+    ...
+  }: let
     hostname = config.networking.hostName;
     user = config.local.identity.username;
   in {

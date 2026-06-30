@@ -33,7 +33,7 @@
         (lib.mkIf (cfg.team == "amd" || cfg.team == "red") {
           # https://wiki.nixos.org/wiki/AMD_GPU
           services.xserver.videoDrivers = ["amdgpu"];
-          environment.systemPackages = with pkgs; [ rocmPackages.rocm-smi ];
+          environment.systemPackages = with pkgs; [rocmPackages.rocm-smi];
         })
         (lib.mkIf (cfg.team == "nvidia" || cfg.team == "green") {
           # https://wiki.nixos.org/wiki/NVIDIA

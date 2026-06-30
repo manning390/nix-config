@@ -161,7 +161,7 @@
     };
   };
   boot.supportedFilesystems = ["zfs"];
-  boot.zfs.extraPools = [ "ssd-pool" "hdd-pool"]; # auto imported, not hdd-poll
+  boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # auto imported, not hdd-poll
 
   # Check for corrupted data once a month, will spin up drives
   services.zfs.autoScrub = {

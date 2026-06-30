@@ -1,9 +1,14 @@
-{inputs,...}: {
+{inputs, ...}: {
   flake.aspects.networking = {
     description = "Networking settings and utilities";
 
-    nixos = {config, pkgs,lib,...}: let
-        cfg = config.local.hardware.networking;
+    nixos = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }: let
+      cfg = config.local.hardware.networking;
     in {
       imports = [
         inputs.nix-private.nixosModules.lan
@@ -13,24 +18,28 @@
         enable = lib.mkEnableOption "Install networking related packages";
       };
       config = lib.mkIf cfg.enable {
-          local.lan.enableMappings = lib.mkDefault true; # Adds host -> ip mappings
-          networking = {
-            # Hostname is set by hosts/default
-            networkmanager.enable = lib.mkDefault true;
-            useNetworkd = lib.mkDefault false;
-          };
-
-          hardware.bluetooth.enable = lib.mkDefault true;
-
-          environment.systemPackages = with pkgs; [
-            wget
-            curl
-            nmap
-          ];
+        local.lan.enableMappings = lib.mkDefault true; # Adds host -> ip mappings
+        networking = {
+          # Hostname is set by hosts/default
+          networkmanager.enable = lib.mkDefault true;
+          useNetworkd = lib.mkDefault false;
         };
+
+        hardware.bluetooth.enable = lib.mkDefault true;
+
+        environment.systemPackages = with pkgs; [
+          wget
+          curl
+          nmap
+        ];
+      };
     };
 
-    homeManager = {osConfig, lib, ...}: let
+    homeManager = {
+      osConfig,
+      lib,
+      ...
+    }: let
       cfg = osConfig.local.hardware.networking;
     in {
       config = lib.mkIf cfg.enable {

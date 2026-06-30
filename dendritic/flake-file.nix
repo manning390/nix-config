@@ -8,38 +8,36 @@
     inputs.flake-file.flakeModules.nix-auto-follow # Optimizes the store by finding follows, sorta works?
   ];
 
-  flake-file = {
-    description = "Nix Configurations of Manning390";
-    inputs = let
-      version = "26.05";
-    in {
-      # Nixpkgs
-      nixpkgs.url = "github:nixos/nixpkgs/nixos-${version}";
-      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+  options.nixpkgsVersion = lib.mkOption {
+    type = lib.types.singleLineStr;
+    default = "unstable";
+    example = "26.05";
+    description = "The stable release label of nixpkgs to specify for all systems";
+  };
 
-      # Home Manager
-      home-manager.url = "github:nix-community/home-manager/release-${version}";
+  config = {
+    nixpkgsVersion = "26.05";
 
-      # Private nix module
-      nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
+    flake-file = {
+      description = "Nix Configurations of Manning390";
 
-      # Flake aspects
-      flake-aspects.url = lib.mkDefault "github:denful/flake-aspects";
+      # Most inputs are defined near their configurations
+      # Here is where some that don't have specific locations live
+      inputs = {
+        # Private nix module
+        nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
 
-      # Disk Management
-      disko.url = lib.mkDefault "github:nix-community/disko";
+        # Disk Management
+        disko.url = lib.mkDefault "github:nix-community/disko";
 
-      # Ephemeral Root
-      impermanence.url = lib.mkDefault "github:nix-community/impermanence";
+        # Ephemeral Root
+        impermanence.url = lib.mkDefault "github:nix-community/impermanence";
+      };
 
-      # Nvim nix plugin patching
-      # nixPatch.url = "git+https://codeberg.org/NicoElbers/nixPatch-nvim.git";
-      # nixPatch.inputs.neovim-nightly-overlay.follows = "neovim-nightly-overlay";
-      # nixPatch.inputs.nixpkgs.follows = "nixpkgs";
+      # Must be in a string. This is an overwrite to use ./dendritic directory over modules
+      outputs =
+        # nix
+        "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./dendritic)";
     };
-
-    outputs =
-      # nix
-      "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./dendritic)"; # Must be in a string. This is an overwrite to use ./dendritic directory over modules
   };
 }

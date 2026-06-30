@@ -1,4 +1,8 @@
-{self, inputs, ...}: let
+{
+  self,
+  inputs,
+  ...
+}: let
   name = "dotnet";
 in {
   perSystem = {system, ...}: let
@@ -14,10 +18,11 @@ in {
           pkgs.gh
           pkgs.gh-f # fzf support
           # dotnet-sdk
-          (with pkgs.dotnetCorePackages; combinePackages [
-            sdk_8_0
-            sdk_10_0
-          ])
+          (with pkgs.dotnetCorePackages;
+            combinePackages [
+              sdk_8_0
+              sdk_10_0
+            ])
           pkgs.dotnet-ef
           self.packages.${pkgs.stdenv.hostPlatform.system}.easy-dotnet-server
           self.packages.${pkgs.stdenv.hostPlatform.system}.dotnet-reportgenerator

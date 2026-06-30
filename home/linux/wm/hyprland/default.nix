@@ -213,7 +213,6 @@
         preserve_split = true;
       };
       scrolling = {
-
       };
       windowrule = [
         "float on, match:class ^(nwg-look)$"
