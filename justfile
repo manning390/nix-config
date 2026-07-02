@@ -12,7 +12,6 @@ check:
   nix flake check
 
 build:
-  @just flake
   nh os switch .
 
 flake:
