@@ -9,7 +9,6 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-aspects.url = "github:denful/flake-aspects";
   };
-
   imports = [
     inputs.flake-parts.flakeModules.modules
     inputs.flake-aspects.flakeModule
