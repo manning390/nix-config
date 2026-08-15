@@ -33,6 +33,7 @@
         devenv
         ripgrep
         nodejs
+        python3
 
         # LSP
         tree-sitter
