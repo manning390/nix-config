@@ -26,10 +26,13 @@ in {
           pkgs.dotnet-ef
           self.packages.${pkgs.stdenv.hostPlatform.system}.easy-dotnet-server
           self.packages.${pkgs.stdenv.hostPlatform.system}.dotnet-reportgenerator
+          # self.packages.${pkgs.stdenv.hostPlatform.system}.csharprepl
+          pkgs.csharprepl
           (pkgs.azure-cli.withExtensions [
             pkgs.azure-cli.extensions.fzf
             pkgs.azure-cli.extensions.application-insights
             pkgs.azure-cli.extensions.front-door
+            pkgs.azure-cli.extensions.redisenterprise
           ])
           pkgs.azure-functions-core-tools
         ];

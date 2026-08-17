@@ -14,20 +14,31 @@ in {
         docker
         jira
         nix-index
+        herdr
       ];
 
-      nixos = {config, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         imports = [
           (import ./_sops.nix {inherit user;}) # Passing some scope, this file is special
         ];
 
         local = {
+          kitty.enable = false;
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
           };
           git.includeFile = config.sops.templates."gitconfig".path;
         };
+
+        environment.systemPackages = [pkgs.codex];
+        systemd.tmpfiles.rules = [
+          "L+ /usr/bin/bash - - - - /run/current-system/sw/bin/bash"
+        ];
 
         environment.sessionVariables = {
           COLEMAK = "1";
@@ -39,11 +50,12 @@ in {
         };
       };
 
-      homeManager = {
+      homeManager = {pkgs, ...}: {
         imports = [
           ./_daily_logging.nix
         ];
         home.sessionVariables = {
+          TERM = "wezterm";
           PATH = "$HOME/.local/bin:$PATH";
         };
       };
