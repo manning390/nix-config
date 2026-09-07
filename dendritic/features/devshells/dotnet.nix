@@ -24,6 +24,7 @@ in {
               sdk_10_0
             ])
           pkgs.dotnet-ef
+          pkgs.sqlcmd
           self.packages.${pkgs.stdenv.hostPlatform.system}.easy-dotnet-server
           self.packages.${pkgs.stdenv.hostPlatform.system}.dotnet-reportgenerator
           # self.packages.${pkgs.stdenv.hostPlatform.system}.csharprepl
