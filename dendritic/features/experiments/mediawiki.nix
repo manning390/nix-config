@@ -21,9 +21,7 @@
         "pm.max_spare_servers" = 3;
       };
       extraConfig =
-        /*
-        php
-        */
+        # php
         ''
           // Enable Darkmode feature!
           $wgVectorNightMode['beta'] = true;
@@ -43,6 +41,7 @@
                       'providerURL' => 'http://localhost:8000',
                       'clientID' => 'mediawiki',
                       'clientsecret' => 'secret',
+                      'codeChallengeMethod' => 'S256'
                   ]
               ]
           ];
