@@ -71,6 +71,7 @@ with pkgs.vimPlugins; [
   dressing-nvim
   easy-dotnet-nvim
   nvim-dap
+  codecompanion-nvim
 
   # Writing
   auto-save-nvim

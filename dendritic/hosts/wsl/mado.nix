@@ -15,7 +15,11 @@ in {
         nix-index
       ];
 
-      nixos = {config, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         local = {
           shells = {
             systemShell = "zsh";
@@ -42,6 +46,15 @@ in {
             };
           };
         };
+
+        environment.systemPackages = with pkgs; [
+          bash
+          unstable.codex
+          bubblewrap
+        ];
+        systemd.tmpfiles.rules = [
+          "L+ /usr/bin/bash - - - - /run/current-system/sw/bin/bash"
+        ];
 
         environment.sessionVariables = {
           COLEMAK = "1";
