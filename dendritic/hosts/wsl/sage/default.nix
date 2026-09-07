@@ -35,7 +35,14 @@ in {
           git.includeFile = config.sops.templates."gitconfig".path;
         };
 
-        environment.systemPackages = [pkgs.codex];
+        environment.systemPackages = with pkgs; [
+          codex
+          bubblewrap
+          gh
+          python3
+          gcc
+          gnumake
+        ];
         systemd.tmpfiles.rules = [
           "L+ /usr/bin/bash - - - - /run/current-system/sw/bin/bash"
         ];

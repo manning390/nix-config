@@ -887,11 +887,11 @@
     "none-ls-extras": {
       "flake": false,
       "locked": {
-        "lastModified": 1780734428,
-        "narHash": "sha256-GZLT8X1eLeSkiV5EN1nOkCQg5nwNATURi/KMj90i40I=",
+        "lastModified": 1784285253,
+        "narHash": "sha256-YmDhDUqSJPOllXzkyrVUgnshrI5+Kt5Te8tEmnjOAVQ=",
         "owner": "nvimtools",
         "repo": "none-ls-extras.nvim",
-        "rev": "27681d797a26f1b4d6119296df42f5204c88a2dc",
+        "rev": "9a8b8a9aeb43382e5aaf49b00b7cfb5d42d32118",
         "type": "github"
       },
       "original": {

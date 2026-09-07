@@ -44,11 +44,11 @@ in {
         withNodeJs = true;
         withPython3 = true;
         withRuby = false;
-        
-	plugins = [
-	    pkgs.vimPlugins.lazy-nvim
-	    pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-	];
+
+        plugins = [
+          pkgs.vimPlugins.lazy-nvim
+          pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+        ];
         # plugins = import ./_plugins.nix {inherit inputs pkgs externalPlugins;};
 
         initLua = let
@@ -56,11 +56,15 @@ in {
             name = "nvim-treesitter-grammars";
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           });
+          svelteGrammarWithAttach = pkgs.neovimUtils.grammarToPlugin (pkgs.vimPlugins.nvim-treesitter.grammarPlugins.svelte.origGrammar.overrideAttrs (old: {
+            patches = (old.patches or []) ++ [./tree-sitter-svelte-pr-20.patch];
+          }));
         in
           #lua
           ''
-            vim.opt.runtimepath:prepend("${grammarsPath}")
             require'config'
+            vim.opt.runtimepath:prepend("${grammarsPath}")
+            vim.opt.runtimepath:prepend("${svelteGrammarWithAttach}")
           '';
       };
 
