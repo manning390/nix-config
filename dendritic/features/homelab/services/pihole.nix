@@ -37,6 +37,10 @@
       };
 
       config = lib.mkIf cfg.enable {
+        # Homepage checks services from Glaciem itself, so it must use the
+        # local resolver rather than the DNS server received through DHCP.
+        networking.nameservers = ["127.0.0.1"];
+
         services.pihole-ftl = {
           enable = true;
           openFirewallDNS = true;
