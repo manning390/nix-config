@@ -129,10 +129,14 @@
           "data" = {
             type = "zfs_fs";
             mountpoint = "/bulk";
+            # Mounted by the generated systemd mount unit.  Without this,
+            # zfs-mount.service races that unit and one fails with EBUSY.
+            options.mountpoint = "legacy";
           };
           "backups" = {
             type = "zfs_fs";
             mountpoint = "/backups";
+            options.mountpoint = "legacy";
           };
         };
       };
@@ -155,6 +159,7 @@
           "data" = {
             type = "zfs_fs";
             mountpoint = "/fast";
+            options.mountpoint = "legacy";
           };
         };
       };
