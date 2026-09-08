@@ -37,11 +37,19 @@
               Should use program.nh.clean to garbage collect instead of nix.gc.automatic.
             '';
           };
-          flag = lib.mkOption {
-            type = lib.types.str;
-            default = "--delete-older-than 7d --keep 3";
+          keepSince = lib.mkOption {
+            type = lib.types.singleLineStr;
+            default = "7d";
             description = ''
-              Setting of gc.options and nh.clean.extraArgs for how many versions to keep.
+              Keep generations from this duration ago until now. This uses the
+              duration format accepted by both nix-collect-garbage and nh.
+            '';
+          };
+          keepGenerations = lib.mkOption {
+            type = lib.types.addCheck lib.types.int (value: value > 0);
+            default = 3;
+            description = ''
+              Minimum number of generations retained by nh cleanup.
             '';
           };
         };
@@ -60,7 +68,7 @@
           # Garbage Collection
           gc = {
             dates = lib.mkDefault "daily";
-            options = config.local.nix.gc.flag;
+            options = "--delete-older-than ${config.local.nix.gc.keepSince}";
           };
           gc.automatic = !config.local.nix.gc.useNh;
 
@@ -85,7 +93,7 @@
           enable = true;
           flake = config.local.nix.flakePath;
           clean.enable = config.local.nix.gc.useNh;
-          clean.extraArgs = config.local.nix.gc.flag;
+          clean.extraArgs = "--keep-since ${config.local.nix.gc.keepSince} --keep ${toString config.local.nix.gc.keepGenerations}";
         };
         environment.systemPackages = with pkgs; [
           nh
