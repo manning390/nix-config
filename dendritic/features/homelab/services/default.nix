@@ -66,6 +66,7 @@
         homepage
         immich
         microbin
+        pihole
       ];
     };
   };

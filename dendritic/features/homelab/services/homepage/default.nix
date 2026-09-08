@@ -65,13 +65,13 @@
               {
                 Downloads = {
                   header = true;
-                  sytle = "column";
+                  style = "column";
                 };
               }
               {
                 Media = {
                   header = true;
-                  sytle = "column";
+                  style = "column";
                 };
               }
               {

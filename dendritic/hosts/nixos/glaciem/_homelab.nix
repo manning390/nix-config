@@ -19,6 +19,7 @@ in {
       enable = true;
       homepage.enable = true;
       immich.enable = true;
+      pihole.enable = true;
       # filebrowser.enable = true;
       # microbin = {
       #   enable = false;
