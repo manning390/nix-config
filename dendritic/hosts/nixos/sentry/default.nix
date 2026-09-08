@@ -28,6 +28,7 @@ in {
         abidan-archive-backup
         homelab
         nordvpn
+        caddy-local-ca
       ];
 
       nixos = {config, ...}: {

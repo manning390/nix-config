@@ -16,6 +16,10 @@
       url = "git+https://codeberg.org/FelipeLema/cmp-async-path";
       flake = false;
     };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     disko.url = "github:nix-community/disko";
     flake-aspects.url = "github:denful/flake-aspects";

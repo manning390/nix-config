@@ -8,6 +8,10 @@
   config.flake-file.inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-aspects.url = "github:denful/flake-aspects";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   imports = [
@@ -101,10 +105,30 @@
           })
           |> lib.listToAttrs
       );
+    # Creates deploy-rs registration to allow deployment via `just deploy $hostname`
+    mkDeployment = hostname: host: let
+      nixos = self.nixosConfigurations.${hostname};
+    in {
+      hostname = nixos.config.networking.hostName;
+      sshUser = nixos.config.local.identity.username;
+      user = "root";
+      interactiveSudo = true;
+      remoteBuild = true;
+      profiles.system.path =
+        inputs.deploy-rs.lib.${host.system}.activate.nixos nixos;
+    };
   in
     config.local.hosts
     |> attrGroupBy (host: typeDispatch.${host.type}.flakeAttr)
-    |> lib.mapAttrs (_: lib.mapAttrs mkHost);
+    |> lib.mapAttrs (_: lib.mapAttrs mkHost)
+    |> (flake:
+      flake
+      // {
+        deploy.nodes =
+          config.local.hosts
+          |> lib.filterAttrs (_: host: host.type == "nixos")
+          |> lib.mapAttrs mkDeployment;
+      });
   # |> (baseFlake: baseFlake // {
   #   checks = lib.mapAttrs (name: cfg: {
   #       "hosts.${name}" = cfg;
