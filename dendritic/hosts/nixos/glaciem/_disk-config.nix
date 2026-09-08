@@ -166,6 +166,9 @@
     };
   };
   boot.supportedFilesystems = ["zfs"];
+  # Do not forcibly import a root pool that appears active on another host.
+  # This is safer and becomes the NixOS default in 26.11.
+  boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # auto imported, not hdd-poll
 
   # Check for corrupted data once a month, will spin up drives
