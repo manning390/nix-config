@@ -18,7 +18,8 @@ in {
     services = {
       enable = true;
       homepage.enable = true;
-      filebrowser.enable = true;
+      immich.enable = true;
+      # filebrowser.enable = true;
       # microbin = {
       #   enable = false;
       #   role = "server";

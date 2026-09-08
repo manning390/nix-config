@@ -63,6 +63,7 @@
         ];
         services.immich = {
           enable = true;
+          package = pkgs.unstable.immich;
           user = cfg.user;
           group = cfg.group;
           port = 2283;

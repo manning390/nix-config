@@ -21,7 +21,6 @@
           services.caddy = {
             enable = true;
             globalConfig = ''
-              auto_https off
               pki {
                 ca local {
                   name "Glaciem Homelab Local CA"
@@ -66,7 +65,6 @@
       includes = with aspects; [
         homepage
         immich
-        filebrowser
         microbin
       ];
     };
