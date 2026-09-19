@@ -3,7 +3,7 @@
 
   flake.aspects = {aspects, ...}: {
     wsl = {
-      includes = with aspects; [wsl-git-wrapper];
+      includes = with aspects; [wsl-git-wrapper wezterm];
 
       nixos = {
         inputs,

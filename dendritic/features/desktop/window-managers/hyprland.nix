@@ -41,7 +41,7 @@
             mako
             libnotify
             wl-clipboard-rs
-            inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
+            inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
           ];
 
           xdg.portal = {

@@ -11,9 +11,7 @@
         programs.zsh = {
           enable = true;
           initContent =
-            /*
-            zsh
-            */
+            # zsh
             ''
               source "${inputs.zinit}/zinit.zsh"
               zinit light zsh-users/zsh-syntax-highlighting

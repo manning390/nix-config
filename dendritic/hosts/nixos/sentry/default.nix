@@ -29,6 +29,7 @@ in {
         homelab
         nordvpn
         libreoffice
+        caddy-local-ca
       ];
 
       nixos = {config, ...}: {

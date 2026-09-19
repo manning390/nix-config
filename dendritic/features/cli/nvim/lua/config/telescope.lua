@@ -10,8 +10,8 @@ require("telescope").setup({
         qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
         file_ignore_patterns = {
-            "node_modules",
-            "vendor"
+            "node_modules/",
+            "vendor/"
         },
 
         mappings = {
@@ -23,6 +23,11 @@ require("telescope").setup({
             },
         },
 
+    },
+    pickers = {
+        git_files = {
+            file_ignore_patterns = { "^%.agents/" },
+        },
     },
     extensions = {
         fzy_native = {

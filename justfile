@@ -26,3 +26,9 @@ new command *args:
 
 new-host *args:
   ./scripts/generate-host.sh {{args}}
+
+deploy host:
+  nix develop -c deploy .#{{host}}
+
+deploy-dry host:
+  nix develop -c deploy --dry-activate .#{{host}}

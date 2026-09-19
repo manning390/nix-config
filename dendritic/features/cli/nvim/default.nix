@@ -1,5 +1,27 @@
-{
-  flake-file.inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+let
+  # These are neovim plugins not in the nix store
+  externalPlugins = {
+    cmp-async-path = "git+https://codeberg.org/FelipeLema/cmp-async-path";
+    telescope-emoji = "github:xiyaowong/telescope-emoji.nvim";
+    telescope-heading = "github:crispgm/telescope-heading.nvim";
+    tailiscope = "github:danielvolchek/tailiscope.nvim";
+    tailwind-fold = "github:razak17/tailwind-fold.nvim";
+    browser-bookmarks = "github:dhruvmanila/browser-bookmarks.nvim";
+    github-coauthors = "github:cwebster2/github-coauthors.nvim";
+    none-ls-extras = "github:nvimtools/none-ls-extras.nvim";
+    none-ls-php = "github:gbprod/none-ls-php.nvim";
+    wrd-nvim = "github:manning390/wrd.nvim/dev";
+  };
+in {
+  flake-file.inputs =
+    {
+      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    }
+    // (builtins.mapAttrs (_: url: {
+        inherit url;
+        flake = false;
+      })
+      externalPlugins);
 
   flake.aspects.nvim = {
     description = "The goat editor";
@@ -23,49 +45,30 @@
         withPython3 = true;
         withRuby = false;
 
-        plugins = with pkgs.vimPlugins; [
-          lazy-nvim
-          nvim-treesitter.withAllGrammars
+        plugins = [
+          pkgs.vimPlugins.lazy-nvim
+          pkgs.vimPlugins.nvim-treesitter.withAllGrammars
         ];
+        # plugins = import ./_plugins.nix {inherit inputs pkgs externalPlugins;};
+
+        initLua = let
+          grammarsPath = toString (pkgs.symlinkJoin {
+            name = "nvim-treesitter-grammars";
+            paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+          });
+          svelteGrammarWithAttach = pkgs.neovimUtils.grammarToPlugin (pkgs.vimPlugins.nvim-treesitter.grammarPlugins.svelte.origGrammar.overrideAttrs (old: {
+            patches = (old.patches or []) ++ [./tree-sitter-svelte-pr-20.patch];
+          }));
+        in
+          #lua
+          ''
+            require'config'
+            vim.opt.runtimepath:prepend("${grammarsPath}")
+            vim.opt.runtimepath:prepend("${svelteGrammarWithAttach}")
+          '';
       };
 
-      home.packages = with pkgs; [
-        devenv
-        ripgrep
-        nodejs
-
-        # LSP
-        tree-sitter
-        cmake-language-server
-        lua-language-server
-        svelte-language-server
-        neovim-node-client
-        typescript
-        typescript-language-server
-        eslint
-        eslint_d
-        emmet-language-server
-        efm-langserver
-        nixd
-        vale-ls
-        vscode-langservers-extracted
-        tailwindcss-language-server
-
-        # Formatter
-        stylua
-        codespell
-        prettierd
-        fixjson
-
-        # dotnet
-        (with pkgs.dotnetCorePackages;
-          combinePackages [
-            sdk_8_0
-            sdk_10_0
-          ])
-        dotnet-ef
-        csharpier
-      ];
+      home.packages = import ./_packages.nix {inherit pkgs;};
 
       programs.direnv.enable = true;
 
@@ -78,17 +81,10 @@
           recursive = true;
           source = ./after;
         };
-        "nvim/init.lua".source = let
-          grammarsPath = toString (pkgs.symlinkJoin {
-            name = "nvim-treesitter-grammars";
-            paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-          });
-        in
-          pkgs.writeText "init.lua" ''
-            vim.opt.runtimepath:prepend("${grammarsPath}")
-
-            require'config'
-          '';
+        "nvim/snippets" = {
+          recursive = true;
+          source = ./snippets;
+        };
       };
 
       home.sessionVariables = {

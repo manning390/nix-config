@@ -1,11 +1,19 @@
 {
   flake.aspects.kitty = {
+    nixos = {lib, ...}: {
+      options.local.kitty = {
+        enable = lib.mkEnableOption "Enables kitty for this user";
+      };
+    };
     homeManager = {
       lib,
       pkgs,
+      osConfig,
       ...
-    }: {
-      programs.kitty = {
+    }: let
+      cfg = osConfig.local.kitty;
+    in {
+      programs.kitty = lib.mkIf cfg.enable {
         enable = true;
         themeFile = "Nord";
         font = {
@@ -33,7 +41,7 @@
         };
       };
 
-      home.sessionVariables = {
+      home.sessionVariables = lib.mkIf cfg.enable {
         TERM = "kitty";
         KITTY_ENABLE_WAYLAND = "1";
       };

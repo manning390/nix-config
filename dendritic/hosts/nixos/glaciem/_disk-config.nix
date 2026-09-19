@@ -129,10 +129,14 @@
           "data" = {
             type = "zfs_fs";
             mountpoint = "/bulk";
+            # Mounted by the generated systemd mount unit.  Without this,
+            # zfs-mount.service races that unit and one fails with EBUSY.
+            options.mountpoint = "legacy";
           };
           "backups" = {
             type = "zfs_fs";
             mountpoint = "/backups";
+            options.mountpoint = "legacy";
           };
         };
       };
@@ -155,12 +159,16 @@
           "data" = {
             type = "zfs_fs";
             mountpoint = "/fast";
+            options.mountpoint = "legacy";
           };
         };
       };
     };
   };
   boot.supportedFilesystems = ["zfs"];
+  # Do not forcibly import a root pool that appears active on another host.
+  # This is safer and becomes the NixOS default in 26.11.
+  boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = ["ssd-pool" "hdd-pool"]; # auto imported, not hdd-poll
 
   # Check for corrupted data once a month, will spin up drives
