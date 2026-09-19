@@ -28,6 +28,7 @@ in {
         abidan-archive-backup
         homelab
         nordvpn
+        libreoffice
       ];
 
       nixos = {config, ...}: {
