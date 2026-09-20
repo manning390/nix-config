@@ -25,13 +25,28 @@
       # Here is where some that don't have specific locations live
       inputs = {
         # Private nix module
-        nix-private.url = "git+ssh://git@github.com/manning390/nix-private";
+        nix-private = {
+          url = "git+ssh://git@github.com/manning390/nix-private";
+          inputs = {
+            flake-parts.follows = "flake-parts";
+            nixpkgs.follows = "nixpkgs";
+          };
+        };
 
         # Disk Management
-        disko.url = lib.mkDefault "github:nix-community/disko";
+        disko = {
+          url = lib.mkDefault "github:nix-community/disko";
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         # Ephemeral Root
-        impermanence.url = lib.mkDefault "github:nix-community/impermanence";
+        impermanence = {
+          url = lib.mkDefault "github:nix-community/impermanence";
+          inputs = {
+            home-manager.follows = "home-manager";
+            nixpkgs.follows = "nixpkgs";
+          };
+        };
       };
 
       # Must be in a string. This is an overwrite to use ./dendritic directory over modules
