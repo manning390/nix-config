@@ -474,15 +474,15 @@ local plugins = {
 		"olimorris/codecompanion.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter"
+			"nvim-treesitter/nvim-treesitter",
 		},
-		config = function()
+		opts = {
 			interactions = {
 				chat = {
-					adapter = "codex"
-				}
-			}
-		end,
+					adapter = "codex",
+				},
+			},
+		},
 	},
 	-- {
 	-- 	"epwalsh/obsidian.nvim",

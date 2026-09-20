@@ -1,5 +1,8 @@
 {self, ...}: {
-  flake-file.inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+  flake-file.inputs.nixos-hardware = {
+    url = "github:NixOS/nixos-hardware/master";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   flake.aspects = {aspects, ...}: {
     hardware = {

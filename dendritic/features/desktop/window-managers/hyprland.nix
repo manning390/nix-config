@@ -1,5 +1,8 @@
 {
-  flake-file.inputs.hyprland-contrib.url = "github:hyprwm/contrib";
+  flake-file.inputs.hyprland-contrib = {
+    url = "github:hyprwm/contrib";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";

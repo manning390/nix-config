@@ -7,6 +7,7 @@ in {
         fish
         kitty
         nvim
+        tmux
         wiki
         yazi
         zoxide

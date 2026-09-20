@@ -13,6 +13,7 @@ in {
         base
         (homeManager._.users user)
         nix-index
+        caddy-local-ca
       ];
 
       nixos = {

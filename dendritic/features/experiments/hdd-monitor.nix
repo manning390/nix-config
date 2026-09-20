@@ -28,7 +28,7 @@
         };
 
         config = lib.mkIf cfg.enable {
-          # Store last operation count
+          # Store the previous cumulative per-device operation counts.
           systemd.tmpfiles.rules = [
             "d /var/lib/hdd-monitor 0755 root root -"
           ];
@@ -36,6 +36,10 @@
           systemd.services.hdd-monitor = {
             description = "Check ${cfg.poolName} for activity";
             after = ["zfs-import.target"];
+
+            # Systemd services do not inherit the interactive system profile.
+            # Keep every external command used by the script in its runtime PATH.
+            path = with pkgs; [coreutils gawk];
 
             serviceConfig = {
               Type = "oneshot";
@@ -45,34 +49,60 @@
 
             script = ''
               POOL="${cfg.poolName}"
-              STATE_FILE="/var/lib/hdd-monitor/last_ops"
+              STATE_FILE="/var/lib/hdd-monitor/last_counters"
 
               # Check if pool exists
               if ! ${pkgs.zfs}/bin/zpool list "$POOL" >/dev/null 2>&1; then
                 exit 0
               fi
 
-              # Get total operations (read + write)
-              STATS=$(${pkgs.zfs}/bin/zpool iostat -Hp "$POOL" 1 1 | tail -1)
-              READ=$(echo "$STATS" | awk '{print $4}')
-              WRITE=$(echo "$STATS" | awk '{print $5}')
-              TOTAL=$((READ + WRITE))
-
-              # Read previous value
-              if [ -f "$STATE_FILE" ]; then
-                PREV_OPS=$(cat "$STATE_FILE")
-              else
-                PREV_OPS=0
+              # zpool iostat with an interval is only a point-in-time sample;
+              # it can miss activity between runs.  Instead, find this pool's
+              # leaf devices and read their cumulative kernel counters.  Reading
+              # /proc/diskstats does not itself wake a sleeping disk.
+              DEVICES=$(${pkgs.zfs}/bin/zpool status -P "$POOL" | awk '$1 ~ /^\/dev\// { print $1 }')
+              if [ -z "$DEVICES" ]; then
+                echo "ERROR no leaf devices found for pool=$POOL"
+                exit 1
               fi
 
-              # Log if there was activity
-              if [ "$TOTAL" -gt "$PREV_OPS" ]; then
-                DELTA=$((TOTAL - PREV_OPS))
-                echo "ACCESS $DELTA"
+              READ_OPS=0
+              WRITE_OPS=0
+              for DEVICE in $DEVICES; do
+                DEVICE_NAME=$(basename "$(readlink -f "$DEVICE")")
+                COUNTERS=$(awk -v device="$DEVICE_NAME" '$3 == device { print $4, $8; exit }' /proc/diskstats)
+                if [ -z "$COUNTERS" ]; then
+                  echo "ERROR no diskstats entry for device=$DEVICE_NAME"
+                  exit 1
+                fi
+                set -- $COUNTERS
+                READ_OPS=$((READ_OPS + $1))
+                WRITE_OPS=$((WRITE_OPS + $2))
+              done
+
+              if [ ! -f "$STATE_FILE" ]; then
+                echo "$READ_OPS $WRITE_OPS" > "$STATE_FILE"
+                echo "SAMPLE read_ops=$READ_OPS write_ops=$WRITE_OPS baseline=1"
+                exit 0
               fi
 
-              # Save current value
-              echo "$TOTAL" > "$STATE_FILE"
+              read -r PREV_READ PREV_WRITE < "$STATE_FILE"
+              # Counters reset after a reboot, so establish a fresh baseline.
+              if [ "$READ_OPS" -lt "$PREV_READ" ] || [ "$WRITE_OPS" -lt "$PREV_WRITE" ]; then
+                echo "$READ_OPS $WRITE_OPS" > "$STATE_FILE"
+                echo "SAMPLE read_ops=$READ_OPS write_ops=$WRITE_OPS baseline=1"
+                exit 0
+              fi
+
+              READ_DELTA=$((READ_OPS - PREV_READ))
+              WRITE_DELTA=$((WRITE_OPS - PREV_WRITE))
+              TOTAL_DELTA=$((READ_DELTA + WRITE_DELTA))
+              echo "$READ_OPS $WRITE_OPS" > "$STATE_FILE"
+              echo "SAMPLE read_ops=$READ_OPS write_ops=$WRITE_OPS read_delta=$READ_DELTA write_delta=$WRITE_DELTA total_delta=$TOTAL_DELTA"
+
+              if [ "$TOTAL_DELTA" -gt 0 ]; then
+                echo "ACCESS read_ops=$READ_DELTA write_ops=$WRITE_DELTA total_ops=$TOTAL_DELTA"
+              fi
             '';
           };
 

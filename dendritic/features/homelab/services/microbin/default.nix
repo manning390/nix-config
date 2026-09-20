@@ -58,25 +58,12 @@
           type = lib.types.str;
           default = "Services";
         };
-        role = lib.mkOption {
-          type = lib.types.enum [
-            "client"
-            "server"
-          ];
-          default = "client";
-        };
       };
       config = let
-        mkIfElse = p: yes: no:
-          lib.mkMerge [
-            (lib.mkIf p yes)
-            (lib.mkIf (!p) no)
-          ];
         addr = "127.0.0.1";
         port = 8069;
       in
-        mkIfElse (cfg.role == "client")
-        (lib.mkIf cfg.enable {
+        lib.mkIf cfg.enable {
           nixpkgs.overlays = with pkgs; [
             (_final: prev: {
               microbin = prev.microbin.overrideAttrs (
@@ -113,26 +100,12 @@
               // lib.attrsets.optionalAttrs (cfg.passwordFile != "") {
                 passwordFile = cfg.passwordFile;
               };
-            # frp.settings.proxies = [
-            #   {
-            #     name = service;
-            #     type = "tcp";
-            #     localIP = addr;
-            #     localPort = port;
-            #     remotePort = port;
-            #   }
-            # ];
-          };
-        })
-        {
-          services.caddy.virtualHosts."${cfg.url}" = {
-            extraConfig = ''
-              tls internal
-              @noauth path /p/* /static/* file/* /static/highlight/*
-              handle @noauth {
+            caddy.virtualHosts."${cfg.url}" = {
+              extraConfig = ''
+                tls internal
                 reverse_proxy http://${addr}:${toString port}
-              }
-            '';
+              '';
+            };
           };
         };
     };
