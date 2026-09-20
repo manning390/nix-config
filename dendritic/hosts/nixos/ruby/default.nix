@@ -13,6 +13,7 @@ in {
       includes = with aspects; [
         base
         hardware
+        laptop
         (hardware._.hosts hostname)
         (homeManager._.users user)
         desktop
