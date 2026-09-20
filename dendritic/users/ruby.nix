@@ -12,12 +12,13 @@ in {
         zsh
       ];
 
-      nixos = {
+      nixos = {lib, ...}: {
         users.users.${username} = {
           isNormalUser = true;
           extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
           openssh.authorizedKeys.keys = [];
         };
+        local.kitty.enable = lib.mkDefault true;
       };
 
       homeManager = {};
