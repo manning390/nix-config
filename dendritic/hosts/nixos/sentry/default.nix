@@ -80,7 +80,7 @@ in {
             mountOptions = "vers=3.1.1,rw,noperm,uid=1000,gid=100";
           };
         };
-
+        services.fwupd.enable = true;
         services.openssh = {
           enable = true;
           openFirewall = true;
