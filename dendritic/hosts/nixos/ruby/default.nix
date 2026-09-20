@@ -30,6 +30,13 @@ in {
         # My defined configurations for modules
         local = {
           colemak_dhm.enable = true;
+          wm.hyprland.devices = [
+            {
+              name = "at-translated-set-2-keyboard";
+              kb_layout = "colemak_dhm,us";
+              kb_options = "caps:escape,grp:alt_shift_toggle";
+            }
+          ];
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
