@@ -85,7 +85,18 @@ in {
           baseDomain = "glaciem.home";
           samba.client = {
             enable = true;
-            mountOptions = "vers=3.1.1,rw,noperm,uid=1000,gid=100";
+            mountOptions = builtins.concatStringsSep "," [
+              "vers=3.1.1"
+              "rw"
+              "noperm"
+              "uid=1000"
+              "gid=100"
+              "_netdev"
+              "nofail"
+              "x-systemd.automount"
+              "x-systemd.idle-timeout=10min"
+              "x-systemd.mount-timeout=10s"
+            ];
           };
         };
         services.fwupd.enable = true;
