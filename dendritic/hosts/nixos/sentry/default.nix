@@ -34,7 +34,15 @@ in {
 
       nixos = {config, ...}: {
         local = {
-          wm.hyprland.layout = "dwindle";
+          wm.hyprland = {
+            layout = "dwindle";
+            devices = [
+              {
+                name = "zsa-technology-labs-voyager-keyboard";
+                kb_layout = "us";
+              }
+            ];
+          };
           hardware = {
             gpu.enable = true;
 

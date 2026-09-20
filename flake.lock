@@ -355,26 +355,6 @@
         "type": "github"
       }
     },
-    "hyprland-contrib": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1782811467,
-        "narHash": "sha256-JP0D8r8o9+jnYk0/B5O722La+oZeC5iNQ3lonKFTmbQ=",
-        "owner": "hyprwm",
-        "repo": "contrib",
-        "rev": "3dcbce715ae8b93107fa8632db15bf976862a573",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hyprwm",
-        "repo": "contrib",
-        "type": "github"
-      }
-    },
     "impermanence": {
       "inputs": {
         "home-manager": [
@@ -781,7 +761,6 @@
         "flake-parts": "flake-parts_2",
         "github-coauthors": "github-coauthors",
         "home-manager": "home-manager",
-        "hyprland-contrib": "hyprland-contrib",
         "impermanence": "impermanence",
         "import-tree": "import-tree",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
