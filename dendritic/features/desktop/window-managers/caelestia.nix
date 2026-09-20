@@ -1,5 +1,8 @@
 {
-  flake-file.inputs.caelestia-shell.url = "github:caelestia-dots/shell";
+  flake-file.inputs.caelestia-shell = {
+    url = "github:caelestia-dots/shell";
+    inputs.nixpkgs.follows = "nixpkgs-unstable";
+  };
 
   flake.aspects = {aspects, ...}: {
     caelestia = {
