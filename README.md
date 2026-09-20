@@ -1,7 +1,6 @@
 # My NixOS configurations
 
-## Mind the dust?
-Currently in the middle of a migration. Everything will eventually live in `./dendritic`, outside of that is somewhat deprecated.
+Configuration modules live in `./dendritic`.
 
 Entry point for systems is `hosts/<system>/<hostname>/default.nix` which sets options for `hosts/default.nix` to consume.
 
@@ -16,8 +15,8 @@ These concepts are layers onto themselves, read top > down.
 - [flake-aspects](https://github.com/vic/flake-aspects) - Inverts host-to-feature relationship. Features now specify hosts. What, not, where.
 
 ## TODO
-- [ ] Dendritic
-    - [ ] Convert all non-dendritic modules to dendritic
+- [x] Dendritic
+    - [x] Convert all non-dendritic modules to dendritic
     - [x] Convert hosts to new dendritic style
 - [ ] Nvim
     - [ ] Convert nvim to use nixpkgs via wrapper?
