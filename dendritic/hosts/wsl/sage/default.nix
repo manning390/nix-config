@@ -36,8 +36,9 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          codex
+          unstable.codex
           bubblewrap
+          github-copilot-cli
           gh
           python3
           gcc
