@@ -1,5 +1,8 @@
 {
-  flake-file.inputs.caelestia-shell.url = "github:caelestia-dots/shell";
+  flake-file.inputs.caelestia-shell = {
+    url = "github:caelestia-dots/shell";
+    inputs.nixpkgs.follows = "nixpkgs-unstable";
+  };
 
   flake.aspects = {aspects, ...}: {
     caelestia = {
@@ -10,6 +13,7 @@
         config,
         lib,
         inputs,
+        pkgs,
         ...
       }: let
         cfg = config.local.desktop.caelestia;
@@ -37,6 +41,10 @@
           programs.caelestia = {
             enable = true;
             cli.enable = true;
+            systemd = {
+              enable = true;
+              target = "graphical-session.target";
+            };
 
             settings = {
               general.apps = {
@@ -63,6 +71,36 @@
                 };
               };
             };
+          };
+
+          systemd.user.services.caelestia.Service.Slice = lib.mkForce "session-graphical.slice";
+
+          home.packages = with pkgs; [
+            brightnessctl
+            hyprpicker
+            libnotify
+            playerctl
+          ];
+
+          wayland.windowManager.hyprland.settings = {
+            bind = lib.mkAfter [
+              "$mod, D, global, caelestia:launcher"
+              "$mod, L, global, caelestia:lock"
+              "$mod, A, global, caelestia:picker open"
+              ", XF86AudioPlay, exec, playerctl play-pause"
+              ", XF86AudioNext, exec, playerctl next"
+              ", XF86AudioPrev, exec, playerctl previous"
+            ];
+            bindel = lib.mkAfter [
+              ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+              ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+              ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+              ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+            ];
+            bindl = lib.mkAfter [
+              ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+            ];
+            misc.force_default_wallpaper = 0;
           };
         };
       };

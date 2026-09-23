@@ -1,5 +1,8 @@
 top: {
-  flake-file.inputs.home-manager.url = "github:nix-community/home-manager/release-${top.config.nixpkgsVersion}";
+  flake-file.inputs.home-manager = {
+    url = "github:nix-community/home-manager/release-${top.config.nixpkgsVersion}";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   flake.aspects = {aspects, ...}: {
     homeManager._.users = username: {

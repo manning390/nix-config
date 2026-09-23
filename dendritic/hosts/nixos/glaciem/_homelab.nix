@@ -21,8 +21,7 @@ in {
       immich.enable = true;
       pihole.enable = true;
       # filebrowser.enable = true;
-      # microbin = {
-      #   enable = false;
+      microbin.enable = true;
       #   role = "server";
       # };
     };

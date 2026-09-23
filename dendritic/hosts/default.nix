@@ -13,7 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
   imports = [
     inputs.flake-parts.flakeModules.modules
     inputs.flake-aspects.flakeModule

@@ -4,7 +4,7 @@
       enable = true;
       gtk4.theme = null;
       theme = {
-        package = pkgs.nordic;
+        package = pkgs.unstable.nordic;
         name = "Nordic";
       };
     };

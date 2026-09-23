@@ -6,7 +6,6 @@ with pkgs; [
 
   # LSP
   tree-sitter
-  cmake-language-server
   lua-language-server
   unstable.svelte-language-server
   neovim-node-client
