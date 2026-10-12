@@ -52,7 +52,7 @@ au('TextYankPost', {
     group = ag('yank_highlight', { clear = true }),
     pattern = '*',
     callback = function()
-        vim.hl.on_yank { higroup = 'IncSearch', timeout = 300 }
+        vim.hl.hl_op { higroup = 'IncSearch', timeout = 300 }
     end,
 })
 -- Show line diagnostics automatically in hover window

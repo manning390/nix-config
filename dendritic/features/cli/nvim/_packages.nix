@@ -1,6 +1,6 @@
 {pkgs}:
 with pkgs; [
-  devenv
+  unstable.devenv
   ripgrep
   nodejs
 

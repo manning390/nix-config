@@ -66,6 +66,20 @@ in {
           TERM = "wezterm";
           PATH = "$HOME/.local/bin:$PATH";
         };
+
+        programs.opencode = {
+          enable = true;
+          package = pkgs.unstable.opencode;
+          settings = {
+            experimental.policies = [
+              {
+                action = "provider.use";
+                resource = "opencode";
+                effect = "deny";
+              }
+            ];
+          };
+        };
       };
     };
   };
