@@ -67,6 +67,7 @@
         forgejo
         immich
         microbin
+        memos
         pihole
       ];
     };
