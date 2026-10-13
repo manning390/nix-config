@@ -63,10 +63,7 @@ in {
               };
             };
           };
-          git.server = {
-            enable = true;
-            authorizedKeys = config.users.users."${user}".openssh.authorizedKeys.keys;
-          };
+          git.server.enable = false;
           nix.flakePath = nixCfgPath;
         };
 

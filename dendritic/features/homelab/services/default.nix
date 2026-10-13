@@ -64,6 +64,7 @@
 
       includes = with aspects; [
         homepage
+        forgejo
         immich
         microbin
         pihole

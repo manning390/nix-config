@@ -18,6 +18,7 @@ in {
     services = {
       enable = true;
       homepage.enable = true;
+      forgejo.enable = true;
       immich.enable = true;
       pihole.enable = true;
       # filebrowser.enable = true;
