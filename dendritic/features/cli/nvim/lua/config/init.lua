@@ -26,6 +26,7 @@ else
 	}
 end
 
+require'config.clipboard'
 require'config.lazy'
 require'config.notify'
 require'config.options'

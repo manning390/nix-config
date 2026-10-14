@@ -36,8 +36,9 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          codex
+          unstable.codex
           bubblewrap
+          github-copilot-cli
           gh
           python3
           gcc
@@ -64,6 +65,20 @@ in {
         home.sessionVariables = {
           TERM = "wezterm";
           PATH = "$HOME/.local/bin:$PATH";
+        };
+
+        programs.opencode = {
+          enable = true;
+          package = pkgs.unstable.opencode;
+          settings = {
+            experimental.policies = [
+              {
+                action = "provider.use";
+                resource = "opencode";
+                effect = "deny";
+              }
+            ];
+          };
         };
       };
     };

@@ -479,7 +479,7 @@ local plugins = {
 		opts = {
 			interactions = {
 				chat = {
-					adapter = "codex",
+					adapter = "copilot_acp",
 				},
 			},
 		},
