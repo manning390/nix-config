@@ -1,5 +1,4 @@
 {
-  self,
   inputs,
   ...
 }: let
@@ -32,8 +31,14 @@ in {
         caddy-local-ca
       ];
 
-      nixos = {config, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         local = {
+          # Work around unreliable resume until the hardware issue is diagnosed.
+          desktop.caelestia.allowSuspend = false;
           wm.hyprland = {
             layout = "dwindle";
             devices = [
@@ -66,6 +71,11 @@ in {
               connectTo = ["pch@glaciem" "ruby@ruby"];
               authorizedKeys = ["pch@mado" "ruby@ruby"];
               extraHosts = {
+                "abidan" = {
+                  hostname = "45.79.213.190";
+                  user = "telariel";
+                  identityFile = "telariel";
+                };
                 "github.com" = {
                   hostname = "github.com";
                   user = "git";
@@ -112,6 +122,10 @@ in {
           COLEMAK = "1";
           NIXCONFIG = "/home/${user}/Code/nix/nix-config";
         };
+        environment.systemPackages = with pkgs; [
+          unstable.proton-vpn
+          unstable.opencode
+        ];
       };
 
       # Required for included homeManager modules to be imported
@@ -119,6 +133,8 @@ in {
         local = {
           desktop.caelestia = {
             enable = true;
+            writableSettings = true;
+            idle.suspendAfter = null;
             excludedScreens = ["HDMI-A-1" "HDMI-A-2"];
           };
         };
