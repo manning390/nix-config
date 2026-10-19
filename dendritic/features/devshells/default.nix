@@ -11,6 +11,8 @@
         inputs.deploy-rs.packages.${system}.default
       ];
     };
-    formatter = pkgs.alejandra;
+    formatter = pkgs.writeShellScriptBin "alejandra" ''
+      exec ${pkgs.alejandra}/bin/alejandra --quiet "$@"
+    '';
   };
 }

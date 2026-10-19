@@ -34,7 +34,15 @@ in {
 
       nixos = {config, ...}: {
         local = {
-          wm.hyprland.layout = "dwindle";
+          wm.hyprland = {
+            layout = "dwindle";
+            devices = [
+              {
+                name = "zsa-technology-labs-voyager-keyboard";
+                kb_layout = "us";
+              }
+            ];
+          };
           hardware = {
             gpu.enable = true;
 
@@ -77,10 +85,21 @@ in {
           baseDomain = "glaciem.home";
           samba.client = {
             enable = true;
-            mountOptions = "vers=3.1.1,rw,noperm,uid=1000,gid=100";
+            mountOptions = builtins.concatStringsSep "," [
+              "vers=3.1.1"
+              "rw"
+              "noperm"
+              "uid=1000"
+              "gid=100"
+              "_netdev"
+              "nofail"
+              "x-systemd.automount"
+              "x-systemd.idle-timeout=10min"
+              "x-systemd.mount-timeout=10s"
+            ];
           };
         };
-
+        services.fwupd.enable = true;
         services.openssh = {
           enable = true;
           openFirewall = true;

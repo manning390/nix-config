@@ -12,5 +12,10 @@
       services.gvfs.enable = true;
       boot.supportedFilesystems = ["exfat"];
     };
+
+    homeManager.services.udiskie = {
+      enable = true;
+      tray = "auto";
+    };
   };
 }

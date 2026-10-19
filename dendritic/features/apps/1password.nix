@@ -16,5 +16,11 @@
         };
       };
     };
+
+    homeManager = {lib, ...}: {
+      wayland.windowManager.hyprland.settings.windowrule = lib.mkAfter [
+        "float on, match:class ^(1password)$"
+      ];
+    };
   };
 }

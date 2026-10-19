@@ -26,7 +26,6 @@
         "/etc/ssh/host_${hostname}_ed25519_key.pub"
       ];
 
-      users."git".directories = ["."];
       users.${user} = {
         directories = [
           "nix-config"

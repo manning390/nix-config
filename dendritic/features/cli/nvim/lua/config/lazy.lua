@@ -479,7 +479,7 @@ local plugins = {
 		opts = {
 			interactions = {
 				chat = {
-					adapter = "codex",
+					adapter = "copilot_acp",
 				},
 			},
 		},
@@ -509,13 +509,15 @@ local plugins = {
 	-- },
 	{
 		"manning390/wrd.nvim",
-		-- dir = "~/Code/lua/wrd.nvm",
+		dir = "~/Code/lua/wrd.nvim",
 		branch = "dev",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 			"nvim-lua/plenary.nvim",
 		},
-		opts = {},
+		opts = {
+			picker = { presentation = "grid" },
+		},
 	},
 }
 

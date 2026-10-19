@@ -10,7 +10,6 @@ vim.lsp.enable("clangd", {
 vim.lsp.enable("emmet_language_server", {
 	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
 })
-vim.lsp.enable("cmake")
 vim.lsp.enable("tailwindcss")
 vim.lsp.enable("nixd", {
 	formatting = {

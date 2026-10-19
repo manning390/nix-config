@@ -18,8 +18,10 @@ in {
     services = {
       enable = true;
       homepage.enable = true;
+      forgejo.enable = true;
       immich.enable = true;
       pihole.enable = true;
+      memos.enable = true;
       # filebrowser.enable = true;
       microbin.enable = true;
       #   role = "server";

@@ -1,15 +1,10 @@
 {
-  flake-file.inputs.hyprland-contrib = {
-    url = "github:hyprwm/contrib";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
   flake.aspects = {aspects, ...}: {
     hyprland = {
       description = "The wayland desktop compositor";
       includes = with aspects; [gtk];
 
       nixos = {
-        inputs,
         config,
         lib,
         pkgs,
@@ -23,34 +18,25 @@
             default = "dwindle";
             example = "scrolling";
           };
+          devices = lib.mkOption {
+            type = lib.types.listOf lib.types.attrs;
+            default = [];
+            description = "Host-specific Hyprland input device configuration.";
+          };
         };
         config = {
           programs.hyprland = {
             enable = true;
             withUWSM = true;
             xwayland.enable = true;
-            portalPackage = pkgs.xdg-desktop-portal;
           };
 
           environment.systemPackages = with pkgs; [
             app2unit # similar to UWSM, daemon launcher, faster
-            # hyprlock # lock screen
-            hyprcursor # Better cursors
-            hypridle # System idle
-            hyprpicker # Color picker
-            unstable.hyprpolkitagent # Escalate priviledges
-            playerctl
-            brightnessctl
-            mako
-            libnotify
+            hyprpolkitagent # Escalate privileges
             wl-clipboard-rs
-            inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
+            grimblast
           ];
-
-          xdg.portal = {
-            enable = true;
-            extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-          };
 
           programs.${userShell}.interactiveShellInit = ''
             if uwsm check may-start; then
@@ -65,28 +51,17 @@
         lib,
         osConfig,
         ...
-      }: {
+      }: let
+        cursorName = "catppuccin-mocha-dark-cursors";
+        cursorSize = 20;
+      in {
         wayland.windowManager.hyprland = {
           enable = true;
-          systemd.enable = true;
+          # UWSM owns the graphical-session lifecycle.
+          systemd.enable = false;
           configType = "hyprlang";
           settings = {
-            exec-once = [
-              # "app2unit -s b wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-              "app2unit -s b udiskie --smart-stray"
-            ];
-
-            device = [
-              {
-                name = "at-translated-set-2-keyboard";
-                kb_layout = "colemak_dhm,us";
-                kb_options = "caps:escape,grp:alt_shift_toggle";
-              }
-              {
-                name = "zsa-technology-labs-voyager-keyboard";
-                kb_layout = "us";
-              }
-            ];
+            device = osConfig.local.wm.hyprland.devices;
 
             # monitor = [
             #   "DP-1,2560x1440@144,2560x0,1"
@@ -94,11 +69,6 @@
             #   "HDMI-A-2,2560x1440@144,5120x0,1"
             # ];
             monitor = lib.mapAttrsToList (name: value: "${name},${value}") osConfig.local.hardware.monitors;
-            env = [
-              "HYPRCURSOR_THEME,rose-pine-hyprcursor"
-              "HYPRCURSOR_SIZE,24"
-            ];
-
             "$mod" = "SUPER";
             bind = let
               cfg = osConfig.local.wm.hyprland;
@@ -120,16 +90,17 @@
                   vi = "N";
                 };
               };
-              dwindleBinds = builtins.concatLists (builtins.attrValues (
-                builtins.mapAttrs (dir: keys: [
-                  "$mod, ${keys.arrow}, movefocus, ${dir}"
-                  "$mod, ${keys.vi}, movefocus, ${dir}"
-                  "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
-                  "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
-                  "$mod, T, layoutmsg, togglesplit"
-                ])
-                directions
-              ));
+              dwindleBinds =
+                ["$mod, T, layoutmsg, togglesplit"]
+                ++ builtins.concatLists (builtins.attrValues (
+                  builtins.mapAttrs (dir: keys: [
+                    "$mod, ${keys.arrow}, movefocus, ${dir}"
+                    "$mod, ${keys.vi}, movefocus, ${dir}"
+                    "$mod SHIFT, ${keys.arrow}, movewindow, ${dir}"
+                    "$mod SHIFT, ${keys.vi}, movewindow, ${dir}"
+                  ])
+                  directions
+                ));
               scrollingBinds = [
                 "$mod, ${directions.l.vi}, layoutmsg, focus, l"
                 "$mod, ${directions.r.vi}, layoutmsg, focus, r"
@@ -166,23 +137,12 @@
                 "ALT, F4, exec, hyprctl kill"
                 "$mod SHIFT, Q, exit"
                 "$mod, V, togglefloating"
-                # "$mod, D, exec, uwsm app -- rofi -show drun -show-icons"
-                "$mod, D, global, caelestia:launcher"
-
                 "$mod, P, pseudo"
                 "$mod, F, fullscreen"
                 "$mod, TAB, focuscurrentorlast"
-                # "$mod, L, exec, hyprlock"
-                "$mod, L, global, caelestia:lock"
-                "$mod, A, global, caelestia:picker open"
                 # Screen shots
                 ", Print, exec, app2unit -s a grimblast --notify copy area"
                 "SHIFT, Print, exec, app2unit -s a grimblast --notify copysave area"
-                # Volume keys
-                # Media keys
-                ", XF86AudioPlay, exec, playerctl play-pause"
-                ", XF86AudioNext, exec, playerctl next"
-                ", XF86AudioPrev, exec, playerctl previous"
               ]
               ++ (
                 if cfg.layout == "dwindle"
@@ -199,17 +159,6 @@
               "$mod, mouse:272, movewindow"
               "$mod, mouse:273, resizewindow" # right click with mod to resize
               "$mod ALT, mouse:272, resizewindow" # left click with mod + alt to resize
-            ];
-            bindel = [
-              # Volume controls
-              ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-              ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-              # Brightness
-              ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-              ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-            ];
-            bindl = [
-              ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
             ];
             general = {
               gaps_in = 5;
@@ -233,7 +182,6 @@
               };
             };
 
-            misc.force_default_wallpaper = 0;
             dwindle = {
               preserve_split = true;
             };
@@ -247,18 +195,15 @@
               "max_size 1 1, match:class ^(xwaylandvideobridge)$"
               "no_blur on, match:class ^(xwaylandvideobridge)$"
               "no_focus on, match:class ^(xwaylandvideobridge)$"
-              "float on, match:class ^(XIVLauncher.*)$"
-              "float on, match:class ^(1password)$"
-              "border_size 0, match:initial_title ^(FINAL FANTASY XIV)$"
             ];
           };
         };
 
         home.pointerCursor = {
           gtk.enable = true;
-          package = pkgs.unstable.catppuccin-cursors.mochaDark;
-          name = "catppuccin-mocha-dark-cursors";
-          size = 20;
+          package = pkgs.catppuccin-cursors.mochaDark;
+          name = cursorName;
+          size = cursorSize;
         };
 
         # Hint electron to use wayland
@@ -273,9 +218,8 @@
             export QT_QPA_PLATFORM=wayland;xcb
             export SDL_VIDEODRIVER=wayland
             export CLUTTER_BACKEND=wayland
-            export XCURSOR_THEME=Bibata-Modern-Classic
-            export XCURSOR_SIZE=20
-            export WAYLAND_DISPLAY=wayland-1
+            export XCURSOR_THEME=${cursorName}
+            export XCURSOR_SIZE=${toString cursorSize}
             export APP2UNIT_SLICES='a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice'
             export APP2UNIT_TYPE=scope
           '';

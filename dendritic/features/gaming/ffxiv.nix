@@ -48,5 +48,17 @@
         ];
       };
     };
+
+    homeManager = {
+      lib,
+      osConfig,
+      ...
+    }:
+      lib.mkIf osConfig.local.ffxiv.enable {
+        wayland.windowManager.hyprland.settings.windowrule = lib.mkAfter [
+          "float on, match:class ^(XIVLauncher.*)$"
+          "border_size 0, match:initial_title ^(FINAL FANTASY XIV)$"
+        ];
+      };
   };
 }
