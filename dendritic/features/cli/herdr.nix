@@ -17,6 +17,9 @@
         [theme]
         name = "nord"
 
+        [ui]
+        status_indicators = "symbols"
+
         [keys]
         # Colemak-DH: keep Herdr's pane navigation on the same home-row keys as Neovim.
         focus_pane_left = "prefix+m"
@@ -28,8 +31,9 @@
         navigate_pane_down = "n"
         navigate_pane_up = "e"
         navigate_pane_right = "i"
-        navigate_workspace_down = "n"
-        navigate_workspace_up = "e"
+        # Workspace and pane navigation share a keymap, so use distinct keys.
+        navigate_workspace_down = "down"
+        navigate_workspace_up = "up"
 
         swap_pane_left = "prefix+shift+m"
         swap_pane_down = "prefix+shift+n"
