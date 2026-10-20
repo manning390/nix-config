@@ -4,14 +4,14 @@
 in {
     local.hosts.${hostname} = {
         type = "TYPE_PLACEHOLDER";
-        stateVersion = "25.11";
+        stateVersion = "26.11";
     };
     flake.aspects = {aspects,...}: {
         ${hostname} = {
             description = "Host entrypoint for HOSTNAME_PLACEHOLDER";
             includes = with aspects; [
                 base
-                (hardware hostname)
+                HARDWARE_ASPECT_PLACEHOLDER
                 (homeManager._.users user)
                 ASPECTS_PLACEHOLDER
             ];
@@ -35,4 +35,3 @@ in {
         };
     };
 }
-
