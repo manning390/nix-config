@@ -1,7 +1,6 @@
 # My NixOS configurations
 
-## Mind the dust?
-Currently in the middle of a migration. Everything will eventually live in `./dendritic`, outside of that is somewhat deprecated.
+Configuration modules live in `./dendritic`.
 
 Entry point for systems is `hosts/<system>/<hostname>/default.nix` which sets options for `hosts/default.nix` to consume.
 

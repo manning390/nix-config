@@ -1,4 +1,4 @@
-{inputs, ...}: let
+{self, inputs, ...}: let
   hostname = "ruby";
   user = "ruby";
 in {
@@ -56,8 +56,9 @@ in {
                 };
                 "glaciem.git" = {
                   hostname = config.local.lan.hosts.glaciem;
-                  user = "git";
+                  user = "forgejo";
                   identityFile = "${user}@${hostname}";
+                  extraOptions.Port = self.nixosConfigurations.glaciem.config.homelab.services.forgejo.sshPort;
                 };
               };
             };
