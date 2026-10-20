@@ -16,21 +16,24 @@ These concepts are layers onto themselves, read top > down.
 - [flake-aspects](https://github.com/vic/flake-aspects) - Inverts host-to-feature relationship. Features now specify hosts. What, not, where.
 
 ## TODO
-- [ ] Dendritic
-    - [ ] Convert all non-dendritic modules to dendritic
+- [x] Dendritic
+    - [x] Convert all non-dendritic modules to dendritic
     - [x] Convert hosts to new dendritic style
+    - [x] Clean up old files
 - [ ] Nvim
     - [ ] Convert nvim to use nixpkgs via wrapper?
     - [ ] Setup dap with nvim for debugger
-    - [ ] Setup refactoring plugin for nvim
+    - [x] Setup refactoring plugin for nvim
     - [x] Setup c# env on nvim
 - [x] Set up auto ssh via nix-private
 - [ ] Finish homelab modules
-    - [ ] immich
-    - [ ] clip
+    - [x] immich
+    - [x] clip
     - [x] git
-    - [ ] backups
-    - [ ] arr?
     - [x] samba
+    - [ ] arr?
+    - [ ] backups
+- [ ] ISO generation, playbook for new hosts
 - [ ] Setup impermanence on all hosts
 - [ ] Setup non-destructive disko on all hosts
+    - [ ] Adjust store size on sentry

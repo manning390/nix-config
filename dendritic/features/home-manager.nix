@@ -19,10 +19,7 @@ top: {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          extraSpecialArgs = {
-            inherit inputs;
-            vars = import ../../vars; # Temp until everything dendritic
-          };
+          extraSpecialArgs = {inherit inputs;};
           backupFileExtension = "hmbak";
 
           users.${username} = {
