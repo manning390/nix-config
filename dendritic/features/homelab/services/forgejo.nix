@@ -62,8 +62,11 @@
               START_SSH_SERVER = true;
             };
             service.DISABLE_REGISTRATION = true;
+            repository.ENABLE_PUSH_CREATE_USER = true;
           };
         };
+
+        environment.systemPackages = [config.services.forgejo.package];
 
         services.caddy.virtualHosts."${cfg.url}" = {
           extraConfig = ''
