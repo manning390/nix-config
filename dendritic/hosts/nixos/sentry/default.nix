@@ -109,10 +109,7 @@ in {
           };
         };
 
-        environment.sessionVariables = {
-          COLEMAK = "1";
-          NIXCONFIG = "/home/${user}/Code/nix/nix-config";
-        };
+        environment.sessionVariables.COLEMAK = "1";
       };
 
       # Required for included homeManager modules to be imported
@@ -122,6 +119,11 @@ in {
             enable = true;
             excludedScreens = ["HDMI-A-1" "HDMI-A-2"];
           };
+        };
+
+        home.sessionVariables = {
+          PATH = "$HOME/.local/bin:$PATH";
+          NIXCONFIG = "$HOME/Code/nix/nix-config";
         };
       };
     };
