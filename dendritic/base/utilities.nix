@@ -2,6 +2,8 @@
   flake.aspects.utilities = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
+        aria2
+        fastfetch
         eza
         fzf
         stow
