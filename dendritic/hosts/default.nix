@@ -34,7 +34,7 @@
           };
           stateVersion = lib.mkOption {
             type = lib.types.str;
-            default = "25.11";
+            default = "26.05";
             description = "NixOS state version";
           };
           extraModules = lib.mkOption {
