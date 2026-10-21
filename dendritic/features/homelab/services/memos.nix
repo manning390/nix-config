@@ -41,6 +41,8 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices = ["memos.service"];
+
         services.memos = {
           enable = true;
           settings = {

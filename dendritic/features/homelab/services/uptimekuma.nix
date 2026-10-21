@@ -37,6 +37,8 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices = ["uptime-kuma.service"];
+
         services.uptime-kuma = {
           enable = true;
           settings = {

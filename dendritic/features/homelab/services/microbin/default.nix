@@ -64,6 +64,8 @@
         port = 8069;
       in
         lib.mkIf cfg.enable {
+          homelab.backups.quiesceServices = ["microbin.service"];
+
           nixpkgs.overlays = with pkgs; [
             (_final: prev: {
               microbin = prev.microbin.overrideAttrs (

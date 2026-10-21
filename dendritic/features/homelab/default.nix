@@ -3,7 +3,7 @@
     homelab = {
       description = "Entrypoint for homelab configurations.";
 
-      includes = with aspects; [samba services];
+      includes = with aspects; [samba services homelab-backups];
 
       nixos = {
         config,

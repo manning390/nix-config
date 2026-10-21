@@ -46,6 +46,17 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices =
+          [
+            "paperless-scheduler.service"
+            "paperless-task-queue.service"
+            "paperless-consumer.service"
+            "paperless-web.service"
+          ]
+          ++ lib.optional config.services.paperless.exporter.enable "paperless-exporter.service"
+          ++ lib.optional config.services.paperless.database.createLocally "postgresql.service"
+          ++ lib.optional (config.services.redis.servers.paperless.enable or false) "redis-paperless.service";
+
         services.paperless = {
           enable = true;
           user = homelab.user;

@@ -151,6 +151,8 @@
             config = lib.mkIf cfg.enable {
               services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
 
+              homelab.backups.quiesceServices = ["samba-smbd.service" "samba-nmbd.service"];
+
               environment.systemPackages = [config.services.samba.package]; # Provides smbclient to path
 
               systemd.tmpfiles.rules = map (x: "d ${x.path} 0775 ${hl.user} ${hl.group} - -") (lib.attrValues samba.shares);

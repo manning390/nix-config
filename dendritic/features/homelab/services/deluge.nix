@@ -37,6 +37,10 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices =
+          ["deluged.service"]
+          ++ lib.optional config.services.deluge.web.enable "delugeweb.service";
+
         services.deluge = {
           enable = true;
           user = homelab.user;

@@ -46,6 +46,12 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices =
+          ["forgejo.service"]
+          ++ lib.optional config.services.forgejo.dump.enable "forgejo-dump.service"
+          ++ lib.optional (config.services.forgejo.database.createDatabase && config.services.forgejo.database.type == "postgres") "postgresql.service"
+          ++ lib.optional (config.services.forgejo.database.createDatabase && config.services.forgejo.database.type == "mysql") "mysql.service";
+
         networking.firewall.allowedTCPPorts = [cfg.sshPort];
 
         services.forgejo = {
