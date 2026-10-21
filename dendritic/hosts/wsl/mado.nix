@@ -8,7 +8,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "WSL Instance on windows home machine";
+      description = "WSL Peach juicebox desktop";
       includes = with aspects; [
         base
         (homeManager._.users user)

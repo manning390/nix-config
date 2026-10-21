@@ -1,9 +1,10 @@
 # Documentation
 
-## Guides
+## In This Repo
 
-| Guide | Covers |
+| Document | Covers |
 | --- | --- |
+| [Host inventory](hosts.md) | Host type, description, and hardware collected with `just document-host`. |
 | [Host setup](new-host-playbook.md) | Add hosts, build installer ISOs, and install or reinstall NixOS. |
 | [Homelab backups](backups.md) | Configure passwords, run backups, copy off-site, and restore data. |
 

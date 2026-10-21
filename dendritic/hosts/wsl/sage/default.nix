@@ -8,6 +8,8 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "WSL HP Z book work laptop";
+
       includes = with aspects; [
         base
         (homeManager._.users user)

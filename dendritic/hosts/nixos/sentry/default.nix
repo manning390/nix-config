@@ -12,7 +12,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "Slim gray desktop war machine";
+      description = "Slim gray desktop gaming war machine";
 
       includes = with aspects; [
         base

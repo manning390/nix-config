@@ -123,6 +123,13 @@
     |> (flake:
       flake
       // {
+        hostMetadata =
+          lib.mapAttrs (hostname: host: {
+            inherit (host) type system;
+            description = self.aspects.${hostname}.description or null;
+          })
+          config.local.hosts;
+
         deploy.nodes =
           config.local.hosts
           |> lib.filterAttrs (_: host: host.type == "nixos")
