@@ -8,6 +8,7 @@
       nixos = {
         config,
         lib,
+        pkgs,
         ...
       }: let
         cfg = config.homelab;
@@ -23,6 +24,11 @@
             default = "/bulk";
             type = lib.types.path;
             description = "Path to the 'slow' tier mount";
+          };
+          mounts.merged = lib.mkOption {
+            default = "/merged";
+            type = lib.types.path;
+            description = "MergerFS union mount for the fast and slow storage tiers";
           };
           user = lib.mkOption {
             default = "share";
@@ -48,6 +54,22 @@
         };
 
         config = lib.mkIf cfg.enable {
+          environment.systemPackages = [pkgs.mergerfs];
+          programs.fuse.userAllowOther = true;
+
+          fileSystems.${cfg.mounts.merged} = {
+            device = "${cfg.mounts.fast}:${cfg.mounts.slow}";
+            fsType = "fuse.mergerfs";
+            options = [
+              "defaults"
+              "allow_other"
+              "category.create=epff"
+              "fsname=homelab"
+              "x-mount.mkdir"
+            ];
+            depends = [cfg.mounts.fast cfg.mounts.slow];
+          };
+
           users = {
             groups.${cfg.group} = {
               gid = 993;

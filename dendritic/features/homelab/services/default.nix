@@ -69,6 +69,9 @@
         microbin
         memos
         pihole
+        uptimekuma
+        deluge
+        paperless
       ];
     };
   };

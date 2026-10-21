@@ -23,11 +23,8 @@
         };
         config.homelab.samba = {
           shares = {
-            Fast = {
-              path = config.homelab.mounts.fast;
-            };
-            Media = {
-              path = "${config.homelab.mounts.slow}/Media";
+            Storage = {
+              path = config.homelab.mounts.merged;
             };
             Backups = {
               path = "/backups";

@@ -32,7 +32,7 @@
         };
         mediaDir = lib.mkOption {
           type = lib.types.path;
-          default = "${homelab.mounts.fast}/Photos/Immich";
+          default = "${homelab.mounts.merged}/Photos/Immich";
         };
         url = lib.mkOption {
           type = lib.types.singleLineStr;

@@ -22,6 +22,9 @@ in {
       immich.enable = true;
       pihole.enable = true;
       memos.enable = true;
+      uptimekuma.enable = true;
+      deluge.enable = true;
+      paperless.enable = true;
       # filebrowser.enable = true;
       microbin.enable = true;
       #   role = "server";
