@@ -1,4 +1,8 @@
-{self, inputs, ...}: let
+{
+  self,
+  inputs,
+  ...
+}: let
   hostname = "ruby";
   user = "ruby";
 in {
@@ -19,6 +23,7 @@ in {
         caelestia
         discord
         _1password
+        homelab
       ];
 
       nixos = {config, ...}: {
@@ -65,9 +70,26 @@ in {
           };
         };
 
-        environment.sessionVariables = {
-          COLEMAK = "1";
+        homelab = {
+          baseDomain = "glaciem.home";
+          samba.client = {
+            enable = true;
+            mountOptions = builtins.concatStringsSep "," [
+              "vers=3.1.1"
+              "rw"
+              "noperm"
+              "uid=1000"
+              "gid=100"
+              "_netdev"
+              "nofail"
+              "x-systemd.automount"
+              "x-systemd.idle-timeout=10min"
+              "x-systemd.mount-timeout=10s"
+            ];
+          };
         };
+
+        environment.sessionVariables.COLEMAK = "1";
       };
 
       # Required for included homeManager modules to be imported
