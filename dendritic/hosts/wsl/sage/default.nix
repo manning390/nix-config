@@ -28,6 +28,7 @@ in {
 
         local = {
           kitty.enable = false;
+          wsl.windowsUser = "msmanning";
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
