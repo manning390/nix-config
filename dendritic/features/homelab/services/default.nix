@@ -66,6 +66,7 @@
         homepage
         forgejo
         immich
+        audiobookshelf
         microbin
         memos
         pihole

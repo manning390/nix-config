@@ -59,6 +59,7 @@ in {
       homepage.enable = true;
       forgejo.enable = true;
       immich.enable = true;
+      audiobookshelf.enable = true;
       pihole.enable = true;
       memos.enable = true;
       uptimekuma.enable = true;
