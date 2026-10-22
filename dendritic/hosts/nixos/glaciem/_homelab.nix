@@ -33,16 +33,12 @@ in {
           dataset = "hdd-pool/data";
           mountpoint = "/bulk";
         };
-        state = {
-          dataset = "system-pool/var";
-          mountpoint = "/var";
-          paths = ["/lib"];
-        };
         home = {
           dataset = "system-pool/home";
           mountpoint = "/home";
         };
         persist = {
+          # Impermanence bind-mounts /persist/var/lib at /var/lib.
           dataset = "system-pool/persist";
           mountpoint = "/persist";
         };

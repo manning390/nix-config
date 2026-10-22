@@ -7,12 +7,12 @@ Glaciem uses Restic to create encrypted, compressed, and deduplicated backups.
 | Local schedule | Daily at 05:00, with up to 15 minutes of jitter |
 | Repository | `/backups/restic/glaciem` |
 | Retention | 7 daily, 4 weekly, and 6 monthly snapshots |
-| Included data | `/fast`, `/bulk`, `/home`, `/persist`, `/etc`, and `/var/lib` |
+| Included data | `/fast`, `/bulk`, `/home`, `/persist` (including the live `/var/lib` data), and `/etc` |
 | Integrity checks | Metadata after each backup; a random 5% of stored data on Sundays at 12:00, with up to 15 minutes of jitter |
 | Optional off-site copy | Daily at 06:00, with up to 15 minutes of jitter |
 
 Retention buckets share unchanged data; they are not full independent copies.
-Unreferenced data is pruned after successful backups. The two storage tiers are captured directly, so `/merged` is not backed up again. `/backups`, `/nix/store`, caches outside the included paths, and `/var/log` are not sources.
+Unreferenced data is pruned after successful backups. The two storage tiers are captured directly, so `/merged` is not backed up again. `/backups`, `/nix/store`, and caches outside the included paths are not sources. Persisted logs under `/persist/var/log` are included with `/persist`.
 
 Applications, Samba, and DNS are briefly interrupted while consistent ZFS snapshots are taken. Services restart before Restic uploads the data; see [how snapshots work](#how-snapshots-work) for details.
 
@@ -85,6 +85,7 @@ After adding the secret and deploying the configuration, run these commands **on
 Before each local backup, the job briefly stops active application writers, Samba, Pi-hole, PostgreSQL, and Redis, then takes ZFS snapshots named `restic-homelab`.
 Snapshots are created in one transaction per pool because ZFS cannot snapshot multiple pools in a single command. Writers remain stopped until all pools have been captured.
 It restarts those services before Restic reads the snapshots.
+On Glaciem, impermanence bind-mounts `/persist/var/lib` at `/var/lib`, so live service state is captured by the `system-pool/persist` snapshot. A snapshot of `system-pool/var` would only capture the underlying `/var/lib` directory, not the bind-mounted data.
 This captures databases in a cleanly stopped state alongside application files, with a short interruption to DNS and SMB. ZFS snapshots are removed when the local backup job exits, including on failure.
 
 The backup service requires the storage mounts, verifies source dataset identities, and runs with reduced CPU/I/O priority. Only services that were active are restarted.
@@ -160,7 +161,7 @@ sudo restic-homelab restore latest --target /tmp/homelab-restore
 sudo restic-homelab check --read-data
 ```
 
-Restored paths retain the ZFS snapshot layout, for example `/tmp/homelab-restore/fast/.zfs/snapshot/restic-homelab/...` and `/tmp/homelab-restore/var/.zfs/snapshot/restic-homelab/lib/...`.
+Restored paths retain the ZFS snapshot layout, for example `/tmp/homelab-restore/fast/.zfs/snapshot/restic-homelab/...` and `/tmp/homelab-restore/persist/.zfs/snapshot/restic-homelab/var/lib/...`.
 Copy the contents back to their original live paths with the corresponding services stopped, preserving ownership and permissions.
 Restore PostgreSQL's full data directory using the same PostgreSQL major version and required extensions;
 these are physical database backups, not portable SQL exports.
