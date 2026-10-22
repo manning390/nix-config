@@ -27,6 +27,17 @@ new command *args:
 new-host *args:
   ./scripts/generate-host.sh {{args}}
 
+new-hardware hostname *args:
+  ./scripts/generate-hardware.sh "{{hostname}}" {{args}}
+
+# Collect this host's hardware and refresh its documentation entry.
+document-host:
+  bash ./scripts/document-host.sh
+
+# Build an installer ISO using a configured NixOS host as its source.
+build-iso host:
+  nixos-rebuild build-image --flake ".#{{host}}" --image-variant iso-installer
+
 deploy host:
   nix develop -c deploy .#{{host}}
 

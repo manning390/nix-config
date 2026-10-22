@@ -41,9 +41,15 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices = ["memos.service"];
+
         services.memos = {
           enable = true;
           settings = {
+            # This option replaces the NixOS module's default settings as a whole.
+            MEMOS_MODE = "prod";
+            MEMOS_DATA = config.services.memos.dataDir;
+            MEMOS_DRIVER = "sqlite";
             MEMOS_ADDR = "127.0.0.1";
             MEMOS_PORT = toString cfg.port;
             MEMOS_INSTANCE_URL = "https://${cfg.url}";

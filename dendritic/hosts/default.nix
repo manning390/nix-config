@@ -34,7 +34,7 @@
           };
           stateVersion = lib.mkOption {
             type = lib.types.str;
-            default = "25.11";
+            default = "26.05";
             description = "NixOS state version";
           };
           extraModules = lib.mkOption {
@@ -123,6 +123,13 @@
     |> (flake:
       flake
       // {
+        hostMetadata =
+          lib.mapAttrs (hostname: host: {
+            inherit (host) type system;
+            description = self.aspects.${hostname}.description or null;
+          })
+          config.local.hosts;
+
         deploy.nodes =
           config.local.hosts
           |> lib.filterAttrs (_: host: host.type == "nixos")

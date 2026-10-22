@@ -21,7 +21,7 @@ EOF
     exit 1
 }
 
-# Pase arguments
+# Parse arguments
 if [[ $# -lt 1 ]]; then
     usage
 fi
@@ -77,8 +77,16 @@ ASPECTS_LIST=""
 if [[ -n "$ASPECTS" ]]; then
     IFS=',' read -ra ASPECT_ARRAY <<< "$ASPECTS"
     for aspect in "${ASPECT_ARRAY[@]}"; do
-        ASPECTS_LIST="$NASPECTS_LIST\"${aspect}\" "
+        aspect="${aspect//[[:space:]]/}"
+        if [[ -n "$aspect" ]]; then
+            ASPECTS_LIST+="${aspect} "
+        fi
     done
+fi
+
+HARDWARE_ASPECT="(hardware ${HOSTNAME})"
+if [[ "$TYPE" == "wsl" ]]; then
+    HARDWARE_ASPECT=""
 fi
 
 
@@ -89,6 +97,7 @@ cp "$TEMPLATE_FILE" "$HOST_FILE"
 sed -i "s|HOSTNAME_PLACEHOLDER|${HOSTNAME}|g" "$HOST_FILE"
 sed -i "s|TYPE_PLACEHOLDER|${TYPE}|g" "$HOST_FILE"
 sed -i "s|ASPECTS_PLACEHOLDER|${ASPECTS_LIST}|g" "$HOST_FILE"
+sed -i "s|HARDWARE_ASPECT_PLACEHOLDER|${HARDWARE_ASPECT}|g" "$HOST_FILE"
 nix fmt "$HOST_FILE" -- --quiet
 git add "$HOST_FILE"
 

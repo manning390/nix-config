@@ -66,9 +66,13 @@
         homepage
         forgejo
         immich
+        audiobookshelf
         microbin
         memos
         pihole
+        uptimekuma
+        deluge
+        paperless
       ];
     };
   };

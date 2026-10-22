@@ -33,7 +33,7 @@
 
           environment.systemPackages = with pkgs; [
             app2unit # similar to UWSM, daemon launcher, faster
-            hyprpolkitagent # Escalate privileges
+            unstable.hyprpolkitagent # Escalate privileges
             wl-clipboard-rs
             grimblast
           ];
@@ -201,7 +201,7 @@
 
         home.pointerCursor = {
           gtk.enable = true;
-          package = pkgs.catppuccin-cursors.mochaDark;
+          package = pkgs.unstable.catppuccin-cursors.mochaDark;
           name = cursorName;
           size = cursorSize;
         };

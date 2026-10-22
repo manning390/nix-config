@@ -8,6 +8,8 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "WSL HP Z book work laptop";
+
       includes = with aspects; [
         base
         (homeManager._.users user)
@@ -28,6 +30,7 @@ in {
 
         local = {
           kitty.enable = false;
+          wsl.windowsUser = "msmanning";
           shells = {
             systemShell = "zsh";
             userShell = "zsh";

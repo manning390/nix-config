@@ -12,7 +12,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "Slim gray desktop war machine";
+      description = "Slim gray desktop gaming war machine";
 
       includes = with aspects; [
         base
@@ -32,8 +32,14 @@ in {
         caddy-local-ca
       ];
 
-      nixos = {config, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         local = {
+          # Work around unreliable resume until the hardware issue is diagnosed.
+          desktop.caelestia.allowSuspend = false;
           wm.hyprland = {
             layout = "dwindle";
             devices = [
@@ -73,8 +79,9 @@ in {
                 };
                 "glaciem.git" = {
                   hostname = config.local.lan.hosts.glaciem;
-                  user = "git";
+                  user = "forgejo";
                   identityFile = "${user}@${hostname}";
+                  extraOptions.Port = self.nixosConfigurations.glaciem.config.homelab.services.forgejo.sshPort;
                 };
               };
             };
@@ -108,10 +115,12 @@ in {
           };
         };
 
-        environment.sessionVariables = {
-          COLEMAK = "1";
-          NIXCONFIG = "/home/${user}/Code/nix/nix-config";
-        };
+        environment.systemPackages = with pkgs; [
+          unstable.proton-vpn
+          unstable.opencode
+        ];
+
+        environment.sessionVariables.COLEMAK = "1";
       };
 
       # Required for included homeManager modules to be imported
@@ -119,8 +128,15 @@ in {
         local = {
           desktop.caelestia = {
             enable = true;
+            writableSettings = true;
+            idle.suspendAfter = null;
             excludedScreens = ["HDMI-A-1" "HDMI-A-2"];
           };
+        };
+
+        home.sessionVariables = {
+          PATH = "$HOME/.local/bin:$PATH";
+          NIXCONFIG = "$HOME/Code/nix/nix-config";
         };
       };
     };
