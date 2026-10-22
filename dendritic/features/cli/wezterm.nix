@@ -1,22 +1,22 @@
 {
   flake.aspects.wezterm = {
     description = "Terminal emulator and multiplexer, typically used on windows.";
-    # nixos = {
-    #   config,
-    #   lib,
-    #   pkgs,
-    # }: let
-    #   cfg = config.local.wezterm;
-    # in {
-    #   options.local.wezterm = {
-    #     enable = lib.mkEnableOption "Enable wezterm";
-    #     install = lib.mkEnableOption "Install wezterm as a package";
-    #   };
-    # };
-    homeManager = {pkgs, ...}: {
+    homeManager = {
+      lib,
+      osConfig,
+      pkgs,
+      ...
+    }: let
+      windowsUser = osConfig.local.wsl.windowsUser;
+      windowsConfig = "/mnt/c/Users/${windowsUser}/.wezterm.lua";
+    in {
       home.packages = with pkgs; [
         wezterm.terminfo
       ];
+
+      home.activation.installWezTermWindowsConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        ${pkgs.coreutils}/bin/install -D -m 0644 ${./wezterm.lua} ${lib.escapeShellArg windowsConfig}
+      '';
     };
   };
 }

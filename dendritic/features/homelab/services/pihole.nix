@@ -37,6 +37,8 @@
       };
 
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices = ["pihole-ftl.service"];
+
         # Homepage checks services from Glaciem itself, so it must use the
         # local resolver rather than the DNS server received through DHCP.
         networking.nameservers = ["127.0.0.1"];

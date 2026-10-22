@@ -1,36 +1,35 @@
 # My NixOS configurations
 
-## Mind the dust?
-Currently in the middle of a migration. Everything will eventually live in `./dendritic`, outside of that is somewhat deprecated.
+Personal NixOS configurations for multiple machines, organized as dendritic modules under `dendritic/`.
 
-Entry point for systems is `hosts/<system>/<hostname>/default.nix` which sets options for `hosts/default.nix` to consume.
+Host definitions live in `dendritic/hosts/<type>/<hostname>/default.nix`.
+Shared host configuration is assembled in `dendritic/hosts/default.nix`.
 
-## Concepts
-These concepts are layers onto themselves, read top > down.
+This configuration is a work in progress.
 
-- [Flakes](https://nix.dev/concepts/flakes.html) - Experimental (ha!) solution to versioning
-- [sops-nix](https://github.com/Mic92/sops-nix) - Secret management
-- [Flake Parts](https://flake.parts/index.html) - Solution to systems problem, modularize flake file
-- [Dendritic System](https://github.com/Doc-Steve/dendritic-design-with-flake-parts) - Every config is a flake-part module and can be organized trivially, enables multi-class module configs
-- [flake-file](https://github.com/vic/flake-file) - Generate flake file via configs, keep input requirements and definitions close to config
-- [flake-aspects](https://github.com/vic/flake-aspects) - Inverts host-to-feature relationship. Features now specify hosts. What, not, where.
+## Documentation
+
+See the [documentation](docs/index.md) for setup guides and operational procedures.
 
 ## TODO
-- [ ] Dendritic
-    - [ ] Convert all non-dendritic modules to dendritic
+- [x] Dendritic
+    - [x] Convert all non-dendritic modules to dendritic
     - [x] Convert hosts to new dendritic style
+    - [x] Clean up old files
 - [ ] Nvim
     - [ ] Convert nvim to use nixpkgs via wrapper?
     - [ ] Setup dap with nvim for debugger
-    - [ ] Setup refactoring plugin for nvim
+    - [x] Setup refactoring plugin for nvim
     - [x] Setup c# env on nvim
 - [x] Set up auto ssh via nix-private
 - [ ] Finish homelab modules
-    - [ ] immich
-    - [ ] clip
+    - [x] immich
+    - [x] clip
     - [x] git
-    - [ ] backups
-    - [ ] arr?
     - [x] samba
+    - [ ] arr?
+    - [x] backups
+- [x] ISO generation, playbook for new hosts
 - [ ] Setup impermanence on all hosts
 - [ ] Setup non-destructive disko on all hosts
+    - [ ] Adjust store size on sentry

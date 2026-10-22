@@ -8,6 +8,8 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
+      description = "WSL HP Z book work laptop";
+
       includes = with aspects; [
         base
         (homeManager._.users user)
@@ -28,6 +30,7 @@ in {
 
         local = {
           kitty.enable = false;
+          wsl.windowsUser = "msmanning";
           shells = {
             systemShell = "zsh";
             userShell = "zsh";
@@ -36,8 +39,9 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          codex
+          unstable.codex
           bubblewrap
+          github-copilot-cli
           gh
           python3
           gcc
@@ -64,6 +68,20 @@ in {
         home.sessionVariables = {
           TERM = "wezterm";
           PATH = "$HOME/.local/bin:$PATH";
+        };
+
+        programs.opencode = {
+          enable = true;
+          package = pkgs.unstable.opencode;
+          settings = {
+            experimental.policies = [
+              {
+                action = "provider.use";
+                resource = "opencode";
+                effect = "deny";
+              }
+            ];
+          };
         };
       };
     };

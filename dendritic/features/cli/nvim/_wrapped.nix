@@ -77,7 +77,7 @@
       imports = [];
 
       home.packages = [
-        pkgs.devenv
+        pkgs.unstable.devenv
         pkgs.ripgrep
         self.packages.${system}.nvimNixPatched
       ];

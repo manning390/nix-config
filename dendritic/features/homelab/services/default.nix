@@ -64,9 +64,15 @@
 
       includes = with aspects; [
         homepage
+        forgejo
         immich
+        audiobookshelf
         microbin
+        memos
         pihole
+        uptimekuma
+        deluge
+        paperless
       ];
     };
   };

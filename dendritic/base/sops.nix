@@ -10,11 +10,8 @@
       pkgs,
       ...
     }: let
-      username = config.local.identity.username;
       hostname = config.networking.hostName;
       host_key_file = "/etc/ssh/host_${hostname}_ed25519_key";
-      home = "/home/${username}";
-      user_key_file = "${home}/.ssh/user_${username}_${hostname}_ed25519_key";
     in {
       imports = [inputs.sops-nix.nixosModules.sops];
 
@@ -68,15 +65,6 @@
               chmod 644 ${host_key_file}.pub
             fi
           '';
-          # # Generate user key if missing
-          # if [ ! -f "${user_key_file}" ]; then
-          #   mkdir -p "${home}/.ssh"
-          #   ${sshKeygen} -t ed25519 -N "" -C "user key ${vars.username}@${vars.hostname} $(date +%s)" -f "${user_key_file}"
-          #   chown -R ${vars.username}:${vars.username} "${home}/.ssh"
-          #   chmod 700 "${home}/.ssh"
-          #   chmod 600 "${user_key_file}"
-          #   chmod 644 "${user_key_file}.pub"
-          # fi
         };
       };
     };

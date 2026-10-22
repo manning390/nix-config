@@ -1,4 +1,4 @@
-let
+{self, ...}: let
   hostname = "mado";
   user = "pch";
 in {
@@ -8,7 +8,7 @@ in {
   };
   flake.aspects = {aspects, ...}: {
     ${hostname} = {
-      description = "WSL Instance on windows home machine";
+      description = "WSL Peach juicebox desktop";
       includes = with aspects; [
         base
         (homeManager._.users user)
@@ -26,6 +26,7 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
+          wsl.windowsUser = "Railalis";
           ssh = {
             enable = true;
             users = {
@@ -39,8 +40,9 @@ in {
                   };
                   "glaciem.git" = {
                     hostname = config.local.lan.hosts.glaciem;
-                    user = "git";
+                    user = "forgejo";
                     identityFile = "${user}@${hostname}";
+                    extraOptions.Port = self.nixosConfigurations.glaciem.config.homelab.services.forgejo.sshPort;
                   };
                 };
               };
@@ -52,6 +54,7 @@ in {
           bash
           unstable.codex
           bubblewrap
+          unstable.opencode
         ];
         systemd.tmpfiles.rules = [
           "L+ /usr/bin/bash - - - - /run/current-system/sw/bin/bash"

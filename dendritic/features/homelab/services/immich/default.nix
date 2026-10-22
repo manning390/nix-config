@@ -32,7 +32,7 @@
         };
         mediaDir = lib.mkOption {
           type = lib.types.path;
-          default = "${homelab.mounts.fast}/Photos/Immich";
+          default = "${homelab.mounts.merged}/Photos/Immich";
         };
         url = lib.mkOption {
           type = lib.types.singleLineStr;
@@ -56,6 +56,12 @@
         };
       };
       config = lib.mkIf cfg.enable {
+        homelab.backups.quiesceServices =
+          ["immich-server.service"]
+          ++ lib.optional config.services.immich.machine-learning.enable "immich-machine-learning.service"
+          ++ lib.optional config.services.immich.database.enable "postgresql.service"
+          ++ lib.optional config.services.immich.redis.enable "redis-immich.service";
+
         systemd.tmpfiles.rules = ["d ${cfg.mediaDir} 0775 ${cfg.user} ${cfg.group} - -"];
         users.users.immich.extraGroups = [
           "video"

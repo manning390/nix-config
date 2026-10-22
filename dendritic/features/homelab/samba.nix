@@ -23,11 +23,8 @@
         };
         config.homelab.samba = {
           shares = {
-            Fast = {
-              path = config.homelab.mounts.fast;
-            };
-            Media = {
-              path = "${config.homelab.mounts.slow}/Media";
+            Storage = {
+              path = config.homelab.mounts.merged;
             };
             Backups = {
               path = "/backups";
@@ -153,6 +150,8 @@
 
             config = lib.mkIf cfg.enable {
               services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+
+              homelab.backups.quiesceServices = ["samba-smbd.service" "samba-nmbd.service"];
 
               environment.systemPackages = [config.services.samba.package]; # Provides smbclient to path
 
