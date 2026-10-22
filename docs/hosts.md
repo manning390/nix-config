@@ -79,3 +79,20 @@ Run `just document-host` on a host to update its entry.
 
 <!-- host:sage:end -->
 
+
+<!-- host:ruby:start -->
+## Ruby
+
+| Property | Value |
+| --- | --- |
+| Type | nixos |
+| Architecture | x86_64-linux |
+| Description | Framework laptop with red border |
+| Machine | Framework Laptop 13 (AMD Ryzen 7040Series) |
+| CPU | AMD Ryzen 5 7640U w/ Radeon 760M Graphics |
+| Logical CPUs | 12 |
+| Memory (usable) | 30.7 GiB |
+| Graphics | Advanced Micro Devices, Inc. [AMD/ATI] Phoenix1 |
+| Disk /dev/nvme0n1 | Samsung SSD 980 PRO 2TB; 1863.0 GiB; nvme |
+
+<!-- host:ruby:end -->
