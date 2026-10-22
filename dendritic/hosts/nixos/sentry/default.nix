@@ -1,4 +1,8 @@
-{inputs, ...}: let
+{
+  self,
+  inputs,
+  ...
+}: let
   hostname = "sentry";
   user = "pch";
 in {

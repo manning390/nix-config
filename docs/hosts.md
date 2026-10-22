@@ -2,6 +2,24 @@
 
 Run `just document-host` on a host to update its entry.
 
+<!-- host:sentry:start -->
+## Sentry
+
+| Property | Value |
+| --- | --- |
+| Type | nixos |
+| Architecture | x86_64-linux |
+| Description | Slim gray desktop gaming war machine |
+| Machine | Gigabyte Technology Co., Ltd. X570 I AORUS PRO WIFI |
+| CPU | AMD Ryzen 5 3600 6-Core Processor |
+| Logical CPUs | 12 |
+| Memory (usable) | 31.3 GiB |
+| Graphics | Advanced Micro Devices, Inc. [AMD/ATI] Navi 23 [Radeon RX 6600/6600 XT/6600M] |
+| Disk /dev/nvme1n1 | Samsung SSD 970 EVO Plus 1TB; 931.5 GiB; nvme |
+| Disk /dev/nvme0n1 | Samsung SSD 970 EVO 1TB; 931.5 GiB; nvme |
+
+<!-- host:sentry:end -->
+
 <!-- host:mado:start -->
 ## Mado
 
