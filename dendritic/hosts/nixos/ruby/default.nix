@@ -61,11 +61,6 @@ in {
               connectTo = ["pch@sentry" "pch@glaciem"];
               authorizedKeys = ["pch@sentry" "pch@mado"];
               extraHosts = {
-                "abidan" = {
-                  hostname = "45.79.213.190";
-                  user = "telariel";
-                  identityFile = "telariel";
-                };
                 "github.com" = {
                   hostname = "github.com";
                   user = "git";

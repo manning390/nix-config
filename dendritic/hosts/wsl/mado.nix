@@ -32,11 +32,6 @@ in {
               "${user}" = {
                 connectTo = ["pch@sentry" "pch@glaciem" "ruby@ruby"];
                 extraHosts = {
-                  "abidan" = {
-                    hostname = "45.79.213.190";
-                    user = "telariel";
-                    identityFile = "telariel";
-                  };
                   "github.com" = {
                     hostname = "github.com";
                     user = "git";
