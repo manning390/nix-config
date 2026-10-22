@@ -20,6 +20,25 @@ Run `just document-host` on a host to update its entry.
 
 <!-- host:sentry:end -->
 
+<!-- host:glaciem:start -->
+## Glaciem
+
+| Property | Value |
+| --- | --- |
+| Type | nixos |
+| Architecture | x86_64-linux |
+| Description | Homelab system white cube |
+| Machine | ASUS System Product Name |
+| CPU | AMD Ryzen 5 PRO 4650G with Radeon Graphics |
+| Logical CPUs | 12 |
+| Memory (usable) | 14.9 GiB |
+| Graphics | Advanced Micro Devices, Inc. [AMD/ATI] Renoir [Radeon Vega Series / Radeon Vega Mobile Series] |
+| Disk /dev/sda | WD Red SA500 2.5 2TB; 1863.0 GiB; sata |
+| Disk /dev/sdb | ST12000NM0127; 11176.0 GiB; sata |
+| Disk /dev/nvme0n1 | Vi3000 Internal PCIe NVMe M.2 SSD 256GB; 238.5 GiB; nvme |
+
+<!-- host:glaciem:end -->
+
 <!-- host:mado:start -->
 ## Mado
 
@@ -59,3 +78,4 @@ Run `just document-host` on a host to update its entry.
 | Disk /dev/sdd | Virtual Disk; 1024.0 GiB |
 
 <!-- host:sage:end -->
+
