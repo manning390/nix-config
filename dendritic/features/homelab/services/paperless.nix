@@ -73,6 +73,22 @@
           };
         };
 
+        systemd.tmpfiles.rules = [
+          "d ${cfg.mediaDir} 0775 ${homelab.user} ${homelab.group} - -"
+          "d ${cfg.consumptionDir} 0775 ${homelab.user} ${homelab.group} - -"
+        ];
+        systemd.services = lib.genAttrs [
+          "paperless-scheduler"
+          "paperless-task-queue"
+          "paperless-consumer"
+          "paperless-web"
+        ] (_: {
+          unitConfig.RequiresMountsFor = [
+            cfg.mediaDir
+            cfg.consumptionDir
+          ];
+        });
+
         services.caddy.virtualHosts."${cfg.url}" = {
           extraConfig = ''
             tls internal
