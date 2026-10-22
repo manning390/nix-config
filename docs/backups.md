@@ -83,12 +83,27 @@ After adding the secret and deploying the configuration, run these commands **on
 ## How snapshots work
 
 Before each local backup, the job briefly stops active application writers, Samba, Pi-hole, PostgreSQL, and Redis, then takes ZFS snapshots named `restic-homelab`.
+Snapshots are created in one transaction per pool because ZFS cannot snapshot multiple pools in a single command. Writers remain stopped until all pools have been captured.
 It restarts those services before Restic reads the snapshots.
 This captures databases in a cleanly stopped state alongside application files, with a short interruption to DNS and SMB. ZFS snapshots are removed when the local backup job exits, including on failure.
 
 The backup service requires the storage mounts, verifies source dataset identities, and runs with reduced CPU/I/O priority. Only services that were active are restarted.
 Errors appear in the systemd journal and mark the backup unit failed.
 After a power loss during preparation, normal boot starts applications; the next backup removes leftover snapshots.
+
+### Snapshot preparation fails with “multiple snapshots of same fs not allowed”
+
+The original snapshot hook passed datasets from multiple pools to one `zfs snapshot`
+command. ZFS rejects this with the misleading error above, before Restic starts.
+Deploy the updated configuration, which groups snapshot creation by pool, then retry:
+
+```sh
+sudo systemctl start --no-block restic-backups-homelab.service
+sudo journalctl -u restic-backups-homelab.service -f
+```
+
+The failure hooks resume the services stopped for snapshot creation and remove any
+backup snapshots. No manual snapshot deletion or repository reset is needed.
 
 ## Adding a service to backups
 

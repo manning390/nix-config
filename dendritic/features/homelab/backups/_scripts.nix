@@ -7,6 +7,14 @@
 }: let
   runtime = "/run/restic-backups-homelab";
   snapshots = map (source: "${source.dataset}@${snapshotName}") sources;
+  sourcesByPool = lib.groupBy (source: builtins.head (lib.splitString "/" source.dataset)) sources;
+
+  # ZFS snapshot transactions cannot span pools. Keep writers stopped across
+  # every pool's transaction so application data stays consistent between them.
+  createSnapshots = lib.concatStringsSep "\n" (lib.mapAttrsToList (_: poolSources: ''
+      ${pkgs.zfs}/bin/zfs snapshot ${lib.escapeShellArgs (map (source: "${source.dataset}@${snapshotName}") poolSources)}
+    '')
+    sourcesByPool);
 
   # Preparation and cleanup both resume exactly the units recorded before stopping.
   resumeServices = pkgs.writeShellScript "homelab-backup-resume" ''
@@ -54,7 +62,7 @@ in {
     fi
 
     ${removeSnapshots}
-    ${pkgs.zfs}/bin/zfs snapshot ${lib.escapeShellArgs snapshots}
+    ${createSnapshots}
   '';
 
   # Restic's post-stop hook runs this on both success and failure.
