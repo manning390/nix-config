@@ -5,11 +5,8 @@ let
     telescope-emoji = "github:xiyaowong/telescope-emoji.nvim";
     telescope-heading = "github:crispgm/telescope-heading.nvim";
     tailiscope = "github:danielvolchek/tailiscope.nvim";
-    tailwind-fold = "github:razak17/tailwind-fold.nvim";
     browser-bookmarks = "github:dhruvmanila/browser-bookmarks.nvim";
     github-coauthors = "github:cwebster2/github-coauthors.nvim";
-    none-ls-extras = "github:nvimtools/none-ls-extras.nvim";
-    none-ls-php = "github:gbprod/none-ls-php.nvim";
     wrd-nvim = "github:manning390/wrd.nvim/dev";
   };
 in {
@@ -68,9 +65,9 @@ in {
         in
           #lua
           ''
-            require'config'
             vim.opt.runtimepath:prepend("${grammarsPath}")
             vim.opt.runtimepath:prepend("${svelteGrammarWithAttach}")
+            require'config'
           '';
       };
 

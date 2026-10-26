@@ -710,38 +710,6 @@
         "type": "github"
       }
     },
-    "none-ls-extras": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784285253,
-        "narHash": "sha256-YmDhDUqSJPOllXzkyrVUgnshrI5+Kt5Te8tEmnjOAVQ=",
-        "owner": "nvimtools",
-        "repo": "none-ls-extras.nvim",
-        "rev": "9a8b8a9aeb43382e5aaf49b00b7cfb5d42d32118",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvimtools",
-        "repo": "none-ls-extras.nvim",
-        "type": "github"
-      }
-    },
-    "none-ls-php": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1710836869,
-        "narHash": "sha256-vs0ci3e/Gg9GQMPp4pTAy2Opfjqhe2FQuosL61oUORw=",
-        "owner": "gbprod",
-        "repo": "none-ls-php.nvim",
-        "rev": "c2c46f3b62415b6482fddc8ea53983ddb6ec4081",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gbprod",
-        "repo": "none-ls-php.nvim",
-        "type": "github"
-      }
-    },
     "quickshell": {
       "inputs": {
         "nixpkgs": [
@@ -787,11 +755,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "none-ls-extras": "none-ls-extras",
-        "none-ls-php": "none-ls-php",
         "sops-nix": "sops-nix",
         "tailiscope": "tailiscope",
-        "tailwind-fold": "tailwind-fold",
         "telescope-emoji": "telescope-emoji",
         "telescope-heading": "telescope-heading",
         "wrd-nvim": "wrd-nvim",
@@ -861,22 +826,6 @@
       "original": {
         "owner": "danielvolchek",
         "repo": "tailiscope.nvim",
-        "type": "github"
-      }
-    },
-    "tailwind-fold": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1766077142,
-        "narHash": "sha256-SwcDLlygXUSV/dytPXA5Y45OpUhjnExc8SZg5a8MZ2k=",
-        "owner": "razak17",
-        "repo": "tailwind-fold.nvim",
-        "rev": "e2ba5ee1ca9b74208709fe9d7314b8aa753b26a7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "razak17",
-        "repo": "tailwind-fold.nvim",
         "type": "github"
       }
     },

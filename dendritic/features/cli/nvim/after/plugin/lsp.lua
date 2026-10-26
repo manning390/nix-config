@@ -2,69 +2,88 @@
 -- local efm_languages = {
 --     lua = { require('efml-configs.formatters.stylua') }
 -- }
-vim.lsp.enable("clangd", {
+-- Configure completion capabilities before enabling any servers.
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+vim.lsp.config("*", { capabilities = capabilities })
+
+vim.lsp.config("clangd", {
 	init_options = {
 		compilationDatabaseDirectory = "build",
 	},
 })
-vim.lsp.enable("emmet_language_server", {
+vim.lsp.config("emmet_language_server", {
 	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
 })
-vim.lsp.enable("tailwindcss")
-vim.lsp.enable("nixd", {
-	formatting = {
-		command = { "alejandra" },
+vim.lsp.config("nixd", {
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "alejandra" },
+			},
+		},
 	},
 })
-vim.lsp.enable('svelte')
-vim.lsp.enable("vimls")
-vim.lsp.enable("cssls", {
+vim.lsp.config("cssls", {
 	on_attach = function(client)
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
 	end,
 })
-vim.lsp.enable("eslint", {
+local eslint_on_attach = vim.lsp.config.eslint.on_attach
+vim.lsp.config("eslint", {
 	filetypes = { "javascriptreact", "typescriptreact", "javascript", "svelte" },
-	on_attach = function(_, bufnr)
+	on_attach = function(client, bufnr)
+		if eslint_on_attach then
+			eslint_on_attach(client, bufnr)
+		end
 		vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-			require("conform").format()
-			vim.cmd("EslintFixAll")
+			require("conform").format({ async = false })
+			vim.cmd("LspEslintFixAll")
 		end, { desc = "Format current buffer with LSP" })
 	end,
 })
-vim.lsp.enable("lua_ls", {
+vim.lsp.config("lua_ls", {
 	on_init = function(client)
-		local path = client.workspace_folders[1].name
-		if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+		local workspace = client.workspace_folders and client.workspace_folders[1]
+		local path = workspace and workspace.name
+		if path and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc")) then
 			return true
 		end
 		client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua or {}, {
-			{
-				runtime = {
-					-- Tell the language server which version of Lua you're using
-					-- (most likely LuaJIT in the case of Neovim)
-					version = "LuaJIT",
+			runtime = {
+				-- Tell the language server which version of Lua you're using
+				-- (most likely LuaJIT in the case of Neovim)
+				version = "LuaJIT",
+			},
+			-- Make the server aware of Neovim runtime files
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME,
 				},
-				-- Make the server aware of Neovim runtime files
-				workspace = {
-					checkThirdParty = false,
-					library = {
-						vim.env.VIMRUNTIME,
-					},
-				},
-				telemetry = { enable = false },
-				diagnostics = { globals = { "vim", "require" } },
-				completion = {
-					callSnippet = "Replace",
-				},
+			},
+			telemetry = { enable = false },
+			diagnostics = { globals = { "vim", "require" } },
+			completion = {
+				callSnippet = "Replace",
 			},
 		})
 		client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
 		return true
 	end,
 })
-vim.lsp.enable("jsonls")
+vim.lsp.enable({
+	"clangd",
+	"emmet_language_server",
+	"tailwindcss",
+	"nixd",
+	"svelte",
+	"vimls",
+	"cssls",
+	"eslint",
+	"lua_ls",
+	"jsonls",
+})
 -- vim.lsp.enable('roslyn_ls')
 
 -- vim.lsp.config.intelephense.init_options = {}
@@ -168,16 +187,4 @@ vim.diagnostic.config({
 	float = {
 		source = true,
 	},
-})
-
-require("neodev").setup()
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to serveres
-capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
---
--- This function gets run when an LSP connects to a particular buffer.
-
-vim.lsp.config("*", {
-	capabilities = capabilities,
 })

@@ -14,7 +14,6 @@ with pkgs; [
   eslint
   eslint_d
   emmet-language-server
-  efm-langserver
   nixd
   vale-ls
   vscode-langservers-extracted

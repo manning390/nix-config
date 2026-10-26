@@ -3,8 +3,7 @@
 {
   description = "Nix Configurations of Manning390";
 
-  outputs =
-    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./dendritic);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./dendritic);
 
   inputs = {
     browser-bookmarks = {
@@ -83,24 +82,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    none-ls-extras = {
-      url = "github:nvimtools/none-ls-extras.nvim";
-      flake = false;
-    };
-    none-ls-php = {
-      url = "github:gbprod/none-ls-php.nvim";
-      flake = false;
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tailiscope = {
       url = "github:danielvolchek/tailiscope.nvim";
-      flake = false;
-    };
-    tailwind-fold = {
-      url = "github:razak17/tailwind-fold.nvim";
       flake = false;
     };
     telescope-emoji = {

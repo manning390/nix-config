@@ -1,7 +1,6 @@
 local actions = require("telescope.actions")
 require("telescope").setup({
     defaults = {
-        file_sorter = require("telescope.sorters").get_fzy_sorter,
         prompt_prefix = " >",
         color_devicons = true,
 
@@ -30,14 +29,15 @@ require("telescope").setup({
         },
     },
     extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
             override_file_sorter = true,
         },
     },
 })
 
-pcall(require("telescope").load_extension, "fzy")
+require("telescope").load_extension("fzf")
 pcall(require("telescope").load_extension, "git_worktree")
 pcall(require("telescope").load_extension, "emoji")
 

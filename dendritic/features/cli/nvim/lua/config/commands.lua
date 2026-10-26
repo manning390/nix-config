@@ -1,7 +1,7 @@
 vim.api.nvim_create_user_command("Q", ":q", {}) -- Fat finger quit
 vim.api.nvim_create_user_command("W", ":w", {}) -- Fat finger save
 vim.api.nvim_create_user_command("F", ":Format", {}) -- Fat finger save
-vim.api.nvim_create_user_command("Prit", "silent !npx prettier --write % && :e && :LspRestart", {})
+vim.api.nvim_create_user_command("Prit", ":Format", { desc = "Format with Conform (legacy alias)" })
 vim.api.nvim_create_user_command("Snips", "e ~/.config/nvim/snippets", {}) -- Reload snippets
 vim.api.nvim_create_user_command("E", ":e|lua vim.diagnostic.reset()", {}) -- Reset diagnostics
 
@@ -24,7 +24,6 @@ for from, to in pairs({
 end
 
 vim.api.nvim_create_user_command("TW", ":Telescope tailiscope", {})
-vim.api.nvim_create_user_command("TT", ":TailwindFoldToggle", {})
 
 -- From https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#make-similar-to-vim-dispatch
 vim.api.nvim_create_user_command("Make", function(params)
@@ -49,4 +48,3 @@ end, {
 vim.api.nvim_create_user_command("Format", function(_)
 	require("conform").format({ async = false })
 end, { desc = "Format current buffer with Conform+LSP" })
-

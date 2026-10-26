@@ -9,14 +9,14 @@ M.notify_output = function(command, opts)
 	end
 	local on_data = function(_, data)
 		output = output .. table.concat(data, "\n")
-		notify(output, "info")
+		notify(output, vim.log.levels.INFO)
 	end
 	vim.fn.jobstart(command, {
 		on_stdout = on_data,
 		on_stderr = on_data,
 		on_exit = function(_, code)
 			if #output == 0 then
-				notify("No output of command, exit code: " .. code, "warn")
+				notify("No output of command, exit code: " .. code, vim.log.levels.WARN)
 			end
 		end,
 	})

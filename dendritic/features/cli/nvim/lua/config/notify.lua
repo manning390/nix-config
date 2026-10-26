@@ -1,3 +1,9 @@
+-- Notifier trial: vigoux/notifier.nvim is configured in config/lazy.lua and owns
+-- vim.notify and LSP progress. Keep the previous implementation disabled below.
+-- TODO: Remove it if the trial succeeds, or restore rcarriga/nvim-notify in
+-- config/lazy.lua and repair/re-enable these handlers if rolling back. Known
+-- issues: old showMessage signature, spinner index 0, stale client/token state.
+--[=[
 -- Utility functions shared between progress reports for LSP and DAP
 vim.o.termguicolors = true
 
@@ -118,3 +124,4 @@ vim.lsp.handlers["window/showMessage"] = function(err, method, params, client_id
     print('client_id', client_id)
     vim.notify(method.message, severity[params.type])
 end
+]=]

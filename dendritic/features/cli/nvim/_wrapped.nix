@@ -37,7 +37,6 @@
           typescript-language-server
           eslint
           eslint_d
-          efm-langserver
           nixd
           ajelandra
           vale-ls

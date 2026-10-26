@@ -31,9 +31,7 @@ in
 
     # LSP — config in after/plugin/lsp.lua
     (plug nvim-lspconfig)
-    (plug efmls-configs-nvim)
     (plug typescript-tools-nvim)
-    (plug none-ls-nvim)
     (plugCfg phpactor
       #lua
       ''require("phpactor").setup({ install = { check_on_startup = "none" }, lspconfig = { enabled = false } })'')
@@ -107,7 +105,6 @@ in
     (plug external.telescope-heading)
     (plug external.telescope-emoji)
     (plug external.tailiscope)
-    (plug external.tailwind-fold)
 
     # Navigation
     (plug harpoon2)

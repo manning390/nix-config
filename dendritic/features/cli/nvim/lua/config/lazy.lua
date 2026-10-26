@@ -11,45 +11,16 @@ local plugins = {
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			{
-				"folke/neodev.nvim", -- Additional lua information
-				-- config = function()
-				-- 	require('neodev').setup({
-				-- 		library = { plugins = {"neotest"}, types = true},
-				-- 	})
-				-- end
-			},
-		},
 	},
 	{
-		"creativenull/efmls-configs-nvim", -- configurations for efm lang
-		version = "v1.x.x", -- tag is optional, but recommended
-		dependencies = { "neovim/nvim-lspconfig" },
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {},
 	},
 	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {},
-	},
-	{
-		"nvimtools/none-ls.nvim",
-		opts = function()
-			local nls = require("null-ls")
-			return {
-				sources = {
-					nls.builtins.formatting.prettier,
-					nls.builtins.completion.spell,
-					-- nls.builtins.diagnostics.cspell,
-					-- require("none-ls.diagnostics.eslint"),
-					--require("none-ls.diagnostics.php")
-				},
-			}
-		end,
-		dependencies = {
-			"gbprod/none-ls-php.nvim",
-			"nvimtools/none-ls-extras.nvim",
-		},
 	},
 	{
 		"Zeioth/compiler.nvim",
@@ -102,7 +73,6 @@ local plugins = {
 			"nvim-telescope/telescope.nvim",
 			"tpope/vim-dotenv",
 			"MunifTanjim/nui.nvim",
-			"nvimtools/none-ls.nvim",
 		},
 		cmd = { "Sail", "Artisan", "Composer", "Npm", "Laravel" },
 		keys = {
@@ -124,16 +94,20 @@ local plugins = {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
+				-- prettierd uses project-local Prettier when installed, or its bundled version.
+				-- Conform resolves node_modules/.bin first; only the first available formatter runs.
 				typescript = { "prettierd", "prettier", stop_after_first = true },
+				typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascriptreact = { "prettierd", "prettier", stop_after_first = true },
 				html = { "prettierd", "prettier", stop_after_first = true },
-				svelte = { "prettier" },
+				svelte = { "prettierd", "prettier", stop_after_first = true },
 				php = { "pint" },
 				nix = { "alejandra" },
 				json = { "fixjson", "jq" },
 				json5 = { "fixjson" },
 				cs = { "csharpier" },
-				["_"] = { "codespell" }, -- _ runs on filetypes that have other formatters configured
+				["_"] = { "codespell" }, -- Filetypes without an explicit formatter.
 				["*"] = { "trim_whitespace" },
 			},
 			default_format_opts = {
@@ -141,16 +115,18 @@ local plugins = {
 			},
 		},
 	},
-	-- Notifications
+	-- Notifier trial: replaces nvim-notify and the custom handlers in config/notify.lua.
+	-- After the trial, remove the commented implementation or restore nvim-notify and those handlers.
 	{
-		"rcarriga/nvim-notify",
-		main = "notify",
+		"vigoux/notifier.nvim",
+		lazy = false,
 		priority = 70,
-		config = function()
-			local notify = require("notify")
-			notify.setup({})
-			vim.notify = notify
+		init = function()
+			-- Notifier still uses this alias, removed in recent Neovim nightlies.
+			-- Remove this compatibility shim when upstream switches to vim.islist.
+			vim.tbl_islist = vim.tbl_islist or vim.islist
 		end,
+		opts = {},
 	},
 	-- Snippets
 	{
@@ -184,23 +160,13 @@ local plugins = {
 			"onsails/lspkind.nvim",
 		},
 	},
-	-- Highlight, edit, navigate code
-	-- {
-	--     "nvim-treesitter/nvim-treesitter",
-	--     lazy = false,
-	--     build = ":TSUpdate",
-	--     dependencies = {
-	--         "JoosepAlviste/nvim-ts-context-commentstring",
-	--         "nvim-treesitter/nvim-treesitter-textobjects",
-	--     },
-	-- },
+	-- Treesitter parsers and queries are supplied by Nix; do not install/update them here.
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		branch = "main",
 	},
 	-- Tmux
 	{
@@ -249,7 +215,6 @@ local plugins = {
 	},
 	{
 		"Wansmer/treesj",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	-- -- Our lord and savior
 	"tpope/vim-abolish", -- Better substitutions and iabbrev
@@ -337,17 +302,6 @@ local plugins = {
 		lazy = false,
 		opts = {},
 	},
-	-- {
-	-- 	"razak17/tailwind-fold.nvim",
-	-- 	opts = {
-	-- 		symbol = "󱏿",
-	-- 		highlight = {
-	-- 			fg = "#ff0000",
-	-- 		},
-	-- 	},
-	-- 	dependencies = { "nvim-treesitter/nvim-treesitter" },
-	-- 	ft = { "html", "svelte", "astro", "vue", "typescriptreact", "php", "blade" },
-	-- },
 
 	-- Testing
 	{
@@ -477,7 +431,6 @@ local plugins = {
 		"olimorris/codecompanion.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {
 			interactions = {

@@ -122,7 +122,7 @@ end, { desc = "Previous Error" })
 --nnoremap(']t', require'todo-comments'.jump_next, { desc = "Next todo comment"})
 --nnoremap('[t', require'todo-comments'.jump_prev, { desc = "Previous todo comment"})
 nnoremap("<leader>q", vim.diagnostic.setloclist)
-nnoremap("K", vim.lsp.buf.hover, { buffer = 0, desc = "LSP: Hover Documentation" }) -- Needs colemak rebind
+-- Neovim maps K to hover buffer-locally when an attached LSP supports it.
 nnoremap("<leader>f", ":Format<CR>", { desc = "LSP+Conform: [F]ormat" })
 -- nnoremap("<leader>d", ":OverseerRun<CR>", { desc = "[D]ispatch Overseer action" })
 -- nnoremap(sf('<C-%s>', h), vim.lsp.buf.signature_help, { desc = 'LSP: Signature Documentation'}) -- Needs colemak rebind
@@ -158,21 +158,14 @@ nnoremap("<leader>tz", ":TestSuite<CR>", { desc = "Tests: [T]est Suite [Z]" })
 -- Snippets
 local ls = require("luasnip")
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
-	print(ls.expand_or_jumpable())
-	-- if ls.expand_or_jumpable() then
-	ls.expand_or_jump()
-	-- end
-end, { silent = true })
+	return ls.expand_or_locally_jumpable() and "<Plug>luasnip-expand-or-jump" or "<C-k>"
+end, { expr = true, silent = true, desc = "Snippet: expand or jump forward" })
 vim.keymap.set({ "i", "s" }, "<C-j>", function()
-	-- if ls.jumpable(-1) then
-	ls.jump(-1)
-	-- end
-end, { silent = true })
+	return ls.locally_jumpable(-1) and "<Plug>luasnip-jump-prev" or "<C-j>"
+end, { expr = true, silent = true, desc = "Snippet: jump backward" })
 inoremap("<C-i>", function()
-	if ls.choice_active() then
-		ls.change_choice(1)
-	end
-end)
+	return ls.choice_active() and "<Plug>luasnip-next-choice" or "<C-i>"
+end, { expr = true, silent = true, desc = "Snippet: next choice, otherwise Tab" })
 -- nnoremap('<leader>s', '<cmd>source ~/.config/nvim/lua/manning390/luasnip.lua<cr>')
 
 -- Fugitive
@@ -199,9 +192,9 @@ end, { desc = "Fugitive GBrowse to default branch" })
 
 nnoremap("<leader>gw", require("telescope").extensions.git_worktree.create_git_worktree)
 
--- Leap see :help leap-mappings
-vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
-vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
+-- Leap's recommended jump bindings: s is bidirectional; S targets another window.
+vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)", { desc = "Leap: jump in current window" })
+vim.keymap.set("n", "S", "<Plug>(leap-from-window)", { desc = "Leap: jump to another window" })
 
 -- Quick fix lists
 nnoremap("g" .. n, ":cnext<cr>", { silent = true })
@@ -234,9 +227,6 @@ nnoremap("0", function()
 	fn.toggleMovement("^", "0")
 end)
 nnoremap("~", fn.customCaseToggle)
-
-vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
-vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
 nnoremap("<leader>pm", ":PhpactorContextMenu<cr>")
 

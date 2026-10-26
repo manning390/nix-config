@@ -1,9 +1,13 @@
 --filetype plugin indent on
 --syntax on
-local cache_dir = os.getenv('HOME') .. '/.cache/nvim/'
+local state_dir = vim.fn.stdpath('state')
+local spell_dir = vim.fn.stdpath('data') .. '/spell'
+vim.fn.mkdir(spell_dir, 'p')
+
+-- Load project-local .nvim.lua files only after Neovim's trust check.
+vim.o.exrc = true
 
 -- vim.env.BASH_ENV = '~/.aliases'
-vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.o.wildignore = table.concat({"__pycache__", "*.o", "*~", "*.pyc", "*pycache*" }, ',')
 
@@ -36,11 +40,11 @@ vim.o.undofile = true
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
-vim.o.directory = cache_dir .. 'swag/'
-vim.o.undodir = cache_dir .. 'undo/'
-vim.o.backupdir = cache_dir .. 'backup/'
-vim.o.viewdir = cache_dir .. 'view/'
-vim.o.spellfile = cache_dir .. 'spell/en.uft-8.add'
+vim.o.directory = state_dir .. '/swap//'
+vim.o.undodir = state_dir .. '/undo//'
+vim.o.backupdir = state_dir .. '/backup//'
+vim.o.viewdir = state_dir .. '/view'
+vim.o.spellfile = spell_dir .. '/en.utf-8.add'
 vim.o.spelllang = 'en_us'
 -- let &directory=g:configPath .'/swap//' --vim.o.where we're saving swaps
 -- let &undodir=g:configPath .'/undo//' --and undos
@@ -52,7 +56,7 @@ vim.o.breakindentopt            = 'shift:2,min:40,sbr'
 vim.o.showbreak                 = '>>'
 vim.o.linebreak                 = true
 --vim.o.colorcolumn = "80"
-vim.signcolumn                  = "yes"
+vim.opt.signcolumn              = "yes"
 vim.o.completeopt               = 'menuone,noselect'
 vim.o.foldmethod                = "marker"
 vim.o.foldlevel                 = 0
