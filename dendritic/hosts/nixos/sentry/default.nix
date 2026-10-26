@@ -32,8 +32,14 @@ in {
         caddy-local-ca
       ];
 
-      nixos = {config, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         local = {
+          # Work around unreliable resume until the hardware issue is diagnosed.
+          desktop.caelestia.allowSuspend = false;
           wm.hyprland = {
             layout = "dwindle";
             devices = [
@@ -109,6 +115,11 @@ in {
           };
         };
 
+        environment.systemPackages = with pkgs; [
+          unstable.proton-vpn
+          unstable.opencode
+        ];
+
         environment.sessionVariables.COLEMAK = "1";
       };
 
@@ -117,6 +128,8 @@ in {
         local = {
           desktop.caelestia = {
             enable = true;
+            writableSettings = true;
+            idle.suspendAfter = null;
             excludedScreens = ["HDMI-A-1" "HDMI-A-2"];
           };
         };

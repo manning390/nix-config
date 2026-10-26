@@ -26,6 +26,7 @@ in {
             systemShell = "zsh";
             userShell = "zsh";
           };
+          wsl.windowsUser = "Railalis";
           ssh = {
             enable = true;
             users = {
