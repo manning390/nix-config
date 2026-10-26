@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   hl = config.homelab;
 in {
   sops.secrets.restic_password = {
@@ -50,21 +54,27 @@ in {
       };
     };
 
-    services = {
-      enable = true;
-      homepage.enable = true;
-      forgejo.enable = true;
-      immich.enable = true;
-      audiobookshelf.enable = true;
-      pihole.enable = true;
-      memos.enable = true;
-      uptimekuma.enable = true;
-      deluge.enable = true;
-      paperless.enable = true;
-      # filebrowser.enable = true;
-      microbin.enable = true;
-      #   role = "server";
-      # };
-    };
+    services =
+      {
+        enable = true;
+      }
+      // lib.genAttrs [
+        "audiobookshelf"
+        "bazarr"
+        "deluge"
+        "forgejo"
+        "homepage"
+        "immich"
+        "jellyfin"
+        "memos"
+        "microbin"
+        "paperless"
+        "pihole"
+        "prowlarr"
+        "radarr"
+        "seerr"
+        "sonarr"
+        "uptimekuma"
+      ] (_: {enable = true;});
   };
 }

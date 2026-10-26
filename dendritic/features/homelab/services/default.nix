@@ -63,6 +63,7 @@
       };
 
       includes = with aspects; [
+        arr
         homepage
         forgejo
         immich

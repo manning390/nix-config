@@ -13,6 +13,11 @@
     in {
       options.homelab.services.deluge = {
         enable = lib.mkEnableOption "Enable Deluge";
+        downloadsDir = lib.mkOption {
+          type = lib.types.path;
+          default = "${homelab.mounts.merged}/Downloads/torrents";
+          description = "Shared torrent download directory. Select this path in Deluge's web preferences; existing stateful settings are not overwritten.";
+        };
         url = lib.mkOption {
           type = lib.types.singleLineStr;
           default = "deluge.${homelab.baseDomain}";
@@ -50,6 +55,11 @@
             port = webPort;
           };
         };
+
+        systemd.tmpfiles.rules = [
+          "d ${cfg.downloadsDir} 0775 ${homelab.user} ${homelab.group} - -"
+        ];
+        systemd.services.deluged.unitConfig.RequiresMountsFor = [cfg.downloadsDir];
 
         services.caddy.virtualHosts."${cfg.url}" = {
           extraConfig = ''
