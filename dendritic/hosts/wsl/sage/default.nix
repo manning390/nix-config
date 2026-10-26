@@ -64,6 +64,7 @@ in {
       homeManager = {pkgs, ...}: {
         imports = [
           ./_daily_logging.nix
+          ./_opencode_backup.nix
         ];
         home.sessionVariables = {
           TERM = "wezterm";

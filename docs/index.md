@@ -7,6 +7,7 @@
 | [Host inventory](hosts.md) | Host type, description, and hardware collected with `just document-host`. |
 | [Host setup](new-host-playbook.md) | Add hosts, build installer ISOs, and install or reinstall NixOS. |
 | [Homelab backups](backups.md) | Configure passwords, run backups, copy off-site, and restore data. |
+| [OpenCode backups](opencode-backups.md) | Sage's weekday session backups and how to restore them. |
 
 ## Configuration Design Concepts
 These concepts are layers onto themselves, read top > down.
