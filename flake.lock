@@ -710,6 +710,23 @@
         "type": "github"
       }
     },
+    "phpactor-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1700432201,
+        "narHash": "sha256-fDof5Yk/EtrRWpauNLYJL9m+CzWvUbuBOCFB8RdM1fk=",
+        "owner": "gbprod",
+        "repo": "phpactor.nvim",
+        "rev": "5c8227d324a19c4c54d38c262241ce5687f38414",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gbprod",
+        "ref": "v1.0.1",
+        "repo": "phpactor.nvim",
+        "type": "github"
+      }
+    },
     "quickshell": {
       "inputs": {
         "nixpkgs": [
@@ -755,6 +772,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "phpactor-nvim": "phpactor-nvim",
         "sops-nix": "sops-nix",
         "tailiscope": "tailiscope",
         "telescope-emoji": "telescope-emoji",

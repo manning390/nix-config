@@ -24,6 +24,7 @@ for from, to in pairs({
 end
 
 vim.api.nvim_create_user_command("TW", ":Telescope tailiscope", {})
+vim.api.nvim_create_user_command("Write", "ZenMode", { desc = "Toggle distraction-free writing" })
 
 -- From https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#make-similar-to-vim-dispatch
 vim.api.nvim_create_user_command("Make", function(params)

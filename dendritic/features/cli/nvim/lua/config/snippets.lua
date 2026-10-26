@@ -16,4 +16,4 @@ ls.config.set_config({
 	delete_check_events = "InsertLeave",
 })
 
-require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets" })
+require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/snippets" })

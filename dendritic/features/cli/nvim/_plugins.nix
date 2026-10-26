@@ -2,126 +2,109 @@
   inputs,
   pkgs,
   externalPlugins,
-  ...
 }: let
-  plug = pkg: {plugin = pkg;};
-  plugCfg = pkg: lua: {
-    plugin = pkg;
-    config = lua;
-    type = "lua";
+  # Nix owns sources, versions, native builds, and dependencies. Lua owns setup.
+  externalDependencies = with pkgs.vimPlugins; {
+    browser-bookmarks = [sqlite-lua];
+    github-coauthors = [plenary-nvim telescope-nvim];
+    phpactor-nvim = [plenary-nvim nvim-lspconfig];
+    telescope-heading = [plenary-nvim telescope-nvim];
+    tailiscope = [plenary-nvim telescope-nvim];
   };
-  external =
-    externalPlugins
-    |> builtins.listToAttrs
-    |> (map (name: {
-      inherit name;
-      value = pkgs.vimUtils.buildVimPlugin {
-        inherit name;
-        src = inputs.${name};
-      };
-    }));
+  external = builtins.mapAttrs (name: _:
+    pkgs.vimUtils.buildVimPlugin {
+      pname = name;
+      version = inputs.${name}.shortRev or "locked";
+      src = inputs.${name};
+      dependencies = externalDependencies.${name} or [];
+    })
+  externalPlugins;
+  optional = plugin: {
+    inherit plugin;
+    optional = true;
+  };
 in
-  with pkgs.vimPlugins; [
-    lze
+  with pkgs.vimPlugins;
+    [
+      lze
 
-    # Treesitter — keep withAllGrammars, config stays in after/plugin/treesitter.lua
-    nvim-treesitter.withAllGrammars
-    nvim-ts-context-commentstring
-    nvim-treesitter-textobjects
+      # Shared Lua libraries and completion capabilities are available at startup.
+      plenary-nvim
+      nui-nvim
+      sqlite-lua
+      cmp-nvim-lsp
 
-    # LSP — config in after/plugin/lsp.lua
-    (plug nvim-lspconfig)
-    (plug typescript-tools-nvim)
-    (plugCfg phpactor
-      #lua
-      ''require("phpactor").setup({ install = { check_on_startup = "none" }, lspconfig = { enabled = false } })'')
+      # Parser installation is exclusively managed by Nix.
+      nvim-treesitter.withAllGrammars
+    ]
+    ++ map optional [
+      nvim-lspconfig
+      lazydev-nvim
+      typescript-tools-nvim
+      external.phpactor-nvim
+      conform-nvim
+      notifier-nvim
 
-    # Formatting
-    (plug conform-nvim) # config in plugins/lsp.lua
+      luasnip
+      nvim-cmp
+      cmp-buffer
+      cmp-calc
+      cmp-spell
+      cmp-nvim-lua
+      cmp-path
+      cmp-async-path
+      cmp_luasnip
+      cmp-nvim-lsp-signature-help
+      lspkind-nvim
 
-    # Notifications — config in lua/config/notify.lua (unchanged)
-    (plug nvim-notify)
+      nvim-ts-context-commentstring
+      nvim-treesitter-textobjects
+      vim-tmux-navigator
+      vim-speeddating
+      vim-fugitive
+      vim-rhubarb
+      gitsigns-nvim
+      git-worktree-nvim
+      refactoring-nvim
 
-    # Snippets
-    (plug luasnip)
+      nord-nvim
+      lualine-nvim
+      nvim-web-devicons
+      indent-blankline-nvim
+      comment-nvim
+      treesj
+      vim-abolish
+      vim-eunuch
+      vim-repeat
+      vim-sleuth
+      vim-unimpaired
+      nvim-surround
+      align-nvim
+      todo-comments-nvim
+      leap-nvim
+      mkdir-nvim
+      nvim-autopairs
+      neoscroll-nvim
+      vim-pasta
+      markdown-preview-nvim
+      compiler-nvim
 
-    # Completion — config in after/plugin/cmp.lua (unchanged)
-    (plug nvim-cmp)
-    (plug cmp-buffer)
-    (plug cmp-calc)
-    (plug cmp-spell)
-    (plug cmp-git)
-    (plug cmp-nvim-lua)
-    (plug cmp-path)
-    (plug cmp_luasnip)
-    (plug cmp-async-path)
-    (plug cmp-nvim-lsp-signature-help)
-    (plug external.cmp-async-path)
-    (plug lspkind-nvim)
+      telescope-nvim
+      telescope-live-grep-args-nvim
+      telescope-fzf-native-nvim
+      telescope-emoji-nvim
+      external.telescope-heading
+      external.tailiscope
+      external.browser-bookmarks
+      external.github-coauthors
 
-    # Tmux
-    (plug vim-tmux-navigator)
-
-    # Git — config in plugins/git.lua
-    (plug vim-fugitive)
-    (plug vim-rhubarb)
-    (plugCfg gitsigns-nvim "require('gitsigns').setup()")
-    (plug vim-speeddating)
-    (plug git-worktree-nvim)
-    (plug refactoring-nvim)
-
-    # Theme — config in after/plugin/color.lua (unchanged)
-    (plugCfg nord-nvim "vim.cmd([[colorscheme nord]])")
-    (plugCfg lualine-nvim "") # config in after/plugin/lualine.lua
-    (plug nvim-web-devicons)
-
-    # Utils
-    (plugCfg indent-blankline-nvim
-      #lua
-      ''require("ibl").setup({ scope = { enabled = false } })'')
-    (plugCfg comment-nvim "require('Comment').setup()")
-    (plug treesj) # config in after/plugin/treesj.lua
-    (plug vim-abolish)
-    (plug vim-eunuch)
-    (plug vim-repeat)
-    (plug vim-sleuth)
-    (plug vim-unimpaired)
-    (plugCfg nvim-surround "require('nvim-surround').setup()")
-    (plugCfg align-nvim "")
-    (plugCfg todo-comments-nvim "require('todo-comments').setup()")
-    (plugCfg leap-nvim "require('leap').create_default_mappings()")
-    (plug mkdir-nvim)
-    (plugCfg nvim-autopairs "require('nvim-autopairs').setup({ fast_wrap = {} })")
-    (plugCfg neoscroll-nvim "require('neoscroll').setup()")
-    (plugCfg vim-pasta "vim.g.pasta_disabled_filetypes = { 'fugitive' }")
-    (plugCfg markdown-preview-nvim "")
-    (plug trouble-nvim)
-    (plug compiler-nvim)
-
-    # Telescope — config in lua/config/telescope.lua (unchanged)
-    (plug telescope-nvim)
-    (plug telescope-live-grep-args-nvim)
-    (plug telescope-fzf-native-nvim)
-    (plug external.telescope-heading)
-    (plug external.telescope-emoji)
-    (plug external.tailiscope)
-
-    # Navigation
-    (plug harpoon2)
-
-    # Writing
-    (plug auto-save-nvim)
-    (plug zen-mode-nvim)
-    (plug twilight-nvim)
-
-    # Dotnet
-    (plug easy-dotnet-nvim)
-    (plug nvim-dap)
-    (plug dressing-nvim)
-    (plug overseer-nvim)
-
-    # Copilot
-    (plug codecompanion-nvim)
-    # (plug copilot-lua)
-    # (plug CopilotChat-nvim)
-  ]
+      harpoon2
+      auto-save-nvim
+      zen-mode-nvim
+      thesaurus_query-vim
+      easy-dotnet-nvim
+      nvim-dap
+      dressing-nvim
+      overseer-nvim
+      codecompanion-nvim
+    ]

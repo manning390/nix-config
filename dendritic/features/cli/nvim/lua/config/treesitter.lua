@@ -9,8 +9,6 @@ local ignored_filetypes = {
 	"cmp_menu",
 	"cmp_docs",
 	"harpoon",
-	"lazy",
-	"lazy_backdrop",
 	"bash",
 	"sh",
 	"text",

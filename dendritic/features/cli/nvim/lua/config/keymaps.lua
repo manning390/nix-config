@@ -1,5 +1,23 @@
 local fn = require("config.functions")
 
+-- Resolve plugin functions when invoked, not while defining mappings. lze's
+-- on_require handlers then load and configure the relevant optional plugin.
+local function deferred(module)
+	return setmetatable({}, {
+		__index = function(_, method)
+			return function(...)
+				return require(module)[method](...)
+			end
+		end,
+	})
+end
+
+local function extension(name, method)
+	return function(...)
+		return require("telescope").extensions[name][method](...)
+	end
+end
+
 local function bind(op, outer_opts)
 	outer_opts = outer_opts or { noremap = true }
 	return function(lhs, rhs, opts)
@@ -72,39 +90,35 @@ end
 
 -- Telescope
 local mtel = require("config.telescope")
-local tel = require("telescope.builtin")
+local tel = deferred("telescope.builtin")
 nnoremap("<C-p>", mtel.project_files, { desc = "Search [P]roject" })
-nnoremap("<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
-nnoremap("<leader>pr", require("telescope.builtin").oldfiles, { desc = "Find [R]ecently opened files" })
+nnoremap("<leader><space>", tel.buffers, { desc = "[ ] Find existing buffers" })
+nnoremap("<leader>pr", tel.oldfiles, { desc = "Find [R]ecently opened files" })
 nnoremap("<leader>pf", function()
 	tel.find_files({ no_ignore = true })
 end, { desc = "Search [F]iles" })
-nnoremap("<leader>ph", require("telescope.builtin").help_tags, { desc = "Search [H]elp" })
-nnoremap("<leader>pd", require("telescope.builtin").diagnostics, { desc = "Search [D]iagnostics" })
-nnoremap("<leader>pg", require("telescope").extensions.live_grep_args.live_grep_args, { desc = "Search by [G]rep" })
-nnoremap("<leader>p/", require("telescope.builtin").grep_string, { desc = "Search current [W]ord" })
-nnoremap("<leader>pb", require("telescope").extensions.bookmarks.bookmarks, { desc = "Search browser [B]ookmarks" })
+nnoremap("<leader>ph", tel.help_tags, { desc = "Search [H]elp" })
+nnoremap("<leader>pd", tel.diagnostics, { desc = "Search [D]iagnostics" })
+nnoremap("<leader>pg", extension("live_grep_args", "live_grep_args"), { desc = "Search by [G]rep" })
+nnoremap("<leader>p/", tel.grep_string, { desc = "Search current [W]ord" })
+nnoremap("<leader>pb", extension("bookmarks", "bookmarks"), { desc = "Search browser [B]ookmarks" })
 -- nnoremap('<leader>pg', function()
 -- 	tel.grep_string{ search = vim.fn.input("Grep For > ")} end)
 -- nnoremap('<leader>pw', function()
 -- 	tel.grep_string{ search = vim.fn.expand("<cword>")} end)
-nnoremap("<leader>pt", require("telescope").extensions.git_worktree.git_worktrees, { desc = "Search Work[T]rees" })
+nnoremap("<leader>pt", extension("git_worktree", "git_worktrees"), { desc = "Search Work[T]rees" })
 --nnoremap('<leader>pv', mtel.search_dotfiles, { desc = 'Search [V]im Configs' })
 nnoremap("<leader>px", mtel.search_nixconfig, { desc = "Search Ni[X] Configs" })
 nnoremap("<leader>p<space>", mtel.related_files, { desc = "[p ] Search related files" })
 nnoremap("<leader>/", mtel.fuzzy_buffer, { desc = "[/] Fuzzily search in current buffer" })
-nnoremap("z?", require("telescope.builtin").spell_suggest, { desc = "Suggest Spelling Correction" })
+nnoremap("z?", tel.spell_suggest, { desc = "Suggest Spelling Correction" })
 
 -- Lsp
 nnoremap("gd", vim.lsp.buf.definition, { silent = true, desc = "LSP: [G]oto [D]efinition" })
 nnoremap("gD", vim.lsp.buf.declaration, { silent = true })
 -- nnoremap('gr', vim.lsp.buf.references, {silent = true, desc = 'LSP: [G]oto [R]eferences'})
-nnoremap("gr", require("telescope.builtin").lsp_references, { silent = true, desc = "LSP: [G]oto [R]eferences" })
-nnoremap(
-	"gi",
-	require("telescope.builtin").lsp_implementations,
-	{ silent = true, desc = "LSP: [G]oto [I]mplementations" }
-)
+nnoremap("gr", tel.lsp_references, { silent = true, desc = "LSP: [G]oto [R]eferences" })
+nnoremap("gi", tel.lsp_implementations, { silent = true, desc = "LSP: [G]oto [I]mplementations" })
 nnoremap("gt", vim.lsp.buf.type_definition, { desc = "LSP: [G]oto [T]ype Definition" })
 nnoremap("g?", vim.diagnostic.open_float, { silent = true })
 nnoremap("<leader>cn", vim.lsp.buf.rename, { desc = "LSP: [R]e[n]ame" })
@@ -142,6 +156,7 @@ nnoremap("<leader>rI", ":Refactor inline_func")
 nnoremap("<leader>rb", ":Refactor extract_block")
 nnoremap("<leader>rbf", ":Refactor extract_block_to_file")
 vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+	require("refactoring")
 	require("telescope").extensions.refactoring.refactors()
 end)
 
@@ -156,7 +171,7 @@ nnoremap("<leader>tz", ":TestSuite<CR>", { desc = "Tests: [T]est Suite [Z]" })
 -- nnoremap('<leader>tz', require('neotest').run, { desc = 'Tests: [T]est Suite [Z]' })
 
 -- Snippets
-local ls = require("luasnip")
+local ls = deferred("luasnip")
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
 	return ls.expand_or_locally_jumpable() and "<Plug>luasnip-expand-or-jump" or "<C-k>"
 end, { expr = true, silent = true, desc = "Snippet: expand or jump forward" })
@@ -176,11 +191,7 @@ nnoremap("<leader>g" .. j, ":diffget //3<cr>")
 nnoremap("<leader>g" .. f, ":diffget //2<cr>")
 nnoremap("<leader>gb", ":GBrowse<cr>", { desc = "Fugitive GBrowse to default" })
 vnoremap("<leader>gb", ":'<,'>GBrowse<cr>")
-nnoremap(
-	"<leader>ga",
-	require("telescope").extensions.githubcoauthors.coauthors,
-	{ desc = "Add github co-author from git history" }
-)
+nnoremap("<leader>ga", extension("githubcoauthors", "coauthors"), { desc = "Add github co-author from git history" })
 nnoremap("<leader>gm", function()
 	local branch = fn.getDefaultBranch()
 	vim.cmd(string.format("GBrowse origin/%s:%%", branch))
@@ -190,7 +201,7 @@ vnoremap("<leader>gm", function()
 	vim.cmd(string.format("'<,'>GBrowse origin/%s:%%", branch))
 end, { desc = "Fugitive GBrowse to default branch" })
 
-nnoremap("<leader>gw", require("telescope").extensions.git_worktree.create_git_worktree)
+nnoremap("<leader>gw", extension("git_worktree", "create_git_worktree"))
 
 -- Leap's recommended jump bindings: s is bidirectional; S targets another window.
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)", { desc = "Leap: jump in current window" })
@@ -205,7 +216,7 @@ nnoremap("gq", fn.toggleQuickfix, { silent = true, desc = "Toggle Quickfix Windo
 nnoremap("gf", ":edit <cfile><cr>")
 
 -- Split and join lines syntactically
-local tsj = require("treesj")
+local tsj = deferred("treesj")
 nnoremap("gm", tsj.toggle)
 nnoremap("gs", tsj.split)
 nnoremap("gJ", tsj.join)
@@ -228,10 +239,10 @@ nnoremap("0", function()
 end)
 nnoremap("~", fn.customCaseToggle)
 
-nnoremap("<leader>pm", ":PhpactorContextMenu<cr>")
+nnoremap("<leader>pm", ":PhpActor context_menu<cr>")
 
 -- Debugger dap
-local dap = require("dap")
+local dap = deferred("dap")
 nnoremap("<F5>", dap.continue, { desc = "Start/contiue debugging" })
 nnoremap("<F10>", dap.step_over, { desc = "Step over" })
 nnoremap("<F11>", dap.step_into, { desc = "Step into" })
@@ -239,7 +250,9 @@ nnoremap("<F12>", dap.step_out, { desc = "Step out" })
 nnoremap("<leader>b", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
 nnoremap("<leader>dO", dap.step_over, { desc = "Step over (alt)" })
 nnoremap("<leader>dc", dap.run_to_cursor, { desc = "Run to cursor" })
-nnoremap("<leader>dr", dap.repl.toggle, { desc = "Toggle DAP REPL" })
+nnoremap("<leader>dr", function()
+	require("dap").repl.toggle()
+end, { desc = "Toggle DAP REPL" })
 nnoremap("<leader>d" .. j, dap.down, { desc = "Go down stack frame" })
 nnoremap("<leader>d" .. k, dap.up, { desc = "Go up stack frame" })
 

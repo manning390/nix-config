@@ -1,5 +1,6 @@
 let
-  # These are neovim plugins not in the nix store
+  # Locked source inputs for external plugins and existing optional experiments.
+  # Prefer pkgs.vimPlugins when a package is available.
   externalPlugins = {
     cmp-async-path = "git+https://codeberg.org/FelipeLema/cmp-async-path";
     telescope-emoji = "github:xiyaowong/telescope-emoji.nvim";
@@ -7,6 +8,7 @@ let
     tailiscope = "github:danielvolchek/tailiscope.nvim";
     browser-bookmarks = "github:dhruvmanila/browser-bookmarks.nvim";
     github-coauthors = "github:cwebster2/github-coauthors.nvim";
+    phpactor-nvim = "github:gbprod/phpactor.nvim/v1.0.1";
     wrd-nvim = "github:manning390/wrd.nvim/dev";
   };
 in {
@@ -33,10 +35,15 @@ in {
       inputs,
       pkgs,
       ...
-    }: {
+    }: let
+      neovim = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      # LuaRocks-backed vimPlugins must use the same LuaJIT as the nightly editor.
+      # Keep nixpkgs' plugin recipes, but build their Lua dependencies for Neovim.
+      pluginPkgs = pkgs.extend (_: _: {neovim-unwrapped = neovim;});
+    in {
       programs.neovim = {
         enable = true;
-        package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        package = neovim;
 
         defaultEditor = true;
 
@@ -48,11 +55,10 @@ in {
         withPython3 = true;
         withRuby = false;
 
-        plugins = [
-          pkgs.vimPlugins.lazy-nvim
-          pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-        ];
-        # plugins = import ./_plugins.nix {inherit inputs pkgs externalPlugins;};
+        plugins = import ./_plugins.nix {
+          inherit inputs externalPlugins;
+          pkgs = pluginPkgs;
+        };
 
         initLua = let
           grammarsPath = toString (pkgs.symlinkJoin {
@@ -79,10 +85,6 @@ in {
         "nvim/lua" = {
           recursive = true;
           source = ./lua;
-        };
-        "nvim/after" = {
-          recursive = true;
-          source = ./after;
         };
         "nvim/snippets" = {
           recursive = true;

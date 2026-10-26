@@ -3,6 +3,7 @@ with pkgs; [
   unstable.devenv
   ripgrep
   nodejs
+  phpactor
 
   # LSP
   tree-sitter
