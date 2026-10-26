@@ -75,7 +75,7 @@ in {
           enable = true;
           package = pkgs.unstable.opencode;
           settings = {
-            experimental.policies = [
+            policies = [
               {
                 action = "provider.use";
                 resource = "opencode";
