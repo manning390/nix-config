@@ -510,18 +510,18 @@ local plugins = {
 	-- 		end,
 	-- 	},
 	-- },
-	{
-		"manning390/wrd.nvim",
-		dir = "~/Code/lua/wrd.nvim",
-		branch = "dev",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-		opts = {
-			picker = { presentation = "grid" },
-		},
-	},
+	-- {
+	-- 	"manning390/wrd.nvim",
+	-- 	dir = "~/Code/lua/wrd.nvim",
+	-- 	branch = "dev",
+	-- 	dependencies = {
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 	},
+	-- 	opts = {
+	-- 		picker = { presentation = "grid" },
+	-- 	},
+	-- },
 }
 
 -- Run --
