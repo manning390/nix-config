@@ -88,8 +88,11 @@ local plugins = {
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
+		build = "cd app && npx --yes yarn install --frozen-lockfile",
+		init = function()
+			vim.g.mkdp_theme = "dark" -- "light" or "dark"
+			-- Empty uses the bundled GitHub-like CSS; otherwise set an absolute CSS file path.
+			vim.g.mkdp_markdown_css = ""
 		end,
 	},
 	{
