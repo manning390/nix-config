@@ -1,0 +1,19 @@
+{
+  local.nvim.plugins.harpoon = {
+    package = "harpoon2";
+    lua =
+      # lua
+      ''
+        {
+          "harpoon2",
+          priority = 60, -- The statusline reads Harpoon's list.
+          after = function()
+            -- Harpoon uses a method, not a plain setup(opts) function.
+            require("harpoon"):setup({
+              settings = { save_on_toggle = true, sync_on_ui_close = true },
+            })
+          end,
+        }
+      '';
+  };
+}

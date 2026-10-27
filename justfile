@@ -21,6 +21,18 @@ update:
   @just flake
   nh os switch . --update
 
+# List the dedicated editor pins and enabled external plugin inputs.
+nvim-inputs:
+  @nix eval --json .#nvim.updateInputs
+
+# Update only the inputs owned by Neovim; rebuild separately when ready.
+update-nvim:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  input_names="$(nix eval --raw .#nvim.updateInputs --apply 'builtins.concatStringsSep " "')"
+  read -r -a inputs <<< "$input_names"
+  nix flake update "${inputs[@]}"
+
 new command *args:
   @just new-{{command}} {{args}}
 

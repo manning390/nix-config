@@ -1,32 +1,32 @@
-let
-  # Locked source inputs for external plugins and existing optional experiments.
-  # Prefer pkgs.vimPlugins when a package is available.
-  externalPlugins = {
-    cmp-async-path = "git+https://codeberg.org/FelipeLema/cmp-async-path";
-    telescope-emoji = "github:xiyaowong/telescope-emoji.nvim";
-    telescope-heading = "github:crispgm/telescope-heading.nvim";
-    tailiscope = "github:danielvolchek/tailiscope.nvim";
-    browser-bookmarks = "github:dhruvmanila/browser-bookmarks.nvim";
-    github-coauthors = "github:cwebster2/github-coauthors.nvim";
-    phpactor-nvim = "github:gbprod/phpactor.nvim/v1.0.1";
-    wrd-nvim = "github:manning390/wrd.nvim/dev";
-  };
+{
+  config,
+  lib,
+  ...
+}: let
+  plugins = config.local.nvim.plugins;
+  nvim-options = (import ./options.nix).flake.modules.flake.nvim-options;
 in {
-  flake-file.inputs =
-    {
-      neovim-nightly-overlay = {
-        url = "github:nix-community/neovim-nightly-overlay";
-        inputs = {
-          flake-parts.follows = "flake-parts";
-          nixpkgs.follows = "nixpkgs-unstable";
-        };
+  imports = [nvim-options];
+
+  flake-file.inputs = {
+    nvim-nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nvim-nixpkgs";
       };
-    }
-    // (builtins.mapAttrs (_: url: {
-        inherit url;
-        flake = false;
-      })
-      externalPlugins);
+    };
+  };
+
+  # Expose metadata without evaluating host configurations or building packages.
+  flake.nvim.updateInputs =
+    ["nvim-nixpkgs" "neovim-nightly-overlay"]
+    ++ (plugins
+      |> builtins.attrValues
+      |> builtins.filter (plugin: plugin.enable && plugin.input != null)
+      |> map (plugin: plugin.input)
+      |> lib.unique);
 
   flake.aspects.nvim = {
     description = "The goat editor";
@@ -37,48 +37,81 @@ in {
       ...
     }: let
       neovim = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      # LuaRocks-backed vimPlugins must use the same LuaJIT as the nightly editor.
-      # Keep nixpkgs' plugin recipes, but build their Lua dependencies for Neovim.
-      pluginPkgs = pkgs.extend (_: _: {neovim-unwrapped = neovim;});
+      # Give editor plugins/tools their own update cadence. LuaRocks-backed
+      # plugins must also use the nightly editor's LuaJIT package set.
+      nvimPkgs = import inputs.nvim-nixpkgs {
+        system = pkgs.stdenv.hostPlatform.system;
+        inherit (pkgs) config;
+        overlays = [(_: _: {neovim-unwrapped = neovim;})];
+      };
+      bundle = import ./_bundle.nix {
+        inherit lib inputs plugins;
+        pkgs = nvimPkgs;
+      };
+      runtimePathsLua =
+        bundle.runtimePaths
+        |> map toString
+        |> lib.generators.toLua {};
     in {
       programs.neovim = {
         enable = true;
         package = neovim;
-
         defaultEditor = true;
-
         viAlias = true;
         vimAlias = true;
         vimdiffAlias = true;
-
         withNodeJs = true;
         withPython3 = true;
         withRuby = false;
 
-        plugins = import ./_plugins.nix {
-          inherit inputs externalPlugins;
-          pkgs = pluginPkgs;
-        };
-
-        initLua = let
-          grammarsPath = toString (pkgs.symlinkJoin {
-            name = "nvim-treesitter-grammars";
-            paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-          });
-          svelteGrammarWithAttach = pkgs.neovimUtils.grammarToPlugin (pkgs.vimPlugins.nvim-treesitter.grammarPlugins.svelte.origGrammar.overrideAttrs (old: {
-            patches = (old.patches or []) ++ [./tree-sitter-svelte-pr-20.patch];
-          }));
-        in
-          #lua
+        plugins = bundle.packages;
+        initLua =
+          # lua
           ''
-            vim.opt.runtimepath:prepend("${grammarsPath}")
-            vim.opt.runtimepath:prepend("${svelteGrammarWithAttach}")
-            require'config'
+            for _, path in ipairs(${runtimePathsLua}) do
+              vim.opt.runtimepath:prepend(path)
+            end
+            require("config")
           '';
       };
 
-      home.packages = import ./_packages.nix {inherit pkgs;};
+      home.packages =
+        (with nvimPkgs; [
+          devenv
+          ripgrep
+          nodejs
 
+          # LSP
+          tree-sitter
+          lua-language-server
+          svelte-language-server
+          neovim-node-client
+          typescript
+          typescript-language-server
+          eslint
+          eslint_d
+          emmet-language-server
+          nixd
+          vale-ls
+          vscode-langservers-extracted
+          tailwindcss-language-server
+
+          # Formatter
+          stylua
+          codespell
+          prettierd
+          fixjson
+
+          # dotnet
+          (with dotnetCorePackages;
+            combinePackages [
+              sdk_8_0
+              sdk_10_0
+            ])
+          dotnet-ef
+          csharpier
+        ])
+        ++ bundle.extraPackages;
       programs.direnv.enable = true;
 
       xdg.configFile = {
@@ -86,6 +119,7 @@ in {
           recursive = true;
           source = ./lua;
         };
+        "nvim/lua/config/plugin-specs.lua".text = bundle.lua;
         "nvim/snippets" = {
           recursive = true;
           source = ./snippets;

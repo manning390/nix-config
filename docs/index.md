@@ -9,6 +9,7 @@
 | [Homelab backups](backups.md) | Configure passwords, run backups, copy off-site, and restore data. |
 | [Media stack](media-stack.md) | Connect Deluge, Prowlarr, Sonarr, Radarr, Bazarr, Jellyfin, and Seerr. |
 | [OpenCode backups](opencode-backups.md) | Sage's weekday session backups and how to restore them. |
+| [Neovim](../dendritic/features/cli/nvim/README.md) | Plugin declarations, lze loading, editor-only updates, and tests. |
 
 ## Configuration Design Concepts
 These concepts are layers onto themselves, read top > down.

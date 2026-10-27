@@ -15,10 +15,6 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    cmp-async-path = {
-      url = "git+https://codeberg.org/FelipeLema/cmp-async-path";
-      flake = false;
-    };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,7 +50,7 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
         flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs.follows = "nvim-nixpkgs";
       };
     };
     nix-auto-follow = {
@@ -83,6 +79,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nvim-nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     phpactor-nvim = {
       url = "github:gbprod/phpactor.nvim/v1.0.1";
       flake = false;
@@ -93,10 +90,6 @@
     };
     tailiscope = {
       url = "github:danielvolchek/tailiscope.nvim";
-      flake = false;
-    };
-    telescope-emoji = {
-      url = "github:xiyaowong/telescope-emoji.nvim";
       flake = false;
     };
     telescope-heading = {

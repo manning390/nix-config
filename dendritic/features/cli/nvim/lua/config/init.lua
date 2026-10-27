@@ -28,7 +28,7 @@ end
 
 require("config.clipboard")
 require("config.options")
-require("plugins")
+require("config.loader").load(require("config.plugin-specs"))
 require("config.notify")
 require("config.keymaps")
 require("config.commands")

@@ -1,6 +1,13 @@
 local function test()
 	local lze = require("lze")
 	assert(not package.loaded.lazy, "lazy.nvim must not be loaded")
+	for _, name in ipairs({ "wrd-nvim", "nvim-test" }) do
+		assert(lze.state(name) == nil, "disabled plugin must not have a lze spec: " .. name)
+		assert(
+			#vim.fn.globpath(vim.o.packpath, "pack/*/opt/" .. name, false, true) == 0,
+			"disabled plugin must not be installed: " .. name
+		)
+	end
 	assert(vim.g.colors_name == "nord", "theme must load at startup")
 	assert(package.loaded["config.lsp"], "LSP configuration must run at startup")
 	assert(package.loaded["config.treesitter"], "Treesitter configuration must run at startup")
@@ -9,18 +16,43 @@ local function test()
 	assert(not package.loaded.dap, "debugger must remain deferred")
 	assert(lze.state("conform.nvim") == true, "formatting must remain deferred")
 
+	-- Plain startup plugins need only a Nix package, not a generated lze spec.
+	for _, name in ipairs({
+		"vim-abolish",
+		"vim-eunuch",
+		"vim-repeat",
+		"vim-rhubarb",
+		"vim-sleuth",
+		"vim-speeddating",
+		"vim-unimpaired",
+		"mkdir.nvim",
+		"leap.nvim",
+	}) do
+		assert(
+			#vim.fn.globpath(vim.o.packpath, "pack/*/start/" .. name, false, true) > 0,
+			"missing startup package: " .. name
+		)
+		assert(lze.state(name) == nil, "native startup package must not have a lze spec: " .. name)
+	end
+	assert(vim.g.loaded_abolish == 1 and vim.g.loaded_eunuch == 1, "native startup scripts must run")
+	assert(vim.fn.maparg("<Plug>(leap)", "n") ~= "", "Leap must define its jump target")
+	assert(vim.fn.maparg("s", "n") == "<Plug>(leap)", "Leap must preserve the custom jump binding")
+	assert(
+		vim.fn.maparg("<C-" .. vim.g.keymaps.h .. ">", "n"):find("TmuxNavigateLeft", 1, true),
+		"navigation must preserve the configured keyboard layout"
+	)
+	assert(
+		vim.fn.maparg("]m", "n", false, true).desc == "Treesitter: goto_next_start @function.outer",
+		"native plugins must preserve Treesitter mappings"
+	)
+
 	-- Every spec must correspond to an installed optional package.
 	local seen = {}
-	for _, group in ipairs({ "ui", "editing", "lsp", "completion", "telescope", "tools" }) do
-		for _, spec in ipairs(require("plugins." .. group)) do
-			local name = spec.name or spec[1] -- lze normalizes specs in place.
-			assert(not seen[name], "duplicate spec: " .. name)
-			seen[name] = true
-			assert(
-				#vim.fn.globpath(vim.o.packpath, "pack/*/opt/" .. name, false, true) > 0,
-				"missing package: " .. name
-			)
-		end
+	for _, spec in ipairs(require("config.plugin-specs")) do
+		local name = spec[1]
+		assert(not seen[name], "duplicate spec: " .. name)
+		seen[name] = true
+		assert(#vim.fn.globpath(vim.o.packpath, "pack/*/opt/" .. name, false, true) > 0, "missing package: " .. name)
 	end
 
 	local telescope = require("telescope")
@@ -48,6 +80,11 @@ local function test()
 	assert(lze.state("nvim-dap") == false, "require must trigger DAP loading")
 	assert(pcall(vim.treesitter.language.add, "lua"), "Nix must supply the Lua parser")
 	assert(pcall(vim.treesitter.language.add, "svelte"), "Nix must supply the Svelte parser")
+	local svelte =
+		vim.treesitter.get_string_parser('<button {@attach tooltip(content)} class="test">Hover me</button>', "svelte")
+	local svelte_root = svelte:parse()[1]:root()
+	assert(not svelte_root:has_error(), "Svelte @attach syntax must parse without errors")
+	assert(svelte_root:sexpr():find("(attach_tag", 1, true), "the patched Svelte parser must recognize @attach")
 	-- Exercise the remaining setup hooks without invoking their commands. Exclude
 	-- easy-dotnet because upstream setup can install/start its external backend.
 	for name in pairs(seen) do
