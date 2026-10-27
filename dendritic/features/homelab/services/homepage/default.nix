@@ -88,7 +88,7 @@
           services = let
             homepageCategories = ["Arr" "Media" "Downloads" "Services"];
             hl = config.homelab.services;
-            homepageServices = x: (lib.attrsets.filterAttrs (name: value: value ? homepage && value.homepage.category == x) homelab.services);
+            homepageServices = x: (lib.attrsets.filterAttrs (name: value: value ? homepage && (value.enable or false) && value.homepage.category == x) homelab.services);
           in
             lib.lists.forEach homepageCategories (cat: {
               "${cat}" =

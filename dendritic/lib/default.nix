@@ -18,19 +18,7 @@
       => { x = { a = { type = "x"; }; c = { type = "x"; }; };
            y = { b = { type = "y"; }; }; }
       */
-      attrGroupBy = f: attrs:
-        attrs
-        |> lib.mapAttrsToList (name: value: {inherit name value;})
-        |> lib.groupBy (x: f x.value)
-        |> lib.mapAttrs (
-          key: list:
-            list
-            |> map (x: {
-              inherit (x) name;
-              value = x.value;
-            })
-            |> lib.listToAttrs
-        );
+      attrGroupBy = import ./_attr-group-by.nix lib;
     };
   });
 }

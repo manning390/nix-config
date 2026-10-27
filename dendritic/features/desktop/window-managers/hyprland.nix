@@ -215,7 +215,7 @@
           */
           ''
             export GTK_BACKEND=wayland,x11,*
-            export QT_QPA_PLATFORM=wayland;xcb
+            export QT_QPA_PLATFORM='wayland;xcb'
             export SDL_VIDEODRIVER=wayland
             export CLUTTER_BACKEND=wayland
             export XCURSOR_THEME=${cursorName}

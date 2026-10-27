@@ -43,7 +43,7 @@
               lib.types.deferredModule
             ]);
             default = [];
-            description = "Additional nixos class modules for this host";
+            description = "Additional modules for this host";
           };
         };
       }
@@ -81,29 +81,18 @@
           inherit inputs;
           lib = inputs.self.lib;
         };
-        modules = [
-          self.modules.${cfg.class}.${hostname} # Our host
-          self.modules.${cfg.class}.${hostCfg.type} # Our system
-          self.modules.nixos.identity # Our global user const
-          {
-            networking.hostName = hostname;
-            system.stateVersion = hostCfg.stateVersion;
-          }
-        ];
+        modules =
+          [
+            self.modules.${cfg.class}.${hostname} # Our host
+            self.modules.${cfg.class}.${hostCfg.type} # Our system
+            self.modules.nixos.identity # Our global user const
+            {
+              networking.hostName = hostname;
+              system.stateVersion = hostCfg.stateVersion;
+            }
+          ]
+          ++ hostCfg.extraModules;
       };
-    attrGroupBy = f: attrs:
-      attrs
-      |> lib.mapAttrsToList (name: value: {inherit name value;})
-      |> lib.groupBy (x: f x.value)
-      |> lib.mapAttrs (
-        key: list:
-          list
-          |> map (x: {
-            inherit (x) name;
-            value = x.value;
-          })
-          |> lib.listToAttrs
-      );
     # Creates deploy-rs registration to allow deployment via `just deploy $hostname`
     mkDeployment = hostname: host: let
       nixos = self.nixosConfigurations.${hostname};
@@ -116,6 +105,7 @@
       profiles.system.path =
         inputs.deploy-rs.lib.${host.system}.activate.nixos nixos;
     };
+    attrGroupBy = import ../lib/_attr-group-by.nix lib;
   in
     config.local.hosts
     |> attrGroupBy (host: typeDispatch.${host.type}.flakeAttr)
