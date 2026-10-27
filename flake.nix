@@ -100,9 +100,5 @@
       url = "github:manning390/wrd.nvim/dev";
       flake = false;
     };
-    zinit = {
-      url = "github:zdharma-continuum/zinit";
-      flake = false;
-    };
   };
 }

@@ -36,7 +36,21 @@
           networking.networkmanager.enable = false;
         };
       };
-      homeManager = {};
+
+      homeManager = {
+        config,
+        lib,
+        osConfig,
+        ...
+      }: {
+        # Treat the Windows home as a default launch directory, without
+        # overriding explicit working directories. Run before last-working-dir.
+        programs.zsh.initContent = lib.mkIf config.programs.zsh.enable (lib.mkOrder 900 ''
+          if [[ "$PWD" == ${lib.escapeShellArg "/mnt/c/Users/${osConfig.local.wsl.windowsUser}"} ]]; then
+            builtin cd -- "$HOME"
+          fi
+        '');
+      };
     };
   };
 }
