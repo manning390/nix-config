@@ -39,6 +39,9 @@
       browser-bookmarks = {
         input = "browser-bookmarks";
         dependencies = pkgs: [pkgs.vimPlugins.sqlite-lua];
+        overrideAttrs = old: {
+          patches = (old.patches or []) ++ [../browser-bookmarks-crlf.patch];
+        };
         lua =
           # lua
           ''
@@ -49,6 +52,8 @@
               opts = {
                 selected_browser = "firefox",
                 config_dir = vim.env.BROWSER_CONFIG_DIR,
+                profile_name = vim.env.BROWSER_PROFILE,
+                url_open_command = vim.fn.has("wsl") == 1 and "wsl-open" or nil,
               },
             }
           '';

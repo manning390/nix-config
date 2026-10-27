@@ -12,6 +12,7 @@
         inputs,
         config,
         lib,
+        pkgs,
         ...
       }: {
         imports = [inputs.nixos-wsl.nixosModules.wsl];
@@ -32,6 +33,7 @@
 
           wsl.enable = true;
           wsl.defaultUser = config.local.identity.username;
+          environment.systemPackages = [pkgs.wsl-open];
           environment.shellAliases.open = "explorer.exe";
           networking.networkmanager.enable = false;
         };

@@ -1,0 +1,13 @@
+diff --git a/lua/browser_bookmarks/parser/ini.lua b/lua/browser_bookmarks/parser/ini.lua
+--- a/lua/browser_bookmarks/parser/ini.lua
++++ b/lua/browser_bookmarks/parser/ini.lua
+@@ -17,6 +17,9 @@ function ini.load(path)
+   local current_section
+ 
+   for line in io.lines(path) do
++    -- Windows profiles.ini files retain CR when read from WSL/Linux.
++    -- Normalize before matching section headers and reading string values.
++    line = line:gsub("\r$", "")
+     -- Ignore comments.
+     if not vim.startswith(line, ";") then
+       -- Section headers

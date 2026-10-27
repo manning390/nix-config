@@ -179,4 +179,5 @@ After rebuilding, test the complete configured editor:
 
 ```sh
 nvim --headless '+luafile tests/smoke.lua'
+nvim --headless '+luafile tests/bookmarks.lua'
 ```

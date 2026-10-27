@@ -67,6 +67,7 @@ in {
           ./_opencode_backup.nix
         ];
         home.sessionVariables = {
+          BROWSER_PROFILE = "default-release";
           TERM = "wezterm";
           PATH = "$HOME/.local/bin:$PATH";
         };

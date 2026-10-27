@@ -56,6 +56,10 @@ local function test()
 	end
 
 	local telescope = require("telescope")
+	if vim.fn.has("wsl") == 1 then
+		assert(require("browser_bookmarks.config").values.url_open_command == "wsl-open")
+		assert(vim.fn.executable("wsl-open") == 1, "WSL bookmark opener must be installed")
+	end
 	assert(lze.state("telescope.nvim") == false, "require must trigger Telescope setup")
 	for _, name in ipairs({ "fzf", "emoji", "live_grep_args", "bookmarks", "githubcoauthors", "git_worktree" }) do
 		assert(telescope.extensions[name], "missing Telescope extension: " .. name)
