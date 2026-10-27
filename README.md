@@ -16,9 +16,9 @@ See the [documentation](docs/index.md) for setup guides and operational procedur
     - [x] Convert all non-dendritic modules to dendritic
     - [x] Convert hosts to new dendritic style
     - [x] Clean up old files
-- [ ] Nvim
+- [x] Nvim
     - [x] Convert nvim to use nixpkgs instead of lazy.nvim for plugins (solution slightly bespoke)
-    - [ ] Setup dap with nvim for debugger
+    - [x] Setup dap with nvim for debugger
     - [x] Setup refactoring plugin for nvim
     - [x] Setup c# env on nvim
 - [x] Set up auto ssh via nix-private
