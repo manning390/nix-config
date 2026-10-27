@@ -152,9 +152,24 @@
                 enableBrightness = cfg.showBrightness;
               };
               utilities = {
-                vpn = {
-                  enabled = true;
-                };
+                vpn =
+                  {
+                    enabled = true;
+                  }
+                  // lib.optionalAttrs (osConfig.local.wireguard.enable or false) {
+                    selectedProvider = lib.mkDefault "home-wireguard";
+                    provider = [
+                      {
+                        id = "home-wireguard";
+                        name = "wireguard";
+                        displayName = "Home";
+                        interface = "wg0";
+                        # This profile belongs to NetworkManager, not wg-quick.
+                        connectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "up" "id" "wg0"];
+                        disconnectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "down" "id" "wg0"];
+                      }
+                    ];
+                  };
               };
             };
           };
