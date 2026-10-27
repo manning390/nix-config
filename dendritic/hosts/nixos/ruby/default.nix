@@ -31,7 +31,10 @@ in {
         # Overwrite our default user identity
         local.identity.username = user;
 
-        imports = [inputs.nixos-hardware.nixosModules.framework-13-7040-amd];
+        imports = [
+          inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+          self.modules.nixos.impermanence-ruby
+        ];
 
         # No swap/resume device is configured, so only suspend is supported.
         systemd.sleep.settings.Sleep = {
