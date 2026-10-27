@@ -52,6 +52,7 @@ in {
               name = "at-translated-set-2-keyboard";
               kb_layout = "colemak_dhm,us";
               kb_options = "caps:escape,grp:alt_shift_toggle";
+              resolve_binds_by_sym = true;
             }
           ];
           shells = {
