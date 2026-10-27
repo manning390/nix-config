@@ -7,6 +7,7 @@
       ''
         {
           "smear-cursor.nvim",
+          event = "DeferredUIEnter",
           main = "smear_cursor",
           opts = { }
         }

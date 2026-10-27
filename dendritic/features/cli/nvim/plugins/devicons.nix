@@ -4,7 +4,7 @@
     lua =
       # lua
       ''
-        { "nvim-web-devicons", priority = 100 }
+        { "nvim-web-devicons", on_require = "nvim-web-devicons" }
       '';
   };
 }

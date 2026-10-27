@@ -72,16 +72,16 @@ nnoremap("<C-\\>", ":TmuxNavigatePrevious<cr>", { silent = true })
 inoremap("<S-Tab>", "<C-V><Tab>")
 
 -- Harpoon
-local harpoon = require("harpoon")
 nnoremap("<leader>a", function()
-	harpoon:list():add()
+	require("harpoon"):list():add()
 end)
 nnoremap("<leader>`", function()
+	local harpoon = require("harpoon")
 	harpoon.ui:toggle_quick_menu(harpoon:list())
 end)
 for i = 1, 9 do
 	nnoremap("<leader>" .. i, function()
-		harpoon:list():select(i)
+		require("harpoon"):list():select(i)
 	end)
 end
 -- nnoremap('<leader>t`', require 'harpoon.cmd-ui'.toggle_quick_menu)

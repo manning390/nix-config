@@ -6,7 +6,8 @@
       ''
         {
           "harpoon2",
-          priority = 60, -- The statusline reads Harpoon's list.
+          on_require = "harpoon",
+          dep_of = "lualine.nvim", -- The statusline reads Harpoon's list.
           after = function()
             -- Harpoon uses a method, not a plain setup(opts) function.
             require("harpoon"):setup({

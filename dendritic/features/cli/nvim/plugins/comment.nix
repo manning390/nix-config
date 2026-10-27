@@ -4,7 +4,7 @@
     lua =
       # lua
       ''
-        { "comment.nvim", main = "Comment", opts = {} }
+        { "comment.nvim", event = "DeferredUIEnter", main = "Comment", opts = {} }
       '';
   };
 }

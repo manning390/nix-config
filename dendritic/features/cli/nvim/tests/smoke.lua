@@ -12,6 +12,10 @@ local function test()
 	assert(package.loaded["config.lsp"], "LSP configuration must run at startup")
 	assert(package.loaded["config.treesitter"], "Treesitter configuration must run at startup")
 	assert(not package.loaded.telescope, "keymaps must not eagerly load Telescope")
+	assert(not package.loaded.harpoon, "keymaps must not eagerly load Harpoon")
+	for _, name in ipairs({ "comment.nvim", "vim-pasta", "lualine.nvim", "harpoon2", "nvim-web-devicons" }) do
+		assert(lze.state(name) == true, "plugin must wait for its UI/dependency trigger: " .. name)
+	end
 	assert(not package.loaded.cmp, "completion must wait until InsertEnter")
 	assert(not package.loaded.dap, "debugger must remain deferred")
 	assert(lze.state("conform.nvim") == true, "formatting must remain deferred")
@@ -99,6 +103,13 @@ local function test()
 	local svelte_root = svelte:parse()[1]:root()
 	assert(not svelte_root:has_error(), "Svelte @attach syntax must parse without errors")
 	assert(svelte_root:sexpr():find("(attach_tag", 1, true), "the patched Svelte parser must recognize @attach")
+	vim.api.nvim_exec_autocmds("User", { pattern = "DeferredUIEnter", modeline = false })
+	for _, name in ipairs({ "comment.nvim", "vim-pasta", "lualine.nvim", "harpoon2" }) do
+		assert(lze.state(name) == false, "UI startup must load plugin: " .. name)
+	end
+	assert(package.loaded["config.lualine"], "UI startup must configure the statusline")
+	assert(package.loaded.harpoon, "statusline must load its Harpoon dependency")
+	assert(vim.fn.maparg("gcc", "n") ~= "", "deferred commenting must install mappings")
 	-- Exercise the remaining setup hooks without invoking their commands. Exclude
 	-- easy-dotnet because upstream setup can install/start its external backend.
 	for name in pairs(seen) do
