@@ -65,30 +65,17 @@
           # lua
           ''{ "git-worktree.nvim", dep_of = "telescope.nvim" }'';
       };
-
-      github-coauthors = {
-        input = "github-coauthors";
-        dependencies = pkgs: with pkgs.vimPlugins; [plenary-nvim telescope-nvim];
-        lua =
-          # lua
-          ''{ "github-coauthors", dep_of = "telescope.nvim" }'';
-      };
-
-      tailiscope = {
-        input = "tailiscope";
-        dependencies = pkgs: with pkgs.vimPlugins; [plenary-nvim telescope-nvim];
-        lua =
-          # lua
-          ''{ "tailiscope", dep_of = "telescope.nvim" }'';
-      };
-
-      telescope-heading = {
-        input = "telescope-heading";
-        dependencies = pkgs: with pkgs.vimPlugins; [plenary-nvim telescope-nvim];
-        lua =
-          # lua
-          ''{ "telescope-heading", dep_of = "telescope.nvim" }'';
-      };
+    }
+    // lib.mapAttrs (name: deps: {
+      input = name;
+      dependencies = pkgs: map (dep: pkgs.vimPlugins.${dep}) deps;
+      lua =
+        # lua
+        ''{ "${name}", dep_of = "telescope.nvim" }'';
+    }) {
+      github-coauthors = ["plenary-nvim" "telescope-nvim"];
+      tailiscope = ["plenary-nvim" "telescope-nvim"];
+      telescope-heading = ["plenary-nvim" "telescope-nvim"];
     }
     // lib.genAttrs [
       "telescope-emoji"
