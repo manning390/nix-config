@@ -5,7 +5,7 @@
   };
 
   local.nvim.plugins.wrd = {
-    enable = false;
+    enableFor = config: config.networking.hostName == "mado";
     input = "wrd-nvim";
     dependencies = pkgs: with pkgs.vimPlugins; [plenary-nvim telescope-nvim];
     lua =

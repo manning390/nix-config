@@ -8,6 +8,12 @@
         options = {
           enable = lib.mkEnableOption "this Neovim plugin" // {default = true;};
 
+          enableFor = lib.mkOption {
+            type = lib.types.functionTo lib.types.bool;
+            default = _: true;
+            description = "Whether to enable this plugin for a given system configuration.";
+          };
+
           package = lib.mkOption {
             type = lib.types.nullOr (lib.types.either lib.types.str (lib.types.functionTo lib.types.package));
             default = null;

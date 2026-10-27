@@ -33,6 +33,7 @@ in {
 
     homeManager = {
       inputs,
+      osConfig,
       pkgs,
       ...
     }: let
@@ -45,7 +46,8 @@ in {
         overlays = [(_: _: {neovim-unwrapped = neovim;})];
       };
       bundle = import ./_bundle.nix {
-        inherit lib inputs plugins;
+        inherit lib inputs;
+        plugins = lib.filterAttrs (_: plugin: plugin.enable && plugin.enableFor osConfig) plugins;
         pkgs = nvimPkgs;
       };
       runtimePathsLua =
@@ -112,7 +114,6 @@ in {
           csharpier
         ])
         ++ bundle.extraPackages;
-      programs.direnv.enable = true;
 
       xdg.configFile = {
         "nvim/lua" = {
@@ -125,6 +126,8 @@ in {
           source = ./snippets;
         };
       };
+
+      programs.direnv.enable = true;
 
       home.sessionVariables = {
         EDITOR = "nvim";

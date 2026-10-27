@@ -75,6 +75,11 @@ declarations stay together in the owning plugin/group module. After adding an in
   bundle.
   Source inputs remain declared in `flake-file`, and another plugin may still install the disabled package as a dependency.
   Disabling a plugin does not automatically disable dependent plugins or remove their mappings.
+- `enableFor = config: ...` defaults to `_: true` and receives the system configuration (`osConfig`) when creating the Home Manager bundle.
+  For example, `enableFor = config: config.networking.hostName == "mado";` restricts a plugin to one host,
+  while `enableFor = config: config.wsl.enable or false;` restricts it to WSL.
+  Both `enable` and `enableFor` must allow the plugin.
+  Flake-level update metadata only checks `enable`, so input updates remain independent of the selected host.
 - `optional` defaults to `true`: lze controls loading.
   Use `false` without a Lua spec for shared libraries or plain startup plugins such as `vim-repeat`.
   Native startup scripts run after the editor's init; keep a lze spec when a plugin must load before custom configuration or mappings (Tmux Navigator).
