@@ -1,3 +1,5 @@
+# Animate cursor movement with a trailing smear, enabled only on WSL.
+# Initialize after the UI starts.
 {
   local.nvim.plugins.smear-cursor = {
     enableFor = config: config.wsl.enable or false;

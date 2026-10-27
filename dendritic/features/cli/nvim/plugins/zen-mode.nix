@@ -1,3 +1,5 @@
+# Distraction-free writing layout with terminal and Git-sign integrations.
+# Load only when :ZenMode is invoked.
 {
   local.nvim.plugins.zen-mode = {
     package = "zen-mode-nvim";

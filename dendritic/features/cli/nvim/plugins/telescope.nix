@@ -1,3 +1,5 @@
+# Fuzzy finding for files, buffers, text, bookmarks, and other project data.
+# Load Telescope on command/API use and its extensions as dependencies.
 {lib, ...}: {
   flake-file.inputs = {
     browser-bookmarks = {
@@ -36,6 +38,10 @@
           '';
       };
 
+      # Search browser bookmarks with <leader>pb. BROWSER_CONFIG_DIR selects the
+      # Firefox directory; BROWSER_PROFILE optionally selects a profile by name.
+      # The parser patch handles Windows line endings without changing Firefox
+      # files. WSL opens URLs through wsl-open. Rebuild to apply plugin changes.
       browser-bookmarks = {
         input = "browser-bookmarks";
         dependencies = pkgs: [pkgs.vimPlugins.sqlite-lua];
@@ -59,6 +65,7 @@
           '';
       };
 
+      # Create, switch, and delete Git worktrees through Telescope.
       git-worktree = {
         package = "git-worktree-nvim";
         lua =
@@ -73,14 +80,17 @@
         # lua
         ''{ "${name}", dep_of = "telescope.nvim" }'';
     }) {
+      # Select GitHub contributors to add Git co-author trailers.
       github-coauthors = ["plenary-nvim" "telescope-nvim"];
+      # Search Tailwind CSS utility classes.
       tailiscope = ["plenary-nvim" "telescope-nvim"];
+      # Navigate document headings through a Telescope picker.
       telescope-heading = ["plenary-nvim" "telescope-nvim"];
     }
     // lib.genAttrs [
-      "telescope-emoji"
-      "telescope-fzf-native"
-      "telescope-live-grep-args"
+      "telescope-emoji" # Search and insert emoji.
+      "telescope-fzf-native" # Native fuzzy sorting for Telescope results.
+      "telescope-live-grep-args" # Live grep with editable ripgrep arguments.
     ] (name: {
       package = "${name}-nvim";
       lua =

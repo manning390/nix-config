@@ -1,3 +1,4 @@
+# Highlight and search TODO-style comments; load when opening or creating a buffer.
 {
   local.nvim.plugins.todo-comments = {
     package = "todo-comments-nvim";

@@ -1,3 +1,5 @@
+# Statusline with Git branch, file, Harpoon, word-count, and cursor information.
+# Initialize after the UI starts, with Harpoon loaded first.
 {
   local.nvim.plugins.lualine = {
     package = "lualine-nvim";

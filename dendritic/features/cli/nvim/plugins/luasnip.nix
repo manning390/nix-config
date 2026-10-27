@@ -1,3 +1,4 @@
+# Expand snippets and navigate placeholders; load with completion or snippet mappings.
 {
   local.nvim.plugins.luasnip = {
     package = "luasnip";

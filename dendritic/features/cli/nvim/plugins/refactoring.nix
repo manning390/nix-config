@@ -1,3 +1,5 @@
+# Extract and inline variables, functions, and blocks.
+# Load through :Refactor or the refactoring picker mapping.
 {
   local.nvim.plugins.refactoring = {
     package = "refactoring-nvim";

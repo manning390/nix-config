@@ -1,3 +1,5 @@
+# Format buffers with external formatters and optional LSP fallback.
+# Load when formatting commands or formatexpr require it.
 {
   local.nvim.plugins.conform = {
     package = "conform-nvim";

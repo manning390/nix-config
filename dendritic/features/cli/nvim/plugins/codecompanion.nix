@@ -1,3 +1,4 @@
+# AI-assisted editing, chat, and actions; load through commands or Lua API use.
 {
   local.nvim.plugins.codecompanion = {
     package = "codecompanion-nvim";

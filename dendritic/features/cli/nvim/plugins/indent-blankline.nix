@@ -1,3 +1,4 @@
+# Display indentation guides; load when opening or creating a buffer.
 {
   local.nvim.plugins.indent-blankline = {
     package = "indent-blankline-nvim";

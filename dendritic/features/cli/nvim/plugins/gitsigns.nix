@@ -1,3 +1,4 @@
+# Git change signs, hunk actions, and blame information; load when opening a buffer.
 {
   local.nvim.plugins.gitsigns = {
     package = "gitsigns-nvim";

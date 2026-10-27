@@ -1,3 +1,5 @@
+# PHP refactoring and code actions using the Nix-provided Phpactor executable.
+# Load for PHP/Blade buffers or :PhpActor; shared LSP setup handles the server.
 {
   flake-file.inputs.phpactor-nvim = {
     url = "github:gbprod/phpactor.nvim/v1.0.1";

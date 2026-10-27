@@ -1,3 +1,4 @@
+# Improve vim.ui input and selection dialogs; initialize after the UI starts.
 {
   local.nvim.plugins.dressing = {
     package = "dressing-nvim";

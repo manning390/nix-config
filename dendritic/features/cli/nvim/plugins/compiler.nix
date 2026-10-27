@@ -1,3 +1,4 @@
+# Build/run picker backed by Telescope and Overseer; load through compiler commands.
 {
   local.nvim.plugins.compiler = {
     package = "compiler-nvim";

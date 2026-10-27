@@ -1,3 +1,4 @@
+# Live Markdown preview in a browser; load for Markdown buffers or preview commands.
 {
   local.nvim.plugins.markdown-preview = {
     package = "markdown-preview-nvim";

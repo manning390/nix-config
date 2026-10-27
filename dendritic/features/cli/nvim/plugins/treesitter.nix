@@ -1,5 +1,8 @@
+# Tree-sitter parsers, highlighting, indentation, text objects, and syntax-aware splitting.
+# Register first-buffer hooks at startup; load splitting commands on demand.
 {
   local.nvim.plugins = {
+    # Supply parsers and queries; Neovim's native API handles highlighting and folds.
     treesitter = {
       package = pkgs: pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
       optional = false;
@@ -16,6 +19,7 @@
       ];
     };
 
+    # Compute comment strings from the syntax node, including embedded languages.
     context-commentstring = {
       package = "nvim-ts-context-commentstring";
       lua =
@@ -25,6 +29,7 @@
         '';
     };
 
+    # Select and move between functions, classes, and parameters using syntax trees.
     treesitter-textobjects = {
       package = "nvim-treesitter-textobjects";
       lua =
@@ -39,6 +44,7 @@
         '';
     };
 
+    # Split and join syntax-aware code constructs across lines.
     treesj = {
       package = "treesj";
       lua =

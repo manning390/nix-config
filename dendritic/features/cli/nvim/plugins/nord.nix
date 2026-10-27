@@ -1,3 +1,4 @@
+# Nord color scheme; apply early to avoid flashing an unstyled UI.
 {
   local.nvim.plugins.nord = {
     package = "nord-nvim";

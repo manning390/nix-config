@@ -1,3 +1,5 @@
+# .NET project, test, package, and execution tools.
+# Load for C# buffers or :Dotnet; package completion also initializes cmp.
 {
   local.nvim.plugins.easy-dotnet = {
     package = "easy-dotnet-nvim";

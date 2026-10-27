@@ -1,3 +1,5 @@
+# Display notifications in floating windows.
+# Initialize early to capture startup notifications and compatibility setup.
 {
   local.nvim.plugins.notifier = {
     package = "notifier-nvim";

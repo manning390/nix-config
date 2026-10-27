@@ -1,3 +1,5 @@
+# Language-server definitions and shared LSP configuration.
+# Initialize at startup so the first FileType event can attach servers.
 {
   local.nvim.plugins.lspconfig = {
     package = "nvim-lspconfig";

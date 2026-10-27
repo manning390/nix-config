@@ -1,3 +1,5 @@
+# Writing tools from the custom wrd.nvim plugin, enabled only on mado.
+# Load through :Wrd or its Lua API.
 {
   flake-file.inputs.wrd-nvim = {
     url = "github:manning390/wrd.nvim/dev";

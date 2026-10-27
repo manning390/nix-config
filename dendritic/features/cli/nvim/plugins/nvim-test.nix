@@ -1,3 +1,5 @@
+# Run test suites, files, and nearby tests from Neovim.
+# Currently disabled; when enabled, load through test commands.
 {
   local.nvim.plugins.nvim-test = {
     enable = false;

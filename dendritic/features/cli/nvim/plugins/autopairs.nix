@@ -1,3 +1,4 @@
+# Insert matching brackets and quotes; load on entering Insert mode or completion setup.
 {
   local.nvim.plugins.autopairs = {
     package = "nvim-autopairs";

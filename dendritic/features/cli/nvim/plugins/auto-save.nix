@@ -1,3 +1,5 @@
+# Automatically save changed buffers once enabled through :ASToggle.
+# Command loading intentionally leaves automatic saving inactive at startup.
 {
   local.nvim.plugins.auto-save = {
     package = "auto-save-nvim";

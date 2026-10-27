@@ -1,3 +1,5 @@
+# Debug Adapter Protocol client with JavaScript, .NET, and PHP adapters.
+# Load when a debugger mapping requires the Lua API.
 {
   local.nvim.plugins.dap = {
     package = "nvim-dap";

@@ -1,3 +1,5 @@
+# Bookmark project files for quick navigation and statusline indicators.
+# Load before the statusline or when a navigation mapping requires it.
 {
   local.nvim.plugins.harpoon = {
     package = "harpoon2";

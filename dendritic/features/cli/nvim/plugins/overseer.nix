@@ -1,3 +1,4 @@
+# Manage build/run tasks and their output; load through commands or Compiler integration.
 {
   local.nvim.plugins.overseer = {
     package = "overseer-nvim";
