@@ -136,6 +136,32 @@ Language tools can have separate runtime requirements.
 In particular, easy-dotnet still provisions its own server/debugger upstream;
 packaging its Neovim plugin does not package that backend.
 
+## Debugging
+
+DAP loads on first use. Its adapters (`js-debug`, `netcoredbg`, and `php-debug`) are installed by the DAP plugin module; rebuild Home Manager/the host to activate changes.
+Open Neovim from the project root so `${workspaceFolder}` resolves correctly.
+
+- **TypeScript / Svelte:** start your dev server, open a source file, press `F5`,
+  and choose Chrome. Enter the dev server URL (default `http://localhost:5173`).
+  Chrome/Chromium must be installed; source maps must be enabled. The Node launch configuration uses Node directly, not `tsx` or `ts-node`;
+  use compiled JavaScript or a Node version that supports your TypeScript syntax. For server-side code,
+  start Node with `--inspect` and choose Node attach. Do not launch `.svelte` files directly in Node.
+- **C#:** run `dotnet build` in Debug configuration, press `F5`, choose .NET launch,
+  and select the application's DLL under `bin/Debug/<framework>/`.
+  PDB symbols must be available. An attach configuration is also provided.
+- **PHP:** enable Xdebug in the PHP runtime that runs the app, with
+  `xdebug.mode=debug`, `xdebug.start_with_request=yes`, `xdebug.client_host=127.0.0.1`, and `xdebug.client_port=9003`.
+  Press `F5`, choose the PHP listener, then make a web request or run the CLI script.
+  Containers/remote hosts need a reachable client host and project-specific `pathMappings` from server paths to local paths.
+
+Project-specific configurations can live in `.vscode/launch.json` (adapter types `pwa-node`, `pwa-chrome`, `coreclr`, and `php`).
+These are read on demand.
+For custom browser paths, set `runtimeExecutable` in a project configuration.
+
+`<leader>+b` toggles a breakpoint,
+`F5` starts/continues, `F10` steps over, `F11` steps into, and `F12` steps out.
+`'dh` inspects a value, `'ds` opens scopes, `'dr` toggles the REPL, and `'dt` ends the session.
+
 ## Tests
 
 From this directory, test the adapter without loading your editor configuration:

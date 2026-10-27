@@ -78,6 +78,16 @@ local function test()
 	assert(package.loaded["config.treesj"], "require must configure Treesj")
 	require("dap")
 	assert(lze.state("nvim-dap") == false, "require must trigger DAP loading")
+	assert(package.loaded["config.dap"], "require must configure debugging")
+	for _, adapter in ipairs({ "pwa-node", "pwa-chrome", "coreclr", "php" }) do
+		assert(require("dap").adapters[adapter], "missing debug adapter: " .. adapter)
+	end
+	for _, filetype in ipairs({ "typescript", "svelte", "cs", "php" }) do
+		assert(#require("dap").configurations[filetype] > 0, "missing debug configurations: " .. filetype)
+	end
+	for _, executable in ipairs({ "js-debug", "netcoredbg", "php-debug" }) do
+		assert(vim.fn.executable(executable) == 1, "missing debug executable: " .. executable)
+	end
 	assert(pcall(vim.treesitter.language.add, "lua"), "Nix must supply the Lua parser")
 	assert(pcall(vim.treesitter.language.add, "svelte"), "Nix must supply the Svelte parser")
 	local svelte =
