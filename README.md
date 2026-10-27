@@ -5,7 +5,7 @@ Personal NixOS configurations for multiple machines, organized as dendritic modu
 Host definitions live in `dendritic/hosts/<type>/<hostname>/default.nix`.
 Shared host configuration is assembled in `dendritic/hosts/default.nix`.
 
-This configuration is a work in progress.
+This configuration is a perpetual work in progress.
 
 ## Documentation
 
@@ -17,7 +17,7 @@ See the [documentation](docs/index.md) for setup guides and operational procedur
     - [x] Convert hosts to new dendritic style
     - [x] Clean up old files
 - [ ] Nvim
-    - [ ] Convert nvim to use nixpkgs via wrapper?
+    - [x] Convert nvim to use nixpkgs instead of lazy.nvim for plugins (solution slightly bespoke)
     - [ ] Setup dap with nvim for debugger
     - [x] Setup refactoring plugin for nvim
     - [x] Setup c# env on nvim
@@ -27,9 +27,9 @@ See the [documentation](docs/index.md) for setup guides and operational procedur
     - [x] clip
     - [x] git
     - [x] samba
-    - [ ] arr?
+    - [?] arr
     - [x] backups
 - [x] ISO generation, playbook for new hosts
 - [ ] Setup impermanence on all hosts
 - [ ] Setup non-destructive disko on all hosts
-    - [ ] Adjust store size on sentry
+    - [ ] Adjust nix store size on sentry
