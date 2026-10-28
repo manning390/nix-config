@@ -27,7 +27,7 @@ in {
         homelab
       ];
 
-      nixos = {config, ...}: {
+      nixos = {config, pkgs, ...}: {
         # Overwrite our default user identity
         local.identity.username = user;
 
@@ -60,6 +60,20 @@ in {
             userShell = "zsh";
           };
           wireguard.enable = true;
+          desktop.caelestia.vpn = {
+            selectedProvider = "home";
+            providers = [
+              {
+                id = "home";
+                name = "wireguard";
+                displayName = "Home VPN";
+                interface = "wg0";
+                # This connection is managed by NetworkManager, not wg-quick.
+                connectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "up" "id" "wg0"];
+                disconnectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "down" "id" "wg0"];
+              }
+            ];
+          };
           sops.enable = true;
           ssh = {
             enable = true;
