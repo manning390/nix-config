@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake-file.inputs.caelestia-shell = {
     url = "github:caelestia-dots/shell";
     inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -14,11 +14,7 @@
         lib,
         ...
       }: {
-        options.local.desktop.caelestia.allowSuspend = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Allow system sleep. Disable on machines with unreliable resume.";
-        };
+        imports = [self.modules.nixos.caelestia-options];
 
         config = lib.mkIf (!config.local.desktop.caelestia.allowSuspend) {
           systemd.sleep.settings.Sleep = {
@@ -39,63 +35,29 @@
         ...
       }: let
         cfg = config.local.desktop.caelestia;
+        vpn = osConfig.local.desktop.caelestia.vpn;
       in {
-        imports = [inputs.caelestia-shell.homeManagerModules.default];
-
-        options.local.desktop.caelestia = {
-          enable = lib.mkEnableOption "enables caelstia shell";
-          wallpaperDir = lib.mkOption {
-            type = lib.types.singleLineStr;
-            default = "~/Pictures/Wallpapers";
-            description = "where your wallpapers will be sourced";
-          };
-          showBattery = lib.mkEnableOption "shows battery in left sidebar";
-          showBrightness = lib.mkEnableOption "shows brightness slider in right sidebar";
-          writableSettings = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-            description = ''
-              Use a writable shell.json so the settings UI can save changes.
-              UI changes persist until the generated Nix settings change; then
-              the previous file is backed up as shell.json.before-nix and the
-              new Nix settings are applied.
-            '';
-          };
-          idle = {
-            lockAfter = lib.mkOption {
-              type = lib.types.ints.positive;
-              default = 180;
-              description = "Idle seconds before locking the session.";
-            };
-            screensOffAfter = lib.mkOption {
-              type = lib.types.ints.positive;
-              default = 300;
-              description = "Idle seconds before turning displays off (DPMS, not system sleep).";
-            };
-            suspendAfter = lib.mkOption {
-              type = lib.types.nullOr lib.types.ints.positive;
-              default = null;
-              description = "Idle seconds before suspending, or null to disable automatic suspend.";
-            };
-            suspendOnAC = lib.mkOption {
-              type = lib.types.bool;
-              default = false;
-              description = "Also automatically suspend while connected to external power.";
-            };
-          };
-          excludedScreens = lib.mkOption {
-            type = lib.types.listOf lib.types.singleLineStr;
-            default = [];
-            example = ["HDMI-A-1" "HDMI-A-2"];
-            description = "Screens to not show the taskbar";
-          };
-        };
+        imports = [
+          self.modules.homeManager.caelestia-options
+          inputs.caelestia-shell.homeManagerModules.default
+        ];
 
         config = lib.mkIf cfg.enable {
           assertions = [
             {
               assertion = cfg.idle.suspendAfter == null || osConfig.local.desktop.caelestia.allowSuspend;
               message = "Caelestia idle suspend requires local.desktop.caelestia.allowSuspend.";
+            }
+            {
+              assertion = vpn.selectedProvider == null || lib.any (provider: provider.id == vpn.selectedProvider) vpn.providers;
+              message = "Caelestia's selected VPN provider must be registered in local.desktop.caelestia.vpn.providers.";
+            }
+            {
+              assertion = let
+                ids = map (provider: provider.id) vpn.providers;
+              in
+                lib.length ids == lib.length (lib.unique ids);
+              message = "Caelestia VPN provider identifiers must be unique.";
             }
           ];
 
@@ -156,19 +118,11 @@
                   {
                     enabled = true;
                   }
-                  // lib.optionalAttrs (osConfig.local.wireguard.enable or false) {
-                    selectedProvider = lib.mkDefault "home-wireguard";
-                    provider = [
-                      {
-                        id = "home-wireguard";
-                        name = "wireguard";
-                        displayName = "Home";
-                        interface = "wg0";
-                        # This profile belongs to NetworkManager, not wg-quick.
-                        connectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "up" "id" "wg0"];
-                        disconnectCmd = ["${pkgs.networkmanager}/bin/nmcli" "connection" "down" "id" "wg0"];
-                      }
-                    ];
+                  // lib.optionalAttrs (vpn.providers != []) {
+                    provider = vpn.providers;
+                  }
+                  // lib.optionalAttrs (vpn.selectedProvider != null) {
+                    selectedProvider = vpn.selectedProvider;
                   };
               };
             };
