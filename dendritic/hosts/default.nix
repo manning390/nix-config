@@ -24,7 +24,7 @@
       {...}: {
         options = {
           type = lib.mkOption {
-            type = lib.types.enum ["nixos" "wsl" "darwin"];
+            type = lib.types.enum ["nixos" "wsl" "darwin" "android"];
             description = "Type of host configuration";
           };
           system = lib.mkOption {
@@ -35,7 +35,7 @@
           stateVersion = lib.mkOption {
             type = lib.types.str;
             default = "26.05";
-            description = "NixOS state version";
+            description = "Host configuration state version";
           };
           extraModules = lib.mkOption {
             type = lib.types.listOf (lib.types.oneOf [
@@ -70,10 +70,31 @@
         class = "darwin";
         toplevelAttr = cfg: cfg.config.systems.examples.macos;
       };
+      android = {
+        flakeAttr = "androidConfigurations";
+        class = "android";
+        # Resolve aspects directly: flake.modules.android adds a _class marker,
+        # while upstream's evaluator requires its own "nixOnDroid" class.
+        moduleFor = name: self.aspects.${name}.resolve {class = "android";};
+        builder = {
+          system,
+          specialArgs,
+          modules,
+        }:
+          inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+            pkgs = import inputs.nixpkgs {inherit system;};
+            extraSpecialArgs = specialArgs;
+            inherit modules;
+          };
+        # Android owns its hostname and app user; don't inject NixOS options.
+        hostDefaults = _: [];
+        toplevelAttr = cfg: cfg.activationPackage;
+      };
     };
     # Creates a host based on type, includes host and system aspects
     mkHost = hostname: hostCfg: let
       cfg = typeDispatch.${hostCfg.type};
+      moduleFor = cfg.moduleFor or (name: self.modules.${cfg.class}.${name});
     in
       cfg.builder {
         inherit (hostCfg) system;
@@ -83,14 +104,17 @@
         };
         modules =
           [
-            self.modules.${cfg.class}.${hostname} # Our host
-            self.modules.${cfg.class}.${hostCfg.type} # Our system
-            self.modules.nixos.identity # Our global user const
+            (moduleFor hostname) # Our host
+            (moduleFor hostCfg.type) # Our system
             {
-              networking.hostName = hostname;
               system.stateVersion = hostCfg.stateVersion;
             }
           ]
+          ++ (cfg.hostDefaults or (name: [
+            self.modules.nixos.identity # Our global user const
+            {networking.hostName = name;}
+          ]))
+          hostname
           ++ hostCfg.extraModules;
       };
     # Creates deploy-rs registration to allow deployment via `just deploy $hostname`
