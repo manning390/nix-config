@@ -33,3 +33,9 @@ See the [documentation](docs/index.md) for setup guides and operational procedur
 - [ ] Setup impermanence on all hosts
 - [ ] Setup non-destructive disko on all hosts
     - [ ] Adjust nix store size on sentry
+- [ ] Android host
+    - [ ] Complete [Android host setup](docs/android-setup.md)
+        - [ ] ARM64 VM builds
+        - [ ] Android testing
+        - [ ] Phone installation
+        - [ ] Security checks
