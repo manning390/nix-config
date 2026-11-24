@@ -3,7 +3,11 @@
   flake.aspects._1password = {
     description = "Password Vault CLI and Desktop clients";
 
-    nixos = {config, lib, ...}: let
+    nixos = {
+      config,
+      lib,
+      ...
+    }: let
       user = config.local.identity.username;
     in {
       # These are unfree, by default I allow unfree

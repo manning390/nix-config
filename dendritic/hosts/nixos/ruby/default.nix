@@ -27,7 +27,11 @@ in {
         homelab
       ];
 
-      nixos = {config, pkgs, ...}: {
+      nixos = {
+        config,
+        pkgs,
+        ...
+      }: {
         # Overwrite our default user identity
         local.identity.username = user;
 

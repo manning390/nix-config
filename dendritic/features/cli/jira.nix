@@ -34,20 +34,22 @@
       home.packages = [
         (pkgs.jiratui.overrideAttrs (old: {
           # Textual 8 renamed the empty selection sentinel from BLANK to NULL.
-          postPatch = (old.postPatch or "") + ''
-            substituteInPlace \
-              src/jiratui/utils/create_work_item.py \
-              src/jiratui/widgets/jql.py \
-              src/jiratui/widgets/work_item_details/details.py \
-              --replace-fail 'Select.BLANK' 'Select.NULL'
+          postPatch =
+            (old.postPatch or "")
+            + ''
+              substituteInPlace \
+                src/jiratui/utils/create_work_item.py \
+                src/jiratui/widgets/jql.py \
+                src/jiratui/widgets/work_item_details/details.py \
+                --replace-fail 'Select.BLANK' 'Select.NULL'
 
-            # Keep Alt+arrows, with plain bracket keys for terminal-friendly paging.
-            substituteInPlace src/jiratui/widgets/search.py \
-              --replace-fail "key='alt+left'," "key='alt+left,left_square_bracket'," \
-              --replace-fail "key_display='alt+left'," "key_display='['," \
-              --replace-fail "key='alt+right'," "key='alt+right,right_square_bracket'," \
-              --replace-fail "key_display='alt+right'," "key_display=']',"
-          '';
+              # Keep Alt+arrows, with plain bracket keys for terminal-friendly paging.
+              substituteInPlace src/jiratui/widgets/search.py \
+                --replace-fail "key='alt+left'," "key='alt+left,left_square_bracket'," \
+                --replace-fail "key_display='alt+left'," "key_display='['," \
+                --replace-fail "key='alt+right'," "key='alt+right,right_square_bracket'," \
+                --replace-fail "key_display='alt+right'," "key_display=']',"
+            '';
         }))
       ];
       home.shellAliases.jira = "jiratui ui";
