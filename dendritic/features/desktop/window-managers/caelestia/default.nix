@@ -14,7 +14,10 @@
         lib,
         ...
       }: {
-        imports = [self.modules.nixos.caelestia-options];
+        imports = [
+          self.modules.nixos.caelestia-options
+          self.modules.nixos.caelestia-firefox
+        ];
 
         config = lib.mkIf (!config.local.desktop.caelestia.allowSuspend) {
           systemd.sleep.settings.Sleep = {
@@ -39,6 +42,7 @@
       in {
         imports = [
           self.modules.homeManager.caelestia-options
+          self.modules.homeManager.caelestia-firefox
           inputs.caelestia-shell.homeManagerModules.default
         ];
 

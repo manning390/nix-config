@@ -40,6 +40,7 @@ in {
         local = {
           # Work around unreliable resume until the hardware issue is diagnosed.
           desktop.caelestia.allowSuspend = false;
+          desktop.caelestia.firefox.enable = true;
           wm.hyprland = {
             layout = "dwindle";
             devices = [
