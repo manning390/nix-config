@@ -19,8 +19,13 @@
           self.modules.nixos.caelestia-firefox
         ];
 
-        config = lib.mkIf (!config.local.desktop.caelestia.allowSuspend) {
-          systemd.sleep.settings.Sleep = {
+        config = {
+          local.wm.hyprland = {
+            closeKey = "Q";
+            pseudotileChord = "$mod SHIFT, P";
+            defaultScreenshots = false;
+          };
+          systemd.sleep.settings.Sleep = lib.mkIf (!config.local.desktop.caelestia.allowSuspend) {
             AllowSuspend = false;
             AllowHibernation = false;
             AllowHybridSleep = false;
@@ -39,10 +44,15 @@
       }: let
         cfg = config.local.desktop.caelestia;
         vpn = osConfig.local.desktop.caelestia.vpn;
+        screenshots = "${config.xdg.userDirs.pictures}/Screenshots";
       in {
         imports = [
           self.modules.homeManager.caelestia-options
           self.modules.homeManager.caelestia-firefox
+          self.modules.homeManager.caelestia-keybindings
+          self.modules.homeManager.caelestia-keybinding-reference
+          self.modules.homeManager.caelestia-monitor-screenshot
+          self.modules.homeManager.caelestia-screenshot-reminder
           inputs.caelestia-shell.homeManagerModules.default
         ];
 
@@ -157,6 +167,17 @@
 
           systemd.user.services.caelestia.Service.Slice = lib.mkForce "session-graphical.slice";
 
+          # Storage is shared by the capture commands, shell, and reminder.
+          home.sessionVariables.CAELESTIA_SCREENSHOTS_DIR = screenshots;
+          programs.caelestia.systemd.environment = [
+            "CAELESTIA_SCREENSHOTS_DIR=${screenshots}"
+          ];
+          xdg.configFile."swappy/config".text = ''
+            [Default]
+            save_dir=${screenshots}
+            save_filename_format=Screenshot_%Y-%m-%d_%H-%M-%S.png
+          '';
+
           home.packages = with pkgs; [
             brightnessctl
             hyprpicker
@@ -164,28 +185,7 @@
             playerctl
           ];
 
-          wayland.windowManager.hyprland.settings = {
-            bind = lib.mkAfter [
-              "$mod, D, global, caelestia:launcher"
-              "$mod, L, global, caelestia:lock"
-              "$mod, A, global, caelestia:picker open"
-              ", XF86AudioPlay, exec, playerctl play-pause"
-              ", XF86AudioNext, exec, playerctl next"
-              ", XF86AudioPrev, exec, playerctl previous"
-            ];
-            bindel = lib.mkAfter ([
-                ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-                ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-              ]
-              ++ lib.optionals cfg.showBrightness [
-                ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-                ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-              ]);
-            bindl = lib.mkAfter [
-              ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-            ];
-            misc.force_default_wallpaper = 0;
-          };
+          wayland.windowManager.hyprland.settings.misc.force_default_wallpaper = 0;
         };
       };
     };

@@ -13,6 +13,21 @@
         userShell = config.local.shells.userShell;
       in {
         options.local.wm.hyprland = {
+          closeKey = lib.mkOption {
+            type = lib.types.str;
+            default = "C";
+            description = "Symbolic key used with Super to close the active window.";
+          };
+          pseudotileChord = lib.mkOption {
+            type = lib.types.str;
+            default = "$mod, P";
+            description = "Hyprland modifier/key chord used to toggle pseudotiling.";
+          };
+          defaultScreenshots = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Use the historical Grimblast screenshot bindings.";
+          };
           layout = lib.mkOption {
             type = lib.types.enum ["dwindle" "scrolling" "master"];
             default = "dwindle";
@@ -133,13 +148,15 @@
             in
               [
                 "$mod, RETURN, exec, app2unit -s a kitty"
-                "$mod, C, killactive"
+                "$mod, ${cfg.closeKey}, killactive"
                 "ALT, F4, exec, hyprctl kill"
                 "$mod SHIFT, Q, exit"
                 "$mod, V, togglefloating"
-                "$mod, P, pseudo"
+                "${cfg.pseudotileChord}, pseudo"
                 "$mod, F, fullscreen"
                 "$mod, TAB, focuscurrentorlast"
+              ]
+              ++ lib.optionals cfg.defaultScreenshots [
                 # Screen shots
                 ", Print, exec, app2unit -s a grimblast --notify copy area"
                 "SHIFT, Print, exec, app2unit -s a grimblast --notify copysave area"
