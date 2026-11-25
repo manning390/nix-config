@@ -6,6 +6,7 @@
 | --- | --- |
 | [Host inventory](hosts.md) | Host type, description, and hardware collected with `just document-host`. |
 | [Host setup](new-host-playbook.md) | Add hosts, build installer ISOs, and install or reinstall NixOS. |
+| [Ruby / Sentry drive swap](ruby-sentry-drive-swap.md) | Verify disks, prepare backups and installers, exchange NVMe drives, reinstall, and restore each host. |
 | [Homelab backups](backups.md) | Configure passwords, run backups, copy off-site, and restore data. |
 | [Media stack](media-stack.md) | Connect Deluge, Prowlarr, Sonarr, Radarr, Bazarr, Jellyfin, and Seerr. |
 | [OpenCode backups](opencode-backups.md) | Sage's weekday session backups and how to restore them. |

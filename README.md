@@ -37,6 +37,7 @@ See the [documentation](docs/index.md) for setup guides and operational procedur
     - [x] backups
 - [x] ISO generation, playbook for new hosts
 - [ ] Setup impermanence on all hosts
+- [ ] Investigate Glaciem's ZFS boot/mount issues and verify impermanence/root-reset behavior
 - [ ] Setup non-destructive disko on all hosts
     - [ ] Adjust nix store size on sentry
 
