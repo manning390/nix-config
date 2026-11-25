@@ -24,8 +24,12 @@
               json = { "fixjson", "jq" },
               json5 = { "fixjson" },
               cs = { "csharpier" },
-              ["_"] = { "codespell" },
-              ["*"] = { "trim_whitespace" },
+              ["_"] = function(bufnr)
+                return vim.b[bufnr].writing_mode and {} or { "codespell" }
+              end,
+              ["*"] = function(bufnr)
+                return vim.b[bufnr].writing_mode and {} or { "trim_whitespace" }
+              end,
             },
             default_format_opts = { lsp_format = "fallback" },
           },

@@ -167,12 +167,94 @@ For custom browser paths, set `runtimeExecutable` in a project configuration.
 `F5` starts/continues, `F10` steps over, `F11` steps into, and `F12` steps out.
 `'dh` inspects a value, `'ds` opens scopes, `'dr` toggles the REPL, and `'dt` ends the session.
 
+## Project writing mode
+
+After rebuilding your Nix/Home Manager configuration, put this in a writing
+project's `.nvim.lua`:
+
+```lua
+require("config.writing").enable({
+  language = "en-US", -- or "en-GB"
+})
+```
+
+Start Neovim from the project root and approve the trust prompt. `exrc` is already
+enabled; only trust files you have reviewed, since they can execute arbitrary Lua.
+You can also use `:trust` while editing the rc file. Starting from the root works
+across supported Neovim versions; ancestor rc discovery depends on Neovim version.
+The root is inferred from the rc file, including when chapters live in subdirectories.
+For manual Lua calls, `root = "/absolute/project/path"` can override the working directory.
+
+All opened `text` (`.txt`) and `markdown` buffers under that root participate.
+Other filetypes and projects are unaffected. No chapters are renamed, rewritten,
+or assigned a different filetype. LTeX+ checks `.txt` as plain text, which avoids
+assuming your custom markup is standard Markdown. Syntax-specific checking
+exclusions are not configured yet; those need examples of the custom syntax.
+
+### Editing and reviewing
+
+- **`'ca`**: your existing LSP code-action binding. At an issue, select a
+  correction, **add to dictionary**, **hide false positive**, or **disable rule**.
+  Choose **Writing: list buffer issues in quickfix** anywhere in a writing
+  buffer to list only that chapter's spelling/grammar issues.
+- **`:WritingQuickfix`**: snapshot of grammar/spelling issues from this project's
+  opened chapters. Navigate with `:cnext` / `:cprev`, then use `'ca`.
+  Run the command again to refresh after fixing issues. It replaces the current
+  quickfix list, not lists from other quickfix history entries.
+- **`:WritingFocus`**: hide/show writing diagnostics while continuing to check.
+- **`:Write off`**, **`on`**, **`toggle`** (or just **`:Write`**): disable, enable, or toggle the
+  current project. A manual `on` uses defaults and the current directory; source
+  the rc file again to restore its custom options.
+- **`:ZenMode`**: independently toggle the existing centered,
+  distraction-free layout. Writing mode never enables zen automatically.
+- **`:Wrd`**: load your writing tools, now available on all Neovim-configured hosts.
+
+Writing mode uses soft wrapping, word-boundary wraps, display-line movement
+(including your Colemak layout), no line numbers, and no automatic hard wrapping
+or indentation. Counted vertical movements still operate on real lines.
+Buffer settings and mappings are restored on disable; window settings are restored
+when leaving writing buffers. LTeX+ is the single spelling source, so native spell
+underlines are disabled in writing windows. Conform skips its fallback codespell
+and whitespace trimming for writing buffers; nothing is corrected automatically.
+
+### Project dictionaries and ignore rules
+
+Code actions persist immediately in **`.writing/ltex.json`** under the project
+root. This contains language-specific dictionaries, disabled rules, and hidden
+false positives. Commit it to share accepted names and decisions across chapters
+and machines. It is data, not executable Lua.
+
+LTeX's **hide false positive** is sentence/rule-based, not a positional one-off
+ignore: another identical matching sentence can also be suppressed. **Disable
+rule** affects every chapter in this project. Neither action changes other
+projects' dictionaries or rules. To undo an addition/ignore, remove its entry
+from the JSON and restart writing mode (or restart Neovim). Malformed JSON is
+reported rather than silently overwritten.
+
+Quickfix includes spelling **and** grammar diagnostics from buffers already
+checked by LTeX+. It does not crawl unopened chapters. Open the chapters you want
+to review, wait for checking, then collect the list. Each project shares one
+local LTeX+ process across its chapters; no cloud grammar service is configured.
+
+Advanced server settings can be passed in `ltex = { ... }` alongside `language`
+in the rc file. `filetypes = { "text", "markdown" }` controls eligible buffers.
+Keep dictionary/rule decisions in `.writing/ltex.json`, which takes precedence
+over the corresponding rc settings.
+
 ## Tests
 
 From this directory, test the adapter without loading your editor configuration:
 
 ```sh
 nvim --headless -u NONE --cmd 'set rtp^=.' '+luafile tests/loader.lua'
+nvim --headless -u NONE --cmd 'set rtp^=.' '+luafile tests/writing.lua'
+```
+
+With `ltex-ls-plus` on `PATH`, test live plain-text diagnostics, code-action
+availability, dictionary persistence/rechecking, and applying a suggested edit:
+
+```sh
+nvim --headless -u NONE --cmd 'set rtp^=.' '+luafile tests/writing-lsp.lua'
 ```
 
 After rebuilding, test the complete configured editor:

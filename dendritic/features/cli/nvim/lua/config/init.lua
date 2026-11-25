@@ -33,5 +33,6 @@ require("config.notify")
 require("config.keymaps")
 require("config.commands")
 require("config.autocmd")
+require("config.writing").setup()
 
 print(startMsg)

@@ -1,4 +1,4 @@
-# Writing tools from the custom wrd.nvim plugin, enabled only on mado.
+# Writing tools from the custom wrd.nvim plugin.
 # Load through :Wrd or its Lua API.
 {
   flake-file.inputs.wrd-nvim = {
@@ -7,7 +7,6 @@
   };
 
   local.nvim.plugins.wrd = {
-    enableFor = config: config.networking.hostName == "mado";
     input = "wrd-nvim";
     dependencies = pkgs: with pkgs.vimPlugins; [plenary-nvim telescope-nvim];
     lua =

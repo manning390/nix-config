@@ -95,6 +95,7 @@ in {
           emmet-language-server
           nixd
           vale-ls
+          ltex-ls-plus
           vscode-langservers-extracted
           tailwindcss-language-server
 
